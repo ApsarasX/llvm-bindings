@@ -18,6 +18,7 @@
 #include "IR/BasicBlock.h"
 #include "IR/FunctionCallee.h"
 #include "IR/IRBuilder.h"
+#include "IR/Verifier.h"
 
 void InitIR(Napi::Env env, Napi::Object &exports) {
     LLVMContext::Init(env, exports);
@@ -39,4 +40,5 @@ void InitIR(Napi::Env env, Napi::Object &exports) {
     BasicBlock::Init(env, exports);
     FunctionCallee::Init(env, exports);
     IRBuilder::Init(env, exports);
+    InitVerifier(env, exports);
 }

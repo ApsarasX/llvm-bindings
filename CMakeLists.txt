@@ -42,6 +42,7 @@ set(
         "src/IR/FunctionCallee.cpp"
         "src/IR/DataLayout.cpp"
         "src/IR/IRBuilder.cpp"
+        "src/IR/Verifier.cpp"
         "src/IR/IR.cpp"
         "src/Support/Support.cpp"
         "src/Support/Target.cpp"

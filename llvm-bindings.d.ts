@@ -384,6 +384,10 @@ declare namespace llvm {
         public SetInsertionPoint(basicBlock: BasicBlock): Value;
     }
 
+    function verifyFunction(func: Function): boolean;
+
+    function verifyModule(mod: Module): boolean;
+
     class Target {
         public createTargetMachine(targetTriple: string, cpu: string, features: string): void;
 

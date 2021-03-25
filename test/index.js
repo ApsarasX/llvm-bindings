@@ -6,12 +6,13 @@ const {
     IntegerType,
     FunctionType,
     Function,
-    IRBuilder
+    IRBuilder,
+    verifyModule
 } = require('..');
 
 const ctx = new LLVMContext();
 
-const mod = new Module("mainModule", ctx);
+const mod = new Module("main.cpp", ctx);
 
 const builder = new IRBuilder(ctx);
 
@@ -19,7 +20,7 @@ const int32Ty = IntegerType.get(ctx, 32);
 
 const funcType = FunctionType.get(int32Ty, false);
 
-const func = Function.Create(funcType, Function.LinkageTypes.ExternalLinkage, "mainFunc", mod);
+const func = Function.Create(funcType, Function.LinkageTypes.ExternalLinkage, "main", mod);
 
 const entryBB = BasicBlock.Create(ctx, "entry", func);
 
@@ -33,4 +34,6 @@ const c = builder.CreateAdd(a, b, "c");
 
 builder.CreateRet(c);
 
-mod.dump();
+if (!verifyModule(mod)) {
+    mod.print();
+}
