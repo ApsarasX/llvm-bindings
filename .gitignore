@@ -1,0 +1,11 @@
+.idea/
+
+cmake-build-*/
+
+build/
+
+node_modules/
+
+docs/craft/
+
+package-lock.json
