@@ -1,6 +1,6 @@
 {
     "name": "llvm-bindings",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "LLVM bindings for Node.js/JavaScript/TypeScript",
     "author": "ApsarasX",
     "license": "MIT",
@@ -12,7 +12,7 @@
         "build:release": "cmake-js build",
         "pretest": "npm run build:debug",
         "test": "node test/index.js",
-        "version": "conventional-changelog -p angular -i CHANGELOG.md -s"
+        "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
     },
     "dependencies": {
         "bindings": "^1.5.0",

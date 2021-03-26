@@ -1,10 +1,15 @@
 #include "IR/IRBuilder.h"
 #include "IR/LLVMContext.h"
 #include "IR/Type.h"
+#include "IR/IntegerType.h"
+#include "IR/PointerType.h"
 #include "IR/FunctionType.h"
 #include "IR/Value.h"
+#include "IR/ConstantInt.h"
 #include "IR/BasicBlock.h"
-#include "IR/FunctionCallee.h"
+#include "IR/DataLayout.h"
+#include "IR/Function.h"
+#include "ADT/APInt.h"
 
 void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -32,23 +37,23 @@ void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("CreateICmpSGE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpSGE>),
             InstanceMethod("CreateICmpSGT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpSGT>),
             InstanceMethod("CreateICmpSLE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpSLE>),
-            InstanceMethod("CreateICmpSGT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpSGT>),
+            InstanceMethod("CreateICmpSLT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpSLT>),
             InstanceMethod("CreateICmpUGE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpUGE>),
             InstanceMethod("CreateICmpUGT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpUGT>),
             InstanceMethod("CreateICmpULE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpULE>),
-            InstanceMethod("CreateICmpUGT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpUGT>),
+            InstanceMethod("CreateICmpULT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpULT>),
             InstanceMethod("CreateFCmpOEQ", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpOEQ>),
             InstanceMethod("CreateFCmpONE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpONE>),
             InstanceMethod("CreateFCmpOGE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpOGE>),
             InstanceMethod("CreateFCmpOGT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpOGT>),
             InstanceMethod("CreateFCmpOLE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpOLE>),
-            InstanceMethod("CreateFCmpOGT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpOGT>),
+            InstanceMethod("CreateFCmpOLT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpOLT>),
             InstanceMethod("CreateFCmpUEQ", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpUEQ>),
             InstanceMethod("CreateFCmpUNE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpUNE>),
             InstanceMethod("CreateFCmpUGE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpUGE>),
             InstanceMethod("CreateFCmpUGT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpUGT>),
             InstanceMethod("CreateFCmpULE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpULE>),
-            InstanceMethod("CreateFCmpUGT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpUGT>),
+            InstanceMethod("CreateFCmpULT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpULT>),
             InstanceMethod("CreateAlloca", &IRBuilder::createAlloca),
             InstanceMethod("CreateBr", &IRBuilder::createBr),
             InstanceMethod("CreateCall", &IRBuilder::createCall),
@@ -57,7 +62,32 @@ void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("CreateRet", &IRBuilder::createRet),
             InstanceMethod("CreateRetVoid", &IRBuilder::createRetVoid),
             InstanceMethod("CreateStore", &IRBuilder::createStore),
-            InstanceMethod("SetInsertionPoint", &IRBuilder::setInsertionPoint)
+
+            InstanceMethod("SetInsertionPoint", &IRBuilder::setInsertionPoint),
+
+            InstanceMethod("getInt1", &IRBuilder::getInt1),
+            InstanceMethod("getTrue", &IRBuilder::getBoolFactory<&LLVMIRBuilder::getTrue>),
+            InstanceMethod("getFalse", &IRBuilder::getBoolFactory<&LLVMIRBuilder::getFalse>),
+            InstanceMethod("getInt8", &IRBuilder::getIntFactory<&LLVMIRBuilder::getInt8>),
+            InstanceMethod("getInt16", &IRBuilder::getIntFactory<&LLVMIRBuilder::getInt16>),
+            InstanceMethod("getInt32", &IRBuilder::getIntFactory<&LLVMIRBuilder::getInt32>),
+            InstanceMethod("getInt64", &IRBuilder::getIntFactory<&LLVMIRBuilder::getInt64>),
+            InstanceMethod("getIntN", &IRBuilder::getIntN),
+            InstanceMethod("getInt", &IRBuilder::getInt),
+            InstanceMethod("getInt1Ty", &IRBuilder::getIntTypeFactory<&LLVMIRBuilder::getInt1Ty>),
+            InstanceMethod("getInt8Ty", &IRBuilder::getIntTypeFactory<&LLVMIRBuilder::getInt8Ty>),
+            InstanceMethod("getInt16Ty", &IRBuilder::getIntTypeFactory<&LLVMIRBuilder::getInt16Ty>),
+            InstanceMethod("getInt32Ty", &IRBuilder::getIntTypeFactory<&LLVMIRBuilder::getInt32Ty>),
+            InstanceMethod("getInt64Ty", &IRBuilder::getIntTypeFactory<&LLVMIRBuilder::getInt64Ty>),
+            InstanceMethod("getInt128Ty", &IRBuilder::getIntTypeFactory<&LLVMIRBuilder::getInt128Ty>),
+            InstanceMethod("getIntNTy", &IRBuilder::getIntNTy),
+            InstanceMethod("getHalfTy", &IRBuilder::getTypeFactory<&LLVMIRBuilder::getHalfTy>),
+            InstanceMethod("getBFloatTy", &IRBuilder::getTypeFactory<&LLVMIRBuilder::getBFloatTy>),
+            InstanceMethod("getFloatTy", &IRBuilder::getTypeFactory<&LLVMIRBuilder::getFloatTy>),
+            InstanceMethod("getDoubleTy", &IRBuilder::getTypeFactory<&LLVMIRBuilder::getDoubleTy>),
+            InstanceMethod("getVoidTy", &IRBuilder::getTypeFactory<&LLVMIRBuilder::getVoidTy>),
+            InstanceMethod("getInt8PtrTy", &IRBuilder::getInt8PtrTy),
+            InstanceMethod("getIntPtrTy", &IRBuilder::getIntPtrTy)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -141,8 +171,8 @@ Napi::Value IRBuilder::createCall(const Napi::CallbackInfo &info) {
     int argsLen = info.Length();
     llvm::CallInst *call = nullptr;
     std::vector<llvm::Value *> calleeArgs;
-    if (argsLen >= 2 && FunctionCallee::IsClassOf(info[0]) && info[1].IsArray()) {
-        llvm::FunctionCallee &callee = FunctionCallee::Extract(info[0]);
+    if (argsLen >= 2 && Function::IsClassOf(info[0]) && info[1].IsArray()) {
+        llvm::Function *callee = Function::Extract(info[0]);
         if (extractCalleeArgs(info[1].As<Napi::Array>(), calleeArgs)) {
             std::string name = argsLen >= 3 ? std::string(info[2].As<Napi::String>()) : "";
             call = builder->CreateCall(callee, calleeArgs, name);
@@ -217,6 +247,66 @@ Napi::Value IRBuilder::createStore(const Napi::CallbackInfo &info) {
         return Value::New(env, store);
     }
     throw Napi::TypeError::New(env, "IRBuilder.CreateStore needs to be called with: (value: Value, ptr: Value)");
+}
+
+Napi::Value IRBuilder::getInt1(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 0 || !info[0].IsBoolean()) {
+        throw Napi::TypeError::New(env, "IRBuilder.getInt1 needs to be called with (value: boolean)");
+    }
+    bool value = info[0].As<Napi::Boolean>();
+    return ConstantInt::New(env, builder->getInt1(value));
+}
+
+Napi::Value IRBuilder::getIntN(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() < 2 || !info[0].IsNumber() || !info[1].IsNumber()) {
+        throw Napi::TypeError::New(env, "IRBuilder.getIntN needs to be called with (n: number, value: number)");
+    }
+    unsigned n = info[0].As<Napi::Number>();
+    uint64_t value = info[1].As<Napi::Number>().Int64Value();
+    return ConstantInt::New(env, builder->getIntN(n, value));
+}
+
+Napi::Value IRBuilder::getInt(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 0 || !APInt::IsClassOf(info[0])) {
+        throw Napi::TypeError::New(env, "IRBuilder.getInt needs to be called with (value: APInt)");
+    }
+    llvm::APInt &value = APInt::Extract(info[0]);
+    return ConstantInt::New(env, builder->getInt(value));
+}
+
+Napi::Value IRBuilder::getIntNTy(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 0 || !info[0].IsNumber()) {
+        throw Napi::TypeError::New(env, "IRBuilder.getIntNTy needs to be called with (n: number)");
+    }
+    unsigned n = info[0].As<Napi::Number>();
+    return IntegerType::New(env, builder->getIntNTy(n));
+}
+
+Napi::Value IRBuilder::getInt8PtrTy(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    int argsLen = info.Length();
+    if (argsLen >= 1 && !info[0].IsNumber()) {
+        throw Napi::TypeError::New(env, "IRBuilder.getInt8PtrTy needs to be called with (addrSpace?: number)");
+    }
+    unsigned addrSpace = argsLen >= 1 ? info[0].As<Napi::Number>() : 0;
+    llvm::PointerType *type = builder->getInt8PtrTy(addrSpace);
+    return PointerType::New(env, type);
+}
+
+Napi::Value IRBuilder::getIntPtrTy(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    int argsLen = info.Length();
+    if (argsLen == 0 || !DataLayout::IsClassOf(info[0]) || argsLen >= 2 && !info[1].IsNumber()) {
+        throw Napi::TypeError::New(env, "IRBuilder.getIntPtrTy needs to be called with (dl: DataLayout, addrSpace?: number)");
+    }
+    llvm::DataLayout &dl = DataLayout::Extract(info[0]);
+    unsigned addrSpace = argsLen >= 2 ? info[1].As<Napi::Number>() : 0;
+    llvm::IntegerType *type = builder->getIntPtrTy(dl, addrSpace);
+    return IntegerType::New(env, type);
 }
 
 

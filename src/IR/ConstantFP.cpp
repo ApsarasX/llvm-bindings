@@ -8,7 +8,8 @@
 void ConstantFP::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "ConstantFP", {
-            StaticMethod("get", &ConstantFP::get)
+            StaticMethod("get", &ConstantFP::get),
+            StaticMethod("getNaN", &ConstantFP::getNaN)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -46,8 +47,7 @@ llvm::ConstantFP *ConstantFP::getLLVMPrimitive() {
 
 Napi::Value ConstantFP::get(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    int argsLen = info.Length();
-    if (argsLen == 2) {
+    if (info.Length() == 2) {
         if (Type::IsClassOf(info[0])) {
             llvm::Type *type = Type::Extract(info[0]);
             llvm::Constant *result = nullptr;
@@ -71,9 +71,19 @@ Napi::Value ConstantFP::get(const Napi::CallbackInfo &info) {
             return ConstantFP::New(env, result);
         }
     }
-    throw Napi::TypeError::New(env, "ConstantFP::get needs to be called with: " \
+    throw Napi::TypeError::New(env, "ConstantFP.get needs to be called with: " \
     "(type: Type, value: number) or" \
     "(type: Type, value: APFloat) or" \
     "(type: Type, value: string) or " \
     "(context: LLVMContext, value: APFloat)");
+}
+
+Napi::Value ConstantFP::getNaN(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() >= 1 && Type::IsClassOf(info[0])) {
+        llvm::Type *type = Type::Extract(info[0]);
+        llvm::Constant *nan = llvm::ConstantFP::getNaN(type);
+        return Constant::New(env, nan);
+    }
+    throw Napi::TypeError::New(env, "ConstantFP.getNaN need to be called with (type: Type)");
 }

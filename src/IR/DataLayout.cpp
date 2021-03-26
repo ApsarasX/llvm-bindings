@@ -26,7 +26,7 @@ DataLayout::DataLayout(const Napi::CallbackInfo &info) : ObjectWrap(info) {
         throw Napi::TypeError::New(env, "DataLayout constructor needs to be called with new");
     }
     if (info.Length() == 0 || !(info[0].IsExternal() || info[0].IsString())) {
-        throw Napi::TypeError::New(env, "DataLayout constructor needs to be called with new (latout: string)");
+        throw Napi::TypeError::New(env, "DataLayout constructor needs to be called with new (layout: string)");
     }
     if (info[0].IsExternal()) {
         auto external = info[0].As<Napi::External<llvm::DataLayout>>();

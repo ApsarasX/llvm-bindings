@@ -6,12 +6,25 @@
 #include "ADT/APInt.h"
 #include "Util/Inherit.h"
 
+typedef llvm::ConstantInt *(GetBool)(llvm::LLVMContext &);
+
+template<GetBool method>
+Napi::Value getBoolFactory(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 0 || !LLVMContext::IsClassOf(info[0])) {
+        throw Napi::TypeError::New(env, "ConstantInt.getTrue/getFalse needs to be called with: (context: LLVMContext)");
+    }
+    llvm::LLVMContext &context = LLVMContext::Extract(info[0]);
+    llvm::ConstantInt *constantInt = method(context);
+    return ConstantInt::New(env, constantInt);
+}
+
 void ConstantInt::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "ConstantInt", {
             StaticMethod("get", &ConstantInt::get),
-            StaticMethod("getTrue", &ConstantInt::getTrue),
-            StaticMethod("getFalse", &ConstantInt::getFalse)
+            StaticMethod("getTrue", &getBoolFactory<llvm::ConstantInt::getTrue>),
+            StaticMethod("getFalse", &getBoolFactory<llvm::ConstantInt::getFalse>)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -71,24 +84,4 @@ Napi::Value ConstantInt::get(const Napi::CallbackInfo &info) {
         }
     }
     throw Napi::TypeError::New(env, "ConstantInt::get needs to be called with: (context: LLVMContext)");
-}
-
-Napi::Value ConstantInt::getTrue(const Napi::CallbackInfo &info) {
-    Napi::Env env = info.Env();
-    if (info.Length() != 1 || !LLVMContext::IsClassOf(info[0])) {
-        throw Napi::TypeError::New(env, "ConstantInt::getTrue needs to be called with: (context: LLVMContext)");
-    }
-    llvm::LLVMContext &context = LLVMContext::Extract(info[0]);
-    llvm::ConstantInt *constantInt = llvm::ConstantInt::getTrue(context);
-    return ConstantInt::New(env, constantInt);
-}
-
-Napi::Value ConstantInt::getFalse(const Napi::CallbackInfo &info) {
-    Napi::Env env = info.Env();
-    if (info.Length() != 1 || !LLVMContext::IsClassOf(info[0])) {
-        throw Napi::TypeError::New(env, "ConstantInt::getFalse needs to be called with: (context: LLVMContext)");
-    }
-    llvm::LLVMContext &context = LLVMContext::Extract(info[0]);
-    llvm::ConstantInt *constantInt = llvm::ConstantInt::getFalse(context);
-    return ConstantInt::New(env, constantInt);
 }

@@ -29,8 +29,8 @@ Napi::Value getIntTypeFactory(const Napi::CallbackInfo &info) {
         throw Napi::TypeError::New(env, "getIntTy needs to be called with the context");
     }
     llvm::LLVMContext &context = LLVMContext::Extract(info[0]);
-    llvm::Type *type = method(context);
-    return Type::New(env, type);
+    llvm::IntegerType *type = method(context);
+    return IntegerType::New(env, type);
 }
 
 template<getPointerTypeFn method>
@@ -84,29 +84,56 @@ void Type::Init(Napi::Env env, Napi::Object &exports) {
             StaticMethod("getBFloatTy", &getTypeFactory<&llvm::Type::getBFloatTy>),
             StaticMethod("getFloatTy", &getTypeFactory<&llvm::Type::getFloatTy>),
             StaticMethod("getDoubleTy", &getTypeFactory<&llvm::Type::getDoubleTy>),
+            StaticMethod("getMetadataTy", &getTypeFactory<&llvm::Type::getMetadataTy>),
+            StaticMethod("getX86_FP80Ty", &getTypeFactory<&llvm::Type::getX86_FP80Ty>),
+            StaticMethod("getFP128Ty", &getTypeFactory<&llvm::Type::getFP128Ty>),
+            StaticMethod("getPPC_FP128Ty", &getTypeFactory<&llvm::Type::getPPC_FP128Ty>),
+            StaticMethod("getX86_MMXTy", &getTypeFactory<&llvm::Type::getX86_MMXTy>),
+            StaticMethod("getTokenTy", &getTypeFactory<&llvm::Type::getTokenTy>),
+            StaticMethod("getIntNTy", &Type::getIntNTy),
             StaticMethod("getInt1Ty", &getIntTypeFactory<&llvm::Type::getInt1Ty>),
             StaticMethod("getInt8Ty", &getIntTypeFactory<&llvm::Type::getInt8Ty>),
             StaticMethod("getInt16Ty", &getIntTypeFactory<&llvm::Type::getInt16Ty>),
             StaticMethod("getInt32Ty", &getIntTypeFactory<&llvm::Type::getInt32Ty>),
             StaticMethod("getInt64Ty", &getIntTypeFactory<&llvm::Type::getInt64Ty>),
             StaticMethod("getInt128Ty", &getIntTypeFactory<&llvm::Type::getInt128Ty>),
-            StaticMethod("getIntNTy", getIntNTy),
+            StaticMethod("getHalfPtrTy", &getPointerTypeFactory<&llvm::Type::getHalfPtrTy>),
+            StaticMethod("getBFloatPtrTy", &getPointerTypeFactory<&llvm::Type::getBFloatPtrTy>),
+            StaticMethod("getFloatPtrTy", &getPointerTypeFactory<&llvm::Type::getFloatPtrTy>),
+            StaticMethod("getDoublePtrTy", &getPointerTypeFactory<&llvm::Type::getDoublePtrTy>),
+            StaticMethod("getX86_FP80PtrTy", &getPointerTypeFactory<&llvm::Type::getX86_FP80PtrTy>),
+            StaticMethod("getFP128PtrTy", &getPointerTypeFactory<&llvm::Type::getFP128PtrTy>),
+            StaticMethod("getPPC_FP128PtrTy", &getPointerTypeFactory<&llvm::Type::getPPC_FP128PtrTy>),
+            StaticMethod("getX86_MMXPtrTy", &getPointerTypeFactory<&llvm::Type::getX86_MMXPtrTy>),
             StaticMethod("getInt1PtrTy", &getPointerTypeFactory<&llvm::Type::getInt1PtrTy>),
             StaticMethod("getInt8PtrTy", &getPointerTypeFactory<&llvm::Type::getInt8PtrTy>),
+            StaticMethod("getInt16PtrTy", &getPointerTypeFactory<&llvm::Type::getInt16PtrTy>),
             StaticMethod("getInt32PtrTy", &getPointerTypeFactory<&llvm::Type::getInt32PtrTy>),
+            StaticMethod("getInt64PtrTy", &getPointerTypeFactory<&llvm::Type::getInt64PtrTy>),
             InstanceMethod("getTypeID", &Type::getTypeID),
             InstanceMethod("isVoidTy", &Type::isTypeFactory<&llvm::Type::isVoidTy>),
             InstanceMethod("isHalfTy", &Type::isTypeFactory<&llvm::Type::isHalfTy>),
             InstanceMethod("isBFloatTy", &Type::isTypeFactory<&llvm::Type::isBFloatTy>),
             InstanceMethod("isFloatTy", &Type::isTypeFactory<&llvm::Type::isFloatTy>),
             InstanceMethod("isDoubleTy", &Type::isTypeFactory<&llvm::Type::isDoubleTy>),
+            InstanceMethod("isX86_FP80Ty", &Type::isTypeFactory<&llvm::Type::isX86_FP80Ty>),
+            InstanceMethod("isFP128Ty", &Type::isTypeFactory<&llvm::Type::isFP128Ty>),
+            InstanceMethod("isPPC_FP128Ty", &Type::isTypeFactory<&llvm::Type::isPPC_FP128Ty>),
             InstanceMethod("isFloatingPointTy", &Type::isTypeFactory<&llvm::Type::isFloatingPointTy>),
+            InstanceMethod("isX86_MMXTy", &Type::isTypeFactory<&llvm::Type::isX86_MMXTy>),
             InstanceMethod("isLabelTy", &Type::isTypeFactory<&llvm::Type::isLabelTy>),
+            InstanceMethod("isMetadataTy", &Type::isTypeFactory<&llvm::Type::isMetadataTy>),
+            InstanceMethod("isTokenTy", &Type::isTypeFactory<&llvm::Type::isTokenTy>),
             InstanceMethod("isIntegerTy", &Type::isIntegerTy),
             InstanceMethod("isFunctionTy", &Type::isTypeFactory<&llvm::Type::isFunctionTy>),
             InstanceMethod("isStructTy", &Type::isTypeFactory<&llvm::Type::isStructTy>),
             InstanceMethod("isArrayTy", &Type::isTypeFactory<&llvm::Type::isArrayTy>),
             InstanceMethod("isPointerTy", &Type::isTypeFactory<&llvm::Type::isPointerTy>),
+            InstanceMethod("isVectorTy", &Type::isTypeFactory<&llvm::Type::isVectorTy>),
+            InstanceMethod("isEmptyTy", &Type::isTypeFactory<&llvm::Type::isEmptyTy>),
+            InstanceMethod("isFirstClassType", &Type::isTypeFactory<&llvm::Type::isFirstClassType>),
+            InstanceMethod("isSingleValueType", &Type::isTypeFactory<&llvm::Type::isSingleValueType>),
+            InstanceMethod("isAggregateType", &Type::isTypeFactory<&llvm::Type::isAggregateType>),
             InstanceMethod("getPointerTo", &Type::getPointerTo),
             InstanceMethod("getPrimitiveSizeInBits", &Type::getPrimitiveSizeInBits)
     });
@@ -175,8 +202,8 @@ Napi::Value Type::getTypeID(const Napi::CallbackInfo &info) {
 Napi::Value Type::getIntNTy(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
 
-    if (info.Length() != 2 || !LLVMContext::IsClassOf(info[0]) || !info[1].IsNumber()) {
-        throw Napi::TypeError::New(env, "getIntNTy needs to be called with: context: LLVMContext, n: uint32");
+    if (info.Length() < 2 || !LLVMContext::IsClassOf(info[0]) || !info[1].IsNumber()) {
+        throw Napi::TypeError::New(env, "Type.getIntNTy needs to be called with: (context: LLVMContext, n: number)");
     }
 
     llvm::LLVMContext &context = LLVMContext::Extract(info[0]);
@@ -193,11 +220,9 @@ Napi::Value Type::getPrimitiveSizeInBits(const Napi::CallbackInfo &info) {
 
 Napi::Value Type::isIntegerTy(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-
-    if (info.Length() > 1 && info[0].IsNumber()) {
-        throw Napi::TypeError::New(env, "isIntegerTy needs to be called with: bitwidth?: uint32");
+    if (info.Length() == 0 || !info[0].IsNumber()) {
+        throw Napi::TypeError::New(env, "Type.isIntegerTy needs to be called with: (bitWidth?: number)");
     }
-
     bool result = info.Length() == 0 ? type->isIntegerTy() : type->isIntegerTy(info[0].As<Napi::Number>());
     return Napi::Boolean::New(env, result);
 }

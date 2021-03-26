@@ -2,12 +2,15 @@
 #include "IR/GlobalObject.h"
 #include "IR/FunctionType.h"
 #include "IR/Module.h"
+#include "IR/Argument.h"
 #include "Util/Inherit.h"
 
 void Function::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "Function", {
-            StaticMethod("Create", &Function::create)
+            StaticMethod("Create", &Function::create),
+            InstanceMethod("arg_size", &Function::argSize),
+            InstanceMethod("getArg", &Function::getArg)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -68,4 +71,18 @@ Napi::Value Function::create(const Napi::CallbackInfo &info) {
 
 llvm::Function *Function::getLLVMPrimitive() {
     return function;
+}
+
+Napi::Value Function::argSize(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    return Napi::Number::New(env, function->arg_size());
+}
+
+Napi::Value Function::getArg(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 1 && info[0].IsNumber()) {
+        llvm::Argument *arg = function->getArg(info[0].As<Napi::Number>());
+        return Argument::New(env, arg);
+    }
+    throw Napi::TypeError::New(env, "Function.getArg needs to be called with (index: number)");
 }

@@ -23,8 +23,4 @@ private:
     llvm::ConstantInt *constantInt = nullptr;
 
     static Napi::Value get(const Napi::CallbackInfo &info);
-
-    static Napi::Value getTrue(const Napi::CallbackInfo &info);
-
-    static Napi::Value getFalse(const Napi::CallbackInfo &info);
 };

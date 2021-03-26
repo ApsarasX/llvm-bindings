@@ -23,4 +23,8 @@ private:
     llvm::Function *function = nullptr;
 
     static Napi::Value create(const Napi::CallbackInfo &info);
+
+    Napi::Value argSize(const Napi::CallbackInfo &info);
+
+    Napi::Value getArg(const Napi::CallbackInfo &info);
 };

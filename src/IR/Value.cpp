@@ -20,10 +20,8 @@ void Value::Init(Napi::Env env, Napi::Object &exports) {
             StaticValue("MaxAlignmentExponent", Napi::Number::New(env, llvm::Value::MaxAlignmentExponent)),
             StaticValue("MaximumAlignment", Napi::Number::New(env, llvm::Value::MaximumAlignment))
     });
-
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
-
     exports.Set("Value", func);
 }
 

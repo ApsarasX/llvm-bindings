@@ -15,8 +15,8 @@
 #include "IR/GlobalObject.h"
 #include "IR/GlobalVariable.h"
 #include "IR/Function.h"
+#include "IR/Argument.h"
 #include "IR/BasicBlock.h"
-#include "IR/FunctionCallee.h"
 #include "IR/IRBuilder.h"
 #include "IR/Verifier.h"
 
@@ -37,8 +37,8 @@ void InitIR(Napi::Env env, Napi::Object &exports) {
     GlobalObject::Init(env, exports);
     GlobalVariable::Init(env, exports);
     Function::Init(env, exports);
+    Argument::Init(env, exports);
     BasicBlock::Init(env, exports);
-    FunctionCallee::Init(env, exports);
     IRBuilder::Init(env, exports);
     InitVerifier(env, exports);
 }

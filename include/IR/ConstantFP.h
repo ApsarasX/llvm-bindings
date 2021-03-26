@@ -23,4 +23,6 @@ private:
     llvm::ConstantFP *constantFP = nullptr;
 
     static Napi::Value get(const Napi::CallbackInfo &info);
+
+    static Napi::Value getNaN(const Napi::CallbackInfo &info);
 };

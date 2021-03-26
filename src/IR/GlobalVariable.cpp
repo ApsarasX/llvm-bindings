@@ -36,6 +36,7 @@ GlobalVariable::GlobalVariable(const Napi::CallbackInfo &info) : ObjectWrap(info
     if (argsLen == 1 && info[0].IsExternal()) {
         auto external = info[0].As<Napi::External<llvm::GlobalVariable>>();
         globalVariable = external.Data();
+        return;
     } else if (argsLen >= 4 && Module::IsClassOf(info[0]) && Type::IsClassOf(info[1]) && info[2].IsBoolean() && info[3].IsNumber()) {
         if ((argsLen < 5 || Constant::IsClassOf(info[4])) && (argsLen < 6 || info[5].IsString())) {
             llvm::Module *module = Module::Extract(info[0]);
@@ -45,6 +46,7 @@ GlobalVariable::GlobalVariable(const Napi::CallbackInfo &info) : ObjectWrap(info
             llvm::Constant *initializer = argsLen >= 5 ? Constant::Extract(info[4]) : nullptr;
             std::string name = argsLen >= 6 ? std::string(info[5].As<Napi::String>()) : "";
             globalVariable = new llvm::GlobalVariable(*module, type, isConstant, linkage, initializer, name);
+            return;
         }
     }
     throw Napi::TypeError::New(env, "GlobalVariable constructor needs to be called with " \

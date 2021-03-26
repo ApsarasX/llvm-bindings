@@ -46,6 +46,20 @@ declare namespace llvm {
 
         public static getDoubleTy(context: LLVMContext): Type;
 
+        public static getMetadataTy(context: LLVMContext): Type;
+
+        public static getX86_FP80Ty(context: LLVMContext): Type;
+
+        public static getFP128Ty(context: LLVMContext): Type;
+
+        public static getPPC_FP128Ty(context: LLVMContext): Type;
+
+        public static getX86_MMXTy(context: LLVMContext): Type;
+
+        public static getTokenTy(context: LLVMContext): Type;
+
+        public static getIntNTy(context: LLVMContext, n: number): IntegerType;
+
         public static getInt1Ty(context: LLVMContext): IntegerType;
 
         public static getInt8Ty(context: LLVMContext): IntegerType;
@@ -58,13 +72,31 @@ declare namespace llvm {
 
         public static getInt128Ty(context: LLVMContext): IntegerType;
 
-        public static getIntNTy(context: LLVMContext, n: number): IntegerType;
+        public static getHalfPtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+
+        public static getBFloatPtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+
+        public static getFloatPtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+
+        public static getDoublePtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+
+        public static getX86_FP80PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+
+        public static getFP128PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+
+        public static getPPC_FP128PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+
+        public static getX86_MMXPtrTy(context: LLVMContext, addrSpace?: number): PointerType;
 
         public static getInt1PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
 
         public static getInt8PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
 
+        public static getInt16PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+
         public static getInt32PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+
+        public static getInt64PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
 
         public getTypeID(): number;
 
@@ -78,9 +110,21 @@ declare namespace llvm {
 
         public isDoubleTy(): boolean;
 
+        public isX86_FP80Ty(): boolean;
+
+        public isFP128Ty(): boolean;
+
+        public isPPC_FP128Ty(): boolean;
+
         public isFloatingPointTy(): boolean;
 
+        public isX86_MMXTy(): boolean;
+
         public isLabelTy(): boolean;
+
+        public isMetadataTy(): boolean;
+
+        public isTokenTy(): boolean;
 
         public isIntegerTy(): boolean;
 
@@ -91,6 +135,16 @@ declare namespace llvm {
         public isArrayTy(): boolean;
 
         public isPointerTy(): boolean;
+
+        public isVectorTy(): boolean;
+
+        public isEmptyTy(): boolean;
+
+        public isFirstClassType(): boolean;
+
+        public isSingleValueType(): boolean;
+
+        public isAggregateType(): boolean;
 
         public getPointerTo(addrSpace?: number): Type;
 
@@ -143,6 +197,14 @@ declare namespace llvm {
         public use_empty(): boolean;
 
         protected constructor();
+    }
+
+    class Argument extends Value {
+        public constructor(type: Type, name?: string, func?: Function, argNo?: number);
+
+        public getParent(): Function;
+
+        public getArgNo(): number;
     }
 
     class BasicBlock extends Value {
@@ -199,6 +261,8 @@ declare namespace llvm {
         public static get(type: Type, value: string): Constant;
         public static get(context: LLVMContext, value: APFloat): ConstantFP;
 
+        public static getNaN(type: Type): Constant
+
         protected constructor();
     }
 
@@ -235,13 +299,9 @@ declare namespace llvm {
     class Function extends GlobalObject {
         public static Create(funcType: FunctionType, linkage: number, name?: string, module?: Module): Function;
 
-        protected constructor();
-    }
+        public arg_size(): number;
 
-    class FunctionCallee {
-        public getFunctionType(): FunctionType;
-
-        public getCallee(): Value;
+        public getArg(index: number): Argument;
 
         protected constructor();
     }
@@ -284,91 +344,93 @@ declare namespace llvm {
     }
 
     class IRBuilder {
-        public CreateAdd(lhs: Value, rhs: Value): Value;
+        public constructor(context: LLVMContext);
 
-        public CreateFAdd(lhs: Value, rhs: Value): Value;
+        public CreateAdd(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateSub(lhs: Value, rhs: Value): Value;
+        public CreateFAdd(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateFSub(lhs: Value, rhs: Value): Value;
+        public CreateSub(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateMul(lhs: Value, rhs: Value): Value;
+        public CreateFSub(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateFMul(lhs: Value, rhs: Value): Value;
+        public CreateMul(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateSDiv(lhs: Value, rhs: Value): Value;
+        public CreateFMul(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateUDiv(lhs: Value, rhs: Value): Value;
+        public CreateSDiv(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateFDiv(lhs: Value, rhs: Value): Value;
+        public CreateUDiv(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateSRem(lhs: Value, rhs: Value): Value;
+        public CreateFDiv(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateURem(lhs: Value, rhs: Value): Value;
+        public CreateSRem(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateFRem(lhs: Value, rhs: Value): Value;
+        public CreateURem(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateAnd(lhs: Value, rhs: Value): Value;
+        public CreateFRem(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateOr(lhs: Value, rhs: Value): Value;
+        public CreateAnd(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateXor(lhs: Value, rhs: Value): Value;
+        public CreateOr(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateShl(lhs: Value, rhs: Value): Value;
+        public CreateXor(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateAShr(lhs: Value, rhs: Value): Value;
+        public CreateShl(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateLShr(lhs: Value, rhs: Value): Value;
+        public CreateAShr(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateICmpEQ(lhs: Value, rhs: Value): Value;
+        public CreateLShr(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateICmpNE(lhs: Value, rhs: Value): Value;
+        public CreateICmpEQ(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateICmpSGE(lhs: Value, rhs: Value): Value;
+        public CreateICmpNE(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateICmpSGT(lhs: Value, rhs: Value): Value;
+        public CreateICmpSGE(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateICmpSLE(lhs: Value, rhs: Value): Value;
+        public CreateICmpSGT(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateICmpSGT(lhs: Value, rhs: Value): Value;
+        public CreateICmpSLE(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateICmpUGE(lhs: Value, rhs: Value): Value;
+        public CreateICmpSLT(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateICmpUGT(lhs: Value, rhs: Value): Value;
+        public CreateICmpUGE(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateICmpULE(lhs: Value, rhs: Value): Value;
+        public CreateICmpUGT(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateICmpUGT(lhs: Value, rhs: Value): Value;
+        public CreateICmpULE(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateFCmpOEQ(lhs: Value, rhs: Value): Value;
+        public CreateICmpULT(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateFCmpONE(lhs: Value, rhs: Value): Value;
+        public CreateFCmpOEQ(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateFCmpOGE(lhs: Value, rhs: Value): Value;
+        public CreateFCmpONE(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateFCmpOGT(lhs: Value, rhs: Value): Value;
+        public CreateFCmpOGE(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateFCmpOLE(lhs: Value, rhs: Value): Value;
+        public CreateFCmpOGT(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateFCmpOGT(lhs: Value, rhs: Value): Value;
+        public CreateFCmpOLE(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateFCmpUEQ(lhs: Value, rhs: Value): Value;
+        public CreateFCmpOLT(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateFCmpUNE(lhs: Value, rhs: Value): Value;
+        public CreateFCmpUEQ(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateFCmpUGE(lhs: Value, rhs: Value): Value;
+        public CreateFCmpUNE(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateFCmpUGT(lhs: Value, rhs: Value): Value;
+        public CreateFCmpUGE(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateFCmpULE(lhs: Value, rhs: Value): Value;
+        public CreateFCmpUGT(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateFCmpUGT(lhs: Value, rhs: Value): Value;
+        public CreateFCmpULE(lhs: Value, rhs: Value, name?: string): Value;
+
+        public CreateFCmpULT(lhs: Value, rhs: Value, name?: string): Value;
 
         public CreateAlloca(type: Type, arraySize?: Value, name?: string): Value;
 
         public CreateBr(destBB: BasicBlock): Value;
 
-        public CreateCall(callee: Value, args: Value[], name?: string): Value;
+        public CreateCall(callee: Function, args: Value[], name?: string): Value;
         public CreateCall(funcType: FunctionType, callee: Value, args: Value[], name?: string): Value;
 
         public CreateCondBr(cond: Value, thenBB: BasicBlock, elseBB: BasicBlock): Value;
@@ -382,6 +444,52 @@ declare namespace llvm {
         public CreateStore(value: Value, ptr: Value): Value;
 
         public SetInsertionPoint(basicBlock: BasicBlock): Value;
+
+        public getInt1(value: boolean): ConstantInt;
+
+        public getTrue(): ConstantInt;
+
+        public getFalse(): ConstantInt;
+
+        public getInt8(value: number): ConstantInt;
+
+        public getInt16(value: number): ConstantInt;
+
+        public getInt32(value: number): ConstantInt;
+
+        public getInt64(value: number): ConstantInt;
+
+        public getIntN(n: number, value: number): ConstantInt;
+
+        public getInt(value: APInt): ConstantInt;
+
+        public getInt1Ty(): IntegerType;
+
+        public getInt8Ty(): IntegerType;
+
+        public getInt16Ty(): IntegerType;
+
+        public getInt32Ty(): IntegerType;
+
+        public getInt64Ty(): IntegerType;
+
+        public getInt128Ty(): IntegerType;
+
+        public getIntNTy(n: number): IntegerType;
+
+        public getHalfTy(): Type;
+
+        public getBFloatTy(): Type;
+
+        public getFloatTy(): Type;
+
+        public getDoubleTy(): Type;
+
+        public getVoidTy(): Type;
+
+        public getInt8PtrTy(addrSpace?: number): PointerType;
+
+        public getIntPtrTy(dl: DataLayout, addrSpace?: number): IntegerType;
     }
 
     function verifyFunction(func: Function): boolean;
@@ -419,4 +527,6 @@ declare namespace llvm {
     function initializeAllAsmPrinters(): void;
 }
 
+export = llvm;
 
+export as namespace llvm;
