@@ -6,6 +6,7 @@
 #include "IR/PointerType.h"
 #include "IR/FunctionType.h"
 #include "IR/StructType.h"
+#include "IR/ArrayType.h"
 #include "IR/Value.h"
 #include "IR/User.h"
 #include "IR/Constant.h"
@@ -28,6 +29,7 @@ void InitIR(Napi::Env env, Napi::Object &exports) {
     PointerType::Init(env, exports);
     FunctionType::Init(env, exports);
     StructType::Init(env, exports);
+    ArrayType::Init(env, exports);
     Value::Init(env, exports);
     User::Init(env, exports);
     Constant::Init(env, exports);

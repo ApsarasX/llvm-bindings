@@ -178,6 +178,18 @@ declare namespace llvm {
         protected constructor();
     }
 
+    class ArrayType extends Type {
+        public static get(elemType: Type, numElements: number): ArrayType;
+
+        public static isValidElementType(elemType: Type): boolean;
+
+        public getNumElements(): number;
+
+        public getElementType(): Type;
+
+        protected constructor();
+    }
+
     class Value {
         public static MaxAlignmentExponent: number;
         public static MaximumAlignment: number;
@@ -283,6 +295,7 @@ declare namespace llvm {
         public static readonly VisibilityTypes: {
             DefaultVisibility: number;
             HiddenVisibility: number;
+            ProtectedVisibility: number;
         }
 
         protected constructor();

@@ -29,6 +29,7 @@ set(
         "src/IR/PointerType.cpp"
         "src/IR/FunctionType.cpp"
         "src/IR/StructType.cpp"
+        "src/IR/ArrayType.cpp"
         "src/IR/Value.cpp"
         "src/IR/User.cpp"
         "src/IR/Constant.cpp"
