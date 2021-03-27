@@ -278,6 +278,14 @@ declare namespace llvm {
         protected constructor();
     }
 
+    class ConstantPointerNull extends Constant {
+        public static get(type: PointerType): ConstantPointerNull;
+
+        public getType(): PointerType;
+
+        protected constructor();
+    }
+
     class GlobalValue extends Constant {
         public static readonly LinkageTypes: {
             ExternalLinkage: number;

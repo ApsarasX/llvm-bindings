@@ -35,6 +35,7 @@ set(
         "src/IR/Constant.cpp"
         "src/IR/ConstantInt.cpp"
         "src/IR/ConstantFP.cpp"
+        "src/IR/ConstantPointerNull.cpp"
         "src/IR/GlobalValue.cpp"
         "src/IR/GlobalObject.cpp"
         "src/IR/GlobalVariable.cpp"

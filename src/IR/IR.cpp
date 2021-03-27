@@ -12,6 +12,7 @@
 #include "IR/Constant.h"
 #include "IR/ConstantInt.h"
 #include "IR/ConstantFP.h"
+#include "IR/ConstantPointerNull.h"
 #include "IR/GlobalValue.h"
 #include "IR/GlobalObject.h"
 #include "IR/GlobalVariable.h"
@@ -35,6 +36,7 @@ void InitIR(Napi::Env env, Napi::Object &exports) {
     Constant::Init(env, exports);
     ConstantInt::Init(env, exports);
     ConstantFP::Init(env, exports);
+    ConstantPointerNull::Init(env, exports);
     GlobalValue::Init(env, exports);
     GlobalObject::Init(env, exports);
     GlobalVariable::Init(env, exports);
