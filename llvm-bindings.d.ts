@@ -515,7 +515,11 @@ declare namespace llvm {
 
     function verifyFunction(func: Function): boolean;
 
-    function verifyModule(mod: Module): boolean;
+    function verifyModule(module: Module): boolean;
+
+    function WriteBitcodeToFile(module: Module, filename: string): void;
+
+    function parseIRFile(filename: string, err: SMDiagnostic, context: LLVMContext): Module;
 
     class Target {
         public createTargetMachine(targetTriple: string, cpu: string, features: string): void;
@@ -540,8 +544,6 @@ declare namespace llvm {
     class SMDiagnostic {
         public constructor();
     }
-
-    function parseIRFile(filename: string, err: SMDiagnostic, context: LLVMContext): Module;
 
     function initializeAllTargetInfos(): void;
 
