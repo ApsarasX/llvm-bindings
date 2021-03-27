@@ -2,4 +2,4 @@
 
 #include <napi.h>
 
-void InitSupport(Napi::Env env, Napi::Object& exports);
+void InitSupport(Napi::Env env, Napi::Object &exports);

@@ -1,6 +1,7 @@
 #include "IR/User.h"
 #include "IR/Value.h"
 #include "IR/Constant.h"
+#include "IR/Instruction.h"
 #include "Util/Inherit.h"
 
 void User::Init(Napi::Env env, Napi::Object &exports) {
@@ -19,6 +20,8 @@ void User::Init(Napi::Env env, Napi::Object &exports) {
 Napi::Value User::New(Napi::Env env, llvm::User *user) {
     if (llvm::Constant::classof(user)) {
         return Constant::New(env, static_cast<llvm::Constant *>(user));
+    } else if (llvm::Instruction::classof(user)) {
+        return Instruction::New(env, static_cast<llvm::Instruction *>(user));
     }
     return constructor.New({Napi::External<llvm::User>::New(env, user)});
 }

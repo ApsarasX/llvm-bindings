@@ -2,6 +2,8 @@
 #include "IR/IntegerType.h"
 #include "IR/PointerType.h"
 #include "IR/FunctionType.h"
+#include "IR/ArrayType.h"
+#include "IR/StructType.h"
 #include "IR/LLVMContext.h"
 
 typedef llvm::Type *(getTypeFn)(llvm::LLVMContext &);
@@ -137,10 +139,8 @@ void Type::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("getPointerTo", &Type::getPointerTo),
             InstanceMethod("getPrimitiveSizeInBits", &Type::getPrimitiveSizeInBits)
     });
-
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
-
     exports.Set("Type", func);
 }
 
@@ -151,6 +151,10 @@ Napi::Object Type::New(Napi::Env env, llvm::Type *type) {
         return PointerType::New(env, static_cast<llvm::PointerType *>(type));
     } else if (type->isFunctionTy()) {
         return FunctionType::New(env, static_cast<llvm::FunctionType *>(type));
+    } else if (type->isArrayTy()) {
+        return ArrayType::New(env, static_cast<llvm::ArrayType *>(type));
+    } else if (type->isStructTy()) {
+        return StructType::New(env, static_cast<llvm::StructType *>(type));
     }
     return constructor.New({Napi::External<llvm::Type>::New(env, type)});
 }

@@ -3,6 +3,8 @@
 #include "IR/User.h"
 #include "IR/GlobalValue.h"
 #include "IR/ConstantInt.h"
+#include "IR/ConstantFP.h"
+#include "IR/ConstantPointerNull.h"
 #include "Util/Inherit.h"
 
 void Constant::Init(Napi::Env env, Napi::Object &exports) {
@@ -25,6 +27,10 @@ Napi::Object Constant::New(Napi::Env env, llvm::Constant *constant) {
         return GlobalValue::New(env, static_cast<llvm::GlobalValue *>(constant));
     } else if (llvm::ConstantInt::classof(constant)) {
         return ConstantInt::New(env, static_cast<llvm::ConstantInt *>(constant));
+    } else if (llvm::ConstantFP::classof(constant)) {
+        return ConstantFP::New(env, static_cast<llvm::ConstantFP *>(constant));
+    } else if (llvm::ConstantPointerNull::classof(constant)) {
+        return ConstantPointerNull::New(env, static_cast<llvm::ConstantPointerNull *>(constant));
     }
     return constructor.New({Napi::External<llvm::Constant>::New(env, constant)});
 }

@@ -41,7 +41,7 @@ PointerType::PointerType(const Napi::CallbackInfo &info) : ObjectWrap(info) {
 Napi::Value PointerType::get(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() != 2 || !Type::IsClassOf(info[0]) || !info[1].IsNumber()) {
-        throw Napi::TypeError::New(env,"PointerType.get needs to be called with: (elementType: Type, addressSpace: uint32)");
+        throw Napi::TypeError::New(env, "PointerType.get needs to be called with: (elementType: Type, addressSpace: uint32)");
     }
     llvm::Type *type = Type::Extract(info[0]);
     uint32_t addrSpace = info[1].As<Napi::Number>();

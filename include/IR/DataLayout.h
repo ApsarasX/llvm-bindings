@@ -17,7 +17,7 @@ public:
 
     explicit DataLayout(const Napi::CallbackInfo &info);
 
-    llvm::DataLayout& getLLVMPrimitive();
+    llvm::DataLayout &getLLVMPrimitive();
 
 private:
     llvm::DataLayout *dataLayout = nullptr;

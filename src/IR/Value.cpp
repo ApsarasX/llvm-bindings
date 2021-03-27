@@ -3,6 +3,7 @@
 
 #include "IR/Value.h"
 #include "IR/Type.h"
+#include "IR/Argument.h"
 #include "IR/BasicBlock.h"
 #include "IR/User.h"
 
@@ -27,7 +28,9 @@ void Value::Init(Napi::Env env, Napi::Object &exports) {
 
 
 Napi::Value Value::New(Napi::Env env, llvm::Value *value) {
-    if (llvm::BasicBlock::classof(value)) {
+    if (llvm::Argument::classof(value)) {
+        return Argument::New(env, static_cast<llvm::Argument *>(value));
+    } else if (llvm::BasicBlock::classof(value)) {
         return BasicBlock::New(env, static_cast<llvm::BasicBlock *>(value));
     } else if (llvm::User::classof(value)) {
         return User::New(env, static_cast<llvm::User *>(value));
