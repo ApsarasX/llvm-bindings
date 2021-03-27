@@ -1,6 +1,7 @@
 #include "IR/LLVMContext.h"
 
 void LLVMContext::Init(Napi::Env env, Napi::Object &exports) {
+    Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "LLVMContext", {});
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();

@@ -3,12 +3,11 @@
 #include "Target/TargetMachine.h"
 
 void TargetMachine::Init(Napi::Env env, Napi::Object &exports) {
+    Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "TargetMachine", {
     });
-
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
-
     exports.Set("TargetMachine", func);
 }
 

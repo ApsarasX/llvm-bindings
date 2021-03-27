@@ -7,8 +7,6 @@
 
 void writeBitcodeToFile(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    Napi::HandleScope scope(env);
-
     if (info.Length() < 2 || !Module::IsClassOf(info[0]) || !info[1].IsString()) {
         throw Napi::TypeError::New(env, "WriteBitcodeToFile needs to be called with: (module: Module, filename: string)");
     }

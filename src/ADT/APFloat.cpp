@@ -1,6 +1,7 @@
 #include "ADT/APFloat.h"
 
 void APFloat::Init(Napi::Env env, Napi::Object &exports) {
+    Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "APFloat", {});
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
