@@ -9,3 +9,5 @@ node_modules/
 docs/craft/
 
 package-lock.json
+
+test/temp/

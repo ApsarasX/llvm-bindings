@@ -6,7 +6,7 @@ const {
 
 const {getContextModuleBuilder, createFunction} = require('./util');
 
-module.exports = function () {
+module.exports = function (toPrint = true) {
     const {context, module, builder} = getContextModuleBuilder('add.cpp');
     const returnType = builder.getInt32Ty();
     const paramTypes = [builder.getInt32Ty(), builder.getInt32Ty()];
@@ -18,6 +18,10 @@ module.exports = function () {
     const result = builder.CreateAdd(a, b);
     builder.CreateRet(result);
     if (!verifyFunction(func) && !verifyModule(module)) {
-        module.print();
+        if (toPrint) {
+            module.print();
+        }
+        return module;
     }
+    return null;
 }
