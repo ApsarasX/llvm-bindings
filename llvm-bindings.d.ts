@@ -227,6 +227,14 @@ declare namespace llvm {
             insertBefore?: BasicBlock
         ): BasicBlock;
 
+        public getParent(): Function;
+
+        public getModule(): Module;
+
+        public getTerminator(): Instruction;
+
+        public getFirstNonPHI(): Instruction;
+
         protected constructor();
     }
 
@@ -236,6 +244,18 @@ declare namespace llvm {
         public setOperand(index: number, value: Value): void;
 
         public getNumOperands(): number;
+
+        protected constructor();
+    }
+
+    class Instruction extends User {
+        public user_back(): Instruction;
+
+        public getParent(): BasicBlock;
+
+        public getModule(): Module;
+
+        public getFunction(): Function;
 
         protected constructor();
     }

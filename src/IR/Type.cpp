@@ -144,7 +144,6 @@ void Type::Init(Napi::Env env, Napi::Object &exports) {
     exports.Set("Type", func);
 }
 
-
 Napi::Object Type::New(Napi::Env env, llvm::Type *type) {
     if (type->isIntegerTy()) {
         return IntegerType::New(env, static_cast<llvm::IntegerType *>(type));

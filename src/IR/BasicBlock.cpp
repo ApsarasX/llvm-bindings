@@ -2,12 +2,18 @@
 #include "IR/Value.h"
 #include "IR/LLVMContext.h"
 #include "IR/Function.h"
+#include "IR/Module.h"
+#include "IR/Instruction.h"
 #include "Util/Inherit.h"
 
 void BasicBlock::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "BasicBlock", {
-            StaticMethod("Create", &BasicBlock::create)
+            StaticMethod("Create", &BasicBlock::create),
+            InstanceMethod("getParent", &BasicBlock::getParent),
+            InstanceMethod("getModule", &BasicBlock::getModule),
+            InstanceMethod("getTerminator", &BasicBlock::getTerminator),
+            InstanceMethod("getFirstNonPHI", &BasicBlock::getFirstNonPHI)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -74,4 +80,40 @@ Napi::Value BasicBlock::create(const Napi::CallbackInfo &info) {
 
 llvm::BasicBlock *BasicBlock::getLLVMPrimitive() {
     return basicBlock;
+}
+
+Napi::Value BasicBlock::getParent(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Function *function = basicBlock->getParent();
+    if (function) {
+        return Function::New(env, function);
+    }
+    return env.Null();
+}
+
+Napi::Value BasicBlock::getModule(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Module *module = basicBlock->getModule();
+    if (module) {
+        return Module::New(env, module);
+    }
+    return env.Null();
+}
+
+Napi::Value BasicBlock::getTerminator(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Instruction *termInst = basicBlock->getTerminator();
+    if (termInst) {
+        return Instruction::New(env, termInst);
+    }
+    return env.Null();
+}
+
+Napi::Value BasicBlock::getFirstNonPHI(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Instruction *nonPHIInst = basicBlock->getFirstNonPHI();
+    if (nonPHIInst) {
+        return Instruction::New(env, nonPHIInst);
+    }
+    return env.Null();
 }

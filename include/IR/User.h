@@ -2,7 +2,6 @@
 
 #include <napi.h>
 #include <llvm/IR/User.h>
-#include "IR/Value.h"
 
 class User : public Napi::ObjectWrap<User> {
 public:

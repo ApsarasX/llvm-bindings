@@ -23,4 +23,12 @@ private:
     llvm::BasicBlock *basicBlock = nullptr;
 
     static Napi::Value create(const Napi::CallbackInfo &info);
+
+    Napi::Value getParent(const Napi::CallbackInfo &info);
+
+    Napi::Value getModule(const Napi::CallbackInfo &info);
+
+    Napi::Value getTerminator(const Napi::CallbackInfo &info);
+
+    Napi::Value getFirstNonPHI(const Napi::CallbackInfo &info);
 };

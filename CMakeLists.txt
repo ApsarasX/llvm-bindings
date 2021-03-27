@@ -32,6 +32,7 @@ set(
         "src/IR/ArrayType.cpp"
         "src/IR/Value.cpp"
         "src/IR/User.cpp"
+        "src/IR/Instruction.cpp"
         "src/IR/Constant.cpp"
         "src/IR/ConstantInt.cpp"
         "src/IR/ConstantFP.cpp"
