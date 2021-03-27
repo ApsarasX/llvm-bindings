@@ -537,6 +537,12 @@ declare namespace llvm {
         protected constructor();
     }
 
+    class SMDiagnostic {
+        public constructor();
+    }
+
+    function parseIRFile(filename: string, err: SMDiagnostic, context: LLVMContext): Module;
+
     function initializeAllTargetInfos(): void;
 
     function initializeAllTargets(): void;

@@ -1,5 +1,3 @@
-#include <llvm/Support/raw_ostream.h>
-
 #include "IR/LLVMContext.h"
 #include "IR/Module.h"
 #include "IR/Function.h"
@@ -34,6 +32,10 @@ bool Module::IsClassOf(const Napi::Value &value) {
     return value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
+Napi::Object Module::New(Napi::Env env, llvm::Module *module) {
+    return constructor.New({Napi::External<llvm::Module>::New(env, module)});
+}
+
 llvm::Module *Module::Extract(const Napi::Value &value) {
     return Unwrap(value.As<Napi::Object>())->getLLVMPrimitive();
 }
@@ -43,12 +45,18 @@ Module::Module(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     if (!info.IsConstructCall()) {
         throw Napi::TypeError::New(env, "Module constructor needs to be called with new");
     }
-    if (info.Length() < 2 || !info[0].IsString() || !LLVMContext::IsClassOf(info[1])) {
-        throw Napi::TypeError::New(env, "The Module constructor needs to be called with: new (moduleID: string, context: LLVMContext)");
+    int argsLen = info.Length();
+    if (argsLen == 1 && info[0].IsExternal()) {
+        auto external = info[0].As<Napi::External<llvm::Module>>();
+        module = external.Data();
+        return;
+    } else if (argsLen >= 2 && info[0].IsString() && LLVMContext::IsClassOf(info[1])) {
+        const std::string &moduleID = info[0].As<Napi::String>();
+        llvm::LLVMContext &context = LLVMContext::Extract(info[1]);
+        module = new llvm::Module(moduleID, context);
+        return;
     }
-    const std::string &moduleID = info[0].As<Napi::String>();
-    llvm::LLVMContext &context = LLVMContext::Extract(info[1]);
-    module = new llvm::Module(moduleID, context);
+    throw Napi::TypeError::New(env, "The Module constructor needs to be called with: new (moduleID: string, context: LLVMContext)");
 }
 
 Napi::Value Module::empty(const Napi::CallbackInfo &info) {
