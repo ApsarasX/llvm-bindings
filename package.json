@@ -14,7 +14,7 @@
     "main": "index.js",
     "types": "llvm-bindings.d.ts",
     "scripts": {
-        "install": "cmake-js compile",
+        "postinstall": "cmake-js compile",
         "build:debug": "cmake-js build -D",
         "build:release": "cmake-js build",
         "pretest": "npm run build:debug",

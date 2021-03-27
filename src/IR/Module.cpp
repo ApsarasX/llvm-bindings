@@ -1,3 +1,5 @@
+#include <llvm/Support/raw_ostream.h>
+
 #include "IR/LLVMContext.h"
 #include "IR/Module.h"
 #include "IR/Function.h"
