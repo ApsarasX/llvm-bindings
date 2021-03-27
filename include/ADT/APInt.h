@@ -1,3 +1,5 @@
+#pragma once
+
 #include <napi.h>
 #include <llvm/ADT/APInt.h>
 

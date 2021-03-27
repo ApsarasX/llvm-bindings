@@ -34,7 +34,7 @@ ArrayType::ArrayType(const Napi::CallbackInfo &info) : ObjectWrap(info) {
         throw Napi::TypeError::New(env, "ArrayType Constructor needs to be called with new");
     }
     if (info.Length() < 1 || !info[0].IsExternal()) {
-        throw Napi::TypeError::New(env, "Expected struct type pointer");
+        throw Napi::TypeError::New(env, "Expected array type pointer");
     }
     auto external = info[0].As<Napi::External<llvm::ArrayType>>();
     arrayType = external.Data();

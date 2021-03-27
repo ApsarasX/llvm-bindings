@@ -9,6 +9,12 @@
 #include "IR/BasicBlock.h"
 #include "IR/DataLayout.h"
 #include "IR/Function.h"
+#include "IR/AllocaInst.h"
+#include "IR/BranchInst.h"
+#include "IR/CallInst.h"
+#include "IR/LoadInst.h"
+#include "IR/ReturnInst.h"
+#include "IR/StoreInst.h"
 #include "ADT/APInt.h"
 
 void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
@@ -137,8 +143,7 @@ Napi::Value IRBuilder::createAlloca(const Napi::CallbackInfo &info) {
         llvm::Value *arraySize = argsLen >= 2 ? Value::Extract(info[1]) : nullptr;
         std::string name = argsLen >= 3 ? std::string(info[2].As<Napi::String>()) : "";
         llvm::AllocaInst *alloca = builder->CreateAlloca(type, arraySize, name);
-        // TODO: opt here
-        return Value::New(env, alloca);
+        return AllocaInst::New(env, alloca);
     }
     throw Napi::TypeError::New(env, "IRBuilder.CreateAlloca needs to be called with: (type: Type, arraySize?: Value, name?: string)");
 }
@@ -148,8 +153,7 @@ Napi::Value IRBuilder::createBr(const Napi::CallbackInfo &info) {
     if (info.Length() >= 1 && BasicBlock::IsClassOf(info[0])) {
         llvm::BasicBlock *destBB = BasicBlock::Extract(info[0]);
         llvm::BranchInst *branch = builder->CreateBr(destBB);
-        // TODO: opt here
-        return Value::New(env, branch);
+        return BranchInst::New(env, branch);
     }
     throw Napi::TypeError::New(env, "IRBuilder.CreateBr needs to be called with: (destBB: BasicBlock)");
 }
@@ -186,8 +190,7 @@ Napi::Value IRBuilder::createCall(const Napi::CallbackInfo &info) {
         }
     }
     if (call) {
-        // TODO: opt here
-        return Value::New(env, call);
+        return CallInst::New(env, call);
     }
     throw Napi::TypeError::New(env, "IRBuilder.CreateCall needs to be called with: " \
     "(callee: Value, args: Value[], name?: string) or (funcType: FunctionType, callee: Value, args: Value[], name?: string)");
@@ -200,8 +203,7 @@ Napi::Value IRBuilder::createCondBr(const Napi::CallbackInfo &info) {
         llvm::BasicBlock *thenBB = BasicBlock::Extract(info[1]);
         llvm::BasicBlock *elseBB = BasicBlock::Extract(info[2]);
         llvm::BranchInst *branch = builder->CreateCondBr(cond, thenBB, elseBB);
-        // TODO: opt here
-        return Value::New(env, branch);
+        return BranchInst::New(env, branch);
     }
     throw Napi::TypeError::New(env, "IRBuilder.createCondBr needs to be called with: (cond: Value, thenBB: BasicBlock, elseBB: BasicBlock)");
 }
@@ -215,8 +217,7 @@ Napi::Value IRBuilder::createLoad(const Napi::CallbackInfo &info) {
         llvm::Value *ptr = Value::Extract(info[1]);
         std::string name = argsLen >= 2 ? std::string(info[2].As<Napi::String>()) : "";
         llvm::LoadInst *load = builder->CreateLoad(type, ptr, name);
-        // TODO: opt here
-        return Value::New(env, load);
+        return LoadInst::New(env, load);
     }
     throw Napi::TypeError::New(env, "IRBuilder.CreateLoad needs to be called with: (type: Type, ptr: Value, name?:string)");
 }
@@ -225,16 +226,14 @@ Napi::Value IRBuilder::createRet(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     size_t argsLen = info.Length();
     if (argsLen >= 1 && Value::IsClassOf(info[0])) {
-        // TODO: opt here
-        return Value::New(env, builder->CreateRet(Value::Extract(info[0])));
+        llvm::ReturnInst *ret = builder->CreateRet(Value::Extract(info[0]));
+        return ReturnInst::New(env, ret);
     }
     throw Napi::TypeError::New(env, "IRBuilder.CreateRet needs to be called with: (value: Value)");
 }
 
 Napi::Value IRBuilder::createRetVoid(const Napi::CallbackInfo &info) {
-    Napi::Env env = info.Env();
-    // TODO: opt here
-    return Value::New(env, builder->CreateRetVoid());
+    return ReturnInst::New(info.Env(), builder->CreateRetVoid());
 }
 
 Napi::Value IRBuilder::createStore(const Napi::CallbackInfo &info) {
@@ -243,8 +242,7 @@ Napi::Value IRBuilder::createStore(const Napi::CallbackInfo &info) {
         llvm::Value *value = Value::Extract(info[0]);
         llvm::Value *ptr = Value::Extract(info[1]);
         llvm::StoreInst *store = builder->CreateStore(value, ptr);
-        // TODO: opt here
-        return Value::New(env, store);
+        return StoreInst::New(env, store);
     }
     throw Napi::TypeError::New(env, "IRBuilder.CreateStore needs to be called with: (value: Value, ptr: Value)");
 }

@@ -1,0 +1,41 @@
+#include "IR/LoadInst.h"
+#include "IR/Instruction.h"
+#include "Util/Inherit.h"
+
+void LoadInst::Init(Napi::Env env, Napi::Object &exports) {
+    Napi::HandleScope scope(env);
+    Napi::Function func = DefineClass(env, "LoadInst", {
+    });
+    constructor = Napi::Persistent(func);
+    constructor.SuppressDestruct();
+    Inherit(env, constructor.Value(), Instruction::constructor.Value());
+    exports.Set("LoadInst", func);
+}
+
+Napi::Object LoadInst::New(Napi::Env env, llvm::LoadInst *loadInst) {
+    return constructor.New({Napi::External<llvm::LoadInst>::New(env, loadInst)});
+}
+
+bool LoadInst::IsClassOf(const Napi::Value &value) {
+    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+}
+
+llvm::LoadInst *LoadInst::Extract(const Napi::Value &value) {
+    return Unwrap(value.As<Napi::Object>())->getLLVMPrimitive();
+}
+
+LoadInst::LoadInst(const Napi::CallbackInfo &info) : ObjectWrap(info) {
+    Napi::Env env = info.Env();
+    if (!info.IsConstructCall()) {
+        throw Napi::TypeError::New(env, "LoadInst.constructor needs to be called with new");
+    }
+    if (info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, "Expected LoadInst pointer");
+    }
+    auto external = info[0].As<Napi::External<llvm::LoadInst>>();
+    loadInst = external.Data();
+}
+
+llvm::LoadInst *LoadInst::getLLVMPrimitive() {
+    return loadInst;
+}

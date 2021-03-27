@@ -3,6 +3,12 @@
 #include "IR/Function.h"
 #include "IR/Module.h"
 #include "IR/BasicBlock.h"
+#include "IR/AllocaInst.h"
+#include "IR/BranchInst.h"
+#include "IR/CallInst.h"
+#include "IR/LoadInst.h"
+#include "IR/ReturnInst.h"
+#include "IR/StoreInst.h"
 #include "Util/Inherit.h"
 
 void Instruction::Init(Napi::Env env, Napi::Object &exports) {
@@ -20,6 +26,19 @@ void Instruction::Init(Napi::Env env, Napi::Object &exports) {
 }
 
 Napi::Value Instruction::New(Napi::Env env, llvm::Instruction *instruction) {
+    if (llvm::AllocaInst::classof(instruction)) {
+        return AllocaInst::New(env, static_cast<llvm::AllocaInst *>(instruction));
+    } else if (llvm::BranchInst::classof(instruction)) {
+        return BranchInst::New(env, static_cast<llvm::BranchInst *>(instruction));
+    } else if (llvm::CallInst::classof(instruction)) {
+        return CallInst::New(env, static_cast<llvm::CallInst *>(instruction));
+    } else if (llvm::LoadInst::classof(instruction)) {
+        return LoadInst::New(env, static_cast<llvm::LoadInst *>(instruction));
+    } else if (llvm::ReturnInst::classof(instruction)) {
+        return ReturnInst::New(env, static_cast<llvm::ReturnInst *>(instruction));
+    } else if (llvm::StoreInst::classof(instruction)) {
+        return StoreInst::New(env, static_cast<llvm::StoreInst *>(instruction));
+    }
     return constructor.New({Napi::External<llvm::Instruction>::New(env, instruction)});
 }
 

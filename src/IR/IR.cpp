@@ -10,6 +10,12 @@
 #include "IR/Value.h"
 #include "IR/User.h"
 #include "IR/Instruction.h"
+#include "IR/AllocaInst.h"
+#include "IR/BranchInst.h"
+#include "IR/CallInst.h"
+#include "IR/LoadInst.h"
+#include "IR/ReturnInst.h"
+#include "IR/StoreInst.h"
 #include "IR/Constant.h"
 #include "IR/ConstantInt.h"
 #include "IR/ConstantFP.h"
@@ -35,6 +41,12 @@ void InitIR(Napi::Env env, Napi::Object &exports) {
     Value::Init(env, exports);
     User::Init(env, exports);
     Instruction::Init(env, exports);
+    AllocaInst::Init(env, exports);
+    BranchInst::Init(env, exports);
+    CallInst::Init(env, exports);
+    LoadInst::Init(env, exports);
+    ReturnInst::Init(env, exports);
+    StoreInst::Init(env, exports);
     Constant::Init(env, exports);
     ConstantInt::Init(env, exports);
     ConstantFP::Init(env, exports);

@@ -260,6 +260,52 @@ declare namespace llvm {
         protected constructor();
     }
 
+    class AllocaInst extends Instruction {
+        public getAllocatedType(): Type;
+
+        public getArraySize(): Value;
+
+        protected constructor();
+    }
+
+    class BranchInst extends Instruction {
+        public isUnconditional(): boolean;
+
+        public isConditional(): boolean;
+
+        public getCondition(): Value;
+
+        public getNumSuccessors(): number;
+
+        public getSuccessor(): BasicBlock;
+
+        protected constructor();
+    }
+
+    class CallInst extends Instruction {
+        protected constructor();
+    }
+
+    class LoadInst extends Instruction {
+        protected constructor();
+    }
+
+    class ReturnInst extends Instruction {
+        public getReturnValue(): Value;
+
+        protected constructor();
+    }
+
+    class StoreInst extends Instruction {
+        public getValueOperand(): Value;
+
+        public getPointerOperand(): Value;
+
+        public getPointerOperandType(): Type;
+
+        protected constructor();
+    }
+
     class Constant extends User {
         public static getNullValue(type: Type): Constant;
 
