@@ -14,16 +14,16 @@
     "main": "index.js",
     "types": "llvm-bindings.d.ts",
     "scripts": {
-        "postinstall": "cmake-js compile",
-        "build:debug": "cmake-js build -D",
-        "build:release": "cmake-js build",
-        "pretest": "npm run build:debug",
+        "postinstall": "cross-env CMAKE_BUILD_PARALLEL_LEVEL=$(node -p 'require(`os`).cpus().length') cmake-js compile",
+        "build:debug": "cross-env CMAKE_BUILD_PARALLEL_LEVEL=$(node -p 'require(`os`).cpus().length') cmake-js build -D",
+        "build:release": "cross-env CMAKE_BUILD_PARALLEL_LEVEL=$(node -p 'require(`os`).cpus().length') cmake-js build",
         "test": "node test/index.js",
         "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
     },
     "dependencies": {
         "bindings": "^1.5.0",
         "cmake-js": "^6.1.0",
+        "cross-env": "^7.0.3",
         "node-addon-api": "^3.1.0"
     },
     "devDependencies": {
