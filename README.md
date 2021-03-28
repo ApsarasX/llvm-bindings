@@ -8,6 +8,10 @@ LLVM bindings for Node.js/JavaScript/TypeScript
 - [x] Ubuntu
 - [ ] Windows
 
+## Supported LLVM methods
+
+listed in the [TypeScript definition file](./llvm-bindings.d.ts).
+
 ## Install
 
 ### Install on macOS
