@@ -65,3 +65,8 @@ if (!llvm.verifyFunction(func) && !llvm.verifyModule(mod)) {
 | llvm-bindings versions  |  compatible LLVM versions |
 | ------------ | ------------ |
 |  0.0.x, 0.1.x |  11.0.x, 11.1.x |
+
+## Acknowledgments
+- [MichaReiser](https://github.com/MichaReiser): the creator of [llvm-node](https://github.com/MichaReiser/llvm-node)
+
+> [llvm-bindings](https://github.com/ApsarasX/llvm-bindings) is mostly inspired by [llvm-node](https://github.com/MichaReiser/llvm-node).
