@@ -543,6 +543,52 @@ declare namespace llvm {
 
         public CreatePHI(type: Type, numReservedValues: number, name?: string): PHINode;
 
+        public CreateTrunc(value: Value, destType: Type, name?: string): Value;
+
+        public CreateZExt(value: Value, destType: Type, name?: string): Value;
+
+        public CreateSExt(value: Value, destType: Type, name?: string): Value;
+
+        public CreateZExtOrTrunc(value: Value, destType: Type, name?: string): Value;
+
+        public CreateSExtOrTrunc(value: Value, destType: Type, name?: string): Value;
+
+        public CreateFPToUI(value: Value, destType: Type, name?: string): Value;
+
+        public CreateFPToSI(value: Value, destType: Type, name?: string): Value;
+
+        public CreateUIToFP(value: Value, destType: Type, name?: string): Value;
+
+        public CreateSIToFP(value: Value, destType: Type, name?: string): Value;
+
+        public CreateFPTrunc(value: Value, destType: Type, name?: string): Value;
+
+        public CreateFPExt(value: Value, destType: Type, name?: string): Value;
+
+        public CreatePtrToInt(value: Value, destType: Type, name?: string): Value;
+
+        public CreateIntToPtr(value: Value, destType: Type, name?: string): Value;
+
+        public CreateBitCast(value: Value, destType: Type, name?: string): Value;
+
+        public CreateAddrSpaceCast(value: Value, destType: Type, name?: string): Value;
+
+        public CreateZExtOrBitCast(value: Value, destType: Type, name?: string): Value;
+
+        public CreateSExtOrBitCast(value: Value, destType: Type, name?: string): Value;
+
+        public CreateTruncOrBitCast(value: Value, destType: Type, name?: string): Value;
+
+        public CreatePointerCast(value: Value, destType: Type, name?: string): Value;
+
+        public CreatePointerBitCastOrAddrSpaceCast(value: Value, destType: Type, name?: string): Value;
+
+        public CreateIntCast(value: Value, destType: Type, isSigned: boolean, name?: string): Value;
+
+        public CreateBitOrPointerCast(value: Value, destType: Type, name?: string): Value;
+
+        public CreateFPCast(value: Value, destType: Type, name?: string): Value;
+
         public SetInsertionPoint(basicBlock: BasicBlock): Value;
 
         public getInt1(value: boolean): ConstantInt;

@@ -58,6 +58,8 @@ typedef llvm::IntegerType *(llvm::IRBuilderBase::*GetIntType)();
 
 typedef llvm::Type *(llvm::IRBuilderBase::*GetType)();
 
+typedef llvm::Value *(llvm::IRBuilderBase::*CreateCast)(llvm::Value *, llvm::Type *, const llvm::Twine &name);
+
 class IRBuilder : public Napi::ObjectWrap<IRBuilder> {
 public:
     static inline Napi::FunctionReference constructor; // NOLINT
@@ -106,6 +108,36 @@ private:
     Napi::Value createGlobalStringPtr(const Napi::CallbackInfo &info);
 
     Napi::Value createPHI(const Napi::CallbackInfo &info);
+
+    template<CreateCast method>
+    Napi::Value createCastFactory(const Napi::CallbackInfo &info) {
+        Napi::Env env = info.Env();
+        int argsLen = info.Length();
+        if (argsLen < 2 || !Value::IsClassOf(info[0]) || !Type::IsClassOf(info[1]) || argsLen >= 3 && !info[2].IsString()) {
+            throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateCastFactory);
+        }
+        llvm::Value *value = Value::Extract(info[0]);
+        llvm::Type *destType = Type::Extract(info[1]);
+        const std::string &name = argsLen >= 3 ? std::string(info[2].As<Napi::String>()) : "";
+        return Value::New(env, (builder->*method)(value, destType, name));
+    }
+
+    Napi::Value createIntCast(const Napi::CallbackInfo &info) {
+        Napi::Env env = info.Env();
+        int argsLen = info.Length();
+        if (argsLen < 3 ||
+            !Value::IsClassOf(info[0]) ||
+            !Type::IsClassOf(info[1]) ||
+            !info[2].IsBoolean() ||
+            argsLen >= 4 && !info[2].IsString()) {
+            throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateIntCast);
+        }
+        llvm::Value *value = Value::Extract(info[0]);
+        llvm::Type *destType = Type::Extract(info[1]);
+        bool isSigned = info[2].As<Napi::Boolean>();
+        const std::string &name = argsLen >= 4 ? std::string(info[3].As<Napi::String>()) : "";
+        return Value::New(env, builder->CreateIntCast(value, destType, isSigned, name));
+    }
 
     Napi::Value getInt1(const Napi::CallbackInfo &info);
 

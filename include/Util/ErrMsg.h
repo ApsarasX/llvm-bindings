@@ -109,6 +109,8 @@ namespace ErrMsg {
             static const char *CreateGlobalString = "IRBuilder.CreateGlobalString needs to be called with (str: string, name?: string, addrSpace?: number, module?: Module)";
             static const char *CreateGlobalStringPtr = "IRBuilder.CreateGlobalStringPtr needs to be called with (str: string, name?: string, addrSpace?: number, module?: Module)";
             static const char *CreatePHI = "IRBuilder.CreatePHI needs to be called with: (type: Type, numReservedValues: number, name?: string)";
+            static const char *CreateCastFactory = "IRBuilder.[CreateCast] needs to be called with (value: Value, destType: Type, name?: string)";
+            static const char *CreateIntCast = "IRBuilder.CreateIntCast needs to be called with (value: Value, destType: Type, isSigned: boolean, name?: string)";
             static const char *getInt1 = "IRBuilder.getInt1 needs to be called with (value: boolean)";
             static const char *getIntFactory = "IRBuilder.[getIntX] needs to be called with (value: number)";
             static const char *getIntN = "IRBuilder.getIntN needs to be called with (n: number, value: number)";
