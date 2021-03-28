@@ -2,6 +2,7 @@
 #include "IR/LLVMContext.h"
 #include "IR/Module.h"
 #include "Support/SMDiagnostic.h"
+#include "Util/ErrMsg.h"
 
 Napi::Value parseIRFile(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
@@ -15,7 +16,7 @@ Napi::Value parseIRFile(const Napi::CallbackInfo &info) {
         llvm::Module *module = llvm::parseIRFile(filename, err, context).release();
         return Module::New(env, module);
     }
-    throw Napi::TypeError::New(env, "parseIRFile needs to be called with (filename: string, err: SMDiagnostic, context: LLVMContext)");
+    throw Napi::TypeError::New(env, ErrMsg::Function::parseIRFile);
 }
 
 void InitIRReader(Napi::Env env, Napi::Object &exports) {

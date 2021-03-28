@@ -3,6 +3,7 @@
 #include "IR/Value.h"
 #include "IR/Type.h"
 #include "Util/Inherit.h"
+#include "Util/ErrMsg.h"
 
 void StoreInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -31,11 +32,8 @@ llvm::StoreInst *StoreInst::Extract(const Napi::Value &value) {
 
 StoreInst::StoreInst(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "StoreInst.constructor needs to be called with new");
-    }
-    if (info.Length() == 0 || !info[0].IsExternal()) {
-        throw Napi::TypeError::New(env, "Expected StoreInst pointer");
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::StoreInst::constructor);
     }
     auto external = info[0].As<Napi::External<llvm::StoreInst>>();
     storeInst = external.Data();

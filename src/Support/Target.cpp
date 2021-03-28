@@ -1,5 +1,6 @@
 #include "Support/Target.h"
 #include "Target/TargetMachine.h"
+#include "Util/ErrMsg.h"
 
 void Target::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -19,40 +20,26 @@ Napi::Object Target::New(Napi::Env env, llvm::Target *target) {
 
 Target::Target(const Napi::CallbackInfo &info) : Napi::ObjectWrap<Target>{info} {
     Napi::Env env = info.Env();
-    auto argsLength = info.Length();
-
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "Target constructor needs to be called with new");
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Target::constructor);
     }
-
-    if (argsLength < 1 || !info[0].IsExternal()) {
-        throw Napi::TypeError::New(env, "Target constructor needs to be called with a pointer to a Target");
-    }
-
     auto external = info[0].As<Napi::External<llvm::Target>>();
-    this->target = external.Data();
+    target = external.Data();
 }
 
 
 Napi::Value Target::createTargetMachine(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-
-    if (info.Length() < 2 || !info[0].IsString() || !info[1].IsString()) {
-        throw Napi::TypeError::New(env, "Function needs to be called at least with the arguments: triple: string, cpu: string.");
+    int argsLen = info.Length();
+    if (argsLen < 2 || !info[0].IsString() || !info[1].IsString() || argsLen >= 3 && !info[2].IsString()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Target::createTargetMachine);
     }
-
     std::string targetTriple = info[0].As<Napi::String>();
     std::string cpu = info[1].As<Napi::String>();
     std::string features;
-
-    if (info.Length() > 2) {
-        if (info[2].IsString()) {
-            features = info[2].As<Napi::String>();
-        } else {
-            throw Napi::TypeError::New(env, "The 3th argument New createTargetMachine needs to be a string");
-        }
+    if (argsLen >= 3) {
+        features = info[2].As<Napi::String>();
     }
-
     llvm::TargetOptions options{};
     llvm::TargetMachine *targetMachinePtr = target->createTargetMachine(targetTriple, cpu, features, options, llvm::Optional<llvm::Reloc::Model>{});
     return TargetMachine::New(env, targetMachinePtr);

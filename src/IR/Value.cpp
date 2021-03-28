@@ -6,6 +6,7 @@
 #include "IR/Argument.h"
 #include "IR/BasicBlock.h"
 #include "IR/User.h"
+#include "Util/ErrMsg.h"
 
 void Value::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -48,11 +49,8 @@ llvm::Value *Value::Extract(const Napi::Value &value) {
 
 Value::Value(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "Class Constructor Value cannot be invoked without new");
-    }
-    if (info.Length() != 1 || !info[0].IsExternal()) {
-        throw Napi::TypeError::New(env, "External Value Pointer required");
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Value::constructor);
     }
     auto external = info[0].As<Napi::External<llvm::Value>>();
     value = external.Data();
@@ -76,8 +74,8 @@ Napi::Value Value::getName(const Napi::CallbackInfo &info) {
 
 void Value::setName(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() != 1 || !info[0].IsString()) {
-        throw Napi::TypeError::New(env, "name needs to be a string");
+    if (info.Length() == 0 || !info[0].IsString()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Value::setName);
     }
     const std::string &name = info[0].As<Napi::String>();
     value->setName(name);
@@ -89,8 +87,8 @@ void Value::deleteValue(const Napi::CallbackInfo &info) {
 
 void Value::replaceAllUsesWith(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() != 1 || !Value::IsClassOf(info[0])) {
-        throw Napi::TypeError::New(env, "replaceAllUsesWith needs to be called with: value: Value");
+    if (info.Length() == 0 || !Value::IsClassOf(info[0])) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Value::replaceAllUsesWith);
     }
     llvm::Value *newValue = Value::Extract(info[0]);
     value->replaceAllUsesWith(newValue);

@@ -1,6 +1,7 @@
 #include "IR/StructType.h"
 #include "IR/Type.h"
 #include "Util/Inherit.h"
+#include "Util/ErrMsg.h"
 
 void StructType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -26,11 +27,8 @@ llvm::StructType *StructType::Extract(const Napi::Value &value) {
 
 StructType::StructType(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "StructType Constructor needs to be called with new");
-    }
-    if (info.Length() < 1 || !info[0].IsExternal()) {
-        throw Napi::TypeError::New(env, "Expected struct type pointer");
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::StructType::constructor);
     }
     auto external = info[0].As<Napi::External<llvm::StructType>>();
     structType = external.Data();

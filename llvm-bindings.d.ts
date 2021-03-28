@@ -126,7 +126,7 @@ declare namespace llvm {
 
         public isTokenTy(): boolean;
 
-        public isIntegerTy(): boolean;
+        public isIntegerTy(bitWidth?: number): boolean;
 
         public isFunctionTy(): boolean;
 
@@ -239,9 +239,9 @@ declare namespace llvm {
     }
 
     class User extends Value {
-        public getOperand(index: number): Value;
+        public getOperand(i: number): Value;
 
-        public setOperand(index: number, value: Value): void;
+        public setOperand(i: number, value: Value): void;
 
         public getNumOperands(): number;
 
@@ -277,7 +277,7 @@ declare namespace llvm {
 
         public getNumSuccessors(): number;
 
-        public getSuccessor(): BasicBlock;
+        public getSuccessor(i: number): BasicBlock;
 
         protected constructor();
     }
@@ -322,9 +322,9 @@ declare namespace llvm {
 
     class ConstantInt extends Constant {
         public static get(context: LLVMContext, value: APInt): ConstantInt;
-        public static get(type: IntegerType, value: number, isSigned: boolean): ConstantInt;
+        public static get(type: IntegerType, value: number, isSigned?: boolean): ConstantInt;
         public static get(type: Type, value: APInt): Constant;
-        public static get(type: Type, value: number, isSigned: boolean): Constant;
+        public static get(type: Type, value: number, isSigned?: boolean): Constant;
 
         public static getTrue(context: LLVMContext): ConstantInt;
 
@@ -380,7 +380,8 @@ declare namespace llvm {
     }
 
     class GlobalVariable extends GlobalObject {
-        protected constructor();
+        public constructor(type: Type, isConstant: boolean, linkage: number, initializer?: Constant, name?: string);
+        public constructor(module: Module, type: Type, isConstant: boolean, linkage: number, initializer: Constant, name?: string);
     }
 
     class Function extends GlobalObject {
@@ -388,13 +389,13 @@ declare namespace llvm {
 
         public arg_size(): number;
 
-        public getArg(index: number): Argument;
+        public getArg(i: number): Argument;
 
         protected constructor();
     }
 
     class DataLayout {
-        protected constructor();
+        public constructor(desc: string);
     }
 
     class Module {
@@ -576,7 +577,7 @@ declare namespace llvm {
 
         public getInt8PtrTy(addrSpace?: number): PointerType;
 
-        public getIntPtrTy(dl: DataLayout, addrSpace?: number): IntegerType;
+        public getIntPtrTy(dataLayout: DataLayout, addrSpace?: number): IntegerType;
     }
 
     function verifyFunction(func: Function): boolean;
@@ -588,7 +589,7 @@ declare namespace llvm {
     function parseIRFile(filename: string, err: SMDiagnostic, context: LLVMContext): Module;
 
     class Target {
-        public createTargetMachine(targetTriple: string, cpu: string, features: string): void;
+        public createTargetMachine(targetTriple: string, cpu: string, features?: string): void;
 
         public getName(): string;
 

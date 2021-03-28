@@ -1,4 +1,5 @@
 #include "Support/SMDiagnostic.h"
+#include "Util/ErrMsg.h"
 
 void SMDiagnostic::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -20,9 +21,9 @@ llvm::SMDiagnostic &SMDiagnostic::Extract(const Napi::Value &value) {
 SMDiagnostic::SMDiagnostic(const Napi::CallbackInfo &info) : Napi::ObjectWrap<SMDiagnostic>{info} {
     Napi::Env env = info.Env();
     if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "SMDiagnostic constructor needs to be called with new");
+        throw Napi::TypeError::New(env, ErrMsg::Class::SMDiagnostic::constructor);
     }
-    this->diagnostic = new llvm::SMDiagnostic();
+    diagnostic = new llvm::SMDiagnostic();
 }
 
 llvm::SMDiagnostic &SMDiagnostic::getLLVMPrimitive() {

@@ -4,6 +4,7 @@
 #include "IR/Type.h"
 #include "ADT/APFloat.h"
 #include "Util/Inherit.h"
+#include "Util/ErrMsg.h"
 
 void ConstantFP::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -31,11 +32,8 @@ llvm::ConstantFP *ConstantFP::Extract(const Napi::Value &value) {
 
 ConstantFP::ConstantFP(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "Class Constructor ConstantFP cannot be invoked without new");
-    }
-    if (info.Length() != 1 || !info[0].IsExternal()) {
-        throw Napi::TypeError::New(env, "ConstantFP constructor requires: (constantFP: ConstantFP)");
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::ConstantFP::constructor);
     }
     auto external = info[0].As<Napi::External<llvm::ConstantFP>>();
     constantFP = external.Data();
@@ -47,7 +45,7 @@ llvm::ConstantFP *ConstantFP::getLLVMPrimitive() {
 
 Napi::Value ConstantFP::get(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() == 2) {
+    if (info.Length() >= 2) {
         if (Type::IsClassOf(info[0])) {
             llvm::Type *type = Type::Extract(info[0]);
             llvm::Constant *result = nullptr;
@@ -71,11 +69,7 @@ Napi::Value ConstantFP::get(const Napi::CallbackInfo &info) {
             return ConstantFP::New(env, result);
         }
     }
-    throw Napi::TypeError::New(env, "ConstantFP.get needs to be called with: " \
-    "(type: Type, value: number) or" \
-    "(type: Type, value: APFloat) or" \
-    "(type: Type, value: string) or " \
-    "(context: LLVMContext, value: APFloat)");
+    throw Napi::TypeError::New(env, ErrMsg::Class::ConstantFP::get);
 }
 
 Napi::Value ConstantFP::getNaN(const Napi::CallbackInfo &info) {
@@ -85,5 +79,5 @@ Napi::Value ConstantFP::getNaN(const Napi::CallbackInfo &info) {
         llvm::Constant *nan = llvm::ConstantFP::getNaN(type);
         return Constant::New(env, nan);
     }
-    throw Napi::TypeError::New(env, "ConstantFP.getNaN need to be called with (type: Type)");
+    throw Napi::TypeError::New(env, ErrMsg::Class::ConstantFP::getNaN);
 }

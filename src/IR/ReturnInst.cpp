@@ -2,6 +2,7 @@
 #include "IR/Instruction.h"
 #include "IR/Value.h"
 #include "Util/Inherit.h"
+#include "Util/ErrMsg.h"
 
 void ReturnInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -28,11 +29,8 @@ llvm::ReturnInst *ReturnInst::Extract(const Napi::Value &value) {
 
 ReturnInst::ReturnInst(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "ReturnInst.constructor needs to be called with new");
-    }
-    if (info.Length() == 0 || !info[0].IsExternal()) {
-        throw Napi::TypeError::New(env, "Expected ReturnInst pointer");
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::ReturnInst::constructor);
     }
     auto external = info[0].As<Napi::External<llvm::ReturnInst>>();
     returnInst = external.Data();

@@ -1,6 +1,7 @@
 #include "IR/Type.h"
 #include "IR/PointerType.h"
 #include "Util/Inherit.h"
+#include "Util/ErrMsg.h"
 
 void PointerType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -28,11 +29,8 @@ llvm::PointerType *PointerType::Extract(const Napi::Value &value) {
 
 PointerType::PointerType(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "Constructor needs to be called with new");
-    }
-    if (info.Length() < 1 || !info[0].IsExternal()) {
-        throw Napi::TypeError::New(env, "Expected pointer type pointer");
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::PointerType::constructor);
     }
     auto external = info[0].As<Napi::External<llvm::PointerType>>();
     pointerType = external.Data();
@@ -40,8 +38,8 @@ PointerType::PointerType(const Napi::CallbackInfo &info) : ObjectWrap(info) {
 
 Napi::Value PointerType::get(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() != 2 || !Type::IsClassOf(info[0]) || !info[1].IsNumber()) {
-        throw Napi::TypeError::New(env, "PointerType.get needs to be called with: (elementType: Type, addressSpace: uint32)");
+    if (info.Length() < 2 || !Type::IsClassOf(info[0]) || !info[1].IsNumber()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::PointerType::get);
     }
     llvm::Type *type = Type::Extract(info[0]);
     uint32_t addrSpace = info[1].As<Napi::Number>();

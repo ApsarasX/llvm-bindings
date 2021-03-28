@@ -3,6 +3,7 @@
 #include "IR/Type.h"
 #include "IR/Function.h"
 #include "Util/Inherit.h"
+#include "Util/ErrMsg.h"
 
 void Argument::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -30,21 +31,19 @@ llvm::Argument *Argument::Extract(const Napi::Value &value) {
 
 Argument::Argument(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "Argument.constructor needs to be called with new");
-    }
     int argsLen = info.Length();
-    if (argsLen == 1 && info[0].IsExternal()) {
-        auto external = info[0].As<Napi::External<llvm::Argument>>();
-        argument = external.Data();
-        return;
-    }
-    if (argsLen == 0 ||
-        !Type::IsClassOf(info[0]) ||
+    if (!info.IsConstructCall() ||
+        argsLen == 0 ||
+        !info[0].IsExternal() && !Type::IsClassOf(info[0]) ||
         argsLen >= 2 && !info[1].IsString() ||
         argsLen >= 3 && !Function::IsClassOf(info[2]) ||
         argsLen >= 4 && !info[3].IsNumber()) {
-        throw Napi::TypeError::New(env, "Argument.constructor needs to be called with new (type: Type, name?: string, func?: Function, argNo?: number)");
+        throw Napi::TypeError::New(env, ErrMsg::Class::Argument::constructor);
+    }
+    if (argsLen >= 1 && info[0].IsExternal()) {
+        auto external = info[0].As<Napi::External<llvm::Argument>>();
+        argument = external.Data();
+        return;
     }
     llvm::Type *type = Type::Extract(info[0]);
     std::string name;

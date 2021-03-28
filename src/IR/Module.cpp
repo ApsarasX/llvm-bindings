@@ -6,6 +6,7 @@
 #include "IR/GlobalVariable.h"
 #include "IR/StructType.h"
 #include "IR/DataLayout.h"
+#include "Util/ErrMsg.h"
 
 void Module::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -45,10 +46,10 @@ llvm::Module *Module::Extract(const Napi::Value &value) {
 Module::Module(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
     if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "Module constructor needs to be called with new");
+        throw Napi::TypeError::New(env, ErrMsg::Class::Module::constructor);
     }
     int argsLen = info.Length();
-    if (argsLen == 1 && info[0].IsExternal()) {
+    if (argsLen >= 1 && info[0].IsExternal()) {
         auto external = info[0].As<Napi::External<llvm::Module>>();
         module = external.Data();
         return;
@@ -58,7 +59,7 @@ Module::Module(const Napi::CallbackInfo &info) : ObjectWrap(info) {
         module = new llvm::Module(moduleID, context);
         return;
     }
-    throw Napi::TypeError::New(env, "The Module constructor needs to be called with: new (moduleID: string, context: LLVMContext)");
+    throw Napi::TypeError::New(env, ErrMsg::Class::Module::constructor);
 }
 
 Napi::Value Module::empty(const Napi::CallbackInfo &info) {
@@ -69,7 +70,7 @@ Napi::Value Module::empty(const Napi::CallbackInfo &info) {
 Napi::Value Module::getFunction(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() == 0 || !info[0].IsString()) {
-        throw Napi::TypeError::New(env, "getFunction needs to be called with: (name: string)");
+        throw Napi::TypeError::New(env, ErrMsg::Class::Module::getFunction);
     }
     std::string functionName = info[0].As<Napi::String>();
     llvm::Function *function = module->getFunction(functionName);
@@ -81,12 +82,12 @@ Napi::Value Module::getFunction(const Napi::CallbackInfo &info) {
 
 Napi::Value Module::getGlobalVariable(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() < 1 || !info[0].IsString() || info.Length() == 2 && !info[1].IsBoolean()) {
-        throw Napi::TypeError::New(env, "Module.getGlobalVariable needs to be called with: (name: string, allowInternal?: boolean)");
+    if (info.Length() == 0 || !info[0].IsString() || info.Length() >= 2 && !info[1].IsBoolean()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Module::getGlobalVariable);
     }
     const std::string &name = info[0].As<Napi::String>();
     bool allowInternal = false;
-    if (info.Length() == 2) {
+    if (info.Length() >= 2) {
         allowInternal = info[1].As<Napi::Boolean>();
     }
     llvm::GlobalVariable *global = module->getGlobalVariable(name, allowInternal);
@@ -98,8 +99,8 @@ Napi::Value Module::getGlobalVariable(const Napi::CallbackInfo &info) {
 
 Napi::Value Module::getTypeByName(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() < 1 || !info[0].IsString()) {
-        throw Napi::TypeError::New(env, "getTypeByName needs to be called with: (name: string)");
+    if (info.Length() == 0 || !info[0].IsString()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Module::getTypeByName);
     }
     const std::string name = info[0].As<Napi::String>();
     llvm::StructType *type = module->getTypeByName(name);
@@ -122,8 +123,8 @@ Napi::Value Module::getDataLayout(const Napi::CallbackInfo &info) {
 
 void Module::setDataLayout(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() == 0 || !(info[0].IsString() || DataLayout::IsClassOf(info[0]))) {
-        throw Napi::TypeError::New(env, "setDataLayout needs to be called with: (StringRef Desc) or (const DataLayout &Other)");
+    if (info.Length() == 0 || !info[0].IsString() && DataLayout::IsClassOf(info[0])) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Module::setDataLayout);
     }
     if (info[0].IsString()) {
         const std::string &desc = info[0].As<Napi::String>();
@@ -141,8 +142,8 @@ Napi::Value Module::getModuleIdentifier(const Napi::CallbackInfo &info) {
 
 void Module::setModuleIdentifier(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() != 1 || !info[0].IsString()) {
-        throw Napi::TypeError::New(env, "moduleIdentifier needs to be a string");
+    if (info.Length() == 0 || !info[0].IsString()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Module::setModuleIdentifier);
     }
     const std::string &moduleID = info[0].As<Napi::String>();
     module->setModuleIdentifier(moduleID);
@@ -155,8 +156,8 @@ Napi::Value Module::getSourceFileName(const Napi::CallbackInfo &info) {
 
 void Module::setSourceFileName(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() != 1 || !info[0].IsString()) {
-        throw Napi::TypeError::New(env, "sourceFileName needs to be a string");
+    if (info.Length() == 0 || !info[0].IsString()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Module::setSourceFileName);
     }
     const std::string &sourceFileName = info[0].As<Napi::String>();
     module->setSourceFileName(sourceFileName);
@@ -169,8 +170,8 @@ Napi::Value Module::getTargetTriple(const Napi::CallbackInfo &info) {
 
 void Module::setTargetTriple(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() != 1 || !info[0].IsString()) {
-        throw Napi::TypeError::New(env, "targetTriple needs to be a string");
+    if (info.Length() == 0 || !info[0].IsString()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Module::setTargetTriple);
     }
     const std::string &triple = info[0].As<Napi::String>();
     module->setTargetTriple(triple);

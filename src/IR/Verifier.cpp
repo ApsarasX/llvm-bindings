@@ -1,11 +1,12 @@
 #include "IR/Verifier.h"
 #include "IR/Function.h"
 #include "IR/Module.h"
+#include "Util/ErrMsg.h"
 
 Napi::Value verifyFunction(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() == 0 || !Function::IsClassOf(info[0])) {
-        throw Napi::TypeError::New(env, "verifyFunction needs to be called with (func: Function)");
+        throw Napi::TypeError::New(env, ErrMsg::Function::verifyFunction);
     }
     llvm::Function *func = Function::Extract(info[0]);
     bool result = llvm::verifyFunction(*func);
@@ -15,7 +16,7 @@ Napi::Value verifyFunction(const Napi::CallbackInfo &info) {
 Napi::Value verifyModule(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() == 0 || !Module::IsClassOf(info[0])) {
-        throw Napi::TypeError::New(env, "verifyModule needs to be called with (module: Module)");
+        throw Napi::TypeError::New(env, ErrMsg::Function::verifyModule);
     }
     llvm::Module *module = Module::Extract(info[0]);
     bool result = llvm::verifyModule(*module);

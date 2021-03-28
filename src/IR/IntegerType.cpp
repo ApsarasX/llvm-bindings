@@ -2,6 +2,7 @@
 #include "IR/IntegerType.h"
 #include "IR/LLVMContext.h"
 #include "Util/Inherit.h"
+#include "Util/ErrMsg.h"
 
 void IntegerType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -28,11 +29,8 @@ llvm::IntegerType *IntegerType::Extract(const Napi::Value &value) {
 
 IntegerType::IntegerType(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "Constructor needs to be called with new");
-    }
-    if (info.Length() < 1 || !info[0].IsExternal()) {
-        throw Napi::TypeError::New(env, "Expected integer type pointer");
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::IntegerType::constructor);
     }
     auto external = info[0].As<Napi::External<llvm::IntegerType>>();
     integerType = external.Data();
@@ -40,8 +38,8 @@ IntegerType::IntegerType(const Napi::CallbackInfo &info) : ObjectWrap(info) {
 
 Napi::Value IntegerType::get(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() != 2 || !LLVMContext::IsClassOf(info[0]) || !info[1].IsNumber()) {
-        throw Napi::TypeError::New(env, "IntegerType.get needs to be called with: (context: LLVMContext, numBits: uint32)");
+    if (info.Length() < 2 || !LLVMContext::IsClassOf(info[0]) || !info[1].IsNumber()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::IntegerType::get);
     }
     llvm::LLVMContext &context = LLVMContext::Extract(info[0]);
     unsigned numBits = info[1].As<Napi::Number>();

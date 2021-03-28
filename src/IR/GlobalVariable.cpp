@@ -4,6 +4,7 @@
 #include "IR/Type.h"
 #include "IR/Constant.h"
 #include "Util/Inherit.h"
+#include "Util/ErrMsg.h"
 
 void GlobalVariable::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -30,28 +31,46 @@ llvm::GlobalVariable *GlobalVariable::Extract(const Napi::Value &value) {
 GlobalVariable::GlobalVariable(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
     if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "GlobalVariable constructor needs to be called with new");
+        throw Napi::TypeError::New(env, ErrMsg::Class::GlobalVariable::constructor);
     }
     int argsLen = info.Length();
-    if (argsLen == 1 && info[0].IsExternal()) {
+    if (argsLen >= 1 && info[0].IsExternal()) {
         auto external = info[0].As<Napi::External<llvm::GlobalVariable>>();
         globalVariable = external.Data();
         return;
-    } else if (argsLen >= 4 && Module::IsClassOf(info[0]) && Type::IsClassOf(info[1]) && info[2].IsBoolean() && info[3].IsNumber()) {
-        if ((argsLen < 5 || Constant::IsClassOf(info[4])) && (argsLen < 6 || info[5].IsString())) {
+    } else if (argsLen >= 3 &&
+               Type::IsClassOf(info[0]) &&
+               info[1].IsBoolean() &&
+               info[2].IsNumber()) {
+        if (argsLen == 3 ||
+            argsLen >= 4 && Constant::IsClassOf(info[3]) ||
+            argsLen >= 5 && info[4].IsString()) {
+            llvm::Type *type = Type::Extract(info[0]);
+            bool isConstant = info[1].As<Napi::Boolean>();
+            llvm::GlobalValue::LinkageTypes linkage = static_cast<llvm::GlobalValue::LinkageTypes>(info[2].As<Napi::Number>().Uint32Value());
+            llvm::Constant *initializer = argsLen >= 4 ? Constant::Extract(info[3]) : nullptr;
+            std::string name = argsLen >= 5 ? std::string(info[4].As<Napi::String>()) : "";
+            globalVariable = new llvm::GlobalVariable(type, isConstant, linkage, initializer, name);
+            return;
+        }
+    } else if (argsLen >= 5 &&
+               Module::IsClassOf(info[0]) &&
+               Type::IsClassOf(info[1]) &&
+               info[2].IsBoolean() &&
+               info[3].IsNumber() &&
+               Constant::IsClassOf(info[4])) {
+        if (argsLen == 5 || argsLen >= 6 && info[5].IsString()) {
             llvm::Module *module = Module::Extract(info[0]);
             llvm::Type *type = Type::Extract(info[1]);
             bool isConstant = info[2].As<Napi::Boolean>();
             llvm::GlobalValue::LinkageTypes linkage = static_cast<llvm::GlobalValue::LinkageTypes>(info[3].As<Napi::Number>().Uint32Value());
-            llvm::Constant *initializer = argsLen >= 5 ? Constant::Extract(info[4]) : nullptr;
+            llvm::Constant *initializer = Constant::Extract(info[4]);
             std::string name = argsLen >= 6 ? std::string(info[5].As<Napi::String>()) : "";
             globalVariable = new llvm::GlobalVariable(*module, type, isConstant, linkage, initializer, name);
             return;
         }
     }
-    throw Napi::TypeError::New(env, "GlobalVariable constructor needs to be called with " \
-        "new (gv: GlobalVariable) or" \
-        "new (module: Module, type: Type, isConstant: boolean, linkage: LinkageTypes, initializer?: Constant, name?: string)");
+    throw Napi::TypeError::New(env, ErrMsg::Class::GlobalVariable::constructor);
 }
 
 llvm::GlobalVariable *GlobalVariable::getLLVMPrimitive() {

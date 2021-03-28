@@ -1,6 +1,7 @@
 #include <llvm/Target/TargetMachine.h>
 
 #include "Target/TargetMachine.h"
+#include "Util/ErrMsg.h"
 
 void TargetMachine::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -21,16 +22,9 @@ bool TargetMachine::IsClassOf(const Napi::Value &value) {
 
 TargetMachine::TargetMachine(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    size_t argsLength = info.Length();
-
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "TargetMachine constructor needs to be called with new");
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::TargetMachine::constructor);
     }
-
-    if (argsLength < 1 || !info[0].IsExternal()) {
-        throw Napi::TypeError::New(env, "TargetMachine expected");
-    }
-
     auto external = info[0].As<Napi::External<llvm::TargetMachine>>();
     targetMachine = external.Data();
 }

@@ -2,6 +2,7 @@
 #include "IR/Constant.h"
 #include "IR/GlobalObject.h"
 #include "Util/Inherit.h"
+#include "Util/ErrMsg.h"
 
 void GlobalValue::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -48,11 +49,8 @@ llvm::GlobalValue *GlobalValue::Extract(const Napi::Value &value) {
 
 GlobalValue::GlobalValue(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "Class Constructor GlobalValue cannot be invoked without new");
-    }
-    if (info.Length() != 1 || !info[0].IsExternal()) {
-        throw Napi::TypeError::New(env, "GlobalValue constructor requires: constant: External");
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::GlobalValue::constructor);
     }
     auto external = info[0].As<Napi::External<llvm::GlobalValue>>();
     globalValue = external.Data();

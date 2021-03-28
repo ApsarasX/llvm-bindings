@@ -10,6 +10,7 @@
 #include "IR/ReturnInst.h"
 #include "IR/StoreInst.h"
 #include "Util/Inherit.h"
+#include "Util/ErrMsg.h"
 
 void Instruction::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -52,11 +53,8 @@ llvm::Instruction *Instruction::Extract(const Napi::Value &value) {
 
 Instruction::Instruction(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "Instruction.constructor needs to be called with new");
-    }
-    if (info.Length() < 1 || !info[0].IsExternal()) {
-        throw Napi::TypeError::New(env, "Expected Instruction pointer");
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Instruction::constructor);
     }
     auto external = info[0].As<Napi::External<llvm::Instruction>>();
     instruction = external.Data();

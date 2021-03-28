@@ -4,18 +4,19 @@
 
 #include "Bitcode/BitcodeWriter.h"
 #include "IR/Module.h"
+#include "Util/ErrMsg.h"
 
 void writeBitcodeToFile(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() < 2 || !Module::IsClassOf(info[0]) || !info[1].IsString()) {
-        throw Napi::TypeError::New(env, "WriteBitcodeToFile needs to be called with: (module: Module, filename: string)");
+        throw Napi::TypeError::New(env, ErrMsg::Function::WriteBitcodeToFile);
     }
     llvm::Module *module = Module::Extract(info[0]);
     std::string fileName = info[1].As<Napi::String>();
     std::error_code errorCode;
     llvm::raw_fd_ostream byteCodeFile(fileName, errorCode, llvm::sys::fs::F_None);
     if (errorCode) {
-        throw Napi::TypeError::New(env, "Failed to open file: " + errorCode.message());
+        throw Napi::TypeError::New(env, errorCode.message() + ": " + fileName);
     }
     llvm::WriteBitcodeToFile(*module, byteCodeFile);
     byteCodeFile.flush();

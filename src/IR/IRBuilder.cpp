@@ -16,6 +16,7 @@
 #include "IR/ReturnInst.h"
 #include "IR/StoreInst.h"
 #include "ADT/APInt.h"
+#include "Util/ErrMsg.h"
 
 void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -110,11 +111,8 @@ LLVMIRBuilder *IRBuilder::Extract(const Napi::Value &value) {
 
 IRBuilder::IRBuilder(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "Module constructor needs to be called with new");
-    }
-    if (info.Length() < 1 || !LLVMContext::IsClassOf(info[0])) {
-        throw Napi::TypeError::New(env, "The IRBuilder constructor needs to be called with: new (context: LLVMContext)");
+    if (!info.IsConstructCall() || info.Length() == 0 || !LLVMContext::IsClassOf(info[0])) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::constructor);
     }
     llvm::LLVMContext &context = LLVMContext::Extract(info[0]);
     builder = new llvm::IRBuilder(context);
@@ -122,8 +120,8 @@ IRBuilder::IRBuilder(const Napi::CallbackInfo &info) : ObjectWrap(info) {
 
 void IRBuilder::setInsertionPoint(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() != 1 || !BasicBlock::IsClassOf(info[0])) {
-        throw Napi::TypeError::New(env, "IRBuilder.SetInsertionPoint needs to be called with: (basicBlock: BasicBlock)");
+    if (info.Length() == 0 || !BasicBlock::IsClassOf(info[0])) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::setInsertionPoint);
     }
     llvm::BasicBlock *bb = BasicBlock::Extract(info[0]);
     builder->SetInsertPoint(bb);
@@ -145,7 +143,7 @@ Napi::Value IRBuilder::createAlloca(const Napi::CallbackInfo &info) {
         llvm::AllocaInst *alloca = builder->CreateAlloca(type, arraySize, name);
         return AllocaInst::New(env, alloca);
     }
-    throw Napi::TypeError::New(env, "IRBuilder.CreateAlloca needs to be called with: (type: Type, arraySize?: Value, name?: string)");
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateAlloca);
 }
 
 Napi::Value IRBuilder::createBr(const Napi::CallbackInfo &info) {
@@ -155,7 +153,7 @@ Napi::Value IRBuilder::createBr(const Napi::CallbackInfo &info) {
         llvm::BranchInst *branch = builder->CreateBr(destBB);
         return BranchInst::New(env, branch);
     }
-    throw Napi::TypeError::New(env, "IRBuilder.CreateBr needs to be called with: (destBB: BasicBlock)");
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateBr);
 }
 
 bool extractCalleeArgs(Napi::Array args, std::vector<llvm::Value *> &calleeArgs) {
@@ -192,20 +190,19 @@ Napi::Value IRBuilder::createCall(const Napi::CallbackInfo &info) {
     if (call) {
         return CallInst::New(env, call);
     }
-    throw Napi::TypeError::New(env, "IRBuilder.CreateCall needs to be called with: " \
-    "(callee: Value, args: Value[], name?: string) or (funcType: FunctionType, callee: Value, args: Value[], name?: string)");
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateCall);
 }
 
 Napi::Value IRBuilder::createCondBr(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() == 3 && Value::IsClassOf(info[0]) && BasicBlock::IsClassOf(info[1]) && BasicBlock::IsClassOf(info[2])) {
+    if (info.Length() >= 3 && Value::IsClassOf(info[0]) && BasicBlock::IsClassOf(info[1]) && BasicBlock::IsClassOf(info[2])) {
         llvm::Value *cond = Value::Extract(info[0]);
         llvm::BasicBlock *thenBB = BasicBlock::Extract(info[1]);
         llvm::BasicBlock *elseBB = BasicBlock::Extract(info[2]);
         llvm::BranchInst *branch = builder->CreateCondBr(cond, thenBB, elseBB);
         return BranchInst::New(env, branch);
     }
-    throw Napi::TypeError::New(env, "IRBuilder.createCondBr needs to be called with: (cond: Value, thenBB: BasicBlock, elseBB: BasicBlock)");
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateCondBr);
 }
 
 Napi::Value IRBuilder::createLoad(const Napi::CallbackInfo &info) {
@@ -219,17 +216,17 @@ Napi::Value IRBuilder::createLoad(const Napi::CallbackInfo &info) {
         llvm::LoadInst *load = builder->CreateLoad(type, ptr, name);
         return LoadInst::New(env, load);
     }
-    throw Napi::TypeError::New(env, "IRBuilder.CreateLoad needs to be called with: (type: Type, ptr: Value, name?:string)");
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateLoad);
 }
 
 Napi::Value IRBuilder::createRet(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    size_t argsLen = info.Length();
+    int argsLen = info.Length();
     if (argsLen >= 1 && Value::IsClassOf(info[0])) {
         llvm::ReturnInst *ret = builder->CreateRet(Value::Extract(info[0]));
         return ReturnInst::New(env, ret);
     }
-    throw Napi::TypeError::New(env, "IRBuilder.CreateRet needs to be called with: (value: Value)");
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateRet);
 }
 
 Napi::Value IRBuilder::createRetVoid(const Napi::CallbackInfo &info) {
@@ -238,19 +235,19 @@ Napi::Value IRBuilder::createRetVoid(const Napi::CallbackInfo &info) {
 
 Napi::Value IRBuilder::createStore(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() == 2 && Value::IsClassOf(info[0]) && Value::IsClassOf(info[1])) {
+    if (info.Length() >= 2 && Value::IsClassOf(info[0]) && Value::IsClassOf(info[1])) {
         llvm::Value *value = Value::Extract(info[0]);
         llvm::Value *ptr = Value::Extract(info[1]);
         llvm::StoreInst *store = builder->CreateStore(value, ptr);
         return StoreInst::New(env, store);
     }
-    throw Napi::TypeError::New(env, "IRBuilder.CreateStore needs to be called with: (value: Value, ptr: Value)");
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateStore);
 }
 
 Napi::Value IRBuilder::getInt1(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() == 0 || !info[0].IsBoolean()) {
-        throw Napi::TypeError::New(env, "IRBuilder.getInt1 needs to be called with (value: boolean)");
+        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::getInt1);
     }
     bool value = info[0].As<Napi::Boolean>();
     return ConstantInt::New(env, builder->getInt1(value));
@@ -259,7 +256,7 @@ Napi::Value IRBuilder::getInt1(const Napi::CallbackInfo &info) {
 Napi::Value IRBuilder::getIntN(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() < 2 || !info[0].IsNumber() || !info[1].IsNumber()) {
-        throw Napi::TypeError::New(env, "IRBuilder.getIntN needs to be called with (n: number, value: number)");
+        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::getIntN);
     }
     unsigned n = info[0].As<Napi::Number>();
     uint64_t value = info[1].As<Napi::Number>().Int64Value();
@@ -269,7 +266,7 @@ Napi::Value IRBuilder::getIntN(const Napi::CallbackInfo &info) {
 Napi::Value IRBuilder::getInt(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() == 0 || !APInt::IsClassOf(info[0])) {
-        throw Napi::TypeError::New(env, "IRBuilder.getInt needs to be called with (value: APInt)");
+        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::getInt);
     }
     llvm::APInt &value = APInt::Extract(info[0]);
     return ConstantInt::New(env, builder->getInt(value));
@@ -278,7 +275,7 @@ Napi::Value IRBuilder::getInt(const Napi::CallbackInfo &info) {
 Napi::Value IRBuilder::getIntNTy(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() == 0 || !info[0].IsNumber()) {
-        throw Napi::TypeError::New(env, "IRBuilder.getIntNTy needs to be called with (n: number)");
+        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::getIntNTy);
     }
     unsigned n = info[0].As<Napi::Number>();
     return IntegerType::New(env, builder->getIntNTy(n));
@@ -288,7 +285,7 @@ Napi::Value IRBuilder::getInt8PtrTy(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     int argsLen = info.Length();
     if (argsLen >= 1 && !info[0].IsNumber()) {
-        throw Napi::TypeError::New(env, "IRBuilder.getInt8PtrTy needs to be called with (addrSpace?: number)");
+        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::getInt8PtrTy);
     }
     unsigned addrSpace = argsLen >= 1 ? info[0].As<Napi::Number>() : 0;
     llvm::PointerType *type = builder->getInt8PtrTy(addrSpace);
@@ -299,7 +296,7 @@ Napi::Value IRBuilder::getIntPtrTy(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     int argsLen = info.Length();
     if (argsLen == 0 || !DataLayout::IsClassOf(info[0]) || argsLen >= 2 && !info[1].IsNumber()) {
-        throw Napi::TypeError::New(env, "IRBuilder.getIntPtrTy needs to be called with (dl: DataLayout, addrSpace?: number)");
+        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::getIntPtrTy);
     }
     llvm::DataLayout &dl = DataLayout::Extract(info[0]);
     unsigned addrSpace = argsLen >= 2 ? info[1].As<Napi::Number>() : 0;

@@ -6,6 +6,7 @@
 #include "IR/ConstantFP.h"
 #include "IR/ConstantPointerNull.h"
 #include "Util/Inherit.h"
+#include "Util/ErrMsg.h"
 
 void Constant::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -45,11 +46,8 @@ llvm::Constant *Constant::Extract(const Napi::Value &value) {
 
 Constant::Constant(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "Class Constructor Constant cannot be invoked without new");
-    }
-    if (info.Length() != 1 || !info[0].IsExternal()) {
-        throw Napi::TypeError::New(env, "Constant constructor requires: constant: External");
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Constant::constructor);
     }
     auto external = info[0].As<Napi::External<llvm::Constant>>();
     constant = external.Data();
@@ -57,8 +55,8 @@ Constant::Constant(const Napi::CallbackInfo &info) : ObjectWrap(info) {
 
 Napi::Value Constant::getNullValue(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() != 1 || !Type::IsClassOf(info[0])) {
-        throw Napi::TypeError::New(env, "Constant.getNullValue needs to be called with: (type: Type)");
+    if (info.Length() == 0 || !Type::IsClassOf(info[0])) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Constant::getNullValue);
     }
     llvm::Type *type = Type::Extract(info[0]);
     llvm::Constant *constant = llvm::Constant::getNullValue(type);
@@ -67,8 +65,8 @@ Napi::Value Constant::getNullValue(const Napi::CallbackInfo &info) {
 
 Napi::Value Constant::getAllOnesValue(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() != 1 || !Type::IsClassOf(info[0])) {
-        throw Napi::TypeError::New(env, "Constant.getAllOnesValue needs to be called with: (type: Type)");
+    if (info.Length() == 0 || !Type::IsClassOf(info[0])) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Constant::getAllOnesValue);
     }
     llvm::Type *type = Type::Extract(info[0]);
     llvm::Constant *constant = llvm::Constant::getAllOnesValue(type);

@@ -3,6 +3,7 @@
 #include "IR/Value.h"
 #include "IR/BasicBlock.h"
 #include "Util/Inherit.h"
+#include "Util/ErrMsg.h"
 
 void BranchInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -33,11 +34,8 @@ llvm::BranchInst *BranchInst::Extract(const Napi::Value &value) {
 
 BranchInst::BranchInst(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "BranchInst.constructor needs to be called with new");
-    }
-    if (info.Length() == 0 || !info[0].IsExternal()) {
-        throw Napi::TypeError::New(env, "Expected BranchInst pointer");
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::BranchInst::constructor);
     }
     auto external = info[0].As<Napi::External<llvm::BranchInst>>();
     branchInst = external.Data();
@@ -70,5 +68,5 @@ Napi::Value BranchInst::getSuccessor(const Napi::CallbackInfo &info) {
         llvm::BasicBlock *successor = branchInst->getSuccessor(i);
         return BasicBlock::New(env, successor);
     }
-    throw Napi::TypeError::New(env, "BranchInst.getSuccessor needs to be called with (i: number)");
+    throw Napi::TypeError::New(env, ErrMsg::Class::BranchInst::getSuccessor);
 }

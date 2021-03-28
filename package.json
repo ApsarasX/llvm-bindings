@@ -17,6 +17,7 @@
         "postinstall": "cross-env CMAKE_BUILD_PARALLEL_LEVEL=$(node -p 'require(`os`).cpus().length') cmake-js compile",
         "build:debug": "cross-env CMAKE_BUILD_PARALLEL_LEVEL=$(node -p 'require(`os`).cpus().length') cmake-js build -D",
         "build:release": "cross-env CMAKE_BUILD_PARALLEL_LEVEL=$(node -p 'require(`os`).cpus().length') cmake-js build",
+        "pretest": "npm run build:debug",
         "test": "node test/index.js",
         "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
     },

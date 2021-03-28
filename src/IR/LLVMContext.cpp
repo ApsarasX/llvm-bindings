@@ -1,4 +1,5 @@
 #include "IR/LLVMContext.h"
+#include "Util/ErrMsg.h"
 
 void LLVMContext::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -19,7 +20,7 @@ llvm::LLVMContext &LLVMContext::Extract(const Napi::Value &value) {
 LLVMContext::LLVMContext(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
     if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "LLVMContext functionTemplate needs to be called with new");
+        throw Napi::TypeError::New(env, ErrMsg::Class::LLVMContext::constructor);
     }
     context = new llvm::LLVMContext();
 }

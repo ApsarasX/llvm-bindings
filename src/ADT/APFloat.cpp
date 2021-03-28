@@ -1,4 +1,5 @@
 #include "ADT/APFloat.h"
+#include "Util/ErrMsg.h"
 
 void APFloat::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -18,11 +19,8 @@ llvm::APFloat &APFloat::Extract(const Napi::Value &value) {
 
 APFloat::APFloat(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "APFloat constructor needs to be called with new");
-    }
-    if (info.Length() == 0 || !info[0].IsNumber()) {
-        throw Napi::TypeError::New(env, "APFloat constructor needs to be called with new (value: number)");
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsNumber()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::APFloat::constructor);
     }
     double value = info[0].As<Napi::Number>();
     apFloat = new llvm::APFloat(value);

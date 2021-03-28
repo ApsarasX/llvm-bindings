@@ -1,6 +1,7 @@
 #include "IR/ArrayType.h"
 #include "IR/Type.h"
 #include "Util/Inherit.h"
+#include "Util/ErrMsg.h"
 
 void ArrayType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -30,11 +31,8 @@ llvm::ArrayType *ArrayType::Extract(const Napi::Value &value) {
 
 ArrayType::ArrayType(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "ArrayType Constructor needs to be called with new");
-    }
-    if (info.Length() < 1 || !info[0].IsExternal()) {
-        throw Napi::TypeError::New(env, "Expected array type pointer");
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::ArrayType::constructor);
     }
     auto external = info[0].As<Napi::External<llvm::ArrayType>>();
     arrayType = external.Data();
@@ -51,7 +49,7 @@ Napi::Value ArrayType::get(const Napi::CallbackInfo &info) {
         unsigned numElements = info[1].As<Napi::Number>();
         return ArrayType::New(env, llvm::ArrayType::get(elemType, numElements));
     }
-    throw Napi::TypeError::New(env, "ArrayType.get needs to be called with (elemType: Type, numElements: number)");
+    throw Napi::TypeError::New(env, ErrMsg::Class::ArrayType::get);
 }
 
 Napi::Value ArrayType::isValidElementType(const Napi::CallbackInfo &info) {
@@ -60,7 +58,7 @@ Napi::Value ArrayType::isValidElementType(const Napi::CallbackInfo &info) {
         llvm::Type *elemType = Type::Extract(info[0]);
         return Napi::Boolean::New(env, llvm::ArrayType::isValidElementType(elemType));
     }
-    throw Napi::TypeError::New(env, "ArrayType.isValidElementType needs to be called with (elemType: Type)");
+    throw Napi::TypeError::New(env, ErrMsg::Class::ArrayType::isValidElementType);
 }
 
 Napi::Value ArrayType::getNumElements(const Napi::CallbackInfo &info) {

@@ -1,6 +1,7 @@
 #include "IR/CallInst.h"
 #include "IR/Instruction.h"
 #include "Util/Inherit.h"
+#include "Util/ErrMsg.h"
 
 void CallInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -26,11 +27,8 @@ llvm::CallInst *CallInst::Extract(const Napi::Value &value) {
 
 CallInst::CallInst(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "CallInst.constructor needs to be called with new");
-    }
-    if (info.Length() == 0 || !info[0].IsExternal()) {
-        throw Napi::TypeError::New(env, "Expected CallInst pointer");
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::CallInst::constructor);
     }
     auto external = info[0].As<Napi::External<llvm::CallInst>>();
     callInst = external.Data();

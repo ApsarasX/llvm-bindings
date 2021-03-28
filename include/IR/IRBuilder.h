@@ -6,6 +6,7 @@
 #include "IR/ConstantInt.h"
 #include "IR/Type.h"
 #include "IR/IntegerType.h"
+#include "Util/ErrMsg.h"
 
 #define binOpFactoryMacro(binOpFuncType, extraArgs...) \
 template<binOpFuncType method> \
@@ -21,7 +22,7 @@ Napi::Value binOpFactory(const Napi::CallbackInfo &info) { \
             return Value::New(env, result); \
         } \
     } \
-    throw Napi::TypeError::New(env, "IRBuilder createBinaryOperation needs to be called with: (lhs: Value, rhs: Value, name?: string)"); \
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateBinOpFactory); \
 }
 
 #define getIntFactoryMacro(funcType) \
@@ -29,7 +30,7 @@ template<funcType method> \
 Napi::Value getIntFactory(const Napi::CallbackInfo &info) { \
     Napi::Env env = info.Env(); \
     if (info.Length() == 0 || !info[0].IsNumber()) { \
-        throw Napi::TypeError::New(env, "IRBuilder.#funcType need to be called with (value: number)"); \
+        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::getIntFactory); \
     } \
     unsigned value = info[0].As<Napi::Number>(); \
     return ConstantInt::New(env, (builder->*method)(value)); \

@@ -2,6 +2,7 @@
 #include "IR/Constant.h"
 #include "IR/PointerType.h"
 #include "Util/Inherit.h"
+#include "Util/ErrMsg.h"
 
 void ConstantPointerNull::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -29,11 +30,8 @@ llvm::ConstantPointerNull *ConstantPointerNull::Extract(const Napi::Value &value
 
 ConstantPointerNull::ConstantPointerNull(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "ConstantPointerNull.constructor needs to be called with new");
-    }
-    if (info.Length() == 0 || !info[0].IsExternal()) {
-        throw Napi::TypeError::New(env, "ConstantPointerNull.constructor needs to ce called with new (constantPointerNull: ConstantPointerNull)");
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::ConstantPointerNull::constructor);
     }
     auto external = info[0].As<Napi::External<llvm::ConstantPointerNull>>();
     constantPointerNull = external.Data();
@@ -49,7 +47,7 @@ Napi::Value ConstantPointerNull::get(const Napi::CallbackInfo &info) {
         llvm::PointerType *type = PointerType::Extract(info[0]);
         return ConstantPointerNull::New(env, llvm::ConstantPointerNull::get(type));
     }
-    throw Napi::TypeError::New(env, "ConstantPointerNull.get needs to be called with (type: PointerType)");
+    throw Napi::TypeError::New(env, ErrMsg::Class::ConstantPointerNull::get);
 }
 
 Napi::Value ConstantPointerNull::getType(const Napi::CallbackInfo &info) {

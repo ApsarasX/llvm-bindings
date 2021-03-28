@@ -4,6 +4,7 @@
 #include "IR/Module.h"
 #include "IR/Argument.h"
 #include "Util/Inherit.h"
+#include "Util/ErrMsg.h"
 
 void Function::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -32,11 +33,8 @@ llvm::Function *Function::Extract(const Napi::Value &value) {
 
 Function::Function(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "Constructor needs to be called with new");
-    }
-    if (info.Length() < 1 || !info[0].IsExternal()) {
-        throw Napi::TypeError::New(env, "Expected function pointer");
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Function::Create);
     }
     auto external = info[0].As<Napi::External<llvm::Function>>();
     function = external.Data();
@@ -45,24 +43,21 @@ Function::Function(const Napi::CallbackInfo &info) : ObjectWrap(info) {
 Napi::Value Function::create(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     int argsLen = info.Length();
-    const std::string &errMsg = "Function.Create needs to be called with: (funcType: FunctionType, linkage: LinkageTypes, name: string, module: Module)";
-    if (argsLen < 2 || !FunctionType::IsClassOf(info[0]) || !info[1].IsNumber()) {
-        throw Napi::TypeError::New(env, errMsg);
+    if (argsLen < 2 ||
+        !FunctionType::IsClassOf(info[0]) ||
+        !info[1].IsNumber() ||
+        argsLen >= 3 && !info[2].IsString() ||
+        argsLen >= 4 && !Module::IsClassOf(info[3])) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Function::Create);
     }
     llvm::FunctionType *funcType = FunctionType::Extract(info[0]);
     llvm::GlobalValue::LinkageTypes linkage = static_cast<llvm::GlobalValue::LinkageTypes>(info[1].As<Napi::Number>().Uint32Value());
     std::string name;
     llvm::Module *module = nullptr;
     if (argsLen >= 3) {
-        if (!info[2].IsString()) {
-            throw Napi::TypeError::New(env, errMsg);
-        }
         name = info[2].As<Napi::String>();
     }
     if (argsLen >= 4) {
-        if (!Module::IsClassOf(info[3])) {
-            throw Napi::TypeError::New(env, errMsg);
-        }
         module = Module::Extract(info[3]);
     }
     llvm::Function *function = llvm::Function::Create(funcType, linkage, name, module);
@@ -80,9 +75,9 @@ Napi::Value Function::argSize(const Napi::CallbackInfo &info) {
 
 Napi::Value Function::getArg(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() == 1 && info[0].IsNumber()) {
+    if (info.Length() >= 1 && info[0].IsNumber()) {
         llvm::Argument *arg = function->getArg(info[0].As<Napi::Number>());
         return Argument::New(env, arg);
     }
-    throw Napi::TypeError::New(env, "Function.getArg needs to be called with (index: number)");
+    throw Napi::TypeError::New(env, ErrMsg::Class::Function::getArg);
 }

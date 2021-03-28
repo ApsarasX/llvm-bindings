@@ -1,4 +1,5 @@
 #include "IR/DataLayout.h"
+#include "Util/ErrMsg.h"
 
 void DataLayout::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -22,15 +23,13 @@ llvm::DataLayout &DataLayout::Extract(const Napi::Value &value) {
 
 DataLayout::DataLayout(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "DataLayout constructor needs to be called with new");
-    }
-    if (info.Length() == 0 || !(info[0].IsExternal() || info[0].IsString())) {
-        throw Napi::TypeError::New(env, "DataLayout constructor needs to be called with new (layout: string)");
+    if (!info.IsConstructCall() || info.Length() == 0 ||
+        !info[0].IsExternal() && !info[0].IsString()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::DataLayout::constructor);
     }
     if (info[0].IsExternal()) {
         auto external = info[0].As<Napi::External<llvm::DataLayout>>();
-        dataLayout = new llvm::DataLayout(*external.Data());
+        dataLayout = external.Data();
     } else if (info[0].IsString()) {
         dataLayout = new llvm::DataLayout(std::string(info[0].As<Napi::String>()));
     }

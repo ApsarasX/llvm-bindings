@@ -2,6 +2,7 @@
 #include "IR/Type.h"
 #include "IR/FunctionType.h"
 #include "Util/Inherit.h"
+#include "Util/ErrMsg.h"
 
 void FunctionType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -28,11 +29,8 @@ llvm::FunctionType *FunctionType::Extract(const Napi::Value &value) {
 
 FunctionType::FunctionType(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "Constructor needs to be called with new");
-    }
-    if (info.Length() < 1 || !info[0].IsExternal()) {
-        throw Napi::TypeError::New(env, "Expected function type pointer");
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::FunctionType::constructor);
     }
     auto external = info[0].As<Napi::External<llvm::FunctionType>>();
     functionType = external.Data();
@@ -40,15 +38,14 @@ FunctionType::FunctionType(const Napi::CallbackInfo &info) : ObjectWrap(info) {
 
 Napi::Value FunctionType::get(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (!(info.Length() == 2 && Type::IsClassOf(info[0]) && info[1].IsBoolean()) &&
-        !(info.Length() == 3 && Type::IsClassOf(info[0]) && info[1].IsArray() && info[2].IsBoolean())) {
-        const std::string message = "FunctionType.get needs to be called with: (returnType: Type, isVarArg: boolean) or (returnType: Type, paramTypes: Type[], isVarArg: boolean)";
-        throw Napi::TypeError::New(env, message);
+    if (!(info.Length() >= 2 && Type::IsClassOf(info[0]) && info[1].IsBoolean()) &&
+        !(info.Length() >= 3 && Type::IsClassOf(info[0]) && info[1].IsArray() && info[2].IsBoolean())) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::FunctionType::get);
     }
     llvm::Type *returnType = Type::Extract(info[0]);
     bool isVarArg = info[info.Length() - 1].As<Napi::Boolean>();
     llvm::FunctionType *functionType;
-    if (info.Length() == 3) {
+    if (info.Length() >= 3) {
         auto paramsArray = info[1].As<Napi::Array>();
         int numParams = paramsArray.Length();
         std::vector<llvm::Type *> paramTypes(numParams);

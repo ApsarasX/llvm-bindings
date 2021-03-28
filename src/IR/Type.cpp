@@ -5,6 +5,7 @@
 #include "IR/ArrayType.h"
 #include "IR/StructType.h"
 #include "IR/LLVMContext.h"
+#include "Util/ErrMsg.h"
 
 typedef llvm::Type *(getTypeFn)(llvm::LLVMContext &);
 
@@ -16,8 +17,8 @@ typedef llvm::PointerType *(getPointerTypeFn)(llvm::LLVMContext &, unsigned AS);
 template<getTypeFn method>
 Napi::Value getTypeFactory(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() < 1 || !LLVMContext::IsClassOf(info[0])) {
-        throw Napi::TypeError::New(env, "getType needs to be called with the context");
+    if (info.Length() == 0 || !LLVMContext::IsClassOf(info[0])) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Type::getTypeFactory);
     }
     llvm::LLVMContext &context = LLVMContext::Extract(info[0]);
     llvm::Type *type = method(context);
@@ -27,8 +28,8 @@ Napi::Value getTypeFactory(const Napi::CallbackInfo &info) {
 template<getIntTypeFn method>
 Napi::Value getIntTypeFactory(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() < 1 || !LLVMContext::IsClassOf(info[0])) {
-        throw Napi::TypeError::New(env, "getIntTy needs to be called with the context");
+    if (info.Length() == 0 || !LLVMContext::IsClassOf(info[0])) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Type::getIntTypeFactory);
     }
     llvm::LLVMContext &context = LLVMContext::Extract(info[0]);
     llvm::IntegerType *type = method(context);
@@ -38,17 +39,13 @@ Napi::Value getIntTypeFactory(const Napi::CallbackInfo &info) {
 template<getPointerTypeFn method>
 Napi::Value getPointerTypeFactory(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() < 1 || !LLVMContext::IsClassOf(info[0])) {
-        throw Napi::TypeError::New(env, "getPointerTy needs to be called with the context");
+    int argsLen = info.Length();
+    if (argsLen == 0 || !LLVMContext::IsClassOf(info[0]) || argsLen >= 2 && !info[1].IsNumber()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Type::getPointerTypeFactory);
     }
     unsigned addrSpace = 0;
-
-    if (info.Length() == 2) {
-        if (info[1].IsNumber()) {
-            addrSpace = info[1].As<Napi::Number>();
-        } else {
-            throw Napi::TypeError::New(env, "AS, the second parameter New getPointerTy must be a number");
-        }
+    if (info.Length() >= 2) {
+        addrSpace = info[1].As<Napi::Number>();
     }
     llvm::LLVMContext &context = LLVMContext::Extract(info[0]);
     llvm::PointerType *type = method(context, addrSpace);
@@ -169,31 +166,22 @@ llvm::Type *Type::Extract(const Napi::Value &value) {
 
 Type::Type(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "Constructor needs to be called with new");
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Type::constructor);
     }
-
-    if (info.Length() < 1 || !info[0].IsExternal()) {
-        throw Napi::TypeError::New(env, "Expected type pointer");
-    }
-
     auto external = info[0].As<Napi::External<llvm::Type>>();
     type = external.Data();
 }
 
 Napi::Value Type::getPointerTo(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-
-    if ((info.Length() == 1 && !info[0].IsNumber()) || info.Length() > 1) {
-        throw Napi::TypeError::New(env, "getPointer needs to called with: addrSpace?: uint32");
+    if (info.Length() >= 1 && !info[0].IsNumber()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Type::getPointerTo);
     }
-
     unsigned addrSpace = 0;
-    if (info.Length() == 1) {
+    if (info.Length() >= 1) {
         addrSpace = info[0].As<Napi::Number>();
     }
-
     llvm::PointerType *pointerType = type->getPointerTo(addrSpace);
     return PointerType::New(env, pointerType);
 }
@@ -204,15 +192,12 @@ Napi::Value Type::getTypeID(const Napi::CallbackInfo &info) {
 
 Napi::Value Type::getIntNTy(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-
     if (info.Length() < 2 || !LLVMContext::IsClassOf(info[0]) || !info[1].IsNumber()) {
-        throw Napi::TypeError::New(env, "Type.getIntNTy needs to be called with: (context: LLVMContext, n: number)");
+        throw Napi::TypeError::New(env, ErrMsg::Class::Type::getIntNTy);
     }
-
     llvm::LLVMContext &context = LLVMContext::Extract(info[0]);
     unsigned n = info[1].As<Napi::Number>();
     llvm::IntegerType *type = llvm::Type::getIntNTy(context, n);
-
     return Type::New(env, type);
 }
 
@@ -224,7 +209,7 @@ Napi::Value Type::getPrimitiveSizeInBits(const Napi::CallbackInfo &info) {
 Napi::Value Type::isIntegerTy(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() == 0 || !info[0].IsNumber()) {
-        throw Napi::TypeError::New(env, "Type.isIntegerTy needs to be called with: (bitWidth?: number)");
+        throw Napi::TypeError::New(env, ErrMsg::Class::Type::isIntegerTy);
     }
     bool result = info.Length() == 0 ? type->isIntegerTy() : type->isIntegerTy(info[0].As<Napi::Number>());
     return Napi::Boolean::New(env, result);

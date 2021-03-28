@@ -5,6 +5,7 @@
 #include "IR/IntegerType.h"
 #include "ADT/APInt.h"
 #include "Util/Inherit.h"
+#include "Util/ErrMsg.h"
 
 typedef llvm::ConstantInt *(GetBool)(llvm::LLVMContext &);
 
@@ -46,11 +47,8 @@ llvm::ConstantInt *ConstantInt::Extract(const Napi::Value &value) {
 
 ConstantInt::ConstantInt(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "Class Constructor ConstantInt cannot be invoked without new");
-    }
-    if (info.Length() != 1 || !info[0].IsExternal()) {
-        throw Napi::TypeError::New(env, "ConstantInt constructor requires: constant: External");
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::ConstantInt::constructor);
     }
     auto external = info[0].As<Napi::External<llvm::ConstantInt>>();
     constantInt = external.Data();
@@ -63,14 +61,14 @@ llvm::ConstantInt *ConstantInt::getLLVMPrimitive() {
 Napi::Value ConstantInt::get(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     int argsLen = info.Length();
-    if (argsLen == 2 && LLVMContext::IsClassOf(info[0]) && APInt::IsClassOf(info[1])) {
+    if (argsLen >= 2 && LLVMContext::IsClassOf(info[0]) && APInt::IsClassOf(info[1])) {
         llvm::LLVMContext &context = LLVMContext::Extract(info[0]);
         llvm::APInt &value = APInt::Extract(info[1]);
         return ConstantInt::New(env, llvm::ConstantInt::get(context, value));
     } else if (argsLen >= 2 && IntegerType::IsClassOf(info[0]) && info[1].IsNumber()) {
         llvm::IntegerType *intType = IntegerType::Extract(info[0]);
         uint64_t value = info[1].As<Napi::Number>().Int64Value();
-        bool isSigned = argsLen == 3 && info[2].As<Napi::Boolean>();
+        bool isSigned = argsLen >= 3 && info[2].As<Napi::Boolean>();
         return ConstantInt::New(env, llvm::ConstantInt::get(intType, value, isSigned));
     } else if (argsLen >= 2 && Type::IsClassOf(info[0])) {
         llvm::Type *type = Type::Extract(info[0]);
@@ -79,9 +77,9 @@ Napi::Value ConstantInt::get(const Napi::CallbackInfo &info) {
             return Constant::New(env, llvm::ConstantInt::get(type, value));
         } else if (info[1].IsNumber()) {
             uint64_t value = info[1].As<Napi::Number>().Int64Value();
-            bool isSigned = argsLen == 3 && info[2].As<Napi::Boolean>();
+            bool isSigned = argsLen >= 3 && info[2].As<Napi::Boolean>();
             return Constant::New(env, llvm::ConstantInt::get(type, value, isSigned));
         }
     }
-    throw Napi::TypeError::New(env, "ConstantInt::get needs to be called with: (context: LLVMContext)");
+    throw Napi::TypeError::New(env, ErrMsg::Class::ConstantInt::get);
 }

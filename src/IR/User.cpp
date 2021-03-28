@@ -3,6 +3,7 @@
 #include "IR/Constant.h"
 #include "IR/Instruction.h"
 #include "Util/Inherit.h"
+#include "Util/ErrMsg.h"
 
 void User::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -36,11 +37,8 @@ llvm::User *User::Extract(const Napi::Value &value) {
 
 User::User(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, "Constructor needs to be called with new");
-    }
-    if (info.Length() < 1 || !info[0].IsExternal()) {
-        throw Napi::TypeError::New(env, "Expected user pointer");
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::User::constructor);
     }
     auto external = info[0].As<Napi::External<llvm::User>>();
     user = external.Data();
@@ -48,8 +46,8 @@ User::User(const Napi::CallbackInfo &info) : ObjectWrap(info) {
 
 Napi::Value User::getOperand(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() != 1 || !info[0].IsNumber()) {
-        throw Napi::TypeError::New(env, "User.getOperand needs to be called with: (i: unsigned)");
+    if (info.Length() == 0 || !info[0].IsNumber()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::User::getOperand);
     }
     unsigned i = info[0].As<Napi::Number>();
     llvm::Value *operand = user->getOperand(i);
@@ -58,8 +56,8 @@ Napi::Value User::getOperand(const Napi::CallbackInfo &info) {
 
 void User::setOperand(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() != 2 || info[0].IsNumber() || !Value::IsClassOf(info[1])) {
-        throw Napi::TypeError::New(env, "User.setOperand needs to be called with: (i: unsigned, val: Value)");
+    if (info.Length() < 2 || info[0].IsNumber() || !Value::IsClassOf(info[1])) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::User::setOperand);
     }
     unsigned i = info[0].As<Napi::Number>();
     llvm::Value *value = Value::Extract(info[1]);
