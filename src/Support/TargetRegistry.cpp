@@ -1,7 +1,8 @@
-#include "Support/TargetRegistry.h"
-#include "Support/Target.h"
-#include "Target/TargetMachine.h"
-#include "Util/ErrMsg.h"
+#include <llvm/Support/TargetRegistry.h>
+
+#include "Support/Support.h"
+#include "Target/Target.h"
+#include "Util/Util.h"
 
 Napi::Value lookupTarget(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();

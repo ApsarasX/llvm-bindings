@@ -1,9 +1,5 @@
-#include "IR/AllocaInst.h"
-#include "IR/Instruction.h"
-#include "IR/Type.h"
-#include "IR/Value.h"
-#include "Util/Inherit.h"
-#include "Util/ErrMsg.h"
+#include "IR/IR.h"
+#include "Util/Util.h"
 
 void AllocaInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);

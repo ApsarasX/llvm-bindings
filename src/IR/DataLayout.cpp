@@ -1,5 +1,5 @@
-#include "IR/DataLayout.h"
-#include "Util/ErrMsg.h"
+#include "IR/IR.h"
+#include "Util/Util.h"
 
 void DataLayout::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);

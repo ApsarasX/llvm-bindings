@@ -1,12 +1,7 @@
 #include <llvm/Support/raw_ostream.h>
 
-#include "IR/LLVMContext.h"
-#include "IR/Module.h"
-#include "IR/Function.h"
-#include "IR/GlobalVariable.h"
-#include "IR/StructType.h"
-#include "IR/DataLayout.h"
-#include "Util/ErrMsg.h"
+#include "IR/IR.h"
+#include "Util/Util.h"
 
 void Module::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);

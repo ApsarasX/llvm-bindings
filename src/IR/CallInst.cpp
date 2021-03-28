@@ -1,7 +1,5 @@
-#include "IR/CallInst.h"
-#include "IR/Instruction.h"
-#include "Util/Inherit.h"
-#include "Util/ErrMsg.h"
+#include "IR/IR.h"
+#include "Util/Util.h"
 
 void CallInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);

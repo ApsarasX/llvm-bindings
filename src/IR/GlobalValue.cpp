@@ -1,8 +1,5 @@
-#include "IR/GlobalValue.h"
-#include "IR/Constant.h"
-#include "IR/GlobalObject.h"
-#include "Util/Inherit.h"
-#include "Util/ErrMsg.h"
+#include "IR/IR.h"
+#include "Util/Util.h"
 
 void GlobalValue::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);

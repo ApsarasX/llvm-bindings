@@ -1,6 +1,6 @@
-#include "Support/Target.h"
-#include "Target/TargetMachine.h"
-#include "Util/ErrMsg.h"
+#include "Support/Support.h"
+#include "Target/Target.h"
+#include "Util/Util.h"
 
 void Target::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);

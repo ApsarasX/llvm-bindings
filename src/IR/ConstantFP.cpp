@@ -1,10 +1,6 @@
-#include "IR/ConstantFP.h"
-#include "IR/Constant.h"
-#include "IR/LLVMContext.h"
-#include "IR/Type.h"
+#include "IR/IR.h"
 #include "ADT/APFloat.h"
-#include "Util/Inherit.h"
-#include "Util/ErrMsg.h"
+#include "Util/Util.h"
 
 void ConstantFP::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);

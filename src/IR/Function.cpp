@@ -1,10 +1,5 @@
-#include "IR/Function.h"
-#include "IR/GlobalObject.h"
-#include "IR/FunctionType.h"
-#include "IR/Module.h"
-#include "IR/Argument.h"
-#include "Util/Inherit.h"
-#include "Util/ErrMsg.h"
+#include "IR/IR.h"
+#include "Util/Util.h"
 
 void Function::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);

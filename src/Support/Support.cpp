@@ -1,8 +1,6 @@
 #include <llvm/Support/TargetSelect.h>
+
 #include "Support/Support.h"
-#include "Support/SMDiagnostic.h"
-#include "Support/Target.h"
-#include "Support/TargetRegistry.h"
 
 void InitializeAllTargetInfos(const Napi::CallbackInfo &info) {
     llvm::InitializeAllTargetInfos();

@@ -1,8 +1,9 @@
+#include <llvm/IRReader/IRReader.h>
+
 #include "IRReader/IRReader.h"
-#include "IR/LLVMContext.h"
-#include "IR/Module.h"
-#include "Support/SMDiagnostic.h"
-#include "Util/ErrMsg.h"
+#include "IR/IR.h"
+#include "Support/Support.h"
+#include "Util/Util.h"
 
 Napi::Value parseIRFile(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();

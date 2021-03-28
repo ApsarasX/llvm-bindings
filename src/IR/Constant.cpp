@@ -1,12 +1,5 @@
-#include "IR/Constant.h"
-#include "IR/Type.h"
-#include "IR/User.h"
-#include "IR/GlobalValue.h"
-#include "IR/ConstantInt.h"
-#include "IR/ConstantFP.h"
-#include "IR/ConstantPointerNull.h"
-#include "Util/Inherit.h"
-#include "Util/ErrMsg.h"
+#include "IR/IR.h"
+#include "Util/Util.h"
 
 void Constant::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);

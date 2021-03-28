@@ -1,8 +1,5 @@
-#include "IR/ReturnInst.h"
-#include "IR/Instruction.h"
-#include "IR/Value.h"
-#include "Util/Inherit.h"
-#include "Util/ErrMsg.h"
+#include "IR/IR.h"
+#include "Util/Util.h"
 
 void ReturnInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);

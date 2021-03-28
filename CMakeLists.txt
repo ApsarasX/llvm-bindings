@@ -12,56 +12,7 @@ include(LLVM)
 
 include_directories(${CMAKE_JS_INC} include)
 
-#file(GLOB_RECURSE SOURCE_FILES "src/*.cpp")
-
-set(
-        SOURCE_FILES
-        "src/Util/Inherit.cpp"
-        "src/ADT/APInt.cpp"
-        "src/ADT/APFloat.cpp"
-        "src/ADT/ADT.cpp"
-        "src/Bitcode/BitcodeWriter.cpp"
-        "src/Bitcode/Bitcode.cpp"
-        "src/IR/LLVMContext.cpp"
-        "src/IR/Module.cpp"
-        "src/IR/Type.cpp"
-        "src/IR/IntegerType.cpp"
-        "src/IR/PointerType.cpp"
-        "src/IR/FunctionType.cpp"
-        "src/IR/StructType.cpp"
-        "src/IR/ArrayType.cpp"
-        "src/IR/Value.cpp"
-        "src/IR/User.cpp"
-        "src/IR/Instruction.cpp"
-        "src/IR/AllocaInst.cpp"
-        "src/IR/BranchInst.cpp"
-        "src/IR/CallInst.cpp"
-        "src/IR/LoadInst.cpp"
-        "src/IR/ReturnInst.cpp"
-        "src/IR/StoreInst.cpp"
-        "src/IR/Constant.cpp"
-        "src/IR/ConstantInt.cpp"
-        "src/IR/ConstantFP.cpp"
-        "src/IR/ConstantPointerNull.cpp"
-        "src/IR/GlobalValue.cpp"
-        "src/IR/GlobalObject.cpp"
-        "src/IR/GlobalVariable.cpp"
-        "src/IR/Function.cpp"
-        "src/IR/Argument.cpp"
-        "src/IR/BasicBlock.cpp"
-        "src/IR/DataLayout.cpp"
-        "src/IR/IRBuilder.cpp"
-        "src/IR/Verifier.cpp"
-        "src/IR/IR.cpp"
-        "src/IRReader/IRReader.cpp"
-        "src/Support/Support.cpp"
-        "src/Support/SMDiagnostic.cpp"
-        "src/Support/Target.cpp"
-        "src/Support/TargetRegistry.cpp"
-        "src/Target/Target.cpp"
-        "src/Target/TargetMachine.cpp"
-        "src/llvm-bindings.cpp"
-)
+file(GLOB_RECURSE SOURCE_FILES "src/*.cpp")
 
 add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES} ${CMAKE_JS_SRC})
 

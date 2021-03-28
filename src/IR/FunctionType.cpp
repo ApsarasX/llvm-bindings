@@ -1,8 +1,5 @@
-#include <vector>
-#include "IR/Type.h"
-#include "IR/FunctionType.h"
-#include "Util/Inherit.h"
-#include "Util/ErrMsg.h"
+#include "IR/IR.h"
+#include "Util/Util.h"
 
 void FunctionType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);

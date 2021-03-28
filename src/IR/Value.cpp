@@ -1,12 +1,7 @@
 #include <llvm/IR/Function.h>
-#include <llvm/IR/Instructions.h>
 
-#include "IR/Value.h"
-#include "IR/Type.h"
-#include "IR/Argument.h"
-#include "IR/BasicBlock.h"
-#include "IR/User.h"
-#include "Util/ErrMsg.h"
+#include "IR/IR.h"
+#include "Util/Util.h"
 
 void Value::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);

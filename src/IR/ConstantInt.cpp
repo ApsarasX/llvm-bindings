@@ -1,11 +1,6 @@
-#include "IR/ConstantInt.h"
-#include "IR/Constant.h"
-#include "IR/LLVMContext.h"
-#include "IR/Type.h"
-#include "IR/IntegerType.h"
+#include "IR/IR.h"
 #include "ADT/APInt.h"
-#include "Util/Inherit.h"
-#include "Util/ErrMsg.h"
+#include "Util/Util.h"
 
 typedef llvm::ConstantInt *(GetBool)(llvm::LLVMContext &);
 

@@ -1,10 +1,5 @@
-#include "IR/GlobalVariable.h"
-#include "IR/GlobalObject.h"
-#include "IR/Module.h"
-#include "IR/Type.h"
-#include "IR/Constant.h"
-#include "Util/Inherit.h"
-#include "Util/ErrMsg.h"
+#include "IR/IR.h"
+#include "Util/Util.h"
 
 void GlobalVariable::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);

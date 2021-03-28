@@ -1,7 +1,5 @@
-#include "IR/LoadInst.h"
-#include "IR/Instruction.h"
-#include "Util/Inherit.h"
-#include "Util/ErrMsg.h"
+#include "IR/IR.h"
+#include "Util/Util.h"
 
 void LoadInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);

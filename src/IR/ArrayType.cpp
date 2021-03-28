@@ -1,7 +1,5 @@
-#include "IR/ArrayType.h"
-#include "IR/Type.h"
-#include "Util/Inherit.h"
-#include "Util/ErrMsg.h"
+#include "IR/IR.h"
+#include "Util/Util.h"
 
 void ArrayType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);

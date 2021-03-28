@@ -2,11 +2,9 @@
 
 #include <napi.h>
 #include <llvm/IR/IRBuilder.h>
-#include "IR/Value.h"
-#include "IR/ConstantInt.h"
-#include "IR/Type.h"
-#include "IR/IntegerType.h"
-#include "Util/ErrMsg.h"
+
+#include "IR/IR.h"
+#include "Util/Util.h"
 
 #define binOpFactoryMacro(binOpFuncType, extraArgs...) \
 template<binOpFuncType method> \

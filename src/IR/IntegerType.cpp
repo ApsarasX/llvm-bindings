@@ -1,8 +1,5 @@
-#include "IR/Type.h"
-#include "IR/IntegerType.h"
-#include "IR/LLVMContext.h"
-#include "Util/Inherit.h"
-#include "Util/ErrMsg.h"
+#include "IR/IR.h"
+#include "Util/Util.h"
 
 void IntegerType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);

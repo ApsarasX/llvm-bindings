@@ -1,5 +1,5 @@
 #include "IR/LLVMContext.h"
-#include "Util/ErrMsg.h"
+#include "Util/Util.h"
 
 void LLVMContext::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);

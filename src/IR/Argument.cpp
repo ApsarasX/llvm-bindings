@@ -1,9 +1,5 @@
-#include "IR/Argument.h"
-#include "IR/Value.h"
-#include "IR/Type.h"
-#include "IR/Function.h"
-#include "Util/Inherit.h"
-#include "Util/ErrMsg.h"
+#include "IR/IR.h"
+#include "Util/Util.h"
 
 void Argument::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);

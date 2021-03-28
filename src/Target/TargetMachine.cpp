@@ -1,7 +1,7 @@
 #include <llvm/Target/TargetMachine.h>
 
-#include "Target/TargetMachine.h"
-#include "Util/ErrMsg.h"
+#include "Target/Target.h"
+#include "Util/Util.h"
 
 void TargetMachine::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);

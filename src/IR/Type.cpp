@@ -1,11 +1,5 @@
-#include "IR/Type.h"
-#include "IR/IntegerType.h"
-#include "IR/PointerType.h"
-#include "IR/FunctionType.h"
-#include "IR/ArrayType.h"
-#include "IR/StructType.h"
-#include "IR/LLVMContext.h"
-#include "Util/ErrMsg.h"
+#include "IR/IR.h"
+#include "Util/Util.h"
 
 typedef llvm::Type *(getTypeFn)(llvm::LLVMContext &);
 

@@ -1,7 +1,7 @@
-#include "IR/Verifier.h"
-#include "IR/Function.h"
-#include "IR/Module.h"
-#include "Util/ErrMsg.h"
+#include <llvm/IR/Verifier.h>
+
+#include "IR/IR.h"
+#include "Util/Util.h"
 
 Napi::Value verifyFunction(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();

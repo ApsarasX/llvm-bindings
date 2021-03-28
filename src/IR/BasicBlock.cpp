@@ -1,11 +1,5 @@
-#include "IR/BasicBlock.h"
-#include "IR/Value.h"
-#include "IR/LLVMContext.h"
-#include "IR/Function.h"
-#include "IR/Module.h"
-#include "IR/Instruction.h"
-#include "Util/Inherit.h"
-#include "Util/ErrMsg.h"
+#include "IR/IR.h"
+#include "Util/Util.h"
 
 void BasicBlock::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);

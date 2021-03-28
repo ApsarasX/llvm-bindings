@@ -1,16 +1,5 @@
-#include "IR/Instruction.h"
-#include "IR/User.h"
-#include "IR/Function.h"
-#include "IR/Module.h"
-#include "IR/BasicBlock.h"
-#include "IR/AllocaInst.h"
-#include "IR/BranchInst.h"
-#include "IR/CallInst.h"
-#include "IR/LoadInst.h"
-#include "IR/ReturnInst.h"
-#include "IR/StoreInst.h"
-#include "Util/Inherit.h"
-#include "Util/ErrMsg.h"
+#include "IR/IR.h"
+#include "Util/Util.h"
 
 void Instruction::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);

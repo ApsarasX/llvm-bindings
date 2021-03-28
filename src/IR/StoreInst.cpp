@@ -1,9 +1,5 @@
-#include "IR/StoreInst.h"
-#include "IR/Instruction.h"
-#include "IR/Value.h"
-#include "IR/Type.h"
-#include "Util/Inherit.h"
-#include "Util/ErrMsg.h"
+#include "IR/IR.h"
+#include "Util/Util.h"
 
 void StoreInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
