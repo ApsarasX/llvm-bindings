@@ -1,3 +1,12 @@
+## [0.1.2](https://github.com/ApsarasX/llvm-bindings/compare/v0.1.1...v0.1.2) (2021-03-28)
+
+
+### Features
+
+* **IR:** add IRBuilder.CreateGEP and IRBuilder.CreateInBoundsGEP ([47f7c92](https://github.com/ApsarasX/llvm-bindings/commit/47f7c9222fabc3ce5bca9296f2acfb313bef42ff))
+
+
+
 ## [0.1.1](https://github.com/ApsarasX/llvm-bindings/compare/v0.1.0...v0.1.1) (2021-03-28)
 
 
