@@ -53,6 +53,8 @@ void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("CreateRet", &IRBuilder::createRet),
             InstanceMethod("CreateRetVoid", &IRBuilder::createRetVoid),
             InstanceMethod("CreateStore", &IRBuilder::createStore),
+            InstanceMethod("CreateGEP", &IRBuilder::createGEP),
+            InstanceMethod("CreateInBoundsGEP", &IRBuilder::createInBoundsGEP),
             InstanceMethod("CreateGlobalString", &IRBuilder::createGlobalString),
             InstanceMethod("CreateGlobalStringPtr", &IRBuilder::createGlobalStringPtr),
             InstanceMethod("CreatePHI", &IRBuilder::createPHI),
@@ -165,14 +167,14 @@ Napi::Value IRBuilder::createBr(const Napi::CallbackInfo &info) {
     throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateBr);
 }
 
-bool extractCalleeArgs(Napi::Array args, std::vector<llvm::Value *> &calleeArgs) {
-    int argsLen = args.Length();
-    calleeArgs.resize(argsLen);
-    for (int i = 0; i < argsLen; ++i) {
-        if (!Value::IsClassOf(args[i])) {
+bool assembleValueArray(Napi::Array values, std::vector<llvm::Value *> &valueArray) {
+    int size = values.Length();
+    valueArray.resize(size);
+    for (int i = 0; i < size; ++i) {
+        if (!Value::IsClassOf(values[i])) {
             return false;
         }
-        calleeArgs[i] = Value::Extract(args[i]);
+        valueArray[i] = Value::Extract(values[i]);
     }
     return true;
 }
@@ -182,16 +184,18 @@ Napi::Value IRBuilder::createCall(const Napi::CallbackInfo &info) {
     int argsLen = info.Length();
     llvm::CallInst *call = nullptr;
     std::vector<llvm::Value *> calleeArgs;
-    if (argsLen >= 2 && Function::IsClassOf(info[0]) && info[1].IsArray()) {
+    if (argsLen >= 2 && Function::IsClassOf(info[0]) && info[1].IsArray() && (argsLen == 2 || argsLen >= 3 && info[2].IsString())) {
         llvm::Function *callee = Function::Extract(info[0]);
-        if (extractCalleeArgs(info[1].As<Napi::Array>(), calleeArgs)) {
+        if (assembleValueArray(info[1].As<Napi::Array>(), calleeArgs)) {
             std::string name = argsLen >= 3 ? std::string(info[2].As<Napi::String>()) : "";
             call = builder->CreateCall(callee, calleeArgs, name);
         }
-    } else if (argsLen >= 3 && FunctionType::IsClassOf(info[0]) && Value::IsClassOf(info[1]) && info[2].IsArray()) {
+    } else if (argsLen >= 3 && FunctionType::IsClassOf(info[0]) &&
+               Value::IsClassOf(info[1]) && info[2].IsArray() &&
+               (argsLen == 3 || argsLen >= 4 && info[3].IsString())) {
         llvm::FunctionType *funcType = FunctionType::Extract(info[0]);
         llvm::Value *callee = Value::Extract(info[1]);
-        if (extractCalleeArgs(info[1].As<Napi::Array>(), calleeArgs)) {
+        if (assembleValueArray(info[1].As<Napi::Array>(), calleeArgs)) {
             std::string name = argsLen >= 3 ? std::string(info[3].As<Napi::String>()) : "";
             call = builder->CreateCall(funcType, callee, calleeArgs, name);
         }
@@ -251,6 +255,63 @@ Napi::Value IRBuilder::createStore(const Napi::CallbackInfo &info) {
         return StoreInst::New(env, store);
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateStore);
+}
+
+Napi::Value IRBuilder::createGEP(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    int argsLen = info.Length();
+    std::vector<llvm::Value *> idxList;
+    if (argsLen >= 2 && Value::IsClassOf(info[0]) && (argsLen == 2 || argsLen >= 3 && info[2].IsString())) {
+        llvm::Value *ptr = Value::Extract(info[0]);
+        const std::string &name = argsLen >= 3 ? std::string(info[2].As<Napi::String>()) : "";
+        if (Value::IsClassOf(info[1])) {
+            llvm::Value *idx = Value::Extract(info[1]);
+            return Value::New(env, builder->CreateGEP(ptr, idx, name));
+        } else if (info[1].IsArray() && assembleValueArray(info[1].As<Napi::Array>(), idxList)) {
+            return Value::New(env, builder->CreateGEP(ptr, idxList, name));
+        }
+    } else if (argsLen >= 3 &&
+               Type::IsClassOf(info[0]) && Value::IsClassOf(info[1]) &&
+               (argsLen == 3 || argsLen >= 4 && info[3].IsString())) {
+        llvm::Type *type = Type::Extract(info[0]);
+        llvm::Value *ptr = Value::Extract(info[1]);
+        const std::string &name = argsLen >= 4 ? std::string(info[3].As<Napi::String>()) : "";
+        if (Value::IsClassOf(info[2])) {
+            llvm::Value *idx = Value::Extract(info[2]);
+            return Value::New(env, builder->CreateGEP(type, ptr, idx, name));
+        } else if (info[2].IsArray() && assembleValueArray(info[2].As<Napi::Array>(), idxList)) {
+            return Value::New(env, builder->CreateGEP(type, ptr, idxList, name));
+        }
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateGEP);
+}
+
+Napi::Value IRBuilder::createInBoundsGEP(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    int argsLen = info.Length();
+    std::vector<llvm::Value *> idxList;
+    if (argsLen >= 2 &&
+        Value::IsClassOf(info[0]) && info[1].IsArray() &&
+        (argsLen == 2 || argsLen >= 3 && info[2].IsString())) {
+        llvm::Value *ptr = Value::Extract(info[0]);
+        const std::string &name = argsLen >= 3 ? std::string(info[2].As<Napi::String>()) : "";
+        if (assembleValueArray(info[1].As<Napi::Array>(), idxList)) {
+            return Value::New(env, builder->CreateInBoundsGEP(ptr, idxList, name));
+        }
+    } else if (argsLen >= 3 &&
+               Type::IsClassOf(info[0]) && Value::IsClassOf(info[1]) &&
+               (argsLen == 3 || argsLen >= 4 && info[3].IsString())) {
+        llvm::Type *type = Type::Extract(info[0]);
+        llvm::Value *ptr = Value::Extract(info[1]);
+        const std::string &name = argsLen >= 4 ? std::string(info[3].As<Napi::String>()) : "";
+        if (Value::IsClassOf(info[2])) {
+            llvm::Value *idx = Value::Extract(info[2]);
+            return Value::New(env, builder->CreateInBoundsGEP(type, ptr, idx, name));
+        } else if (info[2].IsArray() && assembleValueArray(info[2].As<Napi::Array>(), idxList)) {
+            return Value::New(env, builder->CreateInBoundsGEP(type, ptr, idxList, name));
+        }
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateInBoundsGEP);
 }
 
 Napi::Value IRBuilder::getInt1(const Napi::CallbackInfo &info) {

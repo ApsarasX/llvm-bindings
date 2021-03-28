@@ -139,6 +139,10 @@ private:
         return Value::New(env, builder->CreateIntCast(value, destType, isSigned, name));
     }
 
+    Napi::Value createGEP(const Napi::CallbackInfo &info);
+
+    Napi::Value createInBoundsGEP(const Napi::CallbackInfo &info);
+
     Napi::Value getInt1(const Napi::CallbackInfo &info);
 
     template<GetBoolean method>

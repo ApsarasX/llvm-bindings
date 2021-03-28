@@ -543,6 +543,15 @@ declare namespace llvm {
 
         public CreatePHI(type: Type, numReservedValues: number, name?: string): PHINode;
 
+        public CreateGEP(ptr: Value, idxList: Value[], name?: string): Value;
+        public CreateGEP(ptr: Value, idx: Value, name?: string): Value;
+        public CreateGEP(type: Type, ptr: Value, idxList: Value[], name?: string): Value;
+        public CreateGEP(type: Type, ptr: Value, idx: Value, name?: string): Value;
+
+        public CreateInBoundsGEP(ptr: Value, idxList: Value[], name?: string): Value;
+        public CreateInBoundsGEP(type: Type, ptr: Value, idxList: Value[], name?: string): Value;
+        public CreateInBoundsGEP(type: Type, ptr: Value, idx: Value, name?: string): Value;
+
         public CreateTrunc(value: Value, destType: Type, name?: string): Value;
 
         public CreateZExt(value: Value, destType: Type, name?: string): Value;

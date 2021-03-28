@@ -28,6 +28,8 @@ Napi::Value Instruction::New(Napi::Env env, llvm::Instruction *instruction) {
         return ReturnInst::New(env, static_cast<llvm::ReturnInst *>(instruction));
     } else if (llvm::StoreInst::classof(instruction)) {
         return StoreInst::New(env, static_cast<llvm::StoreInst *>(instruction));
+    } else if (llvm::PHINode::classof(instruction)) {
+        return PHINode::New(env, static_cast<llvm::PHINode *>(instruction));
     }
     return constructor.New({Napi::External<llvm::Instruction>::New(env, instruction)});
 }
