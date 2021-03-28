@@ -108,6 +108,7 @@ namespace ErrMsg {
             static const char *CreateStore = "IRBuilder.CreateStore needs to be called with: (value: Value, ptr: Value)";
             static const char *CreateGlobalString = "IRBuilder.CreateGlobalString needs to be called with (str: string, name?: string, addrSpace?: number, module?: Module)";
             static const char *CreateGlobalStringPtr = "IRBuilder.CreateGlobalStringPtr needs to be called with (str: string, name?: string, addrSpace?: number, module?: Module)";
+            static const char *CreatePHI = "IRBuilder.CreatePHI needs to be called with: (type: Type, numReservedValues: number, name?: string)";
             static const char *getInt1 = "IRBuilder.getInt1 needs to be called with (value: boolean)";
             static const char *getIntFactory = "IRBuilder.[getIntX] needs to be called with (value: number)";
             static const char *getIntN = "IRBuilder.getIntN needs to be called with (n: number, value: number)";
@@ -135,6 +136,10 @@ namespace ErrMsg {
             static const char *setModuleIdentifier = "Module.setModuleIdentifier needs to be called with: (moduleID: string)";
             static const char *setSourceFileName = "Module.setSourceFileName needs to be called with: (sourceFileName: string)";
             static const char *setTargetTriple = "Module.setTargetTriple needs to be called with: (targetTriple: string)";
+        }
+        namespace PHINode {
+            static const char *constructor = "PHINode.constructor needs to be called with new (external: Napi::External<llvm::PHINode>)";
+            static const char *addIncoming = "PHINode.addIncoming needs to be called with (value: Value, basicBlock: BasicBlock)";
         }
         namespace PointerType {
             static const char *constructor = "PointerType.constructor needs to ce called with new (external: Napi::External<llvm::PointerType>)";

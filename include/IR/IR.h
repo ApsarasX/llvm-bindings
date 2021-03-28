@@ -19,6 +19,7 @@
 #include "IR/LoadInst.h"
 #include "IR/ReturnInst.h"
 #include "IR/StoreInst.h"
+#include "IR/PHINode.h"
 #include "IR/Constant.h"
 #include "IR/ConstantInt.h"
 #include "IR/ConstantFP.h"

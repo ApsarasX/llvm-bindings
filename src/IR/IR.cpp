@@ -18,6 +18,7 @@ void InitIR(Napi::Env env, Napi::Object &exports) {
     LoadInst::Init(env, exports);
     ReturnInst::Init(env, exports);
     StoreInst::Init(env, exports);
+    PHINode::Init(env, exports);
     Constant::Init(env, exports);
     ConstantInt::Init(env, exports);
     ConstantFP::Init(env, exports);

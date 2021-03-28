@@ -306,6 +306,12 @@ declare namespace llvm {
         protected constructor();
     }
 
+    class PHINode extends Instruction {
+        public addIncoming(value: Value, basicBlock: BasicBlock): void;
+
+        protected constructor();
+    }
+
     class Constant extends User {
         public static getNullValue(type: Type): Constant;
 
@@ -534,6 +540,8 @@ declare namespace llvm {
         public CreateGlobalString(str: string, name?: string, addrSpace?: number, module?: Module): GlobalVariable;
 
         public CreateGlobalStringPtr(str: string, name?: string, addrSpace?: number, module?: Module): Constant;
+
+        public CreatePHI(type: Type, numReservedValues: number, name?: string): PHINode;
 
         public SetInsertionPoint(basicBlock: BasicBlock): Value;
 

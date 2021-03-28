@@ -55,6 +55,7 @@ void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("CreateStore", &IRBuilder::createStore),
             InstanceMethod("CreateGlobalString", &IRBuilder::createGlobalString),
             InstanceMethod("CreateGlobalStringPtr", &IRBuilder::createGlobalStringPtr),
+            InstanceMethod("CreatePHI", &IRBuilder::createPHI),
 
             InstanceMethod("SetInsertionPoint", &IRBuilder::setInsertionPoint),
 
@@ -321,4 +322,17 @@ Napi::Value IRBuilder::createGlobalString(const Napi::CallbackInfo &info) {
 
 Napi::Value IRBuilder::createGlobalStringPtr(const Napi::CallbackInfo &info) {
     createGlobalStringOrPtr(CreateGlobalStringPtr, Constant)
+}
+
+Napi::Value IRBuilder::createPHI(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    int argsLen = info.Length();
+    if (argsLen < 2 || !Type::IsClassOf(info[0]) || !info[1].IsNumber() || argsLen >= 3 && !info[2].IsString()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreatePHI);
+    }
+    llvm::Type *type = Type::Extract(info[0]);
+    unsigned numReservedValues = info[1].As<Napi::Number>();
+    const std::string &name = argsLen >= 3 ? std::string(info[2].As<Napi::String>()) : "";
+    llvm::PHINode *phiNode = builder->CreatePHI(type, numReservedValues, name);
+    return PHINode::New(env, phiNode);
 }

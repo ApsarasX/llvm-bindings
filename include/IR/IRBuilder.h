@@ -105,6 +105,8 @@ private:
 
     Napi::Value createGlobalStringPtr(const Napi::CallbackInfo &info);
 
+    Napi::Value createPHI(const Napi::CallbackInfo &info);
+
     Napi::Value getInt1(const Napi::CallbackInfo &info);
 
     template<GetBoolean method>

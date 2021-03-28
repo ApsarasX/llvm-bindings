@@ -9,7 +9,7 @@ public:
 
     static void Init(Napi::Env env, Napi::Object &exports);
 
-    static Napi::Object New(Napi::Env env, llvm::BranchInst *BranchInst);
+    static Napi::Object New(Napi::Env env, llvm::BranchInst *branchInst);
 
     static bool IsClassOf(const Napi::Value &value);
 
