@@ -1,11 +1,14 @@
 #include "IR/IRBuilder.h"
 #include "IR/LLVMContext.h"
+#include "IR/Module.h"
 #include "IR/Type.h"
 #include "IR/IntegerType.h"
 #include "IR/PointerType.h"
 #include "IR/FunctionType.h"
 #include "IR/Value.h"
+#include "IR/Constant.h"
 #include "IR/ConstantInt.h"
+#include "IR/GlobalVariable.h"
 #include "IR/BasicBlock.h"
 #include "IR/DataLayout.h"
 #include "IR/Function.h"
@@ -69,6 +72,8 @@ void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("CreateRet", &IRBuilder::createRet),
             InstanceMethod("CreateRetVoid", &IRBuilder::createRetVoid),
             InstanceMethod("CreateStore", &IRBuilder::createStore),
+            InstanceMethod("CreateGlobalString", &IRBuilder::createGlobalString),
+            InstanceMethod("CreateGlobalStringPtr", &IRBuilder::createGlobalStringPtr),
 
             InstanceMethod("SetInsertionPoint", &IRBuilder::setInsertionPoint),
 
@@ -304,4 +309,35 @@ Napi::Value IRBuilder::getIntPtrTy(const Napi::CallbackInfo &info) {
     return IntegerType::New(env, type);
 }
 
+#define createGlobalStringOrPtr(methodName, returnType) \
+    Napi::Env env = info.Env(); \
+    int argsLen = info.Length(); \
+    if (argsLen == 0 || !info[0].IsString() || \
+        argsLen >= 2 && !info[1].IsString() || \
+        argsLen >= 3 && !info[2].IsNumber() || \
+        argsLen >= 4 && !Module::IsClassOf(info[3])) { \
+        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::methodName); \
+    } \
+    const std::string &str = info[0].As<Napi::String>(); \
+    std::string name; \
+    unsigned addrSpace = 0; \
+    llvm::Module *module = nullptr; \
+    if (argsLen >= 2) { \
+        name = info[1].As<Napi::String>(); \
+    } \
+    if (argsLen >= 3) { \
+        addrSpace = info[2].As<Napi::Number>(); \
+    } \
+    if (argsLen >= 4) { \
+        module = Module::Extract(info[3]); \
+    } \
+    llvm::returnType *result = builder->methodName(str, name, addrSpace, module); \
+    return returnType::New(env, result);
 
+Napi::Value IRBuilder::createGlobalString(const Napi::CallbackInfo &info) {
+    createGlobalStringOrPtr(CreateGlobalString, GlobalVariable)
+}
+
+Napi::Value IRBuilder::createGlobalStringPtr(const Napi::CallbackInfo &info) {
+    createGlobalStringOrPtr(CreateGlobalStringPtr, Constant)
+}

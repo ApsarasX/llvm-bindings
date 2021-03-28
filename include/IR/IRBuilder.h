@@ -103,8 +103,11 @@ private:
 
     binOpFactoryMacro(BinaryOperationWithBool, false)
 
-    Napi::Value getInt1(const Napi::CallbackInfo &info);
+    Napi::Value createGlobalString(const Napi::CallbackInfo &info);
 
+    Napi::Value createGlobalStringPtr(const Napi::CallbackInfo &info);
+
+    Napi::Value getInt1(const Napi::CallbackInfo &info);
 
     template<GetBoolean method>
     Napi::Value getBoolFactory(const Napi::CallbackInfo &info) {

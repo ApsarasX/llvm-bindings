@@ -531,6 +531,10 @@ declare namespace llvm {
 
         public CreateStore(value: Value, ptr: Value): Value;
 
+        public CreateGlobalString(str: string, name?: string, addrSpace?: number, module?: Module): GlobalVariable;
+
+        public CreateGlobalStringPtr(str: string, name?: string, addrSpace?: number, module?: Module): Constant;
+
         public SetInsertionPoint(basicBlock: BasicBlock): Value;
 
         public getInt1(value: boolean): ConstantInt;
