@@ -13,8 +13,8 @@ LLVM bindings for Node.js/JavaScript/TypeScript
 ### Install on macOS
 
 ```shell
-# install llvm by homebrew
-brew install llvm
+# install cmake and llvm by homebrew
+brew install cmake llvm
 
 # install llvm-bindings
 npm install llvm-bindings
@@ -23,8 +23,8 @@ npm install llvm-bindings
 ### Install on Ubuntu
 
 ```shell
-# install llvm by apt-get
-sudo apt-get install llvm-11
+# install cmake and llvm by apt-get
+sudo apt-get install cmake llvm-11
 
 # install llvm-bindings
 npm install llvm-bindings
@@ -64,4 +64,4 @@ if (!llvm.verifyFunction(func) && !llvm.verifyModule(mod)) {
 
 | llvm-bindings versions  |  compatible LLVM versions |
 | ------------ | ------------ |
-|  0.0.x |  11.0.x, 11.1.x |
+|  0.0.x, 0.1.x |  11.0.x, 11.1.x |
