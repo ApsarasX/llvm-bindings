@@ -1,3 +1,13 @@
+## [0.1.1](https://github.com/ApsarasX/llvm-bindings/compare/v0.1.0...v0.1.1) (2021-03-28)
+
+
+### Features
+
+* **IR:** add class PHINode and IRBuilder.CreatePHI ([3cf11fb](https://github.com/ApsarasX/llvm-bindings/commit/3cf11fb766e087bf4ec60aa35c908e847f04340e))
+* **IR:** add more create methods of cast instruction in IRBuilder ([14a1a70](https://github.com/ApsarasX/llvm-bindings/commit/14a1a70e8800137c81e4706be5195d36d0e1760d))
+
+
+
 ## [0.1.0](https://github.com/ApsarasX/llvm-bindings/compare/v0.0.4...v0.1.0) (2021-03-28)
 
 
