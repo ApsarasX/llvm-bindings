@@ -1,3 +1,6 @@
+
+#include <IR/IRBuilder.h>
+
 #include "IR/IR.h"
 #include "ADT/APInt.h"
 #include "Util/Util.h"
@@ -58,6 +61,7 @@ void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("CreateGlobalString", &IRBuilder::createGlobalString),
             InstanceMethod("CreateGlobalStringPtr", &IRBuilder::createGlobalStringPtr),
             InstanceMethod("CreatePHI", &IRBuilder::createPHI),
+            InstanceMethod("CreateSelect", &IRBuilder::createSelect),
 
             InstanceMethod("CreateTrunc", &IRBuilder::createCastFactory<&LLVMIRBuilder::CreateTrunc>),
             InstanceMethod("CreateZExt", &IRBuilder::createCastFactory<&LLVMIRBuilder::CreateZExt>),
@@ -418,4 +422,21 @@ Napi::Value IRBuilder::createPHI(const Napi::CallbackInfo &info) {
     const std::string &name = argsLen >= 3 ? std::string(info[2].As<Napi::String>()) : "";
     llvm::PHINode *phiNode = builder->CreatePHI(type, numReservedValues, name);
     return PHINode::New(env, phiNode);
+}
+
+Napi::Value IRBuilder::createSelect(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    int argsLen = info.Length();
+    if (argsLen < 3 ||
+        !Value::IsClassOf(info[0]) ||
+        !Value::IsClassOf(info[1]) ||
+        !Value::IsClassOf(info[2]) ||
+        (argsLen >= 4 && !info[3].IsString())) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateSelect);
+    }
+    llvm::Value *cond = Value::Extract(info[0]);
+    llvm::Value *trueValue = Value::Extract(info[1]);
+    llvm::Value *falseValue = Value::Extract(info[2]);
+    const std::string &name = argsLen >= 4 ? std::string(info[3].As<Napi::String>()) : "";
+    return Value::New(env, builder->CreateSelect(cond, trueValue, falseValue, name));
 }

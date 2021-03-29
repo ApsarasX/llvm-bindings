@@ -143,6 +143,8 @@ private:
 
     Napi::Value createInBoundsGEP(const Napi::CallbackInfo &info);
 
+    Napi::Value createSelect(const Napi::CallbackInfo &info);
+
     Napi::Value getInt1(const Napi::CallbackInfo &info);
 
     template<GetBoolean method>

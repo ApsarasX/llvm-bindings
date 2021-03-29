@@ -543,6 +543,8 @@ declare namespace llvm {
 
         public CreatePHI(type: Type, numReservedValues: number, name?: string): PHINode;
 
+        public CreateSelect(cond: Value, trueValue: Value, falseValue: Value, name?: string): Value;
+
         public CreateGEP(ptr: Value, idxList: Value[], name?: string): Value;
         public CreateGEP(ptr: Value, idx: Value, name?: string): Value;
         public CreateGEP(type: Type, ptr: Value, idxList: Value[], name?: string): Value;
