@@ -1,3 +1,12 @@
+## [0.1.4](https://github.com/ApsarasX/llvm-bindings/compare/v0.1.3...v0.1.4) (2021-03-29)
+
+
+### Features
+
+* **IR:** add IRBuilder.CreateSelect ([33da3bf](https://github.com/ApsarasX/llvm-bindings/commit/33da3bf868d751f89aca2266cfcb8b102ac4d2d9))
+
+
+
 ## [0.1.3](https://github.com/ApsarasX/llvm-bindings/compare/v0.1.2...v0.1.3) (2021-03-29)
 
 
