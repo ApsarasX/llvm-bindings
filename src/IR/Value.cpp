@@ -22,7 +22,6 @@ void Value::Init(Napi::Env env, Napi::Object &exports) {
     exports.Set("Value", func);
 }
 
-
 Napi::Value Value::New(Napi::Env env, llvm::Value *value) {
     if (llvm::Argument::classof(value)) {
         return Argument::New(env, static_cast<llvm::Argument *>(value));
@@ -34,11 +33,14 @@ Napi::Value Value::New(Napi::Env env, llvm::Value *value) {
     return constructor.New({Napi::External<llvm::Value>::New(env, value)});
 }
 
-bool Value::IsClassOf(Napi::Value value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+bool Value::IsClassOf(const Napi::Value &value) {
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::Value *Value::Extract(const Napi::Value &value) {
+    if (value.IsNull()) {
+        return nullptr;
+    }
     return Unwrap(value.As<Napi::Object>())->getLLVMPrimitive();
 }
 

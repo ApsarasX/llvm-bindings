@@ -11,7 +11,7 @@ public:
 
     static Napi::Value New(Napi::Env env, llvm::Value *value);
 
-    static bool IsClassOf(Napi::Value value);
+    static bool IsClassOf(const Napi::Value &value);
 
     static llvm::Value *Extract(const Napi::Value &value);
 

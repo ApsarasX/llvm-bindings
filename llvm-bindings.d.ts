@@ -520,7 +520,7 @@ declare namespace llvm {
 
         public CreateFCmpULT(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateAlloca(type: Type, arraySize?: Value, name?: string): Value;
+        public CreateAlloca(type: Type, arraySize?: Value | null, name?: string): Value;
 
         public CreateBr(destBB: BasicBlock): Value;
 

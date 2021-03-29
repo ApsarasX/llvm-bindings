@@ -11,7 +11,7 @@ module.exports = function () {
     const func = createFunction('test', builder.getVoidTy(), null, module);
     const entryBB = BasicBlock.Create(context, "entry", func);
     builder.SetInsertionPoint(entryBB);
-    const alloca = builder.CreateAlloca(builder.getInt32Ty());
+    const alloca = builder.CreateAlloca(builder.getInt32Ty(), null, "a");
     builder.CreateStore(builder.getInt32(11), alloca);
 
     const value = builder.CreateLoad(builder.getInt32Ty(), alloca);
