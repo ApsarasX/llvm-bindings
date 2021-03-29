@@ -225,7 +225,7 @@ Napi::Value IRBuilder::createLoad(const Napi::CallbackInfo &info) {
         argsLen >= 3 && Type::IsClassOf(info[0]) && Value::IsClassOf(info[1]) && info[2].IsString()) {
         llvm::Type *type = Type::Extract(info[0]);
         llvm::Value *ptr = Value::Extract(info[1]);
-        std::string name = argsLen >= 2 ? std::string(info[2].As<Napi::String>()) : "";
+        std::string name = argsLen >= 3 ? std::string(info[2].As<Napi::String>()) : "";
         llvm::LoadInst *load = builder->CreateLoad(type, ptr, name);
         return LoadInst::New(env, load);
     }

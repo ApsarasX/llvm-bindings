@@ -10,7 +10,7 @@ function getContextModuleBuilder(moduleID) {
 }
 
 function createFunction(name, returnType, paramTypes, module) {
-    const functionType = FunctionType.get(returnType, paramTypes, false);
+    const functionType = paramTypes ? FunctionType.get(returnType, paramTypes, false) : FunctionType.get(returnType, false);
     return Function.Create(functionType, Function.LinkageTypes.ExternalLinkage, name, module);
 }
 
