@@ -1,3 +1,12 @@
+## [0.1.3](https://github.com/ApsarasX/llvm-bindings/compare/v0.1.2...v0.1.3) (2021-03-29)
+
+
+### Bug Fixes
+
+* **IR:** fix the parameter verification problem of IRBuilder.CreateLoad ([df2b800](https://github.com/ApsarasX/llvm-bindings/commit/df2b800f4f86991620c4d3d90b9bd524999d3b55))
+
+
+
 ## [0.1.2](https://github.com/ApsarasX/llvm-bindings/compare/v0.1.1...v0.1.2) (2021-03-28)
 
 
