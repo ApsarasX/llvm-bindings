@@ -434,7 +434,8 @@ declare namespace llvm {
 
         public setTargetTriple(triple: string): void;
 
-        public print(): void;
+        // customized
+        public print(filename?: string): void;
     }
 
     class IRBuilder {
@@ -520,6 +521,7 @@ declare namespace llvm {
 
         public CreateFCmpULT(lhs: Value, rhs: Value, name?: string): Value;
 
+        // customized
         public CreateAlloca(type: Type, arraySize?: Value | null, name?: string): Value;
 
         public CreateBr(destBB: BasicBlock): Value;

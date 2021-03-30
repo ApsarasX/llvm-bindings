@@ -148,6 +148,7 @@ namespace ErrMsg {
             static const char *setModuleIdentifier = "Module.setModuleIdentifier needs to be called with: (moduleID: string)";
             static const char *setSourceFileName = "Module.setSourceFileName needs to be called with: (sourceFileName: string)";
             static const char *setTargetTriple = "Module.setTargetTriple needs to be called with: (targetTriple: string)";
+            static const char *print = "Module.print needs to ce called with (filename?: string)";
         }
         namespace PHINode {
             static const char *constructor = "PHINode.constructor needs to be called with new (external: Napi::External<llvm::PHINode>)";

@@ -1,5 +1,5 @@
 #include <llvm/Support/raw_ostream.h>
-
+#include <llvm/Support/FileSystem.h>
 #include "IR/IR.h"
 #include "Util/Util.h"
 
@@ -173,7 +173,22 @@ void Module::setTargetTriple(const Napi::CallbackInfo &info) {
 }
 
 void Module::print(const Napi::CallbackInfo &info) {
-    module->print(llvm::outs(), nullptr);
+    Napi::Env env = info.Env();
+    int argsLen = info.Length();
+    if (argsLen >= 1 && !info[0].IsString()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Module::print);
+    }
+    if (argsLen == 0) {
+        module->print(llvm::outs(), nullptr);
+    } else {
+        std::string filename = info[0].As<Napi::String>();
+        std::error_code errorCode;
+        llvm::raw_fd_ostream outfile(filename, errorCode, llvm::sys::fs::OF_Text);
+        if (errorCode) {
+            throw Napi::TypeError::New(env, errorCode.message() + ": " + filename);
+        }
+        module->print(outfile, nullptr);
+    }
 }
 
 llvm::Module *Module::getLLVMPrimitive() {
