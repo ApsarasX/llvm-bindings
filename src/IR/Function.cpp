@@ -6,7 +6,11 @@ void Function::Init(Napi::Env env, Napi::Object &exports) {
     Napi::Function func = DefineClass(env, "Function", {
             StaticMethod("Create", &Function::create),
             InstanceMethod("arg_size", &Function::argSize),
-            InstanceMethod("getArg", &Function::getArg)
+            InstanceMethod("getArg", &Function::getArg),
+            InstanceMethod("getReturnType", &Function::getReturnType),
+            InstanceMethod("addBasicBlock", &Function::addBasicBlock),
+            InstanceMethod("getEntryBlock", &Function::getEntryBlock),
+            InstanceMethod("insertAfter", &Function::insertAfter)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -75,4 +79,31 @@ Napi::Value Function::getArg(const Napi::CallbackInfo &info) {
         return Argument::New(env, arg);
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::Function::getArg);
+}
+
+Napi::Value Function::getReturnType(const Napi::CallbackInfo &info) {
+    return Type::New(info.Env(), function->getReturnType());
+}
+
+void Function::addBasicBlock(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 0 || !BasicBlock::IsClassOf(info[0])) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Function::addBasicBlock);
+    }
+    llvm::BasicBlock *basicBlock = BasicBlock::Extract(info[0]);
+    function->getBasicBlockList().push_back(basicBlock);
+}
+
+Napi::Value Function::getEntryBlock(const Napi::CallbackInfo &info) {
+    return BasicBlock::New(info.Env(), &(function->getEntryBlock()));
+}
+
+void Function::insertAfter(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() < 2 || !BasicBlock::IsClassOf(info[0]) || !BasicBlock::IsClassOf(info[1])) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Function::insertAfter);
+    }
+    llvm::BasicBlock *where = BasicBlock::Extract(info[0]);
+    llvm::BasicBlock *bb = BasicBlock::Extract(info[1]);
+    function->getBasicBlockList().insertAfter(where->getIterator(), bb);
 }

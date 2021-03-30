@@ -27,4 +27,12 @@ private:
     Napi::Value argSize(const Napi::CallbackInfo &info);
 
     Napi::Value getArg(const Napi::CallbackInfo &info);
+
+    Napi::Value getReturnType(const Napi::CallbackInfo &info);
+
+    void addBasicBlock(const Napi::CallbackInfo &info);
+
+    Napi::Value getEntryBlock(const Napi::CallbackInfo &info);
+
+    void insertAfter(const Napi::CallbackInfo &info);
 };

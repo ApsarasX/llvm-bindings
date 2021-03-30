@@ -179,4 +179,8 @@ private:
     Napi::Value getInt8PtrTy(const Napi::CallbackInfo &info);
 
     Napi::Value getIntPtrTy(const Napi::CallbackInfo &info);
+
+    Napi::Value GetInsertBlock(const Napi::CallbackInfo &info);
+
+    void ClearInsertionPoint(const Napi::CallbackInfo &info);
 };

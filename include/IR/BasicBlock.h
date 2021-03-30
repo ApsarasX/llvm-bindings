@@ -31,4 +31,8 @@ private:
     Napi::Value getTerminator(const Napi::CallbackInfo &info);
 
     Napi::Value getFirstNonPHI(const Napi::CallbackInfo &info);
+
+    Napi::Value useEmpty(const Napi::CallbackInfo &info);
+
+    void deleteSelf(const Napi::CallbackInfo &info);
 };

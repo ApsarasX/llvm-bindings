@@ -9,7 +9,7 @@ Napi::Value verifyFunction(const Napi::CallbackInfo &info) {
         throw Napi::TypeError::New(env, ErrMsg::Function::verifyFunction);
     }
     llvm::Function *func = Function::Extract(info[0]);
-    bool result = llvm::verifyFunction(*func);
+    bool result = llvm::verifyFunction(*func, &llvm::errs());
     return Napi::Boolean::New(env, result);
 }
 
@@ -19,7 +19,7 @@ Napi::Value verifyModule(const Napi::CallbackInfo &info) {
         throw Napi::TypeError::New(env, ErrMsg::Function::verifyModule);
     }
     llvm::Module *module = Module::Extract(info[0]);
-    bool result = llvm::verifyModule(*module);
+    bool result = llvm::verifyModule(*module, &llvm::errs());
     return Napi::Boolean::New(env, result);
 }
 

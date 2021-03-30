@@ -106,7 +106,10 @@ void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("getDoubleTy", &IRBuilder::getTypeFactory<&LLVMIRBuilder::getDoubleTy>),
             InstanceMethod("getVoidTy", &IRBuilder::getTypeFactory<&LLVMIRBuilder::getVoidTy>),
             InstanceMethod("getInt8PtrTy", &IRBuilder::getInt8PtrTy),
-            InstanceMethod("getIntPtrTy", &IRBuilder::getIntPtrTy)
+            InstanceMethod("getIntPtrTy", &IRBuilder::getIntPtrTy),
+
+            InstanceMethod("GetInsertBlock", &IRBuilder::GetInsertBlock),
+            InstanceMethod("ClearInsertionPoint", &IRBuilder::ClearInsertionPoint)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -436,4 +439,17 @@ Napi::Value IRBuilder::createSelect(const Napi::CallbackInfo &info) {
     llvm::Value *falseValue = Value::Extract(info[2]);
     const std::string &name = argsLen >= 4 ? std::string(info[3].As<Napi::String>()) : "";
     return Value::New(env, builder->CreateSelect(cond, trueValue, falseValue, name));
+}
+
+Napi::Value IRBuilder::GetInsertBlock(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::BasicBlock *basicBlock = builder->GetInsertBlock();
+    if (basicBlock) {
+        return BasicBlock::New(env, basicBlock);
+    }
+    return env.Null();
+}
+
+void IRBuilder::ClearInsertionPoint(const Napi::CallbackInfo &info) {
+    builder->ClearInsertionPoint();
 }

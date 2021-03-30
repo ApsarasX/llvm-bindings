@@ -67,6 +67,8 @@ namespace ErrMsg {
             static const char *constructor = "Function.constructor needs to ce called with new (external: Napi::External<llvm::Function>)";
             static const char *Create = "Function.Create needs to be called with: (funcType: FunctionType, linkage: number, name?: string, module?: Module)";
             static const char *getArg = "Function.getArg needs to be called with (i: number)";
+            static const char *addBasicBlock = "Function.addBasicBlock needs to be called with (basicBlock: BasicBlock)";
+            static const char *insertAfter = "Function.insertAfter needs to be called with (where: BasicBlock, basicBlock: BasicBlock)";
         }
         namespace FunctionType {
             static const char *constructor = "FunctionType.constructor needs to ce called with new (external: Napi::External<llvm::Function>)";

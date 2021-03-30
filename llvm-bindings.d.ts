@@ -227,13 +227,19 @@ declare namespace llvm {
             insertBefore?: BasicBlock
         ): BasicBlock;
 
-        public getParent(): Function;
+        public getParent(): Function | null;
 
-        public getModule(): Module;
+        public getModule(): Module | null;
 
-        public getTerminator(): Instruction;
+        public getTerminator(): Instruction | null;
 
-        public getFirstNonPHI(): Instruction;
+        public getFirstNonPHI(): Instruction | null;
+
+        // duplicated
+        public use_empty(): boolean;
+
+        // extra
+        public deleteSelf(): void;
 
         protected constructor();
     }
@@ -249,13 +255,13 @@ declare namespace llvm {
     }
 
     class Instruction extends User {
-        public user_back(): Instruction;
+        public user_back(): Instruction | null;
 
-        public getParent(): BasicBlock;
+        public getParent(): BasicBlock | null;
 
-        public getModule(): Module;
+        public getModule(): Module | null;
 
-        public getFunction(): Function;
+        public getFunction(): Function | null;
 
         protected constructor();
     }
@@ -396,6 +402,16 @@ declare namespace llvm {
         public arg_size(): number;
 
         public getArg(i: number): Argument;
+
+        public getReturnType(): Type;
+
+        // customized
+        public addBasicBlock(basicBlock: BasicBlock): void;
+
+        public getEntryBlock(): BasicBlock;
+
+        // customized
+        public insertAfter(where: BasicBlock, basicBlock: BasicBlock): void;
 
         protected constructor();
     }
@@ -649,6 +665,10 @@ declare namespace llvm {
         public getInt8PtrTy(addrSpace?: number): PointerType;
 
         public getIntPtrTy(dataLayout: DataLayout, addrSpace?: number): IntegerType;
+
+        public GetInsertBlock(): BasicBlock | null;
+
+        public ClearInsertionPoint(): void;
     }
 
     function verifyFunction(func: Function): boolean;

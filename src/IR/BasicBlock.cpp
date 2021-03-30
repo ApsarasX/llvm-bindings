@@ -8,7 +8,9 @@ void BasicBlock::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("getParent", &BasicBlock::getParent),
             InstanceMethod("getModule", &BasicBlock::getModule),
             InstanceMethod("getTerminator", &BasicBlock::getTerminator),
-            InstanceMethod("getFirstNonPHI", &BasicBlock::getFirstNonPHI)
+            InstanceMethod("getFirstNonPHI", &BasicBlock::getFirstNonPHI),
+            InstanceMethod("use_empty", &BasicBlock::useEmpty),
+            InstanceMethod("deleteSelf", &BasicBlock::deleteSelf)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -102,4 +104,13 @@ Napi::Value BasicBlock::getFirstNonPHI(const Napi::CallbackInfo &info) {
         return Instruction::New(env, nonPHIInst);
     }
     return env.Null();
+}
+
+Napi::Value BasicBlock::useEmpty(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), basicBlock->use_empty());
+}
+
+void BasicBlock::deleteSelf(const Napi::CallbackInfo &info) {
+    delete basicBlock;
+    basicBlock = nullptr;
 }
