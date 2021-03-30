@@ -15,6 +15,7 @@ namespace ErrMsg {
             static const char *constructor = "Argument.constructor needs to be called with"
                                              "\n\t - new (external: Napi::External<llvm::Argument>)"
                                              "\n\t - new (type: Type, name?: string, func?: Function, argNo?: number)";
+            static const char *setName = "Argument.setName needs to be called with (name: string)";
         }
         namespace ArrayType {
             static const char *constructor = "ArrayType.constructor needs to be called with new (external: Napi::External<llvm::ArrayType>)";

@@ -5,7 +5,8 @@ void Argument::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "Argument", {
             InstanceMethod("getParent", &Argument::getParent),
-            InstanceMethod("getArgNo", &Argument::getArgNo)
+            InstanceMethod("getArgNo", &Argument::getArgNo),
+            InstanceMethod("setName", &Argument::setName)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -69,4 +70,13 @@ Napi::Value Argument::getParent(const Napi::CallbackInfo &info) {
 Napi::Value Argument::getArgNo(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     return Napi::Number::New(env, argument->getArgNo());
+}
+
+void Argument::setName(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 0 || !info[0].IsString()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Argument::setName);
+    }
+    const std::string &name = info[0].As<Napi::String>();
+    argument->setName(name);
 }

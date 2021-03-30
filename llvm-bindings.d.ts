@@ -217,6 +217,9 @@ declare namespace llvm {
         public getParent(): Function;
 
         public getArgNo(): number;
+
+        // duplicated
+        public setName(name: string): void;
     }
 
     class BasicBlock extends Value {

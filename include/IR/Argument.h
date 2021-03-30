@@ -25,4 +25,6 @@ private:
     Napi::Value getParent(const Napi::CallbackInfo &info);
 
     Napi::Value getArgNo(const Napi::CallbackInfo &info);
+
+    void setName(const Napi::CallbackInfo &info);
 };
