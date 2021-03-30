@@ -1,3 +1,14 @@
+## [0.1.5](https://github.com/ApsarasX/llvm-bindings/compare/v0.1.4...v0.1.5) (2021-03-30)
+
+
+### Features
+
+* **IR:** add more methods for BasicBlock, Function, IRBuilder ([b1266c2](https://github.com/ApsarasX/llvm-bindings/commit/b1266c2bc86152ae4af776c2b9af9ca48dd6b6c3))
+* **IR:** add overloading function of Module.print ([f5fe230](https://github.com/ApsarasX/llvm-bindings/commit/f5fe230b754fba7e528241909149314e2bb0cdac))
+* **IR:** class Value supports receiving null ([a1fadd5](https://github.com/ApsarasX/llvm-bindings/commit/a1fadd5d3af906612ddb48e8cd9f4e4726a2f06a))
+
+
+
 ## [0.1.4](https://github.com/ApsarasX/llvm-bindings/compare/v0.1.3...v0.1.4) (2021-03-29)
 
 
