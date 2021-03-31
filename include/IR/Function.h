@@ -34,5 +34,7 @@ private:
 
     Napi::Value getEntryBlock(const Napi::CallbackInfo &info);
 
+    Napi::Value getExitBlock(const Napi::CallbackInfo &info);
+
     void insertAfter(const Napi::CallbackInfo &info);
 };

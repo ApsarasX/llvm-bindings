@@ -413,6 +413,9 @@ declare namespace llvm {
 
         public getEntryBlock(): BasicBlock;
 
+        // extra
+        public getExitBlock(): BasicBlock;
+
         // customized
         public insertAfter(where: BasicBlock, basicBlock: BasicBlock): void;
 

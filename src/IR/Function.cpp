@@ -1,3 +1,6 @@
+
+#include <IR/Function.h>
+
 #include "IR/IR.h"
 #include "Util/Util.h"
 
@@ -10,6 +13,7 @@ void Function::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("getReturnType", &Function::getReturnType),
             InstanceMethod("addBasicBlock", &Function::addBasicBlock),
             InstanceMethod("getEntryBlock", &Function::getEntryBlock),
+            InstanceMethod("getExitBlock", &Function::getExitBlock),
             InstanceMethod("insertAfter", &Function::insertAfter)
     });
     constructor = Napi::Persistent(func);
@@ -98,6 +102,10 @@ Napi::Value Function::getEntryBlock(const Napi::CallbackInfo &info) {
     return BasicBlock::New(info.Env(), &(function->getEntryBlock()));
 }
 
+Napi::Value Function::getExitBlock(const Napi::CallbackInfo &info) {
+    return BasicBlock::New(info.Env(), &(function->back()));
+}
+
 void Function::insertAfter(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() < 2 || !BasicBlock::IsClassOf(info[0]) || !BasicBlock::IsClassOf(info[1])) {
@@ -107,3 +115,4 @@ void Function::insertAfter(const Napi::CallbackInfo &info) {
     llvm::BasicBlock *bb = BasicBlock::Extract(info[1]);
     function->getBasicBlockList().insertAfter(where->getIterator(), bb);
 }
+
