@@ -21,4 +21,8 @@ public:
 
 private:
     llvm::StructType *structType = nullptr;
+
+    static Napi::Value create(const Napi::CallbackInfo &info);
+
+    void setBody(const Napi::CallbackInfo &info);
 };

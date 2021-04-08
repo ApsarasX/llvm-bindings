@@ -35,14 +35,15 @@ FunctionType::FunctionType(const Napi::CallbackInfo &info) : ObjectWrap(info) {
 
 Napi::Value FunctionType::get(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (!(info.Length() >= 2 && Type::IsClassOf(info[0]) && info[1].IsBoolean()) &&
-        !(info.Length() >= 3 && Type::IsClassOf(info[0]) && info[1].IsArray() && info[2].IsBoolean())) {
+    int argsLen = info.Length();
+    if (!(argsLen == 2 && Type::IsClassOf(info[0]) && info[1].IsBoolean()) &&
+        !(argsLen >= 3 && Type::IsClassOf(info[0]) && info[1].IsArray() && info[2].IsBoolean())) {
         throw Napi::TypeError::New(env, ErrMsg::Class::FunctionType::get);
     }
     llvm::Type *returnType = Type::Extract(info[0]);
-    bool isVarArg = info[info.Length() - 1].As<Napi::Boolean>();
+    bool isVarArg = info[argsLen == 2 ? 1 : 2].As<Napi::Boolean>();
     llvm::FunctionType *functionType;
-    if (info.Length() >= 3) {
+    if (argsLen >= 3) {
         auto paramsArray = info[1].As<Napi::Array>();
         int numParams = paramsArray.Length();
         std::vector<llvm::Type *> paramTypes(numParams);

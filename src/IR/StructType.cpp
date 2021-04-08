@@ -4,6 +4,8 @@
 void StructType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "StructType", {
+            StaticMethod("create", &StructType::create),
+            InstanceMethod("setBody", &StructType::setBody)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -35,4 +37,42 @@ StructType::StructType(const Napi::CallbackInfo &info) : ObjectWrap(info) {
 
 llvm::StructType *StructType::getLLVMPrimitive() {
     return structType;
+}
+
+Napi::Value StructType::create(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    int argsLen = info.Length();
+    if (!(argsLen == 2 && LLVMContext::IsClassOf(info[0]) && info[1].IsString()) &&
+        !(argsLen >= 3 && LLVMContext::IsClassOf(info[0]) && info[1].IsArray() && info[2].IsString())) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::StructType::create);
+    }
+    llvm::LLVMContext &context = LLVMContext::Extract(info[0]);
+    const std::string &name = info[argsLen == 2 ? 1 : 2].As<Napi::String>();
+    llvm::StructType *structType;
+    if (argsLen >= 3) {
+        auto eleTypesArray = info[1].As<Napi::Array>();
+        int numElements = eleTypesArray.Length();
+        std::vector<llvm::Type *> elementTypes(numElements);
+        for (int i = 0; i < numElements; ++i) {
+            elementTypes[i] = Type::Extract(eleTypesArray.Get(i));
+        }
+        structType = llvm::StructType::create(context, elementTypes, name);
+    } else {
+        structType = llvm::StructType::create(context, name);
+    }
+    return StructType::New(env, structType);
+}
+
+void StructType::setBody(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 0 || !info[0].IsArray()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::StructType::setBody);
+    }
+    auto eleTypesArray = info[0].As<Napi::Array>();
+    int numElements = eleTypesArray.Length();
+    std::vector<llvm::Type *> elementTypes(numElements);
+    for (int i = 0; i < numElements; ++i) {
+        elementTypes[i] = Type::Extract(eleTypesArray.Get(i));
+    }
+    structType->setBody(elementTypes);
 }

@@ -169,6 +169,10 @@ namespace ErrMsg {
         }
         namespace StructType {
             static const char *constructor = "StructType.constructor needs to ce called with new (external: Napi::External<llvm::StructType>)";
+            static const char *create = "StructType.create needs to be called with:"
+                                        "\n\t - (context: LLVMContext, name: string)"
+                                        "\n\t - (context: LLVMContext, elementTypes: Type[], name: string)";
+            static const char *setBody = "StructType.setBody needs to be called with (elementTypes: Type[])";
         }
         namespace Type {
             static const char *constructor = "Type.constructor needs to ce called with new (external: Napi::External<llvm::Type>)";

@@ -175,6 +175,11 @@ declare namespace llvm {
     }
 
     class StructType extends Type {
+        public static create(context: LLVMContext, name: string): StructType;
+        public static create(context: LLVMContext, elementTypes: Type[], name: string): StructType;
+
+        public setBody(elementTypes: Type[]): void;
+
         protected constructor();
     }
 
