@@ -24,6 +24,7 @@
 #include "IR/ConstantInt.h"
 #include "IR/ConstantFP.h"
 #include "IR/ConstantPointerNull.h"
+#include "IR/ConstantStruct.h"
 #include "IR/GlobalValue.h"
 #include "IR/GlobalObject.h"
 #include "IR/GlobalVariable.h"

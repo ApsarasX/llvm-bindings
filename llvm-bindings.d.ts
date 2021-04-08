@@ -372,6 +372,12 @@ declare namespace llvm {
         protected constructor();
     }
 
+    class ConstantStruct extends Constant {
+        public static get(type: StructType, values: Constant[]): Constant;
+
+        protected constructor();
+    }
+
     class GlobalValue extends Constant {
         public static readonly LinkageTypes: {
             ExternalLinkage: number;
