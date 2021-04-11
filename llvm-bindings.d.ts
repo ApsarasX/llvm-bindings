@@ -555,22 +555,22 @@ declare namespace llvm {
         public CreateFCmpULT(lhs: Value, rhs: Value, name?: string): Value;
 
         // customized
-        public CreateAlloca(type: Type, arraySize?: Value | null, name?: string): Value;
+        public CreateAlloca(type: Type, arraySize?: Value | null, name?: string): AllocaInst;
 
-        public CreateBr(destBB: BasicBlock): Value;
+        public CreateBr(destBB: BasicBlock): BranchInst;
 
-        public CreateCall(callee: Function, args: Value[], name?: string): Value;
-        public CreateCall(funcType: FunctionType, callee: Value, args: Value[], name?: string): Value;
+        public CreateCall(callee: Function, args: Value[], name?: string): CallInst;
+        public CreateCall(funcType: FunctionType, callee: Value, args: Value[], name?: string): CallInst;
 
-        public CreateCondBr(cond: Value, thenBB: BasicBlock, elseBB: BasicBlock): Value;
+        public CreateCondBr(cond: Value, thenBB: BasicBlock, elseBB: BasicBlock): BranchInst;
 
-        public CreateLoad(type: Type, ptr: Value, name?: string): Value;
+        public CreateLoad(type: Type, ptr: Value, name?: string): LoadInst;
 
-        public CreateRet(value: Value): Value;
+        public CreateRet(value: Value): ReturnInst;
 
-        public CreateRetVoid(): Value;
+        public CreateRetVoid(): ReturnInst;
 
-        public CreateStore(value: Value, ptr: Value): Value;
+        public CreateStore(value: Value, ptr: Value): StoreInst;
 
         public CreateGlobalString(str: string, name?: string, addrSpace?: number, module?: Module): GlobalVariable;
 
