@@ -4,6 +4,7 @@ const testParseIRFile = require('./parseIRFile');
 const testWriteBitcodeToFile = require('./writeBitcodeToFile');
 const testStr = require('./str');
 const testVariable = require('./variable');
+const testClass = require('./class');
 
 testAdd();
 testFibonacci();
@@ -11,3 +12,4 @@ testParseIRFile();
 testWriteBitcodeToFile();
 testStr();
 testVariable();
+testClass();

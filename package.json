@@ -20,7 +20,7 @@
         "pretest": "npm run build:debug",
         "test": "node test/index.js",
         "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
-        "release": " npm version patch -m 'release: release v%s' && git push && git push --tags && npm publish"
+        "release": "npm version patch -m 'release: release v%s' && git push && git push --tags && npm publish"
     },
     "dependencies": {
         "bindings": "^1.5.0",

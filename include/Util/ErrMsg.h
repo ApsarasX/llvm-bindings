@@ -164,6 +164,7 @@ namespace ErrMsg {
         namespace PointerType {
             static const char *constructor = "PointerType.constructor needs to ce called with new (external: Napi::External<llvm::PointerType>)";
             static const char *get = "PointerType.get needs to be called with: (elementType: Type, addrSpace: number)";
+            static const char *getUnqual = "PointerType.getUnqual needs to be called with: (elementType: Type)";
         }
         namespace ReturnInst {
             static const char *constructor = "ReturnInst.constructor needs to ce called with new (external: Napi::External<llvm::ReturnInst>)";

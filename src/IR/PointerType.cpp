@@ -5,6 +5,7 @@ void PointerType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "PointerType", {
             StaticMethod("get", &PointerType::get),
+            StaticMethod("getUnqual", &PointerType::getUnqual),
             InstanceMethod("getElementType", &PointerType::getElementType)
     });
     constructor = Napi::Persistent(func);
@@ -42,6 +43,16 @@ Napi::Value PointerType::get(const Napi::CallbackInfo &info) {
     llvm::Type *type = Type::Extract(info[0]);
     uint32_t addrSpace = info[1].As<Napi::Number>();
     llvm::PointerType *pointerType = llvm::PointerType::get(type, addrSpace);
+    return PointerType::New(env, pointerType);
+}
+
+Napi::Value PointerType::getUnqual(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 0 || !Type::IsClassOf(info[0])) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::PointerType::getUnqual);
+    }
+    llvm::Type *type = Type::Extract(info[0]);
+    llvm::PointerType *pointerType = llvm::PointerType::getUnqual(type);
     return PointerType::New(env, pointerType);
 }
 

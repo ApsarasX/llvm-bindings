@@ -162,6 +162,8 @@ declare namespace llvm {
     class PointerType extends Type {
         public static get(elementType: Type, addrSpace: number): PointerType;
 
+        public static getUnqual(elementType: Type): PointerType;
+
         public getElementType(): Type;
 
         protected constructor();

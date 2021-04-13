@@ -24,5 +24,7 @@ private:
 
     static Napi::Value get(const Napi::CallbackInfo &info);
 
+    static Napi::Value getUnqual(const Napi::CallbackInfo &info);
+
     Napi::Value getElementType(const Napi::CallbackInfo &info);
 };
