@@ -556,6 +556,12 @@ declare namespace llvm {
 
         public CreateFCmpULT(lhs: Value, rhs: Value, name?: string): Value;
 
+        public CreateNeg(value: Value, name?: string): Value;
+
+        public CreateFNeg(value: Value, name?: string): Value;
+
+        public CreateNot(value: Value, name?: string): Value;
+
         // customized
         public CreateAlloca(type: Type, arraySize?: Value | null, name?: string): AllocaInst;
 

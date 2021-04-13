@@ -6,17 +6,33 @@
 #include "IR/IR.h"
 #include "Util/Util.h"
 
+#define unOpFactoryMacro(unOpFuncType, extraArgs...) \
+template<unOpFuncType method> \
+Napi::Value unOpFactory(const Napi::CallbackInfo &info) { \
+    Napi::Env env = info.Env(); \
+    size_t argsLen = info.Length(); \
+    if(argsLen >= 1 && Value::IsClassOf(info[0])) { \
+        if(argsLen == 1 || argsLen >= 2 && info[1].IsString()) { \
+            llvm::Value *value = Value::Extract(info[0]); \
+            const std::string &name = argsLen >= 2 ? info[1].As<Napi::String>().Utf8Value() : ""; \
+            llvm::Value *result = (builder->*method)(value, name, ##extraArgs); \
+            return Value::New(env, result); \
+        } \
+    } \
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateUnOpFactory); \
+}
+
 #define binOpFactoryMacro(binOpFuncType, extraArgs...) \
 template<binOpFuncType method> \
 Napi::Value binOpFactory(const Napi::CallbackInfo &info) { \
     Napi::Env env = info.Env(); \
-    size_t argsLen = info.Length();                    \
+    size_t argsLen = info.Length(); \
     if(argsLen >= 2 && Value::IsClassOf(info[0]) && Value::IsClassOf(info[1])) { \
-        llvm::Value *lhs = Value::Extract(info[0]); \
-        llvm::Value *rhs = Value::Extract(info[1]); \
         if(argsLen == 2 || argsLen >= 3 && info[2].IsString()) { \
+            llvm::Value *lhs = Value::Extract(info[0]); \
+            llvm::Value *rhs = Value::Extract(info[1]); \
             const std::string &name = argsLen >= 3 ? info[2].As<Napi::String>().Utf8Value() : ""; \
-            llvm::Value *result = (builder->*method)( lhs, rhs, name, ##extraArgs); \
+            llvm::Value *result = (builder->*method)(lhs, rhs, name, ##extraArgs); \
             return Value::New(env, result); \
         } \
     } \
@@ -36,11 +52,17 @@ Napi::Value getIntFactory(const Napi::CallbackInfo &info) { \
 
 typedef llvm::IRBuilder<> LLVMIRBuilder;
 
+typedef llvm::Value *(llvm::IRBuilderBase::*UnaryOperation)(llvm::Value *, const llvm::Twine &);
+
+typedef llvm::Value *(llvm::IRBuilderBase::*UnaryIntOperation)(llvm::Value *, const llvm::Twine &, bool HasNUW, bool HasNSW);
+
+typedef llvm::Value *(llvm::IRBuilderBase::*UnaryFloatOperation)(llvm::Value *, const llvm::Twine &, llvm::MDNode *FPMathTag);
+
+typedef llvm::Value *(llvm::IRBuilderBase::*BinaryOperation)(llvm::Value *, llvm::Value *, const llvm::Twine &);
+
 typedef llvm::Value *(llvm::IRBuilderBase::*BinaryIntOperation)(llvm::Value *, llvm::Value *, const llvm::Twine &, bool HasNUW, bool HasNSW);
 
 typedef llvm::Value *(llvm::IRBuilderBase::*BinaryFloatOperation)(llvm::Value *, llvm::Value *, const llvm::Twine &, llvm::MDNode *FPMathTag);
-
-typedef llvm::Value *(llvm::IRBuilderBase::*BinaryOperation)(llvm::Value *, llvm::Value *, const llvm::Twine &);
 
 typedef llvm::Value *(llvm::IRBuilderBase::*BinaryOperationWithBool)(llvm::Value *, llvm::Value *, const llvm::Twine &, bool isExact);
 
@@ -95,11 +117,17 @@ private:
 
     Napi::Value createStore(const Napi::CallbackInfo &info);
 
+    unOpFactoryMacro(UnaryOperation)
+
+    unOpFactoryMacro(UnaryIntOperation, false, false)
+
+    unOpFactoryMacro(UnaryFloatOperation, nullptr)
+
+    binOpFactoryMacro(BinaryOperation)
+
     binOpFactoryMacro(BinaryIntOperation, false, false)
 
     binOpFactoryMacro(BinaryFloatOperation, nullptr)
-
-    binOpFactoryMacro(BinaryOperation)
 
     binOpFactoryMacro(BinaryOperationWithBool, false)
 
