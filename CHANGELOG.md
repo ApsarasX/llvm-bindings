@@ -1,3 +1,21 @@
+## [0.1.6](https://github.com/ApsarasX/llvm-bindings/compare/v0.1.5...v0.1.6) (2021-04-13)
+
+
+### Bug Fixes
+
+* **IR:** change the return type of IRBuilder.Create<Inst> to the corresponding instruction type ([45be7ed](https://github.com/ApsarasX/llvm-bindings/commit/45be7ed768ae094dbced767355a65240f4c229aa))
+
+
+### Features
+
+* **IR:** add Argument.setName ([671a70f](https://github.com/ApsarasX/llvm-bindings/commit/671a70f5532417a2c390919b8fb1fcba119e096c))
+* **IR:** add class ConstantStruct ([c1033c6](https://github.com/ApsarasX/llvm-bindings/commit/c1033c6d157b9b9b976e6618ccdb85f60107a064))
+* **IR:** add Function.getExitBlock ([93b55fb](https://github.com/ApsarasX/llvm-bindings/commit/93b55fb571f7c28d18585541e603b84447dceaee))
+* **IR:** add PointerType.getUnqual ([3c4ccbc](https://github.com/ApsarasX/llvm-bindings/commit/3c4ccbc0c6bb8d2ec618d2fe8da23d25b85bf3c3))
+* **IR:** add StructType.create and StructType.setBody ([b814313](https://github.com/ApsarasX/llvm-bindings/commit/b814313b1209a51842af779927e4fbb52166d24b))
+
+
+
 ## [0.1.5](https://github.com/ApsarasX/llvm-bindings/compare/v0.1.4...v0.1.5) (2021-03-30)
 
 
