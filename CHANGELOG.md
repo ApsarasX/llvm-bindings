@@ -1,3 +1,17 @@
+## [0.1.7](https://github.com/ApsarasX/llvm-bindings/compare/v0.1.6...v0.1.7) (2021-04-20)
+
+
+### Bug Fixes
+
+* **IR:** fix the problem about verification of ConstantPointerNull.get ([f1fcd6f](https://github.com/ApsarasX/llvm-bindings/commit/f1fcd6f967c766209c0ec00468131f4d24b3c41f))
+
+
+### Features
+
+* **IR:** add some unary operations of IRBuilder ([85361c6](https://github.com/ApsarasX/llvm-bindings/commit/85361c6bfac36cf476c174e651b9a5aa9e3a9bc3))
+
+
+
 ## [0.1.6](https://github.com/ApsarasX/llvm-bindings/compare/v0.1.5...v0.1.6) (2021-04-13)
 
 
