@@ -41,10 +41,10 @@ llvm::ConstantPointerNull *ConstantPointerNull::getLLVMPrimitive() {
 Napi::Value ConstantPointerNull::get(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() == 0 || !PointerType::IsClassOf(info[0])) {
-        llvm::PointerType *type = PointerType::Extract(info[0]);
-        return ConstantPointerNull::New(env, llvm::ConstantPointerNull::get(type));
+        throw Napi::TypeError::New(env, ErrMsg::Class::ConstantPointerNull::get);
     }
-    throw Napi::TypeError::New(env, ErrMsg::Class::ConstantPointerNull::get);
+    llvm::PointerType *type = PointerType::Extract(info[0]);
+    return ConstantPointerNull::New(env, llvm::ConstantPointerNull::get(type));
 }
 
 Napi::Value ConstantPointerNull::getType(const Napi::CallbackInfo &info) {

@@ -7,11 +7,11 @@ const testVariable = require('./variable');
 const testClass = require('./class');
 const testUnary = require('./unary');
 
-// testAdd();
-// testFibonacci();
-// testParseIRFile();
-// testWriteBitcodeToFile();
-// testStr();
-// testVariable();
-// testClass();
+testAdd();
+testFibonacci();
+testParseIRFile();
+testWriteBitcodeToFile();
+testStr();
+testVariable();
+testClass();
 testUnary();

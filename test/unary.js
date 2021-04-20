@@ -10,13 +10,19 @@ const {getContextModuleBuilder, createFunction} = require('./util');
 module.exports = function () {
     const {context, module, builder} = getContextModuleBuilder('unary.cpp');
     const returnType = builder.getVoidTy();
-    const func = createFunction('add', returnType, [], module);
+    const func = createFunction('unary', returnType, [], module);
     const entryBB = BasicBlock.Create(context, "entry", func);
     builder.SetInsertionPoint(entryBB);
 
-    const flagAlloca = builder.CreateAlloca(builder.getInt1Ty(), null, "flag_alloca");
-    builder.CreateStore(builder.getFalse(), flagAlloca);
-    const flagValue = builder.CreateLoad(builder.getInt1Ty(), flagAlloca, "flag_value");
+    const boolAlloca = builder.CreateAlloca(builder.getInt1Ty(), null, "bool_alloca");
+    builder.CreateStore(builder.getFalse(), boolAlloca);
+    const boolValue = builder.CreateLoad(builder.getInt1Ty(), boolAlloca, "bool_value");
+    const notBoolValue = builder.CreateNot(boolValue, "not_bool_value");
+    builder.CreateStore(notBoolValue, boolAlloca);
+
+    const flagAlloca = builder.CreateAlloca(builder.getInt64Ty(), null, "flag_alloca");
+    builder.CreateStore(builder.getInt64(123), flagAlloca);
+    const flagValue = builder.CreateLoad(builder.getInt64Ty(), flagAlloca, "flag_value");
     const notFlagValue = builder.CreateNot(flagValue, "not_flag_value");
     builder.CreateStore(notFlagValue, flagAlloca);
 
@@ -33,6 +39,7 @@ module.exports = function () {
     builder.CreateStore(negFloatValue, floatAlloca);
 
     builder.CreateRetVoid()
+
     if (!verifyFunction(func) && !verifyModule(module)) {
         module.print();
     }
