@@ -29,5 +29,7 @@ private:
     Napi::Value getModule(const Napi::CallbackInfo &info);
 
     Napi::Value getFunction(const Napi::CallbackInfo &info);
+
+    Napi::Value getType(const Napi::CallbackInfo &info);
 };
 

@@ -6,7 +6,8 @@ void PointerType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::Function func = DefineClass(env, "PointerType", {
             StaticMethod("get", &PointerType::get),
             StaticMethod("getUnqual", &PointerType::getUnqual),
-            InstanceMethod("getElementType", &PointerType::getElementType)
+            InstanceMethod("getElementType", &PointerType::getElementType),
+            InstanceMethod("isPointerTy", &PointerType::isPointerTy)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -60,6 +61,10 @@ Napi::Value PointerType::getElementType(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     llvm::Type *elementType = pointerType->getElementType();
     return Type::New(env, elementType);
+}
+
+Napi::Value PointerType::isPointerTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), pointerType->isPointerTy());
 }
 
 llvm::PointerType *PointerType::getLLVMPrimitive() {

@@ -4,6 +4,7 @@
 void LoadInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "LoadInst", {
+            InstanceMethod("getType", &LoadInst::getType)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -34,4 +35,10 @@ LoadInst::LoadInst(const Napi::CallbackInfo &info) : ObjectWrap(info) {
 
 llvm::LoadInst *LoadInst::getLLVMPrimitive() {
     return loadInst;
+}
+
+Napi::Value LoadInst::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Type *type = loadInst->getType();
+    return Type::New(env, type);
 }

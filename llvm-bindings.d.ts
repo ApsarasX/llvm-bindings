@@ -166,6 +166,9 @@ declare namespace llvm {
 
         public getElementType(): Type;
 
+        // duplicated
+        public isPointerTy(): boolean;
+
         protected constructor();
     }
 
@@ -273,6 +276,9 @@ declare namespace llvm {
 
         public getFunction(): Function | null;
 
+        // duplicated
+        public getType(): Type;
+
         protected constructor();
     }
 
@@ -280,6 +286,9 @@ declare namespace llvm {
         public getAllocatedType(): Type;
 
         public getArraySize(): Value;
+
+        // duplicated
+        public getType(): llvm.Type;
 
         protected constructor();
     }
@@ -303,6 +312,9 @@ declare namespace llvm {
     }
 
     class LoadInst extends Instruction {
+        // duplicated
+        public getType(): llvm.Type;
+
         protected constructor();
     }
 

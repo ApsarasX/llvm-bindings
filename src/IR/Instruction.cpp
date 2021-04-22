@@ -7,7 +7,8 @@ void Instruction::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("use_back", &Instruction::userBack),
             InstanceMethod("getParent", &Instruction::getParent),
             InstanceMethod("getModule", &Instruction::getModule),
-            InstanceMethod("getFunction", &Instruction::getFunction)
+            InstanceMethod("getFunction", &Instruction::getFunction),
+            InstanceMethod("getType", &Instruction::getType)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -89,4 +90,10 @@ Napi::Value Instruction::getFunction(const Napi::CallbackInfo &info) {
         return Function::New(env, function);
     }
     return env.Null();
+}
+
+Napi::Value Instruction::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Type *type = instruction->getType();
+    return Type::New(env, type);
 }

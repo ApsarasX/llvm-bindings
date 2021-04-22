@@ -5,7 +5,8 @@ void AllocaInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "AllocaInst", {
             InstanceMethod("getAllocatedType", &AllocaInst::getAllocatedType),
-            InstanceMethod("getArraySize", &AllocaInst::getArraySize)
+            InstanceMethod("getArraySize", &AllocaInst::getArraySize),
+            InstanceMethod("getType", &AllocaInst::getType)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -44,4 +45,10 @@ Napi::Value AllocaInst::getAllocatedType(const Napi::CallbackInfo &info) {
 
 Napi::Value AllocaInst::getArraySize(const Napi::CallbackInfo &info) {
     return Value::New(info.Env(), allocaInst->getArraySize());
+}
+
+Napi::Value AllocaInst::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Type *type = allocaInst->getType();
+    return Type::New(env, type);
 }

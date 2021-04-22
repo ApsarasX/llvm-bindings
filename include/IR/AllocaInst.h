@@ -25,4 +25,6 @@ private:
     Napi::Value getAllocatedType(const Napi::CallbackInfo &info);
 
     Napi::Value getArraySize(const Napi::CallbackInfo &info);
+
+    Napi::Value getType(const Napi::CallbackInfo &info);
 };

@@ -21,4 +21,6 @@ public:
 
 private:
     llvm::LoadInst *loadInst = nullptr;
+
+    Napi::Value getType(const Napi::CallbackInfo &info);
 };
