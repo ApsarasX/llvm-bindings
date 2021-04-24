@@ -30,4 +30,4 @@ string(REGEX REPLACE "[\r\n\"]" "" NODE_ADDON_API_DIR ${NODE_ADDON_API_DIR})
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${NODE_ADDON_API_DIR})
 
-add_definitions(-DNAPI_VERSION=7)
+add_definitions(-DNAPI_VERSION=8)
