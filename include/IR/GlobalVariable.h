@@ -21,4 +21,6 @@ public:
 
 private:
     llvm::GlobalVariable *globalVariable = nullptr;
+
+    Napi::Value getType(const Napi::CallbackInfo &info);
 };

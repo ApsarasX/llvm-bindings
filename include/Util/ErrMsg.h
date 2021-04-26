@@ -179,6 +179,7 @@ namespace ErrMsg {
                                         "\n\t - (context: LLVMContext, name: string)"
                                         "\n\t - (context: LLVMContext, elementTypes: Type[], name: string)";
             static const char *setBody = "StructType.setBody needs to be called with (elementTypes: Type[])";
+            static const char *getPointerTo = "StructType.getPointer needs to called with: (addrSpace?: number)";
         }
         namespace Type {
             static const char *constructor = "Type.constructor needs to ce called with new (external: Napi::External<llvm::Type>)";

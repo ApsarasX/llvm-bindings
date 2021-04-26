@@ -29,4 +29,6 @@ private:
     Napi::Value getNumElements(const Napi::CallbackInfo &info);
 
     Napi::Value getElementType(const Napi::CallbackInfo &info);
+
+    Napi::Value isStructTy(const Napi::CallbackInfo &info);
 };

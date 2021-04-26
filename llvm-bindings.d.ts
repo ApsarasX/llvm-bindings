@@ -146,7 +146,7 @@ declare namespace llvm {
 
         public isAggregateType(): boolean;
 
-        public getPointerTo(addrSpace?: number): Type;
+        public getPointerTo(addrSpace?: number): PointerType;
 
         public getPrimitiveSizeInBits(): number;
 
@@ -155,6 +155,9 @@ declare namespace llvm {
 
     class IntegerType extends Type {
         public static get(context: LLVMContext, numBits: number): IntegerType;
+
+        // duplicated
+        public isStructTy(): boolean;
 
         protected constructor();
     }
@@ -168,6 +171,9 @@ declare namespace llvm {
 
         // duplicated
         public isPointerTy(): boolean;
+
+        // duplicated
+        public isStructTy(): boolean;
 
         protected constructor();
     }
@@ -185,6 +191,12 @@ declare namespace llvm {
 
         public setBody(elementTypes: Type[]): void;
 
+        // duplicated
+        public getPointerTo(addrSpace?: number): PointerType;
+
+        // duplicated
+        public isStructTy(): boolean;
+
         protected constructor();
     }
 
@@ -196,6 +208,9 @@ declare namespace llvm {
         public getNumElements(): number;
 
         public getElementType(): Type;
+
+        // duplicated
+        public isStructTy(): boolean;
 
         protected constructor();
     }
@@ -420,8 +435,13 @@ declare namespace llvm {
     }
 
     class GlobalVariable extends GlobalObject {
-        public constructor(type: Type, isConstant: boolean, linkage: number, initializer?: Constant, name?: string);
-        public constructor(module: Module, type: Type, isConstant: boolean, linkage: number, initializer: Constant, name?: string);
+        // customized
+        public constructor(type: Type, isConstant: boolean, linkage: number, initializer?: Constant | null, name?: string);
+        // customized
+        public constructor(module: Module, type: Type, isConstant: boolean, linkage: number, initializer: Constant | null, name?: string);
+
+        // duplicated
+        public getType(): Type;
     }
 
     class Function extends GlobalObject {

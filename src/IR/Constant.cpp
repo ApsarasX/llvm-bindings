@@ -30,10 +30,13 @@ Napi::Object Constant::New(Napi::Env env, llvm::Constant *constant) {
 }
 
 bool Constant::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::Constant *Constant::Extract(const Napi::Value &value) {
+    if (value.IsNull()) {
+        return nullptr;
+    }
     return Unwrap(value.As<Napi::Object>())->getLLVMPrimitive();
 }
 

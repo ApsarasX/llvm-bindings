@@ -7,7 +7,8 @@ void ArrayType::Init(Napi::Env env, Napi::Object &exports) {
             StaticMethod("get", &ArrayType::get),
             StaticMethod("isValidElementType", &ArrayType::isValidElementType),
             InstanceMethod("getNumElements", &ArrayType::getNumElements),
-            InstanceMethod("getElementType", &ArrayType::getElementType)
+            InstanceMethod("getElementType", &ArrayType::getElementType),
+            InstanceMethod("isStructTy", &ArrayType::isStructTy)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -65,4 +66,8 @@ Napi::Value ArrayType::getNumElements(const Napi::CallbackInfo &info) {
 
 Napi::Value ArrayType::getElementType(const Napi::CallbackInfo &info) {
     return Type::New(info.Env(), arrayType->getElementType());
+}
+
+Napi::Value ArrayType::isStructTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), arrayType->isStructTy());
 }

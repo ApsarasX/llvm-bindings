@@ -25,4 +25,8 @@ private:
     static Napi::Value create(const Napi::CallbackInfo &info);
 
     void setBody(const Napi::CallbackInfo &info);
+
+    Napi::Value getPointerTo(const Napi::CallbackInfo &info);
+
+    Napi::Value isStructTy(const Napi::CallbackInfo &info);
 };
