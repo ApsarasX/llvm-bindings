@@ -18,7 +18,7 @@ listed in the [TypeScript definition file](./llvm-bindings.d.ts).
 
 ```shell
 # install cmake and llvm by homebrew
-brew install cmake llvm
+brew install cmake llvm@11
 
 # install llvm-bindings
 npm install llvm-bindings
