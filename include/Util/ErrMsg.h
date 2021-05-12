@@ -56,48 +56,48 @@ namespace ErrMsg {
                                      "\n\t - (type: IntegerType, value: number, isSigned?: boolean)";
         }
         namespace ConstantPointerNull {
-            static const char *constructor = "ConstantPointerNull.constructor needs to ce called with new (external: Napi::External<llvm::ConstantPointerNull>)";
+            static const char *constructor = "ConstantPointerNull.constructor needs to be called with new (external: Napi::External<llvm::ConstantPointerNull>)";
             static const char *get = "ConstantPointerNull.get needs to be called with (type: PointerType)";
         }
         namespace ConstantStruct {
-            static const char *constructor = "ConstantStruct.constructor needs to ce called with new (external: Napi::External<llvm::ConstantPointerNull>)";
+            static const char *constructor = "ConstantStruct.constructor needs to be called with new (external: Napi::External<llvm::ConstantPointerNull>)";
             static const char *get = "ConstantStruct.get needs to be called with (type: StructType, values: Constant[])";
         }
         namespace DataLayout {
-            static const char *constructor = "DataLayout.constructor needs to ce called with"
+            static const char *constructor = "DataLayout.constructor needs to be called with"
                                              "\n\t - new (external: Napi::External<llvm::DataLayout>)"
                                              "\n\t - new (desc: string)";
         }
         namespace Function {
-            static const char *constructor = "Function.constructor needs to ce called with new (external: Napi::External<llvm::Function>)";
+            static const char *constructor = "Function.constructor needs to be called with new (external: Napi::External<llvm::Function>)";
             static const char *Create = "Function.Create needs to be called with: (funcType: FunctionType, linkage: number, name?: string, module?: Module)";
             static const char *getArg = "Function.getArg needs to be called with (i: number)";
             static const char *addBasicBlock = "Function.addBasicBlock needs to be called with (basicBlock: BasicBlock)";
             static const char *insertAfter = "Function.insertAfter needs to be called with (where: BasicBlock, basicBlock: BasicBlock)";
         }
         namespace FunctionType {
-            static const char *constructor = "FunctionType.constructor needs to ce called with new (external: Napi::External<llvm::Function>)";
+            static const char *constructor = "FunctionType.constructor needs to be called with new (external: Napi::External<llvm::Function>)";
             static const char *get = "FunctionType.get needs to be called with:"
                                      "\n\t - (returnType: Type, isVarArg: boolean)"
                                      "\n\t - (returnType: Type, paramTypes: Type[], isVarArg: boolean)";
         }
         namespace GlobalObject {
-            static const char *constructor = "GlobalObject.constructor needs to ce called with new (external: Napi::External<llvm::GlobalObject>)";
+            static const char *constructor = "GlobalObject.constructor needs to be called with new (external: Napi::External<llvm::GlobalObject>)";
         }
         namespace GlobalValue {
-            static const char *constructor = "GlobalValue.constructor needs to ce called with new (external: Napi::External<llvm::GlobalValue>)";
+            static const char *constructor = "GlobalValue.constructor needs to be called with new (external: Napi::External<llvm::GlobalValue>)";
         }
         namespace GlobalVariable {
-            static const char *constructor = "GlobalVariable.constructor needs to ce called with"
+            static const char *constructor = "GlobalVariable.constructor needs to be called with"
                                              "\n\t - new (external: Napi::External<llvm::GlobalVariable>)"
                                              "\n\t - new (type: Type, isConstant: boolean, linkage: LinkageTypes, initializer?: Constant, name?: string)"
                                              "\n\t - new (module: Module, type: Type, isConstant: boolean, linkage: LinkageTypes, initializer: Constant, name?: string)";
         }
         namespace Instruction {
-            static const char *constructor = "Instruction.constructor needs to ce called with new (external: Napi::External<llvm::Instruction>)";
+            static const char *constructor = "Instruction.constructor needs to be called with new (external: Napi::External<llvm::Instruction>)";
         }
         namespace IntegerType {
-            static const char *constructor = "IntegerType.constructor needs to ce called with new (external: Napi::External<llvm::IntegerType>)";
+            static const char *constructor = "IntegerType.constructor needs to be called with new (external: Napi::External<llvm::IntegerType>)";
             static const char *get = "IntegerType.get needs to be called with: (context: LLVMContext, numBits: number)";
         }
         namespace IRBuilder {
@@ -141,10 +141,10 @@ namespace ErrMsg {
             static const char *constructor = "LLVMContext.constructor needs to be called with new ()";
         }
         namespace LoadInst {
-            static const char *constructor = "LoadInst.constructor needs to ce called with new (external: Napi::External<llvm::LoadInst>)";
+            static const char *constructor = "LoadInst.constructor needs to be called with new (external: Napi::External<llvm::LoadInst>)";
         }
         namespace Module {
-            static const char *constructor = "Module.constructor needs to ce called with"
+            static const char *constructor = "Module.constructor needs to be called with"
                                              "\n\t - new (external: Napi::External<llvm::Module>)"
                                              "\n\t - new (moduleID: string, context: LLVMContext)";
             static const char *getFunction = "Module.getFunction needs to be called with: (name: string)";
@@ -156,25 +156,25 @@ namespace ErrMsg {
             static const char *setModuleIdentifier = "Module.setModuleIdentifier needs to be called with: (moduleID: string)";
             static const char *setSourceFileName = "Module.setSourceFileName needs to be called with: (sourceFileName: string)";
             static const char *setTargetTriple = "Module.setTargetTriple needs to be called with: (targetTriple: string)";
-            static const char *print = "Module.print needs to ce called with (filename?: string)";
+            static const char *print = "Module.print needs to be called with (filename?: string)";
         }
         namespace PHINode {
             static const char *constructor = "PHINode.constructor needs to be called with new (external: Napi::External<llvm::PHINode>)";
             static const char *addIncoming = "PHINode.addIncoming needs to be called with (value: Value, basicBlock: BasicBlock)";
         }
         namespace PointerType {
-            static const char *constructor = "PointerType.constructor needs to ce called with new (external: Napi::External<llvm::PointerType>)";
+            static const char *constructor = "PointerType.constructor needs to be called with new (external: Napi::External<llvm::PointerType>)";
             static const char *get = "PointerType.get needs to be called with: (elementType: Type, addrSpace: number)";
             static const char *getUnqual = "PointerType.getUnqual needs to be called with: (elementType: Type)";
         }
         namespace ReturnInst {
-            static const char *constructor = "ReturnInst.constructor needs to ce called with new (external: Napi::External<llvm::ReturnInst>)";
+            static const char *constructor = "ReturnInst.constructor needs to be called with new (external: Napi::External<llvm::ReturnInst>)";
         }
         namespace StoreInst {
-            static const char *constructor = "StoreInst.constructor needs to ce called with new (external: Napi::External<llvm::StoreInst>)";
+            static const char *constructor = "StoreInst.constructor needs to be called with new (external: Napi::External<llvm::StoreInst>)";
         }
         namespace StructType {
-            static const char *constructor = "StructType.constructor needs to ce called with new (external: Napi::External<llvm::StructType>)";
+            static const char *constructor = "StructType.constructor needs to be called with new (external: Napi::External<llvm::StructType>)";
             static const char *create = "StructType.create needs to be called with:"
                                         "\n\t - (context: LLVMContext, name: string)"
                                         "\n\t - (context: LLVMContext, elementTypes: Type[], name: string)";
@@ -182,7 +182,7 @@ namespace ErrMsg {
             static const char *getPointerTo = "StructType.getPointer needs to called with: (addrSpace?: number)";
         }
         namespace Type {
-            static const char *constructor = "Type.constructor needs to ce called with new (external: Napi::External<llvm::Type>)";
+            static const char *constructor = "Type.constructor needs to be called with new (external: Napi::External<llvm::Type>)";
             static const char *getPointerTo = "Type.getPointer needs to called with: (addrSpace?: number)";
             static const char *getIntNTy = "Type.getIntNTy needs to be called with: (context: LLVMContext, n: number)";
             static const char *isIntegerTy = "Type.isIntegerTy needs to be called with: (bitWidth?: number)";
@@ -191,12 +191,12 @@ namespace ErrMsg {
             static const char *getPointerTypeFactory = "Type.[getPointerType] needs to be called with (context: LLVMContext, addrSpace?: number)";
         }
         namespace User {
-            static const char *constructor = "User.constructor needs to ce called with new (external: Napi::External<llvm::User>)";
+            static const char *constructor = "User.constructor needs to be called with new (external: Napi::External<llvm::User>)";
             static const char *getOperand = "User.getOperand needs to be called with: (i: number)";
             static const char *setOperand = "User.setOperand needs to be called with: (i: number, value: Value)";
         }
         namespace Value {
-            static const char *constructor = "Value.constructor needs to ce called with new (external: Napi::External<llvm::Value>)";
+            static const char *constructor = "Value.constructor needs to be called with new (external: Napi::External<llvm::Value>)";
             static const char *setName = "Value.setName needs to be called with (name: string)";
             static const char *replaceAllUsesWith = "Value.replaceAllUsesWith needs to be called with: (newValue: Value)";
         }
@@ -204,14 +204,14 @@ namespace ErrMsg {
             static const char *constructor = "SMDiagnostic.constructor needs to be called with new ()";
         }
         namespace Target {
-            static const char *constructor = "Target.constructor needs to ce called with new (external: Napi::External<llvm::Target>)";
-            static const char *createTargetMachine = "Target.createTargetMachine needs to ce called with (targetTriple: string, cpu: string, features?: string)";
+            static const char *constructor = "Target.constructor needs to be called with new (external: Napi::External<llvm::Target>)";
+            static const char *createTargetMachine = "Target.createTargetMachine needs to be called with (targetTriple: string, cpu: string, features?: string)";
         }
         namespace TargetRegistry {
             static const char *lookupTarget = "TargetRegistry.lookupTarget needs to be called with (triple: string)";
         }
         namespace TargetMachine {
-            static const char *constructor = "TargetMachine.constructor needs to ce called with new (external: Napi::External<llvm::TargetMachine>)";
+            static const char *constructor = "TargetMachine.constructor needs to be called with new (external: Napi::External<llvm::TargetMachine>)";
         }
     }
     namespace Function {
