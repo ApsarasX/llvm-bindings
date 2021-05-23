@@ -44,7 +44,7 @@ Napi::Value BasicBlock::create(const Napi::CallbackInfo &info) {
     int argsLen = info.Length();
     if (argsLen == 0 ||
         !LLVMContext::IsClassOf(info[0]) ||
-        argsLen >= 2 && !info[1].IsString() ||
+        argsLen >= 2 && (!info[1].IsString() && !info[1].IsUndefined()) ||
         argsLen >= 3 && !Function::IsClassOf(info[2]) ||
         argsLen >= 4 && !BasicBlock::IsClassOf(info[3])) {
         throw Napi::TypeError::New(env, ErrMsg::Class::BasicBlock::Create);
@@ -53,7 +53,7 @@ Napi::Value BasicBlock::create(const Napi::CallbackInfo &info) {
     std::string name;
     llvm::Function *parent = nullptr;
     llvm::BasicBlock *insertBefore = nullptr;
-    if (argsLen >= 2) {
+    if (argsLen >= 2 && info[1].IsString()) {
         name = info[1].As<Napi::String>();
     }
     if (argsLen >= 3) {
