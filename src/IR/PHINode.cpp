@@ -45,6 +45,7 @@ void PHINode::addIncoming(const Napi::CallbackInfo &info) {
         llvm::Value *value = Value::Extract(info[0]);
         llvm::BasicBlock *basicBlock = BasicBlock::Extract(info[1]);
         phiNode->addIncoming(value, basicBlock);
+    } else {
+        throw Napi::TypeError::New(info.Env(), ErrMsg::Class::PHINode::addIncoming);
     }
-    throw Napi::TypeError::New(info.Env(), ErrMsg::Class::PHINode::addIncoming);
 }
