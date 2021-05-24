@@ -24,7 +24,7 @@ brew install cmake llvm
 npm install llvm-bindings
 ```
 
-### Install
+### Install on Ubuntu
 
 ```shell
 #install llvm by installation script
