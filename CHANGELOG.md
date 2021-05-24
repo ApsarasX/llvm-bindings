@@ -1,3 +1,12 @@
+# [0.2.0](https://github.com/ApsarasX/llvm-bindings/compare/v0.1.8...v0.2.0) (2021-05-24)
+
+
+### Features
+
+* switch the version of llvm to 12 ([ff505cc](https://github.com/ApsarasX/llvm-bindings/commit/ff505cc9d6a3f18d63fbbc628f28b05a7cedb2b6))
+
+
+
 ## [0.1.8](https://github.com/ApsarasX/llvm-bindings/compare/v0.1.7...v0.1.8) (2021-05-24)
 
 
