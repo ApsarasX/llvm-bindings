@@ -1,3 +1,20 @@
+## [0.1.8](https://github.com/ApsarasX/llvm-bindings/compare/v0.1.7...v0.1.8) (2021-05-24)
+
+
+### Bug Fixes
+
+* allow undefined or null for middle arguments of BasicBlock.Create and close [#5](https://github.com/ApsarasX/llvm-bindings/issues/5) ([84bf31f](https://github.com/ApsarasX/llvm-bindings/commit/84bf31f0564e43a7cae7e963d6a19f3f57c73d23))
+* error message typo ([4f5a356](https://github.com/ApsarasX/llvm-bindings/commit/4f5a3561d864957b5e1f53c146f606c3a8a91788))
+* prevent phi node addIncoming from always throwing and close [#4](https://github.com/ApsarasX/llvm-bindings/issues/4) ([9068055](https://github.com/ApsarasX/llvm-bindings/commit/9068055105acc1693b0e7f4a50b7fff4c5f78b09))
+
+
+### Features
+
+* add several duplicated method for [#1](https://github.com/ApsarasX/llvm-bindings/issues/1) ([5af02bc](https://github.com/ApsarasX/llvm-bindings/commit/5af02bc38f2af107ee19ab601d3d0445174e0b7f))
+* **IR:** add some duplicated methods due to missing inheritance of node-api ([8da2f66](https://github.com/ApsarasX/llvm-bindings/commit/8da2f661073ce2260ea2e6b0596229a938154843))
+
+
+
 ## [0.1.7](https://github.com/ApsarasX/llvm-bindings/compare/v0.1.6...v0.1.7) (2021-04-20)
 
 
