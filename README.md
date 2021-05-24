@@ -18,19 +18,24 @@ listed in the [TypeScript definition file](./llvm-bindings.d.ts).
 
 ```shell
 # install cmake and llvm by homebrew
-brew install cmake llvm@11
+brew install cmake llvm
 
-# install llvm-bindings
+# install llvm-bindings by npm
 npm install llvm-bindings
 ```
 
-### Install on Ubuntu
+### Install
 
 ```shell
-# install cmake and llvm by apt-get
-sudo apt-get install cmake llvm-11
+#install llvm by installation script
+wget https://apt.llvm.org/llvm.sh
+sudo chmod +x llvm.sh
+sudo ./llvm.sh
 
-# install llvm-bindings
+# install cmake by apt-get
+sudo apt-get install cmake
+
+# install llvm-bindings by npm
 npm install llvm-bindings
 ```
 
@@ -62,13 +67,17 @@ if (!llvm.verifyFunction(func) && !llvm.verifyModule(mod)) {
 }
 ```
 
-> Note: You cannot declare a variable or constant named `module` in top level, because `module` is a built-in object in Node.js.
+> You cannot declare a variable or constant named `module` in top level, because `module` is a built-in object in Node.js.
+
+## Note
+Due to the limitation of `node-addon-api`, this project has not implemented inheritance yet, so calling the method of superclass from subclass object will report an error. Please see [#1](https://github.com/ApsarasX/llvm-bindings/issues/1) for details.
 
 ## Compatibility
 
 | llvm-bindings versions  |  compatible LLVM versions |
 | ------------ | ------------ |
 |  0.0.x, 0.1.x |  11.0.x, 11.1.x |
+|  0.2.x        |  12.0.x         |
 
 ## Acknowledgments
 - [MichaReiser](https://github.com/MichaReiser): the creator of [llvm-node](https://github.com/MichaReiser/llvm-node)

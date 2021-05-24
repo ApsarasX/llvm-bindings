@@ -98,7 +98,7 @@ Napi::Value Module::getTypeByName(const Napi::CallbackInfo &info) {
         throw Napi::TypeError::New(env, ErrMsg::Class::Module::getTypeByName);
     }
     const std::string name = info[0].As<Napi::String>();
-    llvm::StructType *type = module->getTypeByName(name);
+    llvm::StructType *type = llvm::StructType::getTypeByName(module->getContext(), name);
     if (type) {
         return StructType::New(env, type);
     }
