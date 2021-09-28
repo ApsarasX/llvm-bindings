@@ -63,7 +63,7 @@ Napi::Value Function::create(const Napi::CallbackInfo &info) {
     if (argsLen >= 4) {
         module = Module::Extract(info[3]);
     }
-    llvm::Function *function = llvm::Function::Create(funcType, linkage, name, module);
+    llvm::Function *function = llvm::Function::Create(funcType, linkage, static_cast<unsigned>(-1), name, module);
     return Function::New(env, function);
 }
 
