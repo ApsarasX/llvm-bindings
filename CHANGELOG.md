@@ -1,3 +1,12 @@
+## [0.2.1](https://github.com/ApsarasX/llvm-bindings/compare/v0.2.0...v0.2.1) (2021-09-29)
+
+
+### Bug Fixes
+
+* **IR:** update the parameter list format when using llvm::Function::Create ([5f0802f](https://github.com/ApsarasX/llvm-bindings/commit/5f0802fdd8a3083fc495005a2f06813388d11793))
+
+
+
 # [0.2.0](https://github.com/ApsarasX/llvm-bindings/compare/v0.1.8...v0.2.0) (2021-05-24)
 
 
