@@ -14,7 +14,10 @@ void Function::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("addBasicBlock", &Function::addBasicBlock),
             InstanceMethod("getEntryBlock", &Function::getEntryBlock),
             InstanceMethod("getExitBlock", &Function::getExitBlock),
-            InstanceMethod("insertAfter", &Function::insertAfter)
+            InstanceMethod("insertAfter", &Function::insertAfter),
+            InstanceMethod("deleteBody", &Function::deleteBody),
+            InstanceMethod("removeFromParent", &Function::removeFromParent),
+            InstanceMethod("eraseFromParent", &Function::eraseFromParent)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -116,3 +119,14 @@ void Function::insertAfter(const Napi::CallbackInfo &info) {
     function->getBasicBlockList().insertAfter(where->getIterator(), bb);
 }
 
+void Function::deleteBody(const Napi::CallbackInfo &info) {
+    function->deleteBody();
+}
+
+void Function::removeFromParent(const Napi::CallbackInfo &info) {
+    function->removeFromParent();
+}
+
+void Function::eraseFromParent(const Napi::CallbackInfo &info) {
+    function->eraseFromParent();
+}

@@ -464,6 +464,12 @@ declare namespace llvm {
         // customized
         public insertAfter(where: BasicBlock, basicBlock: BasicBlock): void;
 
+        public deleteBody(): void;
+
+        public removeFromParent(): void;
+
+        public eraseFromParent(): void;
+
         protected constructor();
     }
 

@@ -37,4 +37,10 @@ private:
     Napi::Value getExitBlock(const Napi::CallbackInfo &info);
 
     void insertAfter(const Napi::CallbackInfo &info);
+
+    void deleteBody(const Napi::CallbackInfo &info);
+
+    void removeFromParent(const Napi::CallbackInfo &info);
+
+    void eraseFromParent(const Napi::CallbackInfo &info);
 };
