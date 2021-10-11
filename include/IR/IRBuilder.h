@@ -109,6 +109,8 @@ private:
 
     Napi::Value createCondBr(const Napi::CallbackInfo &info);
 
+    Napi::Value createUnreachable(const Napi::CallbackInfo &info);
+
     Napi::Value createLoad(const Napi::CallbackInfo &info);
 
     Napi::Value createRet(const Napi::CallbackInfo &info);

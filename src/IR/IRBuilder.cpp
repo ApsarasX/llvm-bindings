@@ -52,6 +52,7 @@ void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("CreateBr", &IRBuilder::createBr),
             InstanceMethod("CreateCall", &IRBuilder::createCall),
             InstanceMethod("CreateCondBr", &IRBuilder::createCondBr),
+            InstanceMethod("CreateUnreachable", &IRBuilder::createUnreachable),
             InstanceMethod("CreateLoad", &IRBuilder::createLoad),
             InstanceMethod("CreateRet", &IRBuilder::createRet),
             InstanceMethod("CreateRetVoid", &IRBuilder::createRetVoid),
@@ -223,6 +224,11 @@ Napi::Value IRBuilder::createCondBr(const Napi::CallbackInfo &info) {
         return BranchInst::New(env, branch);
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateCondBr);
+}
+
+Napi::Value IRBuilder::createUnreachable(const Napi::CallbackInfo &info) {
+    // TODO: Implement class UnreachableInst
+    return Value::New(info.Env(), builder->CreateUnreachable());
 }
 
 Napi::Value IRBuilder::createLoad(const Napi::CallbackInfo &info) {

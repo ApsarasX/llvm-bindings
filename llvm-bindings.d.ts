@@ -610,6 +610,8 @@ declare namespace llvm {
 
         public CreateCondBr(cond: Value, thenBB: BasicBlock, elseBB: BasicBlock): BranchInst;
 
+        public CreateUnreachable(): Value;
+
         public CreateLoad(type: Type, ptr: Value, name?: string): LoadInst;
 
         public CreateRet(value: Value): ReturnInst;
