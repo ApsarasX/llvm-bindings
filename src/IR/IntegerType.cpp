@@ -5,7 +5,8 @@ void IntegerType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "IntegerType", {
             StaticMethod("get", &IntegerType::get),
-            InstanceMethod("isStructTy", &IntegerType::isStructTy)
+            InstanceMethod("isStructTy", &IntegerType::isStructTy),
+            InstanceMethod("isIntegerTy", &IntegerType::isIntegerTy)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -51,4 +52,13 @@ llvm::IntegerType *IntegerType::getLLVMPrimitive() {
 
 Napi::Value IntegerType::isStructTy(const Napi::CallbackInfo &info) {
     return Napi::Boolean::New(info.Env(), integerType->isStructTy());
+}
+
+Napi::Value IntegerType::isIntegerTy(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 0 || !info[0].IsNumber()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::IntegerType::isIntegerTy);
+    }
+    bool result = info.Length() == 0 ? integerType->isIntegerTy() : integerType->isIntegerTy(info[0].As<Napi::Number>());
+    return Napi::Boolean::New(env, result);
 }

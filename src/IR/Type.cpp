@@ -199,7 +199,6 @@ Napi::Value Type::getPrimitiveSizeInBits(const Napi::CallbackInfo &info) {
     return Napi::Number::New(info.Env(), type->getPrimitiveSizeInBits());
 }
 
-
 Napi::Value Type::isIntegerTy(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() == 0 || !info[0].IsNumber()) {
@@ -208,7 +207,6 @@ Napi::Value Type::isIntegerTy(const Napi::CallbackInfo &info) {
     bool result = info.Length() == 0 ? type->isIntegerTy() : type->isIntegerTy(info[0].As<Napi::Number>());
     return Napi::Boolean::New(env, result);
 }
-
 
 llvm::Type *Type::getLLVMPrimitive() {
     return type;

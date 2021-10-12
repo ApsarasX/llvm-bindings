@@ -25,4 +25,6 @@ private:
     static Napi::Value get(const Napi::CallbackInfo &info);
 
     Napi::Value isStructTy(const Napi::CallbackInfo &info);
+
+    Napi::Value isIntegerTy(const Napi::CallbackInfo &info);
 };

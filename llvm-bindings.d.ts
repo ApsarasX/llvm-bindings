@@ -159,6 +159,9 @@ declare namespace llvm {
         // duplicated
         public isStructTy(): boolean;
 
+        // duplicated
+        public isIntegerTy(bitWidth?: number): boolean;
+
         protected constructor();
     }
 

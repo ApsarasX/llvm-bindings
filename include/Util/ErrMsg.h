@@ -99,6 +99,7 @@ namespace ErrMsg {
         namespace IntegerType {
             static const char *constructor = "IntegerType.constructor needs to be called with new (external: Napi::External<llvm::IntegerType>)";
             static const char *get = "IntegerType.get needs to be called with: (context: LLVMContext, numBits: number)";
+            static const char *isIntegerTy = "IntegerType.isIntegerTy needs to be called with: (bitWidth?: number)";
         }
         namespace IRBuilder {
             static const char *constructor = "IRBuilder.constructor needs to be called with: new (context: LLVMContext)";
