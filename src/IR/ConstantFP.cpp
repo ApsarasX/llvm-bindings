@@ -6,7 +6,8 @@ void ConstantFP::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "ConstantFP", {
             StaticMethod("get", &ConstantFP::get),
-            StaticMethod("getNaN", &ConstantFP::getNaN)
+            StaticMethod("getNaN", &ConstantFP::getNaN),
+            InstanceMethod("getType", &ConstantFP::getType)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -76,4 +77,10 @@ Napi::Value ConstantFP::getNaN(const Napi::CallbackInfo &info) {
         return Constant::New(env, nan);
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::ConstantFP::getNaN);
+}
+
+Napi::Value ConstantFP::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Type *type = constantFP->getType();
+    return Type::New(env, type);
 }

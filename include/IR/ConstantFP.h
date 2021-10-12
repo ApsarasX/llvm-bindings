@@ -25,4 +25,6 @@ private:
     static Napi::Value get(const Napi::CallbackInfo &info);
 
     static Napi::Value getNaN(const Napi::CallbackInfo &info);
+
+    Napi::Value getType(const Napi::CallbackInfo &info);
 };

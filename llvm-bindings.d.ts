@@ -390,6 +390,8 @@ declare namespace llvm {
 
         public static getNaN(type: Type): Constant
 
+        public getType(): Type;
+
         protected constructor();
     }
 
