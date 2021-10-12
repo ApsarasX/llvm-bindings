@@ -8,7 +8,8 @@ void Constant::Init(Napi::Env env, Napi::Object &exports) {
             StaticMethod("getAllOnesValue", Constant::getAllOnesValue),
             InstanceMethod("isNullValue", &Constant::isNullValue),
             InstanceMethod("isOneValue", &Constant::isOneValue),
-            InstanceMethod("isAllOnesValue", &Constant::isAllOnesValue)
+            InstanceMethod("isAllOnesValue", &Constant::isAllOnesValue),
+            InstanceMethod("getType", &Constant::getType)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -82,6 +83,12 @@ Napi::Value Constant::isOneValue(const Napi::CallbackInfo &info) {
 Napi::Value Constant::isAllOnesValue(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     return Napi::Boolean::New(env, constant->isAllOnesValue());
+}
+
+Napi::Value Constant::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Type *type = constant->getType();
+    return Type::New(env, type);
 }
 
 llvm::Constant *Constant::getLLVMPrimitive() {

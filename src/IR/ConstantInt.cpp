@@ -20,7 +20,8 @@ void ConstantInt::Init(Napi::Env env, Napi::Object &exports) {
     Napi::Function func = DefineClass(env, "ConstantInt", {
             StaticMethod("get", &ConstantInt::get),
             StaticMethod("getTrue", &getBoolFactory<llvm::ConstantInt::getTrue>),
-            StaticMethod("getFalse", &getBoolFactory<llvm::ConstantInt::getFalse>)
+            StaticMethod("getFalse", &getBoolFactory<llvm::ConstantInt::getFalse>),
+            InstanceMethod("getType", &ConstantInt::getType)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -77,4 +78,10 @@ Napi::Value ConstantInt::get(const Napi::CallbackInfo &info) {
         }
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::ConstantInt::get);
+}
+
+Napi::Value ConstantInt::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::IntegerType *type = constantInt->getType();
+    return IntegerType::New(env, type);
 }

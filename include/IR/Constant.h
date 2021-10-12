@@ -31,4 +31,6 @@ private:
     Napi::Value isOneValue(const Napi::CallbackInfo &info);
 
     Napi::Value isAllOnesValue(const Napi::CallbackInfo &info);
+
+    Napi::Value getType(const Napi::CallbackInfo &info);
 };

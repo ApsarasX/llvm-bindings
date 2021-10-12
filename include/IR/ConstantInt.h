@@ -23,4 +23,6 @@ private:
     llvm::ConstantInt *constantInt = nullptr;
 
     static Napi::Value get(const Napi::CallbackInfo &info);
+
+    Napi::Value getType(const Napi::CallbackInfo &info);
 };

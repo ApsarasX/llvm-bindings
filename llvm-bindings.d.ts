@@ -366,6 +366,9 @@ declare namespace llvm {
 
         public isAllOnesValue(): boolean;
 
+        // duplicated
+        public getType(): Type;
+
         protected constructor();
     }
 
@@ -379,6 +382,9 @@ declare namespace llvm {
 
         public static getFalse(context: LLVMContext): ConstantInt;
 
+        // duplicated
+        public getType(): IntegerType;
+
         protected constructor();
     }
 
@@ -390,6 +396,7 @@ declare namespace llvm {
 
         public static getNaN(type: Type): Constant
 
+        // duplicated
         public getType(): Type;
 
         protected constructor();
