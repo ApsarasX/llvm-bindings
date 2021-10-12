@@ -46,10 +46,6 @@ Napi::Value IntegerType::get(const Napi::CallbackInfo &info) {
     return IntegerType::New(env, integerType);
 }
 
-llvm::IntegerType *IntegerType::getLLVMPrimitive() {
-    return integerType;
-}
-
 Napi::Value IntegerType::isStructTy(const Napi::CallbackInfo &info) {
     return Napi::Boolean::New(info.Env(), integerType->isStructTy());
 }
@@ -61,4 +57,8 @@ Napi::Value IntegerType::isIntegerTy(const Napi::CallbackInfo &info) {
     }
     bool result = info.Length() == 0 ? integerType->isIntegerTy() : integerType->isIntegerTy(info[0].As<Napi::Number>());
     return Napi::Boolean::New(env, result);
+}
+
+llvm::IntegerType *IntegerType::getLLVMPrimitive() {
+    return integerType;
 }
