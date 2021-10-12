@@ -7,7 +7,8 @@ void StructType::Init(Napi::Env env, Napi::Object &exports) {
             StaticMethod("create", &StructType::create),
             InstanceMethod("setBody", &StructType::setBody),
             InstanceMethod("getPointerTo", &StructType::getPointerTo),
-            InstanceMethod("isStructTy", &StructType::isStructTy)
+            InstanceMethod("isStructTy", &StructType::isStructTy),
+            InstanceMethod("isIntegerTy", &StructType::isIntegerTy)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -94,4 +95,13 @@ Napi::Value StructType::getPointerTo(const Napi::CallbackInfo &info) {
 
 Napi::Value StructType::isStructTy(const Napi::CallbackInfo &info) {
     return Napi::Boolean::New(info.Env(), structType->isStructTy());
+}
+
+Napi::Value StructType::isIntegerTy(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 0 || !info[0].IsNumber()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::IntegerType::isIntegerTy);
+    }
+    bool result = info.Length() == 0 ? structType->isIntegerTy() : structType->isIntegerTy(info[0].As<Napi::Number>());
+    return Napi::Boolean::New(env, result);
 }
