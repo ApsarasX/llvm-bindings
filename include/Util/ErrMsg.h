@@ -114,6 +114,7 @@ namespace ErrMsg {
             static const char *CreateCondBr = "IRBuilder.createCondBr needs to be called with: (cond: Value, thenBB: BasicBlock, elseBB: BasicBlock)";
             static const char *CreateLoad = "IRBuilder.CreateLoad needs to be called with: (type: Type, ptr: Value, name?: string)";
             static const char *CreateRet = "IRBuilder.CreateRet needs to be called with: (value: Value)";
+            static const char *CreateSwitch = "IRBuilder.CreateSwitch needs to be called with: (value: Value, dest: BasicBlock, numCases?: number)";
             static const char *CreateStore = "IRBuilder.CreateStore needs to be called with: (value: Value, ptr: Value)";
             static const char *CreateGlobalString = "IRBuilder.CreateGlobalString needs to be called with (str: string, name?: string, addrSpace?: number, module?: Module)";
             static const char *CreateGlobalStringPtr = "IRBuilder.CreateGlobalStringPtr needs to be called with (str: string, name?: string, addrSpace?: number, module?: Module)";
@@ -170,6 +171,10 @@ namespace ErrMsg {
         }
         namespace ReturnInst {
             static const char *constructor = "ReturnInst.constructor needs to be called with new (external: Napi::External<llvm::ReturnInst>)";
+        }
+        namespace SwitchInst {
+            static const char *constructor = "SwitchInst.constructor needs to be called with new (external: Napi::External<llvm::SwitchInst>)";
+            static const char *addCase = "SwitchInst.addCase needs to be called with (onVal: ConstantInt, dest: BasicBlock)";
         }
         namespace StoreInst {
             static const char *constructor = "StoreInst.constructor needs to be called with new (external: Napi::External<llvm::StoreInst>)";

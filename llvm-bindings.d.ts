@@ -348,6 +348,12 @@ declare namespace llvm {
         protected constructor();
     }
 
+    class SwitchInst extends Instruction {
+        public addCase(onVal: ConstantInt, dest: BasicBlock): void;
+
+        protected constructor();
+    }
+
     class StoreInst extends Instruction {
         public getValueOperand(): Value;
 
@@ -635,6 +641,8 @@ declare namespace llvm {
         public CreateRet(value: Value): ReturnInst;
 
         public CreateRetVoid(): ReturnInst;
+
+        public CreateSwitch(value: Value, dest: BasicBlock, numCases?: number): SwitchInst;
 
         public CreateStore(value: Value, ptr: Value): StoreInst;
 

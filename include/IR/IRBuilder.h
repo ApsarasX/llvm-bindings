@@ -117,6 +117,8 @@ private:
 
     Napi::Value createRetVoid(const Napi::CallbackInfo &info);
 
+    Napi::Value createSwitch(const Napi::CallbackInfo &info);
+
     Napi::Value createStore(const Napi::CallbackInfo &info);
 
     unOpFactoryMacro(UnaryOperation)

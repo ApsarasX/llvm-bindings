@@ -56,6 +56,7 @@ void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("CreateLoad", &IRBuilder::createLoad),
             InstanceMethod("CreateRet", &IRBuilder::createRet),
             InstanceMethod("CreateRetVoid", &IRBuilder::createRetVoid),
+            InstanceMethod("CreateSwitch", &IRBuilder::createSwitch),
             InstanceMethod("CreateStore", &IRBuilder::createStore),
             InstanceMethod("CreateGEP", &IRBuilder::createGEP),
             InstanceMethod("CreateInBoundsGEP", &IRBuilder::createInBoundsGEP),
@@ -257,6 +258,20 @@ Napi::Value IRBuilder::createRet(const Napi::CallbackInfo &info) {
 
 Napi::Value IRBuilder::createRetVoid(const Napi::CallbackInfo &info) {
     return ReturnInst::New(info.Env(), builder->CreateRetVoid());
+}
+
+Napi::Value IRBuilder::createSwitch(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    int argsLen = info.Length();
+    if (argsLen == 2 && Value::IsClassOf(info[0]) && BasicBlock::IsClassOf(info[1]) ||
+        argsLen >= 3 && Value::IsClassOf(info[0]) && BasicBlock::IsClassOf(info[1]) && info[2].IsNumber()) {
+        llvm::Value *value = Value::Extract(info[0]);
+        llvm::BasicBlock *dest = BasicBlock::Extract(info[1]);
+        unsigned numCases = argsLen >= 3 ? info[2].As<Napi::Number>() : 10;
+        llvm::SwitchInst *switchInst = builder->CreateSwitch(value, dest, numCases);
+        return SwitchInst::New(env, switchInst);
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateSwitch);
 }
 
 Napi::Value IRBuilder::createStore(const Napi::CallbackInfo &info) {
