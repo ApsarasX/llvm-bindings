@@ -228,8 +228,7 @@ Napi::Value IRBuilder::createCondBr(const Napi::CallbackInfo &info) {
 }
 
 Napi::Value IRBuilder::createUnreachable(const Napi::CallbackInfo &info) {
-    // TODO: Implement class UnreachableInst
-    return Value::New(info.Env(), builder->CreateUnreachable());
+    return UnreachableInst::New(info.Env(), builder->CreateUnreachable());
 }
 
 Napi::Value IRBuilder::createLoad(const Napi::CallbackInfo &info) {

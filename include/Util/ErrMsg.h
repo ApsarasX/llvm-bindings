@@ -179,6 +179,9 @@ namespace ErrMsg {
         namespace StoreInst {
             static const char *constructor = "StoreInst.constructor needs to be called with new (external: Napi::External<llvm::StoreInst>)";
         }
+        namespace UnreachableInst {
+            static const char *constructor = "UnreachableInst.constructor needs to be called with new (external: Napi::External<llvm::UnreachableInst>)";
+        }
         namespace StructType {
             static const char *constructor = "StructType.constructor needs to be called with new (external: Napi::External<llvm::StructType>)";
             static const char *create = "StructType.create needs to be called with:"

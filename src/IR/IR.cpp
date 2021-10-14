@@ -19,6 +19,7 @@ void InitIR(Napi::Env env, Napi::Object &exports) {
     ReturnInst::Init(env, exports);
     SwitchInst::Init(env, exports);
     StoreInst::Init(env, exports);
+    UnreachableInst::Init(env, exports);
     PHINode::Init(env, exports);
     Constant::Init(env, exports);
     ConstantInt::Init(env, exports);

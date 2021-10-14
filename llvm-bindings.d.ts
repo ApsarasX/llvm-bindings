@@ -364,6 +364,10 @@ declare namespace llvm {
         protected constructor();
     }
 
+    class UnreachableInst extends Instruction {
+        protected constructor();
+    }
+
     class PHINode extends Instruction {
         public addIncoming(value: Value, basicBlock: BasicBlock): void;
 
@@ -634,7 +638,7 @@ declare namespace llvm {
 
         public CreateCondBr(cond: Value, thenBB: BasicBlock, elseBB: BasicBlock): BranchInst;
 
-        public CreateUnreachable(): Value;
+        public CreateUnreachable(): UnreachableInst;
 
         public CreateLoad(type: Type, ptr: Value, name?: string): LoadInst;
 
