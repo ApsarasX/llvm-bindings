@@ -1,22 +1,19 @@
-const {
-    BasicBlock,
-    verifyFunction,
-    verifyModule,
-    StructType,
-    PointerType
-} = require('..');
+import { BasicBlock, verifyFunction, verifyModule, StructType, PointerType } from '..';
+import { getContextModuleBuilder, createFunction } from './util';
 
-const {getContextModuleBuilder, createFunction} = require('./util');
-
-module.exports = function () {
-    const {context, module, builder} = getContextModuleBuilder('class.cpp');
-    const classStructType = StructType.create(context, [builder.getInt32Ty(), builder.getInt32Ty()], "Person");
+export default function (): void {
+    const { context, module, builder } = getContextModuleBuilder('class.cpp');
+    const classStructType = StructType.create(
+        context,
+        [builder.getInt32Ty(), builder.getInt32Ty()],
+        'Person'
+    );
 
     const returnType = builder.getVoidTy();
     const paramTypes = [PointerType.getUnqual(classStructType)];
     const func = createFunction('class_Person_constructor', returnType, paramTypes, module);
 
-    const entryBB = BasicBlock.Create(context, "entry", func);
+    const entryBB = BasicBlock.Create(context, 'entry', func);
     builder.SetInsertionPoint(entryBB);
 
     const thisPtr = func.getArg(0);
@@ -26,7 +23,6 @@ module.exports = function () {
     ]);
     builder.CreateStore(builder.getInt32(111), propertyPtr);
     builder.CreateRetVoid();
-
 
     if (!verifyFunction(func) && !verifyModule(module)) {
         module.print();

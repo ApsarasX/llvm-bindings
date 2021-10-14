@@ -1,17 +1,12 @@
-const {
-    BasicBlock,
-    verifyFunction,
-    verifyModule
-} = require('..');
+import { BasicBlock, Module, verifyFunction, verifyModule } from '..';
+import { getContextModuleBuilder, createFunction } from './util';
 
-const {getContextModuleBuilder, createFunction} = require('./util');
-
-module.exports = function (toPrint = true) {
-    const {context, module, builder} = getContextModuleBuilder('add.cpp');
+export default function (toPrint: boolean = true): Module | null {
+    const { context, module, builder } = getContextModuleBuilder('add.cpp');
     const returnType = builder.getInt32Ty();
     const paramTypes = [builder.getInt32Ty(), builder.getInt32Ty()];
     const func = createFunction('add', returnType, paramTypes, module);
-    const entryBB = BasicBlock.Create(context, "entry", func);
+    const entryBB = BasicBlock.Create(context, 'entry', func);
     builder.SetInsertionPoint(entryBB);
     const a = func.getArg(0);
     const b = func.getArg(1);
