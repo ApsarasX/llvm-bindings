@@ -774,6 +774,14 @@ declare namespace llvm {
 
     function parseIRFile(filename: string, err: SMDiagnostic, context: LLVMContext): Module;
 
+    class Linker {
+        public constructor(module: Module);
+
+        public linkInModule(srcModule: Module): boolean;
+
+        public static linkModules(destModule: Module, srcModule: Module): boolean;
+    }
+
     class Target {
         public createTargetMachine(targetTriple: string, cpu: string, features?: string): void;
 

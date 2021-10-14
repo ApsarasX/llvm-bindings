@@ -6,6 +6,7 @@ import testStr from './str';
 import testSwitch from './switch';
 import testClass from './class';
 import testParseIRFile from './parseIRFile';
+import testLinker from './linker';
 import testWriteBitcodeToFile from './writeBitcodeToFile';
 
 testAdd();
@@ -16,4 +17,5 @@ testStr();
 testSwitch();
 testClass();
 testParseIRFile();
+testLinker();
 testWriteBitcodeToFile();

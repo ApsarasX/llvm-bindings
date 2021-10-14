@@ -222,6 +222,11 @@ namespace ErrMsg {
         namespace TargetMachine {
             static const char *constructor = "TargetMachine.constructor needs to be called with new (external: Napi::External<llvm::TargetMachine>)";
         }
+        namespace Linker {
+            static const char *constructor = "Linker.constructor needs to be called with: new (module: Module)";
+            static const char *linkInModule = "Linker.linkInModule needs to be called with (src: Module)";
+            static const char *linkModules = "Linker.linkModules needs to be called with (dest: Module, src: Module)";
+        }
     }
     namespace Function {
         static const char *WriteBitcodeToFile = "WriteBitcodeToFile needs to be called with: (module: Module, filename: string)";
