@@ -242,6 +242,8 @@ declare namespace llvm {
 
         public use_empty(): boolean;
 
+        public user_empty(): boolean;
+
         protected constructor();
     }
 
@@ -497,6 +499,12 @@ declare namespace llvm {
         public removeFromParent(): void;
 
         public eraseFromParent(): void;
+
+        // duplicated
+        public use_empty(): boolean;
+
+        // duplicated
+        public user_empty(): boolean;
 
         protected constructor();
     }

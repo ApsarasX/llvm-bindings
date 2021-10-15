@@ -35,4 +35,6 @@ private:
     void replaceAllUsesWith(const Napi::CallbackInfo &info);
 
     Napi::Value useEmpty(const Napi::CallbackInfo &info);
+
+    Napi::Value userEmpty(const Napi::CallbackInfo &info);
 };

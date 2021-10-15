@@ -14,6 +14,7 @@ void Value::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("deleteValue", &Value::deleteValue),
             InstanceMethod("replaceAllUsesWith", &Value::replaceAllUsesWith),
             InstanceMethod("use_empty", &Value::useEmpty),
+            InstanceMethod("user_empty", &Value::userEmpty),
             StaticValue("MaxAlignmentExponent", Napi::Number::New(env, llvm::Value::MaxAlignmentExponent)),
             StaticValue("MaximumAlignment", Napi::Number::New(env, llvm::Value::MaximumAlignment))
     });
@@ -51,6 +52,10 @@ Value::Value(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     }
     auto external = info[0].As<Napi::External<llvm::Value>>();
     value = external.Data();
+}
+
+llvm::Value *Value::getLLVMPrimitive() {
+    return value;
 }
 
 Napi::Value Value::getType(const Napi::CallbackInfo &info) {
@@ -92,10 +97,9 @@ void Value::replaceAllUsesWith(const Napi::CallbackInfo &info) {
 }
 
 Napi::Value Value::useEmpty(const Napi::CallbackInfo &info) {
-    Napi::Env env = info.Env();
-    return Napi::Boolean::New(env, value->use_empty());
+    return Napi::Boolean::New(info.Env(), value->use_empty());
 }
 
-llvm::Value *Value::getLLVMPrimitive() {
-    return value;
+Napi::Value Value::userEmpty(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), value->user_empty());
 }
