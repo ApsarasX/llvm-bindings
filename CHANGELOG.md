@@ -1,3 +1,24 @@
+## [0.2.2](https://github.com/ApsarasX/llvm-bindings/compare/v0.2.1...v0.2.2) (2021-10-15)
+
+
+### Features
+
+* **IR:** add ConstantFP.getType ([7c788b4](https://github.com/ApsarasX/llvm-bindings/commit/7c788b4157fa65ae69106d74b53ae188d3f473ef))
+* **IR:** add ConstantFP.getType ([8106c4e](https://github.com/ApsarasX/llvm-bindings/commit/8106c4ef07fdd3aebe99a8f3acba9e02b704aa99))
+* **IR:** add Function.deleteBody, Function.removeFromParent and Function.eraseFromParent ([e7ad3bf](https://github.com/ApsarasX/llvm-bindings/commit/e7ad3bfc31a19df86dcf8f561309d9fe3933a187))
+* **IR:** add Function.getNumUses and Function.removeDeadConstantUsers ([a770a28](https://github.com/ApsarasX/llvm-bindings/commit/a770a2823606affa42b3d03a758d5b7a5dffa893))
+* **IR:** add GlobalVariable.removeFromParent and GlobalVariable.eraseFromParent ([b625e09](https://github.com/ApsarasX/llvm-bindings/commit/b625e09c631b3a4d81836c9f2f9f4db5b560e1ce))
+* **IR:** add IntegerType.isIntegerTy ([3effe47](https://github.com/ApsarasX/llvm-bindings/commit/3effe4763c26faf6ddb9705861f0be10f5d10919))
+* **IR:** add IRBuilder.CreateUnreachable ([9d91aa6](https://github.com/ApsarasX/llvm-bindings/commit/9d91aa6234cb3bb810fdad740b85c705c2302aa7))
+* **IR:** add PointerType.isIntegerTy ([75edd4f](https://github.com/ApsarasX/llvm-bindings/commit/75edd4f9151ec48b683b8aeff2c81186998b9ef8))
+* **IR:** add StructType.isIntegerTy ([086e647](https://github.com/ApsarasX/llvm-bindings/commit/086e647cb1b4e105259e2caa31063491fcf45ed9))
+* **IR:** add SwitchInst ([042c942](https://github.com/ApsarasX/llvm-bindings/commit/042c942f5111933d35d4539a2c215d098e9f2249))
+* **IR:** add UnreachableInst ([ec9666a](https://github.com/ApsarasX/llvm-bindings/commit/ec9666acc309264e9a674890a990d7656ebe8a8a))
+* **IR:** add Value.user_empty, Function.use_empty and Function.user_empty ([34ccfd7](https://github.com/ApsarasX/llvm-bindings/commit/34ccfd73e84c30f71b9871e3a691c05082722910))
+* **Linker:** add Linker ([71437ba](https://github.com/ApsarasX/llvm-bindings/commit/71437ba9242da3eca697863af4d824717d89ecd1))
+
+
+
 ## [0.2.1](https://github.com/ApsarasX/llvm-bindings/compare/v0.2.0...v0.2.1) (2021-09-29)
 
 
