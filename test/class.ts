@@ -24,7 +24,13 @@ export default function (): void {
     builder.CreateStore(builder.getInt32(111), propertyPtr);
     builder.CreateRetVoid();
 
-    if (!verifyFunction(func) && !verifyModule(module)) {
-        module.print();
+    if (verifyFunction(func)) {
+        console.error('Verifying function failed');
+        return;
     }
+    if (verifyModule(module)) {
+        console.error('Verifying module failed');
+        return;
+    }
+    module.print();
 };

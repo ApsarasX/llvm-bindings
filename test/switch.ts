@@ -40,7 +40,13 @@ export default function (): void {
     const retVal = builder.CreateLoad(builder.getInt32Ty(), retPtr);
     builder.CreateRet(retVal);
 
-    if (!verifyFunction(func) && !verifyModule(module)) {
-        module.print();
+    if (verifyFunction(func)) {
+        console.error('Verifying function failed');
+        return;
     }
+    if (verifyModule(module)) {
+        console.error('Verifying module failed');
+        return;
+    }
+    module.print();
 }

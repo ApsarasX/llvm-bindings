@@ -27,6 +27,7 @@ export default function (): void {
     const argB = builder.getInt32(2);
     const retVal = builder.CreateCall(addFunc, [argA, argB]);
     builder.CreateRet(retVal);
+
     if (verifyFunction(func)) {
         console.error('Verifying function failed');
         return;

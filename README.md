@@ -42,29 +42,37 @@ npm install llvm-bindings
 ## Usage
 
 ```javascript
-// If you have configured ES module or TypeScript, you can replace the next line with `import llvm from 'llvm-bindings';`
-const llvm = require('llvm-bindings');
+import llvm from 'llvm-bindings';
 
-const context = new llvm.LLVMContext();
-const mod = new llvm.Module('demo', context);
-const builder = new llvm.IRBuilder(context);
+function main(): void {
+    const context = new llvm.LLVMContext();
+    const module = new llvm.Module('demo', context);
+    const builder = new llvm.IRBuilder(context);
 
-const returnType = builder.getInt32Ty();
-const paramTypes = [builder.getInt32Ty(), builder.getInt32Ty()];
-const functionType = llvm.FunctionType.get(returnType, paramTypes, false);
-const func = llvm.Function.Create(functionType, llvm.Function.LinkageTypes.ExternalLinkage, 'add', mod);
+    const returnType = builder.getInt32Ty();
+    const paramTypes = [builder.getInt32Ty(), builder.getInt32Ty()];
+    const functionType = llvm.FunctionType.get(returnType, paramTypes, false);
+    const func = llvm.Function.Create(functionType, llvm.Function.LinkageTypes.ExternalLinkage, 'add', module);
 
-const entryBB = llvm.BasicBlock.Create(context, 'entry', func);
-builder.SetInsertionPoint(entryBB);
+    const entryBB = llvm.BasicBlock.Create(context, 'entry', func);
+    builder.SetInsertionPoint(entryBB);
+    const a = func.getArg(0);
+    const b = func.getArg(1);
+    const result = builder.CreateAdd(a, b);
+    builder.CreateRet(result);
 
-const a = func.getArg(0);
-const b = func.getArg(1);
-const result = builder.CreateAdd(a, b);
-builder.CreateRet(result);
-
-if (!llvm.verifyFunction(func) && !llvm.verifyModule(mod)) {
-    mod.print();
+    if (llvm.verifyFunction(func)) {
+        console.error('Verifying function failed');
+        return;
+    }
+    if (llvm.verifyModule(module)) {
+        console.error('Verifying module failed');
+        return;
+    }
+    module.print();
 }
+
+main();
 ```
 
 > You cannot declare a variable or constant named `module` in top level, because `module` is a built-in object in Node.js.

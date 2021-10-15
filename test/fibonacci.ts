@@ -26,7 +26,13 @@ export default function (): void {
     const result = builder.CreateAdd(ret1, ret2);
     builder.CreateRet(result);
 
-    if (!verifyFunction(func) && !verifyModule(module)) {
-        module.print();
+    if (verifyFunction(func)) {
+        console.error('Verifying function failed');
+        return;
     }
+    if (verifyModule(module)) {
+        console.error('Verifying module failed');
+        return;
+    }
+    module.print();
 }
