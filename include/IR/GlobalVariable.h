@@ -23,4 +23,8 @@ private:
     llvm::GlobalVariable *globalVariable = nullptr;
 
     Napi::Value getType(const Napi::CallbackInfo &info);
+
+    void removeFromParent(const Napi::CallbackInfo &info);
+
+    void eraseFromParent(const Napi::CallbackInfo &info);
 };

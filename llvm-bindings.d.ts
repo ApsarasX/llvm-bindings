@@ -472,6 +472,10 @@ declare namespace llvm {
 
         // duplicated
         public getType(): Type;
+
+        public removeFromParent(): void;
+
+        public eraseFromParent(): void;
     }
 
     class Function extends GlobalObject {
