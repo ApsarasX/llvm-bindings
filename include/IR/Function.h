@@ -47,4 +47,8 @@ private:
     Napi::Value useEmpty(const Napi::CallbackInfo &info);
 
     Napi::Value userEmpty(const Napi::CallbackInfo &info);
+
+    Napi::Value getNumUses(const Napi::CallbackInfo &info);
+
+    void removeDeadConstantUsers(const Napi::CallbackInfo &info);
 };

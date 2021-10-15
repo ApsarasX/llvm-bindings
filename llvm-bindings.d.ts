@@ -510,6 +510,12 @@ declare namespace llvm {
         // duplicated
         public user_empty(): boolean;
 
+        // duplicated
+        public getNumUses(): number;
+
+        // duplicated
+        public removeDeadConstantUsers(): void;
+
         protected constructor();
     }
 

@@ -19,7 +19,9 @@ void Function::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("removeFromParent", &Function::removeFromParent),
             InstanceMethod("eraseFromParent", &Function::eraseFromParent),
             InstanceMethod("use_empty", &Function::useEmpty),
-            InstanceMethod("user_empty", &Function::userEmpty)
+            InstanceMethod("user_empty", &Function::userEmpty),
+            InstanceMethod("getNumUses", &Function::getNumUses),
+            InstanceMethod("removeDeadConstantUsers", &Function::removeDeadConstantUsers)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -139,4 +141,12 @@ Napi::Value Function::useEmpty(const Napi::CallbackInfo &info) {
 
 Napi::Value Function::userEmpty(const Napi::CallbackInfo &info) {
     return Napi::Boolean::New(info.Env(), function->user_empty());
+}
+
+Napi::Value Function::getNumUses(const Napi::CallbackInfo &info) {
+    return Napi::Number::New(info.Env(), function->getNumUses());
+}
+
+void Function::removeDeadConstantUsers(const Napi::CallbackInfo &info) {
+    function->removeDeadConstantUsers();
 }
