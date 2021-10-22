@@ -8,6 +8,7 @@ import testClass from './class';
 import testParseIRFile from './parseIRFile';
 import testLinker from './linker';
 import testWriteBitcodeToFile from './writeBitcodeToFile';
+import testIntrinsic from './intrinsic';
 
 testAdd();
 testFibonacci();
@@ -19,3 +20,4 @@ testClass();
 testParseIRFile();
 testLinker();
 testWriteBitcodeToFile();
+testIntrinsic();

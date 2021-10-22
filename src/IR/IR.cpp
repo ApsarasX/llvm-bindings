@@ -34,5 +34,6 @@ void InitIR(Napi::Env env, Napi::Object &exports) {
     BasicBlock::Init(env, exports);
     IRBuilder::Init(env, exports);
     DataLayout::Init(env, exports);
-    InitVerifier(env, exports);
+    Verifier::Init(env, exports);
+    Intrinsic::Init(env, exports);
 }

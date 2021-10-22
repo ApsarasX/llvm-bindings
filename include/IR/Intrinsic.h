@@ -1,8 +1,8 @@
 #pragma once
 
 #include <napi.h>
-#include <llvm/IR/Verifier.h>
+#include <llvm/IR/Intrinsics.h>
 
-namespace Verifier {
+namespace Intrinsic {
     void Init(Napi::Env env, Napi::Object &exports);
 }

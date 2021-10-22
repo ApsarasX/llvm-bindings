@@ -1,9 +1,7 @@
-#include <llvm/IR/Verifier.h>
-
 #include "IR/IR.h"
 #include "Util/Util.h"
 
-Napi::Value verifyFunction(const Napi::CallbackInfo &info) {
+static Napi::Value verifyFunction(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() == 0 || !Function::IsClassOf(info[0])) {
         throw Napi::TypeError::New(env, ErrMsg::Function::verifyFunction);
@@ -13,7 +11,7 @@ Napi::Value verifyFunction(const Napi::CallbackInfo &info) {
     return Napi::Boolean::New(env, result);
 }
 
-Napi::Value verifyModule(const Napi::CallbackInfo &info) {
+static Napi::Value verifyModule(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() == 0 || !Module::IsClassOf(info[0])) {
         throw Napi::TypeError::New(env, ErrMsg::Function::verifyModule);
@@ -24,7 +22,7 @@ Napi::Value verifyModule(const Napi::CallbackInfo &info) {
 }
 
 
-void InitVerifier(Napi::Env env, Napi::Object &exports) {
+void Verifier::Init(Napi::Env env, Napi::Object &exports) {
     exports.Set("verifyFunction", Napi::Function::New(env, verifyFunction));
     exports.Set("verifyModule", Napi::Function::New(env, verifyModule));
 }

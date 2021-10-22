@@ -228,6 +228,9 @@ namespace ErrMsg {
             static const char *linkModules = "Linker.linkModules needs to be called with (dest: Module, src: Module)";
         }
     }
+    namespace Namespace::Intrinsic {
+        static const char *getDeclaration = "Intrinsic.getDeclaration needs to be called with: (module: Module, id: number, types?: [])";
+    }
     namespace Function {
         static const char *WriteBitcodeToFile = "WriteBitcodeToFile needs to be called with: (module: Module, filename: string)";
         static const char *verifyFunction = "verifyFunction needs to be called with (func: Function)";

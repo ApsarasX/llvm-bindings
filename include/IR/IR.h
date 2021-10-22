@@ -36,5 +36,6 @@
 #include "IR/IRBuilder.h"
 #include "IR/DataLayout.h"
 #include "IR/Verifier.h"
+#include "IR/Intrinsic.h"
 
 void InitIR(Napi::Env env, Napi::Object &exports);
