@@ -14,7 +14,7 @@ export default function (): void {
     const func = createFunction('class_Person_constructor', returnType, paramTypes, module);
 
     const entryBB = BasicBlock.Create(context, 'entry', func);
-    builder.SetInsertionPoint(entryBB);
+    builder.SetInsertPoint(entryBB);
 
     const thisPtr = func.getArg(0);
     const propertyPtr = builder.CreateGEP(thisPtr, [

@@ -5,7 +5,7 @@ export default function (): void {
     const { context, module, builder } = getContextModuleBuilder('variable.cpp');
     const func = createFunction('test', builder.getVoidTy(), [], module);
     const entryBB = BasicBlock.Create(context, 'entry', func);
-    builder.SetInsertionPoint(entryBB);
+    builder.SetInsertPoint(entryBB);
     const alloca = builder.CreateAlloca(builder.getInt32Ty(), null, 'a');
     builder.CreateStore(builder.getInt32(11), alloca);
 

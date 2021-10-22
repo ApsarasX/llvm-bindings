@@ -88,7 +88,6 @@ void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("CreateIntCast", &IRBuilder::createIntCast),
             InstanceMethod("CreateBitOrPointerCast", &IRBuilder::createCastFactory<&LLVMIRBuilder::CreateBitOrPointerCast>),
             InstanceMethod("CreateFPCast", &IRBuilder::createCastFactory<&LLVMIRBuilder::CreateFPCast>),
-            InstanceMethod("SetInsertionPoint", &IRBuilder::setInsertionPoint),
             InstanceMethod("getInt1", &IRBuilder::getInt1),
             InstanceMethod("getTrue", &IRBuilder::getBoolFactory<&LLVMIRBuilder::getTrue>),
             InstanceMethod("getFalse", &IRBuilder::getBoolFactory<&LLVMIRBuilder::getFalse>),
@@ -113,8 +112,9 @@ void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("getInt8PtrTy", &IRBuilder::getInt8PtrTy),
             InstanceMethod("getIntPtrTy", &IRBuilder::getIntPtrTy),
 
-            InstanceMethod("GetInsertBlock", &IRBuilder::GetInsertBlock),
-            InstanceMethod("ClearInsertionPoint", &IRBuilder::ClearInsertionPoint)
+            InstanceMethod("SetInsertPoint", &IRBuilder::setInsertPoint),
+            InstanceMethod("getInsertBlock", &IRBuilder::getInsertBlock),
+            InstanceMethod("clearInsertionPoint", &IRBuilder::clearInsertionPoint)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -136,15 +136,6 @@ IRBuilder::IRBuilder(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     }
     llvm::LLVMContext &context = LLVMContext::Extract(info[0]);
     builder = new llvm::IRBuilder(context);
-}
-
-void IRBuilder::setInsertionPoint(const Napi::CallbackInfo &info) {
-    Napi::Env env = info.Env();
-    if (info.Length() == 0 || !BasicBlock::IsClassOf(info[0])) {
-        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::setInsertionPoint);
-    }
-    llvm::BasicBlock *bb = BasicBlock::Extract(info[0]);
-    builder->SetInsertPoint(bb);
 }
 
 LLVMIRBuilder *IRBuilder::getLLVMPrimitive() {
@@ -464,7 +455,22 @@ Napi::Value IRBuilder::createSelect(const Napi::CallbackInfo &info) {
     return Value::New(env, builder->CreateSelect(cond, trueValue, falseValue, name));
 }
 
-Napi::Value IRBuilder::GetInsertBlock(const Napi::CallbackInfo &info) {
+void IRBuilder::setInsertPoint(const Napi::CallbackInfo &info) {
+    if (info.Length() >= 1) {
+        if (BasicBlock::IsClassOf(info[0])) {
+            llvm::BasicBlock *bb = BasicBlock::Extract(info[0]);
+            builder->SetInsertPoint(bb);
+            return;
+        } else if (Instruction::IsClassOf(info[0])) {
+            llvm::Instruction *inst = Instruction::Extract(info[0]);
+            builder->SetInsertPoint(inst);
+            return;
+        }
+    }
+    throw Napi::TypeError::New(info.Env(), ErrMsg::Class::IRBuilder::setInsertPoint);
+}
+
+Napi::Value IRBuilder::getInsertBlock(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     llvm::BasicBlock *basicBlock = builder->GetInsertBlock();
     if (basicBlock) {
@@ -473,6 +479,6 @@ Napi::Value IRBuilder::GetInsertBlock(const Napi::CallbackInfo &info) {
     return env.Null();
 }
 
-void IRBuilder::ClearInsertionPoint(const Napi::CallbackInfo &info) {
+void IRBuilder::clearInsertionPoint(const Napi::CallbackInfo &info) {
     builder->ClearInsertionPoint();
 }

@@ -99,8 +99,6 @@ public:
 private:
     LLVMIRBuilder *builder = nullptr;
 
-    void setInsertionPoint(const Napi::CallbackInfo &info);
-
     Napi::Value createAlloca(const Napi::CallbackInfo &info);
 
     Napi::Value createBr(const Napi::CallbackInfo &info);
@@ -212,7 +210,9 @@ private:
 
     Napi::Value getIntPtrTy(const Napi::CallbackInfo &info);
 
-    Napi::Value GetInsertBlock(const Napi::CallbackInfo &info);
+    void setInsertPoint(const Napi::CallbackInfo &info);
 
-    void ClearInsertionPoint(const Napi::CallbackInfo &info);
+    Napi::Value getInsertBlock(const Napi::CallbackInfo &info);
+
+    void clearInsertionPoint(const Napi::CallbackInfo &info);
 };

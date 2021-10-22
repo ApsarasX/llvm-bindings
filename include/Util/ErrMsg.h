@@ -103,7 +103,7 @@ namespace ErrMsg {
         }
         namespace IRBuilder {
             static const char *constructor = "IRBuilder.constructor needs to be called with: new (context: LLVMContext)";
-            static const char *setInsertionPoint = "IRBuilder.SetInsertionPoint needs to be called with: (basicBlock: BasicBlock)";
+            static const char *setInsertPoint = "IRBuilder.SetInsertPoint needs to be called with: (basicBlock: BasicBlock)";
             static const char *CreateBinOpFactory = "IRBuilder.[CreateBinaryOperation] needs to be called with: (lhs: Value, rhs: Value, name?: string)";
             static const char *CreateUnOpFactory = "IRBuilder.[CreateUnaryOperation] needs to be called with: (value: Value, name?: string)";
             static const char *CreateAlloca = "IRBuilder.CreateAlloca needs to be called with: (type: Type, arraySize?: Value, name?: string)";

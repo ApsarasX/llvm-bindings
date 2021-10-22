@@ -6,7 +6,7 @@ export default function (): void {
     const func = createFunction('main', builder.getVoidTy(), [], module);
 
     const entryBB = BasicBlock.Create(context, 'entry', func);
-    builder.SetInsertionPoint(entryBB);
+    builder.SetInsertPoint(entryBB);
     const debugtrapFn = Intrinsic.getDeclaration(module, Intrinsic.debugtrap);
     builder.CreateCall(debugtrapFn, []);
     builder.CreateRetVoid();

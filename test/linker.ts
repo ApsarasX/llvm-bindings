@@ -17,7 +17,7 @@ export default function (): void {
     }
     const func = createFunction('link', builder.getInt32Ty(), [], module);
     const entryBB = BasicBlock.Create(context, 'entry', func);
-    builder.SetInsertionPoint(entryBB);
+    builder.SetInsertPoint(entryBB);
     const addFunc = module.getFunction('add');
     if (!addFunc) {
         console.error('Unable to find the `add` function');

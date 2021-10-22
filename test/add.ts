@@ -8,7 +8,7 @@ export default function (toPrint: boolean = true): Module | null {
     const func = createFunction('add', returnType, paramTypes, module);
 
     const entryBB = BasicBlock.Create(context, 'entry', func);
-    builder.SetInsertionPoint(entryBB);
+    builder.SetInsertPoint(entryBB);
     const a = func.getArg(0);
     const b = func.getArg(1);
     const result = builder.CreateAdd(a, b);

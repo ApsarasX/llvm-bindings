@@ -11,14 +11,14 @@ export default function (): void {
     const thenBB = BasicBlock.Create(context, 'then', func);
     const elseBB = BasicBlock.Create(context, 'else', func);
 
-    builder.SetInsertionPoint(entryBB);
+    builder.SetInsertPoint(entryBB);
     const cond = builder.CreateICmpULE(func.getArg(0), builder.getInt32(1), 'cond');
     builder.CreateCondBr(cond, thenBB, elseBB);
 
-    builder.SetInsertionPoint(thenBB);
+    builder.SetInsertPoint(thenBB);
     builder.CreateRet(func.getArg(0));
 
-    builder.SetInsertionPoint(elseBB);
+    builder.SetInsertPoint(elseBB);
     const n_1 = builder.CreateSub(func.getArg(0), builder.getInt32(1), 'n_1');
     const n_2 = builder.CreateSub(func.getArg(0), builder.getInt32(2), 'n_2');
     const ret1 = builder.CreateCall(func, [n_1], 'ret1');

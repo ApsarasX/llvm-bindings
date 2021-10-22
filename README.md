@@ -55,7 +55,7 @@ function main(): void {
     const func = llvm.Function.Create(functionType, llvm.Function.LinkageTypes.ExternalLinkage, 'add', module);
 
     const entryBB = llvm.BasicBlock.Create(context, 'entry', func);
-    builder.SetInsertionPoint(entryBB);
+    builder.SetInsertPoint(entryBB);
     const a = func.getArg(0);
     const b = func.getArg(1);
     const result = builder.CreateAdd(a, b);

@@ -731,8 +731,6 @@ declare namespace llvm {
 
         public CreateFPCast(value: Value, destType: Type, name?: string): Value;
 
-        public SetInsertionPoint(basicBlock: BasicBlock): Value;
-
         public getInt1(value: boolean): ConstantInt;
 
         public getTrue(): ConstantInt;
@@ -778,6 +776,9 @@ declare namespace llvm {
         public getInt8PtrTy(addrSpace?: number): PointerType;
 
         public getIntPtrTy(dataLayout: DataLayout, addrSpace?: number): IntegerType;
+
+        public SetInsertPoint(basicBlock: BasicBlock): void;
+        public SetInsertPoint(inst: Instruction): void;
 
         public GetInsertBlock(): BasicBlock | null;
 

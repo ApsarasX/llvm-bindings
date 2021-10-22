@@ -6,7 +6,7 @@ export default function (): void {
     const returnType = builder.getVoidTy();
     const func = createFunction('unary', returnType, [], module);
     const entryBB = BasicBlock.Create(context, 'entry', func);
-    builder.SetInsertionPoint(entryBB);
+    builder.SetInsertPoint(entryBB);
 
     const boolAlloca = builder.CreateAlloca(builder.getInt1Ty(), null, 'bool_alloca');
     builder.CreateStore(builder.getFalse(), boolAlloca);
