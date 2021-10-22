@@ -113,8 +113,13 @@ void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("getIntPtrTy", &IRBuilder::getIntPtrTy),
 
             InstanceMethod("SetInsertPoint", &IRBuilder::setInsertPoint),
-            InstanceMethod("getInsertBlock", &IRBuilder::getInsertBlock),
-            InstanceMethod("clearInsertionPoint", &IRBuilder::clearInsertionPoint)
+            InstanceMethod("GetInsertBlock", &IRBuilder::getInsertBlock),
+            InstanceMethod("ClearInsertionPoint", &IRBuilder::clearInsertionPoint),
+            InstanceMethod("saveIP", &IRBuilder::saveIP),
+            InstanceMethod("saveAndClearIP", &IRBuilder::saveAndClearIP),
+            InstanceMethod("restoreIP", &IRBuilder::restoreIP),
+
+            StaticValue("InsertPoint", InsertPoint::Init(env, exports))
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -481,4 +486,56 @@ Napi::Value IRBuilder::getInsertBlock(const Napi::CallbackInfo &info) {
 
 void IRBuilder::clearInsertionPoint(const Napi::CallbackInfo &info) {
     builder->ClearInsertionPoint();
+}
+
+Napi::Value IRBuilder::saveIP(const Napi::CallbackInfo &info) {
+    llvm::IRBuilderBase::InsertPoint ip = builder->saveIP();
+    return InsertPoint::New(info.Env(), &ip);
+}
+
+Napi::Value IRBuilder::saveAndClearIP(const Napi::CallbackInfo &info) {
+    llvm::IRBuilderBase::InsertPoint ip = builder->saveAndClearIP();
+    return InsertPoint::New(info.Env(), &ip);
+}
+
+void IRBuilder::restoreIP(const Napi::CallbackInfo &info) {
+    if(info.Length() == 0 || !InsertPoint::IsClassOf(info[0])) {
+        throw Napi::TypeError::New(info.Env(), ErrMsg::Class::IRBuilder::restoreIP);
+    }
+    llvm::IRBuilderBase::InsertPoint *ip = InsertPoint::Extract(info[0]);
+    builder->restoreIP(*ip);
+}
+
+Napi::Function IRBuilder::InsertPoint::Init(Napi::Env env, Napi::Object &exports) {
+    Napi::HandleScope scope(env);
+    Napi::Function func = DefineClass(env, "InsertPoint", {
+    });
+    constructor = Napi::Persistent(func);
+    constructor.SuppressDestruct();
+    return func;
+}
+
+Napi::Object IRBuilder::InsertPoint::New(Napi::Env env, llvm::IRBuilderBase::InsertPoint *insertPoint) {
+    return constructor.New({Napi::External<llvm::IRBuilderBase::InsertPoint>::New(env, insertPoint)});
+}
+
+bool IRBuilder::InsertPoint::IsClassOf(const Napi::Value &value) {
+    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+}
+
+llvm::IRBuilderBase::InsertPoint *IRBuilder::InsertPoint::Extract(const Napi::Value &value) {
+    return Unwrap(value.As<Napi::Object>())->getLLVMPrimitive();
+}
+
+IRBuilder::InsertPoint::InsertPoint(const Napi::CallbackInfo &info) : ObjectWrap(info) {
+    Napi::Env env = info.Env();
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::InsertPoint::constructor);
+    }
+    auto external = info[0].As<Napi::External<llvm::IRBuilderBase::InsertPoint>>();
+    insertPoint = external.Data();
+}
+
+llvm::IRBuilderBase::InsertPoint *IRBuilder::InsertPoint::getLLVMPrimitive() {
+    return insertPoint;
 }

@@ -215,4 +215,30 @@ private:
     Napi::Value getInsertBlock(const Napi::CallbackInfo &info);
 
     void clearInsertionPoint(const Napi::CallbackInfo &info);
+
+    Napi::Value saveIP(const Napi::CallbackInfo &info);
+
+    Napi::Value saveAndClearIP(const Napi::CallbackInfo &info);
+
+    void restoreIP(const Napi::CallbackInfo &info);
+
+    class InsertPoint : public Napi::ObjectWrap<InsertPoint> {
+    public:
+        static inline Napi::FunctionReference constructor; // NOLINT
+
+        static Napi::Function Init(Napi::Env env, Napi::Object &exports);
+
+        static Napi::Object New(Napi::Env env, llvm::IRBuilderBase::InsertPoint *insertPoint);
+
+        static bool IsClassOf(const Napi::Value &value);
+
+        static llvm::IRBuilderBase::InsertPoint *Extract(const Napi::Value &value);
+
+        explicit InsertPoint(const Napi::CallbackInfo &info);
+
+        llvm::IRBuilderBase::InsertPoint *getLLVMPrimitive();
+
+    private:
+        llvm::IRBuilderBase::InsertPoint *insertPoint = nullptr;
+    };
 };

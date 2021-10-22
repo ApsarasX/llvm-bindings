@@ -783,6 +783,18 @@ declare namespace llvm {
         public GetInsertBlock(): BasicBlock | null;
 
         public ClearInsertionPoint(): void;
+
+        public saveIP(): IRBuilder.InsertPoint;
+
+        public saveAndClearIP(): IRBuilder.InsertPoint;
+
+        public restoreIP(ip: IRBuilder.InsertPoint): void;
+    }
+
+    namespace IRBuilder {
+        export class InsertPoint {
+
+        }
     }
 
     namespace Intrinsic {

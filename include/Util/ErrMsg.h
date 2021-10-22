@@ -138,6 +138,10 @@ namespace ErrMsg {
             static const char *getIntNTy = "IRBuilder.getIntNTy needs to be called with (n: number)";
             static const char *getInt8PtrTy = "IRBuilder.getInt8PtrTy needs to be called with (addrSpace?: number)";
             static const char *getIntPtrTy = "IRBuilder.getIntPtrTy needs to be called with (dataLayout: DataLayout, addrSpace?: number)";
+            static const char *restoreIP = "IRBuilder.restoreIP needs to be called with (ip: IRBuilder.InsertPoint)";
+            namespace InsertPoint {
+                static const char *constructor = "IRBuilder.InsertPoint.constructor needs to be called with new (external: Napi::External<llvm::IRBuilderBase::InsertPoint>)";
+            }
         }
         namespace LLVMContext {
             static const char *constructor = "LLVMContext.constructor needs to be called with new ()";
