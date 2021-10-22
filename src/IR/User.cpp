@@ -6,7 +6,7 @@ void User::Init(Napi::Env env, Napi::Object &exports) {
     Napi::Function func = DefineClass(env, "User", {
             InstanceMethod("getOperand", &User::getOperand),
             InstanceMethod("setOperand", &User::setOperand),
-            InstanceMethod("getNumOperands", &User::getNumOperands),
+            InstanceMethod("getNumOperands", &User::getNumOperands)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();

@@ -228,17 +228,19 @@ private:
 
         static Napi::Function Init(Napi::Env env, Napi::Object &exports);
 
-        static Napi::Object New(Napi::Env env, llvm::IRBuilderBase::InsertPoint *insertPoint);
+        static Napi::Object New(Napi::Env env, llvm::IRBuilderBase::InsertPoint insertPoint);
 
         static bool IsClassOf(const Napi::Value &value);
 
-        static llvm::IRBuilderBase::InsertPoint *Extract(const Napi::Value &value);
+        static llvm::IRBuilderBase::InsertPoint Extract(const Napi::Value &value);
 
         explicit InsertPoint(const Napi::CallbackInfo &info);
 
-        llvm::IRBuilderBase::InsertPoint *getLLVMPrimitive();
+        llvm::IRBuilderBase::InsertPoint getLLVMPrimitive();
 
     private:
-        llvm::IRBuilderBase::InsertPoint *insertPoint = nullptr;
+        static inline llvm::IRBuilderBase::InsertPoint ip; // tmp in static-new
+
+        llvm::IRBuilderBase::InsertPoint insertPoint;
     };
 };
