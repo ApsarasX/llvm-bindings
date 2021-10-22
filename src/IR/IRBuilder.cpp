@@ -189,7 +189,10 @@ Napi::Value IRBuilder::createCall(const Napi::CallbackInfo &info) {
     int argsLen = info.Length();
     llvm::CallInst *call = nullptr;
     std::vector<llvm::Value *> calleeArgs;
-    if (argsLen >= 2 && Function::IsClassOf(info[0]) && info[1].IsArray() && (argsLen == 2 || argsLen >= 3 && info[2].IsString())) {
+    if (argsLen == 1 && Function::IsClassOf(info[0])) {
+        llvm::Function *callee = Function::Extract(info[0]);
+        call = builder->CreateCall(callee);
+    } else if (argsLen >= 2 && Function::IsClassOf(info[0]) && info[1].IsArray() && (argsLen == 2 || argsLen >= 3 && info[2].IsString())) {
         llvm::Function *callee = Function::Extract(info[0]);
         if (assembleValueArray(info[1].As<Napi::Array>(), calleeArgs)) {
             std::string name = argsLen >= 3 ? std::string(info[2].As<Napi::String>()) : "";

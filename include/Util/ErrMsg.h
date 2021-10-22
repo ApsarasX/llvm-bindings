@@ -109,7 +109,8 @@ namespace ErrMsg {
             static const char *CreateAlloca = "IRBuilder.CreateAlloca needs to be called with: (type: Type, arraySize?: Value, name?: string)";
             static const char *CreateBr = "IRBuilder.CreateBr needs to be called with: (destBB: BasicBlock)";
             static const char *CreateCall = "IRBuilder.CreateCall needs to be called with:"
-                                            "\n\t - (callee: Value, args: Value[], name?: string)"
+                                            "\n\t - (callee: Function)"
+                                            "\n\t - (callee: Function, args: Value[], name?: string)"
                                             "\n\t - (funcType: FunctionType, callee: Value, args: Value[], name?: string)";
             static const char *CreateCondBr = "IRBuilder.createCondBr needs to be called with: (cond: Value, thenBB: BasicBlock, elseBB: BasicBlock)";
             static const char *CreateLoad = "IRBuilder.CreateLoad needs to be called with: (type: Type, ptr: Value, name?: string)";

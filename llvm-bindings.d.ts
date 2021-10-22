@@ -651,6 +651,8 @@ declare namespace llvm {
 
         public CreateBr(destBB: BasicBlock): BranchInst;
 
+        // customized
+        public CreateCall(callee: Function): CallInst;
         public CreateCall(callee: Function, args: Value[], name?: string): CallInst;
         public CreateCall(funcType: FunctionType, callee: Value, args: Value[], name?: string): CallInst;
 
@@ -1064,7 +1066,6 @@ declare namespace llvm {
 
         function getDeclaration(module: Module, id: number, types?: Type[]): Function;
     }
-
 
     function verifyFunction(func: Function): boolean;
 
