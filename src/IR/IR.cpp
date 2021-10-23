@@ -15,6 +15,7 @@ void InitIR(Napi::Env env, Napi::Object &exports) {
     AllocaInst::Init(env, exports);
     BranchInst::Init(env, exports);
     CallInst::Init(env, exports);
+    InvokeInst::Init(env, exports);
     LoadInst::Init(env, exports);
     ReturnInst::Init(env, exports);
     SwitchInst::Init(env, exports);

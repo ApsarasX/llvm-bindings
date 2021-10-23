@@ -33,6 +33,9 @@ namespace ErrMsg {
         namespace CallInst {
             static const char *constructor = "CallInst.constructor needs to be called with new (external: Napi::External<llvm::CallInst>)";
         }
+        namespace InvokeInst {
+            static const char *constructor = "InvokeInst.constructor needs to be called with new (external: Napi::External<llvm::InvokeInst>)";
+        }
         namespace Constant {
             static const char *constructor = "Constant.constructor needs to be called with new (external: Napi::External<llvm::Constant>)";
             static const char *getNullValue = "Constant.getNullValue needs to be called with: (type: Type)";
@@ -112,9 +115,15 @@ namespace ErrMsg {
             static const char *CreateAlloca = "IRBuilder.CreateAlloca needs to be called with: (type: Type, arraySize?: Value, name?: string)";
             static const char *CreateBr = "IRBuilder.CreateBr needs to be called with: (destBB: BasicBlock)";
             static const char *CreateCall = "IRBuilder.CreateCall needs to be called with:"
-                                            "\n\t - (callee: Function)"
+                                            "\n\t - (callee: Function, name?: string)"
                                             "\n\t - (callee: Function, args: Value[], name?: string)"
+                                            "\n\t - (funcType: FunctionType, callee: Value, name?: string)"
                                             "\n\t - (funcType: FunctionType, callee: Value, args: Value[], name?: string)";
+            static const char *CreateInvoke = "IRBuilder.CreateInvoke needs to be called with:"
+                                              "\n\t - (callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string)"
+                                              "\n\t - (callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string)"
+                                              "\n\t - (funcType: FunctionType, callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string)"
+                                              "\n\t - (funcType: FunctionType, callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string)";
             static const char *CreateCondBr = "IRBuilder.createCondBr needs to be called with: (cond: Value, thenBB: BasicBlock, elseBB: BasicBlock)";
             static const char *CreateLoad = "IRBuilder.CreateLoad needs to be called with: (type: Type, ptr: Value, name?: string)";
             static const char *CreateRet = "IRBuilder.CreateRet needs to be called with: (value: Value)";

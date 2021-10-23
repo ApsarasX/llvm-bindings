@@ -337,6 +337,10 @@ declare namespace llvm {
         protected constructor();
     }
 
+    class InvokeInst extends Instruction {
+        protected constructor();
+    }
+
     class LoadInst extends Instruction {
         // duplicated
         public getType(): llvm.Type;
@@ -538,7 +542,7 @@ declare namespace llvm {
 
         public getFunction(name: string): Function | null;
 
-        public getOrInsertFunction(name: string, fnType: FunctionType): FunctionCallee;
+        public getOrInsertFunction(name: string, funcType: FunctionType): FunctionCallee;
 
         public getGlobalVariable(name: string, allowInternal?: boolean): GlobalVariable | null;
 
@@ -662,9 +666,16 @@ declare namespace llvm {
         public CreateBr(destBB: BasicBlock): BranchInst;
 
         // customized
-        public CreateCall(callee: Function): CallInst;
+        public CreateCall(callee: Function, name?: string): CallInst;
         public CreateCall(callee: Function, args: Value[], name?: string): CallInst;
+        public CreateCall(funcType: FunctionType, callee: Value, name?: string): CallInst;
         public CreateCall(funcType: FunctionType, callee: Value, args: Value[], name?: string): CallInst;
+
+        // customized
+        public CreateInvoke(callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string): InvokeInst;
+        public CreateInvoke(callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string): InvokeInst;
+        public CreateInvoke(funcType: FunctionType, callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string): InvokeInst;
+        public CreateInvoke(funcType: FunctionType, callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string): InvokeInst;
 
         public CreateCondBr(cond: Value, thenBB: BasicBlock, elseBB: BasicBlock): BranchInst;
 

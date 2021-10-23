@@ -16,6 +16,7 @@
 #include "IR/AllocaInst.h"
 #include "IR/BranchInst.h"
 #include "IR/CallInst.h"
+#include "IR/InvokeInst.h"
 #include "IR/LoadInst.h"
 #include "IR/ReturnInst.h"
 #include "IR/SwitchInst.h"

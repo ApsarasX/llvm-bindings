@@ -105,6 +105,8 @@ private:
 
     Napi::Value createCall(const Napi::CallbackInfo &info);
 
+    Napi::Value createInvoke(const Napi::CallbackInfo &info);
+
     Napi::Value createCondBr(const Napi::CallbackInfo &info);
 
     Napi::Value createUnreachable(const Napi::CallbackInfo &info);
