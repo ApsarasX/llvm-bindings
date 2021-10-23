@@ -21,6 +21,7 @@
 #include "IR/ReturnInst.h"
 #include "IR/SwitchInst.h"
 #include "IR/StoreInst.h"
+#include "IR/LandingPadInst.h"
 #include "IR/UnreachableInst.h"
 #include "IR/PHINode.h"
 #include "IR/Constant.h"

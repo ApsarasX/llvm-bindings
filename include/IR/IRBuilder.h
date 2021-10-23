@@ -177,6 +177,10 @@ private:
 
     Napi::Value CreateSelect(const Napi::CallbackInfo &info);
 
+    Napi::Value CreateExtractValue(const Napi::CallbackInfo &info);
+
+    Napi::Value CreateLandingPad(const Napi::CallbackInfo &info);
+
     Napi::Value getInt1(const Napi::CallbackInfo &info);
 
     template<GetBoolean method>

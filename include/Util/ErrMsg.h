@@ -132,6 +132,8 @@ namespace ErrMsg {
             static const char *CreateGlobalStringPtr = "IRBuilder.CreateGlobalStringPtr needs to be called with (str: string, name?: string, addrSpace?: number, module?: Module)";
             static const char *CreatePHI = "IRBuilder.CreatePHI needs to be called with: (type: Type, numReservedValues: number, name?: string)";
             static const char *CreateSelect = "IRBuilder.CreateSelect needs to be called with (cond: Value, trueValue: Value, falseValue: Value, name?: string)";
+            static const char *CreateExtractValue = "IRBuilder.CreateExtractValue needs to be called with (agg: Value, idxs: number[], name?: string)";
+            static const char *CreateLandingPad = "IRBuilder.CreateLandingPad needs to be called with (type: Type, numClauses: number, name?: string)";
             static const char *CreateGEP = "IRBuilder.CreateGEP needs to be called with:"
                                            "\n\t - (ptr: Value, idxList: Value[], name?: string)"
                                            "\n\t - (ptr: Value, idx: Value, name?: string)"
@@ -196,6 +198,11 @@ namespace ErrMsg {
         }
         namespace StoreInst {
             static const char *constructor = "StoreInst.constructor needs to be called with new (external: Napi::External<llvm::StoreInst>)";
+        }
+        namespace LandingPadInst {
+            static const char *constructor = "LandingPadInst.constructor needs to be called with new (external: Napi::External<llvm::LandingPadInst>)";
+            static const char *setCleanup = "LandingPadInst.setCleanup needs to be called with (value: boolean)";
+            static const char *addClause = "LandingPadInst.addClause needs to be called with (clauseVal: Constant)";
         }
         namespace UnreachableInst {
             static const char *constructor = "UnreachableInst.constructor needs to be called with new (external: Napi::External<llvm::UnreachableInst>)";

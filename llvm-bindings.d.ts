@@ -370,6 +370,14 @@ declare namespace llvm {
         protected constructor();
     }
 
+    class LandingPadInst extends Instruction {
+        public setCleanup(value: boolean): void;
+
+        public addClause(clauseVal: Constant): void;
+
+        protected constructor();
+    }
+
     class UnreachableInst extends Instruction {
         protected constructor();
     }
@@ -698,6 +706,10 @@ declare namespace llvm {
         public CreatePHI(type: Type, numReservedValues: number, name?: string): PHINode;
 
         public CreateSelect(cond: Value, trueValue: Value, falseValue: Value, name?: string): Value;
+
+        public CreateExtractValue(agg: Value, idxs: number[], name?: string): Value;
+
+        public CreateLandingPad(type: Type, numClauses: number, name?: string): LandingPadInst;
 
         public CreateGEP(ptr: Value, idxList: Value[], name?: string): Value;
         public CreateGEP(ptr: Value, idx: Value, name?: string): Value;

@@ -65,6 +65,8 @@ void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("CreateGlobalStringPtr", &IRBuilder::CreateGlobalStringPtr),
             InstanceMethod("CreatePHI", &IRBuilder::CreatePHI),
             InstanceMethod("CreateSelect", &IRBuilder::CreateSelect),
+            InstanceMethod("CreateExtractValue", &IRBuilder::CreateExtractValue),
+            InstanceMethod("CreateLandingPad", &IRBuilder::CreateLandingPad),
 
             InstanceMethod("CreateTrunc", &IRBuilder::CreateCastFactory<&LLVMIRBuilder::CreateTrunc>),
             InstanceMethod("CreateZExt", &IRBuilder::CreateCastFactory<&LLVMIRBuilder::CreateZExt>),
@@ -516,6 +518,46 @@ Napi::Value IRBuilder::CreateSelect(const Napi::CallbackInfo &info) {
     llvm::Value *falseValue = Value::Extract(info[2]);
     const std::string &name = argsLen >= 4 ? std::string(info[3].As<Napi::String>()) : "";
     return Value::New(env, builder->CreateSelect(cond, trueValue, falseValue, name));
+}
+
+Napi::Value IRBuilder::CreateExtractValue(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    unsigned argsLen = info.Length();
+    if (argsLen == 2 && Value::IsClassOf(info[0]) && info[1].IsArray() ||
+        argsLen == 3 && Value::IsClassOf(info[0]) && info[1].IsArray() && info[2].IsString()) {
+        llvm::Value *agg = Value::Extract(info[0]);
+        const auto &idxArr = info[1].As<Napi::Array>();
+        std::vector<unsigned> idxs(idxArr.Length());
+        bool convertSuccess = true;
+        for (unsigned i = 0; i < idxArr.Length(); ++i) {
+            const auto &idx = Napi::Value(idxArr[i]);
+            if (idx.IsNumber()) {
+                idxs[i] = idx.As<Napi::Number>();
+            } else {
+                convertSuccess = false;
+                break;
+            }
+        }
+        if (convertSuccess) {
+            const std::string &name = argsLen == 3 ? std::string(info[2].As<Napi::String>()) : "";
+            return Value::New(env, builder->CreateExtractValue(agg, idxs, name));
+        }
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateExtractValue);
+}
+
+Napi::Value IRBuilder::CreateLandingPad(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    unsigned argsLen = info.Length();
+    if (argsLen == 2 && Type::IsClassOf(info[0]) && info[1].IsNumber() ||
+        argsLen == 3 && Type::IsClassOf(info[0]) && info[1].IsNumber() && info[2].IsString()) {
+        llvm::Type *type = Type::Extract(info[0]);
+        unsigned numClauses = info[1].As<Napi::Number>();
+        const std::string &name = argsLen == 3 ? std::string(info[2].As<Napi::String>()) : "";
+        llvm::LandingPadInst *lpInst = builder->CreateLandingPad(type, numClauses, name);
+        return LandingPadInst::New(env, lpInst);
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateLandingPad);
 }
 
 void IRBuilder::SetInsertPoint(const Napi::CallbackInfo &info) {
