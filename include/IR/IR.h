@@ -31,6 +31,7 @@
 #include "IR/GlobalObject.h"
 #include "IR/GlobalVariable.h"
 #include "IR/Function.h"
+#include "IR/FunctionCallee.h"
 #include "IR/Argument.h"
 #include "IR/BasicBlock.h"
 #include "IR/IRBuilder.h"

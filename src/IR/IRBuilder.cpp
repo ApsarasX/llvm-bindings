@@ -516,7 +516,7 @@ Napi::Function IRBuilder::InsertPoint::Init(Napi::Env env, Napi::Object &exports
 }
 
 Napi::Object IRBuilder::InsertPoint::New(Napi::Env env, llvm::IRBuilderBase::InsertPoint insertPoint) {
-    ip = insertPoint;
+    tmpInsertPoint = insertPoint;
     return constructor.New({});
 }
 
@@ -533,9 +533,9 @@ IRBuilder::InsertPoint::InsertPoint(const Napi::CallbackInfo &info) : ObjectWrap
     if (!info.IsConstructCall()) {
         throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::InsertPoint::constructor);
     }
-    if (ip.isSet()) {
-        insertPoint = ip;
-        ip = llvm::IRBuilderBase::InsertPoint();
+    if (tmpInsertPoint.isSet()) {
+        insertPoint = tmpInsertPoint;
+        tmpInsertPoint = llvm::IRBuilderBase::InsertPoint();
     }
 }
 

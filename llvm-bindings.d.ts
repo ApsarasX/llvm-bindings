@@ -519,6 +519,14 @@ declare namespace llvm {
         protected constructor();
     }
 
+    class FunctionCallee {
+        public getFunctionType(): FunctionType;
+
+        public getCallee(): Value;
+
+        protected constructor();
+    }
+
     class DataLayout {
         public constructor(desc: string);
     }
@@ -529,6 +537,8 @@ declare namespace llvm {
         public empty(): boolean;
 
         public getFunction(name: string): Function | null;
+
+        public getOrInsertFunction(name: string, fnType: FunctionType): FunctionCallee;
 
         public getGlobalVariable(name: string, allowInternal?: boolean): GlobalVariable | null;
 
@@ -795,7 +805,7 @@ declare namespace llvm {
 
     namespace IRBuilder {
         export class InsertPoint {
-
+            protected constructor();
         }
     }
 

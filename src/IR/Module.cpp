@@ -8,6 +8,7 @@ void Module::Init(Napi::Env env, Napi::Object &exports) {
     Napi::Function func = DefineClass(env, "Module", {
             InstanceMethod("empty", &Module::empty),
             InstanceMethod("getFunction", &Module::getFunction),
+            InstanceMethod("getOrInsertFunction", &Module::getOrInsertFunction),
             InstanceMethod("getGlobalVariable", &Module::getGlobalVariable),
             InstanceMethod("getTypeByName", &Module::getTypeByName),
             InstanceMethod("getName", &Module::getName),
@@ -73,6 +74,17 @@ Napi::Value Module::getFunction(const Napi::CallbackInfo &info) {
         return Function::New(env, function);
     }
     return env.Null();
+}
+
+Napi::Value Module::getOrInsertFunction(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() < 2 || !info[0].IsString() || !FunctionType::IsClassOf(info[1])) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Module::getOrInsertFunction);
+    }
+    std::string functionName = info[0].As<Napi::String>();
+    llvm::FunctionType *funcType = FunctionType::Extract(info[1]);
+    llvm::FunctionCallee callee = module->getOrInsertFunction(functionName, funcType);
+    return FunctionCallee::New(env, callee);
 }
 
 Napi::Value Module::getGlobalVariable(const Napi::CallbackInfo &info) {

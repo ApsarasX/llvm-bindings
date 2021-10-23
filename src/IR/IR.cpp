@@ -30,6 +30,7 @@ void InitIR(Napi::Env env, Napi::Object &exports) {
     GlobalObject::Init(env, exports);
     GlobalVariable::Init(env, exports);
     Function::Init(env, exports);
+    FunctionCallee::Init(env, exports);
     Argument::Init(env, exports);
     BasicBlock::Init(env, exports);
     IRBuilder::Init(env, exports);

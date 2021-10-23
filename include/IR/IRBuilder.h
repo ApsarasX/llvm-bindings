@@ -239,7 +239,7 @@ private:
         llvm::IRBuilderBase::InsertPoint getLLVMPrimitive();
 
     private:
-        static inline llvm::IRBuilderBase::InsertPoint ip; // tmp in static-new
+        static inline llvm::IRBuilderBase::InsertPoint tmpInsertPoint; // tmp in static-new
 
         llvm::IRBuilderBase::InsertPoint insertPoint;
     };

@@ -26,6 +26,8 @@ private:
 
     Napi::Value getFunction(const Napi::CallbackInfo &info);
 
+    Napi::Value getOrInsertFunction(const Napi::CallbackInfo &info);
+
     Napi::Value getName(const Napi::CallbackInfo &info);
 
     Napi::Value getDataLayout(const Napi::CallbackInfo &info);

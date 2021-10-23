@@ -75,6 +75,9 @@ namespace ErrMsg {
             static const char *addBasicBlock = "Function.addBasicBlock needs to be called with (basicBlock: BasicBlock)";
             static const char *insertAfter = "Function.insertAfter needs to be called with (where: BasicBlock, basicBlock: BasicBlock)";
         }
+        namespace FunctionCallee {
+            static const char *constructor = "FunctionCallee.constructor needs to be called with new ()";
+        }
         namespace FunctionType {
             static const char *constructor = "FunctionType.constructor needs to be called with new (external: Napi::External<llvm::Function>)";
             static const char *get = "FunctionType.get needs to be called with:"
@@ -155,6 +158,7 @@ namespace ErrMsg {
                                              "\n\t - new (external: Napi::External<llvm::Module>)"
                                              "\n\t - new (moduleID: string, context: LLVMContext)";
             static const char *getFunction = "Module.getFunction needs to be called with: (name: string)";
+            static const char *getOrInsertFunction = "Module.getOrInsertFunction needs to be called with: (name: string, fnType: FunctionType)";
             static const char *getGlobalVariable = "Module.getGlobalVariable needs to be called with: (name: string, allowInternal?: boolean)";
             static const char *getTypeByName = "Module.getTypeByName needs to be called with: (name: string)";
             static const char *setDataLayout = "Module.setDataLayout needs to be called with:"
