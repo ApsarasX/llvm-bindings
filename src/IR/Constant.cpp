@@ -33,7 +33,7 @@ Napi::Object Constant::New(Napi::Env env, llvm::Constant *constant) {
 bool Constant::IsClassOf(const Napi::Value &value) {
     return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
-
+// TODO: [Potential Bug] Always return nullptr
 llvm::Constant *Constant::Extract(const Napi::Value &value) {
     if (value.IsNull()) {
         return nullptr;

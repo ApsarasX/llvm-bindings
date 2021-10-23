@@ -30,7 +30,7 @@ Target::Target(const Napi::CallbackInfo &info) : Napi::ObjectWrap<Target>{info} 
 
 Napi::Value Target::createTargetMachine(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    int argsLen = info.Length();
+    unsigned argsLen = info.Length();
     if (argsLen < 2 || !info[0].IsString() || !info[1].IsString() || argsLen >= 3 && !info[2].IsString()) {
         throw Napi::TypeError::New(env, ErrMsg::Class::Target::createTargetMachine);
     }

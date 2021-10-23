@@ -4,7 +4,7 @@
 void BasicBlock::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "BasicBlock", {
-            StaticMethod("Create", &BasicBlock::create),
+            StaticMethod("Create", &BasicBlock::Create),
             InstanceMethod("getParent", &BasicBlock::getParent),
             InstanceMethod("getModule", &BasicBlock::getModule),
             InstanceMethod("getTerminator", &BasicBlock::getTerminator),
@@ -39,9 +39,9 @@ BasicBlock::BasicBlock(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     basicBlock = external.Data();
 }
 
-Napi::Value BasicBlock::create(const Napi::CallbackInfo &info) {
+Napi::Value BasicBlock::Create(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    int argsLen = info.Length();
+    unsigned argsLen = info.Length();
     if (argsLen == 0 ||
         !LLVMContext::IsClassOf(info[0]) ||
         argsLen >= 2 && !(info[1].IsString() || info[1].IsUndefined() || info[1].IsNull()) ||

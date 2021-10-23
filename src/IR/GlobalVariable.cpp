@@ -31,7 +31,7 @@ GlobalVariable::GlobalVariable(const Napi::CallbackInfo &info) : ObjectWrap(info
     if (!info.IsConstructCall()) {
         throw Napi::TypeError::New(env, ErrMsg::Class::GlobalVariable::constructor);
     }
-    int argsLen = info.Length();
+    unsigned argsLen = info.Length();
     if (argsLen >= 1 && info[0].IsExternal()) {
         auto external = info[0].As<Napi::External<llvm::GlobalVariable>>();
         globalVariable = external.Data();

@@ -44,7 +44,7 @@ Module::Module(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     if (!info.IsConstructCall()) {
         throw Napi::TypeError::New(env, ErrMsg::Class::Module::constructor);
     }
-    int argsLen = info.Length();
+    unsigned argsLen = info.Length();
     if (argsLen >= 1 && info[0].IsExternal()) {
         auto external = info[0].As<Napi::External<llvm::Module>>();
         module = external.Data();
@@ -186,7 +186,7 @@ void Module::setTargetTriple(const Napi::CallbackInfo &info) {
 
 void Module::print(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    int argsLen = info.Length();
+    unsigned argsLen = info.Length();
     if (argsLen >= 1 && !info[0].IsString()) {
         throw Napi::TypeError::New(env, ErrMsg::Class::Module::print);
     }

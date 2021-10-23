@@ -5,7 +5,7 @@
 #include "Support/Support.h"
 #include "Util/Util.h"
 
-Napi::Value parseIRFile(const Napi::CallbackInfo &info) {
+static Napi::Value parseIRFile(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() < 3 ||
         !info[0].IsString() ||

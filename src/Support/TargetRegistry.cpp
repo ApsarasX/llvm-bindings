@@ -4,7 +4,7 @@
 #include "Target/Target.h"
 #include "Util/Util.h"
 
-Napi::Value lookupTarget(const Napi::CallbackInfo &info) {
+static Napi::Value lookupTarget(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() == 0 || !info[0].IsString()) {
         throw Napi::TypeError::New(env, ErrMsg::Class::TargetRegistry::lookupTarget);

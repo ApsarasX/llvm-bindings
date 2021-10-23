@@ -196,7 +196,7 @@ Napi::Value Type::getIntNTy(const Napi::CallbackInfo &info) {
 }
 
 Napi::Value Type::getPrimitiveSizeInBits(const Napi::CallbackInfo &info) {
-    return Napi::Number::New(info.Env(), type->getPrimitiveSizeInBits());
+    return Napi::Number::New(info.Env(), double(type->getPrimitiveSizeInBits()));
 }
 
 Napi::Value Type::isIntegerTy(const Napi::CallbackInfo &info) {

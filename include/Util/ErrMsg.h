@@ -109,7 +109,6 @@ namespace ErrMsg {
         }
         namespace IRBuilder {
             static const char *constructor = "IRBuilder.constructor needs to be called with: new (context: LLVMContext)";
-            static const char *setInsertPoint = "IRBuilder.SetInsertPoint needs to be called with: (basicBlock: BasicBlock)";
             static const char *CreateBinOpFactory = "IRBuilder.[CreateBinaryOperation] needs to be called with: (lhs: Value, rhs: Value, name?: string)";
             static const char *CreateUnOpFactory = "IRBuilder.[CreateUnaryOperation] needs to be called with: (value: Value, name?: string)";
             static const char *CreateAlloca = "IRBuilder.CreateAlloca needs to be called with: (type: Type, arraySize?: Value, name?: string)";
@@ -124,7 +123,7 @@ namespace ErrMsg {
                                               "\n\t - (callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string)"
                                               "\n\t - (funcType: FunctionType, callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string)"
                                               "\n\t - (funcType: FunctionType, callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string)";
-            static const char *CreateCondBr = "IRBuilder.createCondBr needs to be called with: (cond: Value, thenBB: BasicBlock, elseBB: BasicBlock)";
+            static const char *CreateCondBr = "IRBuilder.CreateCondBr needs to be called with: (cond: Value, thenBB: BasicBlock, elseBB: BasicBlock)";
             static const char *CreateLoad = "IRBuilder.CreateLoad needs to be called with: (type: Type, ptr: Value, name?: string)";
             static const char *CreateRet = "IRBuilder.CreateRet needs to be called with: (value: Value)";
             static const char *CreateSwitch = "IRBuilder.CreateSwitch needs to be called with: (value: Value, dest: BasicBlock, numCases?: number)";
@@ -151,6 +150,7 @@ namespace ErrMsg {
             static const char *getIntNTy = "IRBuilder.getIntNTy needs to be called with (n: number)";
             static const char *getInt8PtrTy = "IRBuilder.getInt8PtrTy needs to be called with (addrSpace?: number)";
             static const char *getIntPtrTy = "IRBuilder.getIntPtrTy needs to be called with (dataLayout: DataLayout, addrSpace?: number)";
+            static const char *SetInsertPoint = "IRBuilder.SetInsertPoint needs to be called with: (basicBlock: BasicBlock)";
             static const char *restoreIP = "IRBuilder.restoreIP needs to be called with (ip: IRBuilder.InsertPoint)";
             namespace InsertPoint {
                 static const char *constructor = "IRBuilder.InsertPoint.constructor needs to be called with new ()";

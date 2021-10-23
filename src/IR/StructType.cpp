@@ -44,7 +44,7 @@ llvm::StructType *StructType::getLLVMPrimitive() {
 
 Napi::Value StructType::create(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    int argsLen = info.Length();
+    unsigned argsLen = info.Length();
     if (!(argsLen == 2 && LLVMContext::IsClassOf(info[0]) && info[1].IsString()) &&
         !(argsLen >= 3 && LLVMContext::IsClassOf(info[0]) && info[1].IsArray() && info[2].IsString())) {
         throw Napi::TypeError::New(env, ErrMsg::Class::StructType::create);
@@ -54,7 +54,7 @@ Napi::Value StructType::create(const Napi::CallbackInfo &info) {
     llvm::StructType *structType;
     if (argsLen >= 3) {
         auto eleTypesArray = info[1].As<Napi::Array>();
-        int numElements = eleTypesArray.Length();
+        unsigned numElements = eleTypesArray.Length();
         std::vector<llvm::Type *> elementTypes(numElements);
         for (int i = 0; i < numElements; ++i) {
             elementTypes[i] = Type::Extract(eleTypesArray.Get(i));
@@ -72,7 +72,7 @@ void StructType::setBody(const Napi::CallbackInfo &info) {
         throw Napi::TypeError::New(env, ErrMsg::Class::StructType::setBody);
     }
     auto eleTypesArray = info[0].As<Napi::Array>();
-    int numElements = eleTypesArray.Length();
+    unsigned numElements = eleTypesArray.Length();
     std::vector<llvm::Type *> elementTypes(numElements);
     for (int i = 0; i < numElements; ++i) {
         elementTypes[i] = Type::Extract(eleTypesArray.Get(i));

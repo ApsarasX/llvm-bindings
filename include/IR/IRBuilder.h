@@ -99,27 +99,27 @@ public:
 private:
     LLVMIRBuilder *builder = nullptr;
 
-    Napi::Value createAlloca(const Napi::CallbackInfo &info);
+    Napi::Value CreateAlloca(const Napi::CallbackInfo &info);
 
-    Napi::Value createBr(const Napi::CallbackInfo &info);
+    Napi::Value CreateBr(const Napi::CallbackInfo &info);
 
-    Napi::Value createCall(const Napi::CallbackInfo &info);
+    Napi::Value CreateCall(const Napi::CallbackInfo &info);
 
-    Napi::Value createInvoke(const Napi::CallbackInfo &info);
+    Napi::Value CreateInvoke(const Napi::CallbackInfo &info);
 
-    Napi::Value createCondBr(const Napi::CallbackInfo &info);
+    Napi::Value CreateCondBr(const Napi::CallbackInfo &info);
 
-    Napi::Value createUnreachable(const Napi::CallbackInfo &info);
+    Napi::Value CreateUnreachable(const Napi::CallbackInfo &info);
 
-    Napi::Value createLoad(const Napi::CallbackInfo &info);
+    Napi::Value CreateLoad(const Napi::CallbackInfo &info);
 
-    Napi::Value createRet(const Napi::CallbackInfo &info);
+    Napi::Value CreateRet(const Napi::CallbackInfo &info);
 
-    Napi::Value createRetVoid(const Napi::CallbackInfo &info);
+    Napi::Value CreateRetVoid(const Napi::CallbackInfo &info);
 
-    Napi::Value createSwitch(const Napi::CallbackInfo &info);
+    Napi::Value CreateSwitch(const Napi::CallbackInfo &info);
 
-    Napi::Value createStore(const Napi::CallbackInfo &info);
+    Napi::Value CreateStore(const Napi::CallbackInfo &info);
 
     unOpFactoryMacro(UnaryOperation)
 
@@ -135,14 +135,14 @@ private:
 
     binOpFactoryMacro(BinaryOperationWithBool, false)
 
-    Napi::Value createGlobalString(const Napi::CallbackInfo &info);
+    Napi::Value CreateGlobalString(const Napi::CallbackInfo &info);
 
-    Napi::Value createGlobalStringPtr(const Napi::CallbackInfo &info);
+    Napi::Value CreateGlobalStringPtr(const Napi::CallbackInfo &info);
 
-    Napi::Value createPHI(const Napi::CallbackInfo &info);
+    Napi::Value CreatePHI(const Napi::CallbackInfo &info);
 
     template<CreateCast method>
-    Napi::Value createCastFactory(const Napi::CallbackInfo &info) {
+    Napi::Value CreateCastFactory(const Napi::CallbackInfo &info) {
         Napi::Env env = info.Env();
         int argsLen = info.Length();
         if (argsLen < 2 || !Value::IsClassOf(info[0]) || !Type::IsClassOf(info[1]) || argsLen >= 3 && !info[2].IsString()) {
@@ -154,7 +154,7 @@ private:
         return Value::New(env, (builder->*method)(value, destType, name));
     }
 
-    Napi::Value createIntCast(const Napi::CallbackInfo &info) {
+    Napi::Value CreateIntCast(const Napi::CallbackInfo &info) {
         Napi::Env env = info.Env();
         int argsLen = info.Length();
         if (argsLen < 3 ||
@@ -171,11 +171,11 @@ private:
         return Value::New(env, builder->CreateIntCast(value, destType, isSigned, name));
     }
 
-    Napi::Value createGEP(const Napi::CallbackInfo &info);
+    Napi::Value CreateGEP(const Napi::CallbackInfo &info);
 
-    Napi::Value createInBoundsGEP(const Napi::CallbackInfo &info);
+    Napi::Value CreateInBoundsGEP(const Napi::CallbackInfo &info);
 
-    Napi::Value createSelect(const Napi::CallbackInfo &info);
+    Napi::Value CreateSelect(const Napi::CallbackInfo &info);
 
     Napi::Value getInt1(const Napi::CallbackInfo &info);
 
@@ -212,11 +212,11 @@ private:
 
     Napi::Value getIntPtrTy(const Napi::CallbackInfo &info);
 
-    void setInsertPoint(const Napi::CallbackInfo &info);
+    void SetInsertPoint(const Napi::CallbackInfo &info);
 
-    Napi::Value getInsertBlock(const Napi::CallbackInfo &info);
+    Napi::Value GetInsertBlock(const Napi::CallbackInfo &info);
 
-    void clearInsertionPoint(const Napi::CallbackInfo &info);
+    void ClearInsertionPoint(const Napi::CallbackInfo &info);
 
     Napi::Value saveIP(const Napi::CallbackInfo &info);
 

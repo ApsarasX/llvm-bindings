@@ -35,7 +35,7 @@ FunctionType::FunctionType(const Napi::CallbackInfo &info) : ObjectWrap(info) {
 
 Napi::Value FunctionType::get(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    int argsLen = info.Length();
+    unsigned argsLen = info.Length();
     if (!(argsLen == 2 && Type::IsClassOf(info[0]) && info[1].IsBoolean()) &&
         !(argsLen >= 3 && Type::IsClassOf(info[0]) && info[1].IsArray() && info[2].IsBoolean())) {
         throw Napi::TypeError::New(env, ErrMsg::Class::FunctionType::get);

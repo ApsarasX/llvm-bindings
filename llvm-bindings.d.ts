@@ -1128,15 +1128,15 @@ declare namespace llvm {
         public constructor();
     }
 
-    function initializeAllTargetInfos(): void;
+    function InitializeAllTargetInfos(): void;
 
-    function initializeAllTargets(): void;
+    function InitializeAllTargets(): void;
 
-    function initializeAllTargetMCs(): void;
+    function InitializeAllTargetMCs(): void;
 
-    function initializeAllAsmParsers(): void;
+    function InitializeAllAsmParsers(): void;
 
-    function initializeAllAsmPrinters(): void;
+    function InitializeAllAsmPrinters(): void;
 }
 
 export = llvm;

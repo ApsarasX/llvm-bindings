@@ -19,7 +19,7 @@ llvm::APInt &APInt::Extract(const Napi::Value &value) {
 
 APInt::APInt(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    int argsLen = info.Length();
+    unsigned argsLen = info.Length();
     if (!info.IsConstructCall() || argsLen < 2 || !info[0].IsNumber() || !info[1].IsNumber() || argsLen >= 3 && !info[2].IsBoolean()) {
         throw Napi::TypeError::New(env, ErrMsg::Class::APInt::constructor);
     }

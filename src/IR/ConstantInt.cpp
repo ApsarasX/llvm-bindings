@@ -56,7 +56,7 @@ llvm::ConstantInt *ConstantInt::getLLVMPrimitive() {
 
 Napi::Value ConstantInt::get(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    int argsLen = info.Length();
+    unsigned argsLen = info.Length();
     if (argsLen >= 2 && LLVMContext::IsClassOf(info[0]) && APInt::IsClassOf(info[1])) {
         llvm::LLVMContext &context = LLVMContext::Extract(info[0]);
         llvm::APInt &value = APInt::Extract(info[1]);

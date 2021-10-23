@@ -61,7 +61,7 @@ Napi::Value ArrayType::isValidElementType(const Napi::CallbackInfo &info) {
 }
 
 Napi::Value ArrayType::getNumElements(const Napi::CallbackInfo &info) {
-    return Napi::Number::New(info.Env(), arrayType->getNumElements());
+    return Napi::Number::New(info.Env(), double(arrayType->getNumElements()));
 }
 
 Napi::Value ArrayType::getElementType(const Napi::CallbackInfo &info) {

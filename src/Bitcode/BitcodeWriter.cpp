@@ -6,7 +6,7 @@
 #include "IR/IR.h"
 #include "Util/Util.h"
 
-void writeBitcodeToFile(const Napi::CallbackInfo &info) {
+static void WriteBitcodeToFile(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() < 2 || !Module::IsClassOf(info[0]) || !info[1].IsString()) {
         throw Napi::TypeError::New(env, ErrMsg::Function::WriteBitcodeToFile);
@@ -24,5 +24,5 @@ void writeBitcodeToFile(const Napi::CallbackInfo &info) {
 }
 
 void InitBitcodeWriter(Napi::Env env, Napi::Object &exports) {
-    exports.Set("WriteBitcodeToFile", Napi::Function::New(env, writeBitcodeToFile));
+    exports.Set("WriteBitcodeToFile", Napi::Function::New(env, WriteBitcodeToFile));
 }

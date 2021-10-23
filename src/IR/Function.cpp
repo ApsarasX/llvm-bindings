@@ -7,7 +7,7 @@
 void Function::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "Function", {
-            StaticMethod("Create", &Function::create),
+            StaticMethod("Create", &Function::Create),
             InstanceMethod("arg_size", &Function::argSize),
             InstanceMethod("getArg", &Function::getArg),
             InstanceMethod("getReturnType", &Function::getReturnType),
@@ -50,9 +50,9 @@ Function::Function(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     function = external.Data();
 }
 
-Napi::Value Function::create(const Napi::CallbackInfo &info) {
+Napi::Value Function::Create(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    int argsLen = info.Length();
+    unsigned argsLen = info.Length();
     if (argsLen < 2 ||
         !FunctionType::IsClassOf(info[0]) ||
         !info[1].IsNumber() ||
@@ -80,7 +80,7 @@ llvm::Function *Function::getLLVMPrimitive() {
 
 Napi::Value Function::argSize(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    return Napi::Number::New(env, function->arg_size());
+    return Napi::Number::New(env, double(function->arg_size()));
 }
 
 Napi::Value Function::getArg(const Napi::CallbackInfo &info) {
