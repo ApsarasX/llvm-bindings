@@ -709,6 +709,8 @@ declare namespace llvm {
 
         public CreateExtractValue(agg: Value, idxs: number[], name?: string): Value;
 
+        public CreateInsertValue(agg: Value, value: Value, idxs: number[], name?: string): Value;
+
         public CreateLandingPad(type: Type, numClauses: number, name?: string): LandingPadInst;
 
         public CreateGEP(ptr: Value, idxList: Value[], name?: string): Value;

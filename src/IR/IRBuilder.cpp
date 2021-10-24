@@ -66,6 +66,7 @@ void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("CreatePHI", &IRBuilder::CreatePHI),
             InstanceMethod("CreateSelect", &IRBuilder::CreateSelect),
             InstanceMethod("CreateExtractValue", &IRBuilder::CreateExtractValue),
+            InstanceMethod("CreateInsertValue", &IRBuilder::CreateInsertValue),
             InstanceMethod("CreateLandingPad", &IRBuilder::CreateLandingPad),
 
             InstanceMethod("CreateTrunc", &IRBuilder::CreateCastFactory<&LLVMIRBuilder::CreateTrunc>),
@@ -527,9 +528,10 @@ Napi::Value IRBuilder::CreateExtractValue(const Napi::CallbackInfo &info) {
         argsLen == 3 && Value::IsClassOf(info[0]) && info[1].IsArray() && info[2].IsString()) {
         llvm::Value *agg = Value::Extract(info[0]);
         const auto &idxArr = info[1].As<Napi::Array>();
-        std::vector<unsigned> idxs(idxArr.Length());
+        unsigned numIdxs = idxArr.Length();
+        std::vector<unsigned> idxs(numIdxs);
         bool convertSuccess = true;
-        for (unsigned i = 0; i < idxArr.Length(); ++i) {
+        for (unsigned i = 0; i < numIdxs; ++i) {
             const auto &idx = Napi::Value(idxArr[i]);
             if (idx.IsNumber()) {
                 idxs[i] = idx.As<Napi::Number>();
@@ -544,6 +546,34 @@ Napi::Value IRBuilder::CreateExtractValue(const Napi::CallbackInfo &info) {
         }
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateExtractValue);
+}
+
+Napi::Value IRBuilder::CreateInsertValue(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    unsigned argsLen = info.Length();
+    if (argsLen == 3 && Value::IsClassOf(info[0]) && Value::IsClassOf(info[1]) && info[2].IsArray() ||
+        argsLen == 4 && Value::IsClassOf(info[0]) && Value::IsClassOf(info[1]) && info[2].IsArray() && info[3].IsString()) {
+        llvm::Value *agg = Value::Extract(info[0]);
+        llvm::Value *value = Value::Extract(info[1]);
+        const auto &idxArr = info[2].As<Napi::Array>();
+        unsigned numIdxs = idxArr.Length();
+        std::vector<unsigned> idxs(numIdxs);
+        bool convertSuccess = true;
+        for (unsigned i = 0; i < numIdxs; ++i) {
+            const auto &idx = Napi::Value(idxArr[i]);
+            if (idx.IsNumber()) {
+                idxs[i] = idx.As<Napi::Number>();
+            } else {
+                convertSuccess = false;
+                break;
+            }
+        }
+        if (convertSuccess) {
+            const std::string &name = argsLen == 4 ? std::string(info[3].As<Napi::String>()) : "";
+            return Value::New(env, builder->CreateInsertValue(agg, value, idxs, name));
+        }
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateInsertValue);
 }
 
 Napi::Value IRBuilder::CreateLandingPad(const Napi::CallbackInfo &info) {

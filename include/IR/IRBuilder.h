@@ -179,6 +179,8 @@ private:
 
     Napi::Value CreateExtractValue(const Napi::CallbackInfo &info);
 
+    Napi::Value CreateInsertValue(const Napi::CallbackInfo &info);
+
     Napi::Value CreateLandingPad(const Napi::CallbackInfo &info);
 
     Napi::Value getInt1(const Napi::CallbackInfo &info);
