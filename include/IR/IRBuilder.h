@@ -117,6 +117,8 @@ private:
 
     Napi::Value CreateRetVoid(const Napi::CallbackInfo &info);
 
+    Napi::Value CreateResume(const Napi::CallbackInfo &info);
+
     Napi::Value CreateSwitch(const Napi::CallbackInfo &info);
 
     Napi::Value CreateStore(const Napi::CallbackInfo &info);

@@ -354,6 +354,10 @@ declare namespace llvm {
         protected constructor();
     }
 
+    class ResumeInst extends Instruction {
+        protected constructor();
+    }
+
     class SwitchInst extends Instruction {
         public addCase(onVal: ConstantInt, dest: BasicBlock): void;
 

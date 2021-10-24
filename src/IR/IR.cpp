@@ -18,6 +18,7 @@ void InitIR(Napi::Env env, Napi::Object &exports) {
     InvokeInst::Init(env, exports);
     LoadInst::Init(env, exports);
     ReturnInst::Init(env, exports);
+    ResumeInst::Init(env, exports);
     SwitchInst::Init(env, exports);
     StoreInst::Init(env, exports);
     LandingPadInst::Init(env, exports);

@@ -57,6 +57,7 @@ void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("CreateLoad", &IRBuilder::CreateLoad),
             InstanceMethod("CreateRet", &IRBuilder::CreateRet),
             InstanceMethod("CreateRetVoid", &IRBuilder::CreateRetVoid),
+            InstanceMethod("CreateResume", &IRBuilder::CreateResume),
             InstanceMethod("CreateSwitch", &IRBuilder::CreateSwitch),
             InstanceMethod("CreateStore", &IRBuilder::CreateStore),
             InstanceMethod("CreateGEP", &IRBuilder::CreateGEP),
@@ -314,6 +315,16 @@ Napi::Value IRBuilder::CreateRet(const Napi::CallbackInfo &info) {
 
 Napi::Value IRBuilder::CreateRetVoid(const Napi::CallbackInfo &info) {
     return ReturnInst::New(info.Env(), builder->CreateRetVoid());
+}
+
+Napi::Value IRBuilder::CreateResume(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    unsigned argsLen = info.Length();
+    if (argsLen == 1 && Value::IsClassOf(info[0])) {
+        llvm::ResumeInst *resumeInst = builder->CreateResume(Value::Extract(info[0]));
+        return ResumeInst::New(info.Env(), resumeInst);
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateResume);
 }
 
 Napi::Value IRBuilder::CreateSwitch(const Napi::CallbackInfo &info) {
