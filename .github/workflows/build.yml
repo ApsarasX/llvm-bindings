@@ -1,0 +1,61 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - '**'
+    paths-ignore:
+      - 'README.md'
+      - 'CHANGELOG.md'
+      - 'LICENSE'
+    tags-ignore:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+    paths-ignore:
+      - 'README.md'
+      - 'CHANGELOG.md'
+      - 'LICENSE'
+    tags-ignore:
+      - '**'
+
+jobs:
+  build:
+    name: Node.js ${{ matrix.node }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, ubuntu-20.04, macos-10.15]
+        node: [14, 16, 17]
+    steps:
+      - name: Fetch Codebase
+        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+          check-latest: true
+      - name: Install Prerequirements(Linux)
+        if: ${{ runner.os == 'Linux' }}
+        run: |
+          sudo wget https://apt.llvm.org/llvm.sh
+          sudo chmod +x llvm.sh
+          sudo ./llvm.sh 12
+      - name: Install Prerequirements(macOS)
+        if: ${{ runner.os == 'macOS' }}
+        run: |
+          brew uninstall llvm
+          brew install llvm@12
+      - name: Install Dependencies
+        run: npm install --ignore-scripts
+      - name: CMake Build Debug and Test
+        run: |
+          rm -rf build
+          npm run build:debug
+          npm test
+      - name: CMake Build Release and Test
+        run: |
+          rm -rf build
+          npm run build:release
+          npm test

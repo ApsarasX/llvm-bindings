@@ -32,8 +32,10 @@
         "node-addon-api": "^4.2.0"
     },
     "devDependencies": {
+        "@types/node": "^16.11.4",
         "conventional-changelog-cli": "^2.1.1",
-        "ts-node": "^10.3.0"
+        "ts-node": "^10.4.0",
+        "typescript": "^4.4.4"
     },
     "repository": {
         "type": "git",
