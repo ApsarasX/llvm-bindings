@@ -206,6 +206,18 @@ Napi::Value IRBuilder::CreateCall(const Napi::CallbackInfo &info) {
             std::string name = argsLen == 3 ? std::string(info[2].As<Napi::String>()) : "";
             callInst = builder->CreateCall(callee, calleeArgs, name);
         }
+    } else if (argsLen == 1 && FunctionCallee::IsClassOf(info[0]) ||
+               argsLen == 2 && FunctionCallee::IsClassOf(info[0]) && info[1].IsString()) {
+        llvm::FunctionCallee callee = FunctionCallee::Extract(info[0]);
+        std::string name = argsLen == 2 ? std::string(info[1].As<Napi::String>()) : "";
+        callInst = builder->CreateCall(callee, llvm::None, name);
+    } else if (argsLen == 2 && FunctionCallee::IsClassOf(info[0]) && info[1].IsArray() ||
+               argsLen == 3 && FunctionCallee::IsClassOf(info[0]) && info[1].IsArray() && info[2].IsString()) {
+        if (assembleValueArray(info[1].As<Napi::Array>(), calleeArgs)) {
+            llvm::FunctionCallee callee = FunctionCallee::Extract(info[0]);
+            std::string name = argsLen == 3 ? std::string(info[2].As<Napi::String>()) : "";
+            callInst = builder->CreateCall(callee, calleeArgs, name);
+        }
     } else if (argsLen == 2 && FunctionType::IsClassOf(info[0]) && Value::IsClassOf(info[1]) ||
                argsLen == 3 && FunctionType::IsClassOf(info[0]) && Value::IsClassOf(info[1]) && info[2].IsString()) {
         llvm::FunctionType *funcType = FunctionType::Extract(info[0]);
@@ -240,7 +252,8 @@ Napi::Value IRBuilder::CreateInvoke(const Napi::CallbackInfo &info) {
         std::string name = argsLen == 4 ? std::string(info[3].As<Napi::String>()) : "";
         invokeInst = builder->CreateInvoke(callee, normalDest, unwindDest, llvm::None, name);
     } else if (argsLen == 4 && Function::IsClassOf(info[0]) && BasicBlock::IsClassOf(info[1]) && BasicBlock::IsClassOf(info[2]) && info[3].IsArray() ||
-               argsLen == 5 && Function::IsClassOf(info[0]) && BasicBlock::IsClassOf(info[1]) && BasicBlock::IsClassOf(info[2]) && info[3].IsArray() && info[4].IsString()) {
+               argsLen == 5 && Function::IsClassOf(info[0]) && BasicBlock::IsClassOf(info[1]) && BasicBlock::IsClassOf(info[2]) && info[3].IsArray() &&
+               info[4].IsString()) {
         if (assembleValueArray(info[3].As<Napi::Array>(), calleeArgs)) {
             llvm::Function *callee = Function::Extract(info[0]);
             llvm::BasicBlock *normalDest = BasicBlock::Extract(info[1]);
@@ -248,16 +261,20 @@ Napi::Value IRBuilder::CreateInvoke(const Napi::CallbackInfo &info) {
             std::string name = argsLen == 5 ? std::string(info[4].As<Napi::String>()) : "";
             invokeInst = builder->CreateInvoke(callee, normalDest, unwindDest, calleeArgs, name);
         }
-    } else if (argsLen == 4 && FunctionType::IsClassOf(info[0]) && Function::IsClassOf(info[1]) && BasicBlock::IsClassOf(info[2]) && BasicBlock::IsClassOf(info[3]) ||
-               argsLen == 5 && FunctionType::IsClassOf(info[0]) && Function::IsClassOf(info[1]) && BasicBlock::IsClassOf(info[2]) && BasicBlock::IsClassOf(info[3]) && info[4].IsString()) {
+    } else if (argsLen == 4 && FunctionType::IsClassOf(info[0]) && Function::IsClassOf(info[1]) && BasicBlock::IsClassOf(info[2]) &&
+               BasicBlock::IsClassOf(info[3]) ||
+               argsLen == 5 && FunctionType::IsClassOf(info[0]) && Function::IsClassOf(info[1]) && BasicBlock::IsClassOf(info[2]) &&
+               BasicBlock::IsClassOf(info[3]) && info[4].IsString()) {
         llvm::FunctionType *funcType = FunctionType::Extract(info[0]);
         llvm::Function *callee = Function::Extract(info[1]);
         llvm::BasicBlock *normalDest = BasicBlock::Extract(info[2]);
         llvm::BasicBlock *unwindDest = BasicBlock::Extract(info[3]);
         std::string name = argsLen == 5 ? std::string(info[4].As<Napi::String>()) : "";
         invokeInst = builder->CreateInvoke(funcType, callee, normalDest, unwindDest, llvm::None, name);
-    } else if (argsLen == 5 && FunctionType::IsClassOf(info[0]) && Function::IsClassOf(info[1]) && BasicBlock::IsClassOf(info[2]) && BasicBlock::IsClassOf(info[3]) && info[4].IsArray() ||
-               argsLen == 6 && FunctionType::IsClassOf(info[0]) && Function::IsClassOf(info[1]) && BasicBlock::IsClassOf(info[2]) && BasicBlock::IsClassOf(info[3]) && info[4].IsArray() && info[5].IsString()) {
+    } else if (argsLen == 5 && FunctionType::IsClassOf(info[0]) && Function::IsClassOf(info[1]) && BasicBlock::IsClassOf(info[2]) &&
+               BasicBlock::IsClassOf(info[3]) && info[4].IsArray() ||
+               argsLen == 6 && FunctionType::IsClassOf(info[0]) && Function::IsClassOf(info[1]) && BasicBlock::IsClassOf(info[2]) &&
+               BasicBlock::IsClassOf(info[3]) && info[4].IsArray() && info[5].IsString()) {
         if (assembleValueArray(info[4].As<Napi::Array>(), calleeArgs)) {
             llvm::FunctionType *funcType = FunctionType::Extract(info[0]);
             llvm::Function *callee = Function::Extract(info[1]);

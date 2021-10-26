@@ -680,6 +680,8 @@ declare namespace llvm {
         // customized
         public CreateCall(callee: Function, name?: string): CallInst;
         public CreateCall(callee: Function, args: Value[], name?: string): CallInst;
+        public CreateCall(callee: FunctionCallee, name?: string): CallInst;
+        public CreateCall(callee: FunctionCallee, args: Value[], name?: string): CallInst;
         public CreateCall(funcType: FunctionType, callee: Value, name?: string): CallInst;
         public CreateCall(funcType: FunctionType, callee: Value, args: Value[], name?: string): CallInst;
 

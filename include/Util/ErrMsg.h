@@ -116,6 +116,8 @@ namespace ErrMsg {
             static const char *CreateCall = "IRBuilder.CreateCall needs to be called with:"
                                             "\n\t - (callee: Function, name?: string)"
                                             "\n\t - (callee: Function, args: Value[], name?: string)"
+                                            "\n\t - (callee: FunctionCallee, name?: string)"
+                                            "\n\t - (callee: FunctionCallee, args: Value[], name?: string)"
                                             "\n\t - (funcType: FunctionType, callee: Value, name?: string)"
                                             "\n\t - (funcType: FunctionType, callee: Value, args: Value[], name?: string)";
             static const char *CreateInvoke = "IRBuilder.CreateInvoke needs to be called with:"

@@ -9,6 +9,7 @@ import testParseIRFile from './parseIRFile';
 import testLinker from './linker';
 import testWriteBitcodeToFile from './writeBitcodeToFile';
 import testIntrinsic from './intrinsic';
+import testGetOrInsertFunction from './getOrInsertFunction';
 
 testAdd();
 testFibonacci();
@@ -21,3 +22,4 @@ testParseIRFile();
 testLinker();
 testWriteBitcodeToFile();
 testIntrinsic();
+testGetOrInsertFunction();
