@@ -706,6 +706,8 @@ declare namespace llvm {
 
         public CreateRetVoid(): ReturnInst;
 
+        public CreateResume(exn: Value): ResumeInst;
+
         public CreateSwitch(value: Value, dest: BasicBlock, numCases?: number): SwitchInst;
 
         public CreateStore(value: Value, ptr: Value): StoreInst;
