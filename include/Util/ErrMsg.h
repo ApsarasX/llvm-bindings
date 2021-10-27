@@ -70,6 +70,7 @@ namespace ErrMsg {
             static const char *constructor = "DataLayout.constructor needs to be called with"
                                              "\n\t - new (external: Napi::External<llvm::DataLayout>)"
                                              "\n\t - new (desc: string)";
+            static const char *getTypeAllocSize = "DataLayout.getTypeAllocSize needs to be called with (type: Type)";
         }
         namespace Function {
             static const char *constructor = "Function.constructor needs to be called with new (external: Napi::External<llvm::Function>)";

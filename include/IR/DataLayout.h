@@ -21,4 +21,6 @@ public:
 
 private:
     llvm::DataLayout *dataLayout = nullptr;
+
+    Napi::Value getTypeAllocSize(const Napi::CallbackInfo &info);
 };

@@ -545,6 +545,8 @@ declare namespace llvm {
 
     class DataLayout {
         public constructor(desc: string);
+
+        public getTypeAllocSize(type: Type): number;
     }
 
     class Module {

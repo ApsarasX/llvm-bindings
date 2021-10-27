@@ -3,7 +3,9 @@
 
 void DataLayout::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
-    Napi::Function func = DefineClass(env, "DataLayout", {});
+    Napi::Function func = DefineClass(env, "DataLayout", {
+            InstanceMethod("getTypeAllocSize", &DataLayout::getTypeAllocSize)
+    });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
     exports.Set("DataLayout", func);
@@ -39,3 +41,12 @@ llvm::DataLayout &DataLayout::getLLVMPrimitive() {
     return *dataLayout;
 }
 
+Napi::Value DataLayout::getTypeAllocSize(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 1 && Type::IsClassOf(info[0])) {
+        llvm::Type *type = Type::Extract(info[0]);
+        auto allocSize = dataLayout->getTypeAllocSize(type);
+        return Napi::Number::New(env, double(allocSize.getFixedSize()));
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::DataLayout::getTypeAllocSize);
+}
