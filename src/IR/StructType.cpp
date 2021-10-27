@@ -5,6 +5,7 @@ void StructType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "StructType", {
             StaticMethod("create", &StructType::create),
+            StaticMethod("get", &StructType::get),
             InstanceMethod("setBody", &StructType::setBody),
             InstanceMethod("getPointerTo", &StructType::getPointerTo),
             InstanceMethod("isStructTy", &StructType::isStructTy),
@@ -62,6 +63,29 @@ Napi::Value StructType::create(const Napi::CallbackInfo &info) {
         structType = llvm::StructType::create(context, elementTypes, name);
     } else {
         structType = llvm::StructType::create(context, name);
+    }
+    return StructType::New(env, structType);
+}
+
+Napi::Value StructType::get(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    unsigned argsLen = info.Length();
+    if (!(argsLen == 1 && LLVMContext::IsClassOf(info[0])) &&
+        !(argsLen == 2 && LLVMContext::IsClassOf(info[0]) && info[1].IsArray())) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::StructType::get);
+    }
+    llvm::LLVMContext &context = LLVMContext::Extract(info[0]);
+    llvm::StructType *structType;
+    if (argsLen == 2) {
+        auto eleTypesArray = info[1].As<Napi::Array>();
+        unsigned numElements = eleTypesArray.Length();
+        std::vector<llvm::Type *> elementTypes(numElements);
+        for (int i = 0; i < numElements; ++i) {
+            elementTypes[i] = Type::Extract(eleTypesArray.Get(i));
+        }
+        structType = llvm::StructType::get(context, elementTypes);
+    } else {
+        structType = llvm::StructType::get(context);
     }
     return StructType::New(env, structType);
 }

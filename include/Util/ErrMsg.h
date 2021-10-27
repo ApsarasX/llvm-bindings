@@ -220,6 +220,9 @@ namespace ErrMsg {
             static const char *create = "StructType.create needs to be called with:"
                                         "\n\t - (context: LLVMContext, name: string)"
                                         "\n\t - (context: LLVMContext, elementTypes: Type[], name: string)";
+            static const char *get = "StructType.get needs to be called with:"
+                                        "\n\t - (context: LLVMContext)"
+                                        "\n\t - (context: LLVMContext, elementTypes: Type[])";
             static const char *setBody = "StructType.setBody needs to be called with (elementTypes: Type[])";
             static const char *getPointerTo = "StructType.getPointer needs to called with: (addrSpace?: number)";
         }

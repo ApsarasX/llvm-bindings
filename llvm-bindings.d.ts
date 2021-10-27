@@ -195,6 +195,9 @@ declare namespace llvm {
         public static create(context: LLVMContext, name: string): StructType;
         public static create(context: LLVMContext, elementTypes: Type[], name: string): StructType;
 
+        public static get(context: LLVMContext): StructType;
+        public static get(context: LLVMContext, elementTypes: Type[]): StructType;
+
         public setBody(elementTypes: Type[]): void;
 
         // duplicated
