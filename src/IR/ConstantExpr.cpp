@@ -4,8 +4,9 @@
 void ConstantExpr::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "ConstantExpr", {
-            StaticMethod("getBitCast", &ConstantExpr::getBitCast)
             // TODO: need more methods by use of factory mode
+            StaticMethod("getBitCast", &ConstantExpr::getBitCast),
+            InstanceMethod("getType", &ConstantExpr::getType)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -47,3 +48,8 @@ Napi::Value ConstantExpr::getBitCast(const Napi::CallbackInfo &info) {
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::ConstantExpr::getBitCast);
 }
+
+Napi::Value ConstantExpr::getType(const Napi::CallbackInfo &info) {
+    return Type::New(info.Env(), constantExpr->getType());
+}
+

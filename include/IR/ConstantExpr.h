@@ -23,4 +23,6 @@ private:
     llvm::ConstantExpr *constantExpr = nullptr;
 
     static Napi::Value getBitCast(const Napi::CallbackInfo &info);
+
+    Napi::Value getType(const Napi::CallbackInfo &info);
 };
