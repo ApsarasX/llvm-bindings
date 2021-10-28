@@ -6,7 +6,9 @@ void IntegerType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::Function func = DefineClass(env, "IntegerType", {
             StaticMethod("get", &IntegerType::get),
             InstanceMethod("isStructTy", &IntegerType::isStructTy),
-            InstanceMethod("isIntegerTy", &IntegerType::isIntegerTy)
+            InstanceMethod("isIntegerTy", &IntegerType::isIntegerTy),
+            InstanceMethod("isVoidTy", &IntegerType::isVoidTy),
+            InstanceMethod("getTypeID", &IntegerType::getTypeID)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -35,6 +37,10 @@ IntegerType::IntegerType(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     integerType = external.Data();
 }
 
+llvm::IntegerType *IntegerType::getLLVMPrimitive() {
+    return integerType;
+}
+
 Napi::Value IntegerType::get(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() < 2 || !LLVMContext::IsClassOf(info[0]) || !info[1].IsNumber()) {
@@ -59,6 +65,10 @@ Napi::Value IntegerType::isIntegerTy(const Napi::CallbackInfo &info) {
     return Napi::Boolean::New(env, result);
 }
 
-llvm::IntegerType *IntegerType::getLLVMPrimitive() {
-    return integerType;
+Napi::Value IntegerType::isVoidTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), integerType->isVoidTy());
+}
+
+Napi::Value IntegerType::getTypeID(const Napi::CallbackInfo &info) {
+    return Napi::Number::New(info.Env(), integerType->getTypeID());
 }

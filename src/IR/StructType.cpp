@@ -9,7 +9,9 @@ void StructType::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("setBody", &StructType::setBody),
             InstanceMethod("getPointerTo", &StructType::getPointerTo),
             InstanceMethod("isStructTy", &StructType::isStructTy),
-            InstanceMethod("isIntegerTy", &StructType::isIntegerTy)
+            InstanceMethod("isIntegerTy", &StructType::isIntegerTy),
+            InstanceMethod("isVoidTy", &StructType::isVoidTy),
+            InstanceMethod("getTypeID", &StructType::getTypeID)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -128,4 +130,12 @@ Napi::Value StructType::isIntegerTy(const Napi::CallbackInfo &info) {
     }
     bool result = info.Length() == 0 ? structType->isIntegerTy() : structType->isIntegerTy(info[0].As<Napi::Number>());
     return Napi::Boolean::New(env, result);
+}
+
+Napi::Value StructType::isVoidTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), structType->isVoidTy());
+}
+
+Napi::Value StructType::getTypeID(const Napi::CallbackInfo &info) {
+    return Napi::Number::New(info.Env(), structType->getTypeID());
 }

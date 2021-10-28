@@ -10,6 +10,7 @@ import testLinker from './linker';
 import testWriteBitcodeToFile from './writeBitcodeToFile';
 import testIntrinsic from './intrinsic';
 import testGetOrInsertFunction from './getOrInsertFunction';
+import testType from './type';
 
 testAdd();
 testFibonacci();
@@ -23,3 +24,4 @@ testLinker();
 testWriteBitcodeToFile();
 testIntrinsic();
 testGetOrInsertFunction();
+testType();

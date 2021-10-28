@@ -38,4 +38,6 @@ private:
     Napi::Value isTypeFactory(const Napi::CallbackInfo &info) {
         return Napi::Boolean::New(info.Env(), (type->*method)());
     }
+
+    static Napi::Value isSameType(const Napi::CallbackInfo &info);
 };

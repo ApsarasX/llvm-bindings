@@ -33,7 +33,7 @@ Napi::Value getIntTypeFactory(const Napi::CallbackInfo &info) {
 template<getPointerTypeFn method>
 Napi::Value getPointerTypeFactory(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    int argsLen = info.Length();
+    unsigned argsLen = info.Length();
     if (argsLen == 0 || !LLVMContext::IsClassOf(info[0]) || argsLen >= 2 && !info[1].IsNumber()) {
         throw Napi::TypeError::New(env, ErrMsg::Class::Type::getPointerTypeFactory);
     }
@@ -128,7 +128,8 @@ void Type::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("isSingleValueType", &Type::isTypeFactory<&llvm::Type::isSingleValueType>),
             InstanceMethod("isAggregateType", &Type::isTypeFactory<&llvm::Type::isAggregateType>),
             InstanceMethod("getPointerTo", &Type::getPointerTo),
-            InstanceMethod("getPrimitiveSizeInBits", &Type::getPrimitiveSizeInBits)
+            InstanceMethod("getPrimitiveSizeInBits", &Type::getPrimitiveSizeInBits),
+            StaticMethod("isSameType", &Type::isSameType)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -137,15 +138,15 @@ void Type::Init(Napi::Env env, Napi::Object &exports) {
 
 Napi::Object Type::New(Napi::Env env, llvm::Type *type) {
     if (type->isIntegerTy()) {
-        return IntegerType::New(env, static_cast<llvm::IntegerType *>(type));
+        return IntegerType::New(env, llvm::cast<llvm::IntegerType>(type));
     } else if (type->isPointerTy()) {
-        return PointerType::New(env, static_cast<llvm::PointerType *>(type));
+        return PointerType::New(env, llvm::cast<llvm::PointerType>(type));
     } else if (type->isFunctionTy()) {
-        return FunctionType::New(env, static_cast<llvm::FunctionType *>(type));
+        return FunctionType::New(env, llvm::cast<llvm::FunctionType>(type));
     } else if (type->isArrayTy()) {
-        return ArrayType::New(env, static_cast<llvm::ArrayType *>(type));
+        return ArrayType::New(env, llvm::cast<llvm::ArrayType>(type));
     } else if (type->isStructTy()) {
-        return StructType::New(env, static_cast<llvm::StructType *>(type));
+        return StructType::New(env, llvm::cast<llvm::StructType>(type));
     }
     return constructor.New({Napi::External<llvm::Type>::New(env, type)});
 }
@@ -165,6 +166,10 @@ Type::Type(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     }
     auto external = info[0].As<Napi::External<llvm::Type>>();
     type = external.Data();
+}
+
+llvm::Type *Type::getLLVMPrimitive() {
+    return type;
 }
 
 Napi::Value Type::getPointerTo(const Napi::CallbackInfo &info) {
@@ -208,6 +213,56 @@ Napi::Value Type::isIntegerTy(const Napi::CallbackInfo &info) {
     return Napi::Boolean::New(env, result);
 }
 
-llvm::Type *Type::getLLVMPrimitive() {
-    return type;
+static bool isSameType(llvm::Type *type1, llvm::Type *type2) {
+    if (type1 == nullptr || type2 == nullptr) {
+        return type1 == type2;
+    }
+    if (type1->getTypeID() != type2->getTypeID()) {
+        return false;
+    }
+    if (type1->isIntegerTy()) {
+        return type1->getIntegerBitWidth() == type2->getIntegerBitWidth();
+    } else if (type1->isFunctionTy()) {
+        auto *funcType1 = llvm::cast<llvm::FunctionType>(type1);
+        auto *funcType2 = llvm::cast<llvm::FunctionType>(type2);
+        if (!isSameType(funcType1->getReturnType(), funcType2->getReturnType())) {
+            return false;
+        }
+        unsigned numParams = funcType1->getNumParams();
+        if (numParams != funcType2->getNumParams()) {
+            return false;
+        }
+        for (unsigned i = 0; i < numParams; ++i) {
+            if (!isSameType(funcType1->getParamType(i), funcType2->getParamType(i))) {
+                return false;
+            }
+        }
+    } else if (type1->isPointerTy()) {
+        return isSameType(type1->getPointerElementType(), type2->getPointerElementType());
+    } else if (type1->isStructTy()) {
+        unsigned numElements = type1->getStructNumElements();
+        if (numElements != type2->getStructNumElements()) {
+            return false;
+        }
+        for (unsigned i = 0; i < numElements; ++i) {
+            if (!isSameType(type1->getStructElementType(i), type2->getStructElementType(i))) {
+                return false;
+            }
+        }
+    } else if (type1->isArrayTy()) {
+        return isSameType(type1->getArrayElementType(), type2->getArrayElementType());
+    }
+    // TODO: not support vector type
+    return true;
+}
+
+Napi::Value Type::isSameType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    unsigned argsLen = info.Length();
+    if (argsLen == 2 && Type::IsClassOf(info[0]) && Type::IsClassOf(info[1])) {
+        llvm::Type *type1 = Type::Extract(info[0]);
+        llvm::Type *type2 = Type::Extract(info[1]);
+        return Napi::Boolean::New(env, ::isSameType(type1, type2));
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::Type::isSameType);
 }

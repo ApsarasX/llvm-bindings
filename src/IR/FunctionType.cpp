@@ -4,7 +4,9 @@
 void FunctionType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "FunctionType", {
-            StaticMethod("get", &FunctionType::get)
+            StaticMethod("get", &FunctionType::get),
+            InstanceMethod("isVoidTy", &FunctionType::isVoidTy),
+            InstanceMethod("getTypeID", &FunctionType::getTypeID)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -33,6 +35,10 @@ FunctionType::FunctionType(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     functionType = external.Data();
 }
 
+llvm::FunctionType *FunctionType::getLLVMPrimitive() {
+    return functionType;
+}
+
 Napi::Value FunctionType::get(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     unsigned argsLen = info.Length();
@@ -57,6 +63,10 @@ Napi::Value FunctionType::get(const Napi::CallbackInfo &info) {
     return FunctionType::New(env, functionType);
 }
 
-llvm::FunctionType *FunctionType::getLLVMPrimitive() {
-    return functionType;
+Napi::Value FunctionType::isVoidTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), functionType->isVoidTy());
+}
+
+Napi::Value FunctionType::getTypeID(const Napi::CallbackInfo &info) {
+    return Napi::Number::New(info.Env(), functionType->getTypeID());
 }

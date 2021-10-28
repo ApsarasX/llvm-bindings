@@ -33,4 +33,8 @@ private:
     Napi::Value isStructTy(const Napi::CallbackInfo &info);
 
     Napi::Value isIntegerTy(const Napi::CallbackInfo &info);
+
+    Napi::Value isVoidTy(const Napi::CallbackInfo &info);
+
+    Napi::Value getTypeID(const Napi::CallbackInfo &info);
 };

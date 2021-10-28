@@ -150,6 +150,9 @@ declare namespace llvm {
 
         public getPrimitiveSizeInBits(): number;
 
+        // extra
+        public static isSameType(type1: Type, type2: Type): boolean;
+
         protected constructor();
     }
 
@@ -161,6 +164,12 @@ declare namespace llvm {
 
         // duplicated
         public isIntegerTy(bitWidth?: number): boolean;
+
+        // duplicated
+        public isVoidTy(): boolean;
+
+        // duplicated
+        public getTypeID(): number;
 
         protected constructor();
     }
@@ -181,12 +190,24 @@ declare namespace llvm {
         // duplicated
         public isIntegerTy(bitWidth?: number): boolean;
 
+        // duplicated
+        public isVoidTy(): boolean;
+
+        // duplicated
+        public getTypeID(): number;
+
         protected constructor();
     }
 
     class FunctionType extends Type {
         public static get(returnType: Type, isVarArg: boolean): FunctionType;
         public static get(returnType: Type, paramTypes: Type[], isVarArg: boolean): FunctionType;
+
+        // duplicated
+        public isVoidTy(): boolean;
+
+        // duplicated
+        public getTypeID(): number;
 
         protected constructor();
     }
@@ -209,6 +230,12 @@ declare namespace llvm {
         // duplicated
         public isIntegerTy(bitWidth?: number): boolean;
 
+        // duplicated
+        public isVoidTy(): boolean;
+
+        // duplicated
+        public getTypeID(): number;
+
         protected constructor();
     }
 
@@ -223,6 +250,12 @@ declare namespace llvm {
 
         // duplicated
         public isStructTy(): boolean;
+
+        // duplicated
+        public isVoidTy(): boolean;
+
+        // duplicated
+        public getTypeID(): number;
 
         protected constructor();
     }

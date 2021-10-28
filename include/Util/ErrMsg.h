@@ -221,8 +221,8 @@ namespace ErrMsg {
                                         "\n\t - (context: LLVMContext, name: string)"
                                         "\n\t - (context: LLVMContext, elementTypes: Type[], name: string)";
             static const char *get = "StructType.get needs to be called with:"
-                                        "\n\t - (context: LLVMContext)"
-                                        "\n\t - (context: LLVMContext, elementTypes: Type[])";
+                                     "\n\t - (context: LLVMContext)"
+                                     "\n\t - (context: LLVMContext, elementTypes: Type[])";
             static const char *setBody = "StructType.setBody needs to be called with (elementTypes: Type[])";
             static const char *getPointerTo = "StructType.getPointer needs to called with: (addrSpace?: number)";
         }
@@ -234,6 +234,7 @@ namespace ErrMsg {
             static const char *getTypeFactory = "Type.[getType] needs to be called with (context: LLVMContext)";
             static const char *getIntTypeFactory = "Type.[getIntType] needs to be called with (context: LLVMContext)";
             static const char *getPointerTypeFactory = "Type.[getPointerType] needs to be called with (context: LLVMContext, addrSpace?: number)";
+            static const char *isSameType = "Type.isSameType needs to be called with (type1: Type, type2: Type)";
         }
         namespace User {
             static const char *constructor = "User.constructor needs to be called with new (external: Napi::External<llvm::User>)";
