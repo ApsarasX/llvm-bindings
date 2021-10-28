@@ -261,6 +261,23 @@ Napi::Value IRBuilder::CreateInvoke(const Napi::CallbackInfo &info) {
             std::string name = argsLen == 5 ? std::string(info[4].As<Napi::String>()) : "";
             invokeInst = builder->CreateInvoke(callee, normalDest, unwindDest, calleeArgs, name);
         }
+    } else if (argsLen == 3 && FunctionCallee::IsClassOf(info[0]) && BasicBlock::IsClassOf(info[1]) && BasicBlock::IsClassOf(info[2]) ||
+               argsLen == 4 && FunctionCallee::IsClassOf(info[0]) && BasicBlock::IsClassOf(info[1]) && BasicBlock::IsClassOf(info[2]) && info[3].IsString()) {
+        llvm::FunctionCallee callee = FunctionCallee::Extract(info[0]);
+        llvm::BasicBlock *normalDest = BasicBlock::Extract(info[1]);
+        llvm::BasicBlock *unwindDest = BasicBlock::Extract(info[2]);
+        std::string name = argsLen == 4 ? std::string(info[3].As<Napi::String>()) : "";
+        invokeInst = builder->CreateInvoke(callee, normalDest, unwindDest, llvm::None, name);
+    } else if (argsLen == 4 && FunctionCallee::IsClassOf(info[0]) && BasicBlock::IsClassOf(info[1]) && BasicBlock::IsClassOf(info[2]) && info[3].IsArray() ||
+               argsLen == 5 && FunctionCallee::IsClassOf(info[0]) && BasicBlock::IsClassOf(info[1]) && BasicBlock::IsClassOf(info[2]) && info[3].IsArray() &&
+               info[4].IsString()) {
+        if (assembleValueArray(info[3].As<Napi::Array>(), calleeArgs)) {
+            llvm::FunctionCallee callee = FunctionCallee::Extract(info[0]);
+            llvm::BasicBlock *normalDest = BasicBlock::Extract(info[1]);
+            llvm::BasicBlock *unwindDest = BasicBlock::Extract(info[2]);
+            std::string name = argsLen == 5 ? std::string(info[4].As<Napi::String>()) : "";
+            invokeInst = builder->CreateInvoke(callee, normalDest, unwindDest, calleeArgs, name);
+        }
     } else if (argsLen == 4 && FunctionType::IsClassOf(info[0]) && Function::IsClassOf(info[1]) && BasicBlock::IsClassOf(info[2]) &&
                BasicBlock::IsClassOf(info[3]) ||
                argsLen == 5 && FunctionType::IsClassOf(info[0]) && Function::IsClassOf(info[1]) && BasicBlock::IsClassOf(info[2]) &&

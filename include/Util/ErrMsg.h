@@ -124,6 +124,8 @@ namespace ErrMsg {
             static const char *CreateInvoke = "IRBuilder.CreateInvoke needs to be called with:"
                                               "\n\t - (callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string)"
                                               "\n\t - (callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string)"
+                                              "\n\t - (callee: FunctionCallee, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string)"
+                                              "\n\t - (callee: FunctionCallee, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string)"
                                               "\n\t - (funcType: FunctionType, callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string)"
                                               "\n\t - (funcType: FunctionType, callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string)";
             static const char *CreateCondBr = "IRBuilder.CreateCondBr needs to be called with: (cond: Value, thenBB: BasicBlock, elseBB: BasicBlock)";
