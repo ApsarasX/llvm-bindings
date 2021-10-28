@@ -58,6 +58,10 @@ namespace ErrMsg {
                                      "\n\t - (type: Type, value: number, isSigned?: boolean)"
                                      "\n\t - (type: IntegerType, value: number, isSigned?: boolean)";
         }
+        namespace ConstantExpr {
+            static const char *constructor = "ConstantExpr.constructor needs to be called with new (external: Napi::External<llvm::ConstantExpr>)";
+            static const char *getBitCast = "ConstantExpr.getBitCast needs to be called with (constant: Constant, type: Type)";
+        }
         namespace ConstantPointerNull {
             static const char *constructor = "ConstantPointerNull.constructor needs to be called with new (external: Napi::External<llvm::ConstantPointerNull>)";
             static const char *get = "ConstantPointerNull.get needs to be called with (type: PointerType)";

@@ -475,6 +475,12 @@ declare namespace llvm {
         protected constructor();
     }
 
+    class ConstantExpr extends Constant {
+        public static getBitCast(constant: Constant, type: Type): Constant;
+
+        protected constructor();
+    }
+
     class ConstantPointerNull extends Constant {
         public static get(type: PointerType): ConstantPointerNull;
 
