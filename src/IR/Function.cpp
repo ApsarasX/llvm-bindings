@@ -21,7 +21,10 @@ void Function::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("use_empty", &Function::useEmpty),
             InstanceMethod("user_empty", &Function::userEmpty),
             InstanceMethod("getNumUses", &Function::getNumUses),
-            InstanceMethod("removeDeadConstantUsers", &Function::removeDeadConstantUsers)
+            InstanceMethod("removeDeadConstantUsers", &Function::removeDeadConstantUsers),
+            InstanceMethod("hasPersonalityFn", &Function::hasPersonalityFn),
+            InstanceMethod("setPersonalityFn", &Function::setPersonalityFn),
+            InstanceMethod("setDoesNotThrow", &Function::setDoesNotThrow)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -149,4 +152,22 @@ Napi::Value Function::getNumUses(const Napi::CallbackInfo &info) {
 
 void Function::removeDeadConstantUsers(const Napi::CallbackInfo &info) {
     function->removeDeadConstantUsers();
+}
+
+Napi::Value Function::hasPersonalityFn(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), function->hasPersonalityFn());
+}
+
+void Function::setPersonalityFn(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 1 && Constant::IsClassOf(info[0])) {
+        llvm::Constant *fn = Constant::Extract(info[0]);
+        function->setPersonalityFn(fn);
+        return;
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::Function::setPersonalityFn);
+}
+
+void Function::setDoesNotThrow(const Napi::CallbackInfo &info) {
+    function->setDoesNotThrow();
 }

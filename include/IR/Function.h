@@ -51,4 +51,10 @@ private:
     Napi::Value getNumUses(const Napi::CallbackInfo &info);
 
     void removeDeadConstantUsers(const Napi::CallbackInfo &info);
+
+    Napi::Value hasPersonalityFn(const Napi::CallbackInfo &info);
+
+    void setPersonalityFn(const Napi::CallbackInfo &info);
+
+    void setDoesNotThrow(const Napi::CallbackInfo &info);
 };

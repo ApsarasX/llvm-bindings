@@ -568,6 +568,12 @@ declare namespace llvm {
         // duplicated
         public removeDeadConstantUsers(): void;
 
+        public hasPersonalityFn(): boolean;
+
+        public setPersonalityFn(fn: Constant): void;
+
+        public setDoesNotThrow(): void;
+
         protected constructor();
     }
 

@@ -78,6 +78,7 @@ namespace ErrMsg {
             static const char *getArg = "Function.getArg needs to be called with (i: number)";
             static const char *addBasicBlock = "Function.addBasicBlock needs to be called with (basicBlock: BasicBlock)";
             static const char *insertAfter = "Function.insertAfter needs to be called with (where: BasicBlock, basicBlock: BasicBlock)";
+            static const char *setPersonalityFn = "Function.setPersonalityFn needs to be called with (fn: Constant)";
         }
         namespace FunctionCallee {
             static const char *constructor = "FunctionCallee.constructor needs to be called with new ()";
