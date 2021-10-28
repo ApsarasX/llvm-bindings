@@ -17,20 +17,30 @@ void Instruction::Init(Napi::Env env, Napi::Object &exports) {
 }
 
 Napi::Value Instruction::New(Napi::Env env, llvm::Instruction *instruction) {
-    if (llvm::AllocaInst::classof(instruction)) {
-        return AllocaInst::New(env, static_cast<llvm::AllocaInst *>(instruction));
-    } else if (llvm::BranchInst::classof(instruction)) {
-        return BranchInst::New(env, static_cast<llvm::BranchInst *>(instruction));
-    } else if (llvm::CallInst::classof(instruction)) {
-        return CallInst::New(env, static_cast<llvm::CallInst *>(instruction));
-    } else if (llvm::LoadInst::classof(instruction)) {
-        return LoadInst::New(env, static_cast<llvm::LoadInst *>(instruction));
-    } else if (llvm::ReturnInst::classof(instruction)) {
-        return ReturnInst::New(env, static_cast<llvm::ReturnInst *>(instruction));
-    } else if (llvm::StoreInst::classof(instruction)) {
-        return StoreInst::New(env, static_cast<llvm::StoreInst *>(instruction));
-    } else if (llvm::PHINode::classof(instruction)) {
-        return PHINode::New(env, static_cast<llvm::PHINode *>(instruction));
+    if (llvm::isa<llvm::AllocaInst>(instruction)) {
+        return AllocaInst::New(env, llvm::cast<llvm::AllocaInst>(instruction));
+    } else if (llvm::isa<llvm::BranchInst>(instruction)) {
+        return BranchInst::New(env, llvm::cast<llvm::BranchInst>(instruction));
+    } else if (llvm::isa<llvm::CallInst>(instruction)) {
+        return CallInst::New(env, llvm::cast<llvm::CallInst>(instruction));
+    } else if (llvm::isa<llvm::InvokeInst>(instruction)) {
+        return InvokeInst::New(env, llvm::cast<llvm::InvokeInst>(instruction));
+    } else if (llvm::isa<llvm::LoadInst>(instruction)) {
+        return LoadInst::New(env, llvm::cast<llvm::LoadInst>(instruction));
+    } else if (llvm::isa<llvm::ReturnInst>(instruction)) {
+        return ReturnInst::New(env, llvm::cast<llvm::ReturnInst>(instruction));
+    } else if (llvm::isa<llvm::ResumeInst>(instruction)) {
+        return ResumeInst::New(env, llvm::cast<llvm::ResumeInst>(instruction));
+    } else if (llvm::isa<llvm::SwitchInst>(instruction)) {
+        return SwitchInst::New(env, llvm::cast<llvm::SwitchInst>(instruction));
+    } else if (llvm::isa<llvm::StoreInst>(instruction)) {
+        return StoreInst::New(env, llvm::cast<llvm::StoreInst>(instruction));
+    } else if (llvm::isa<llvm::LandingPadInst>(instruction)) {
+        return LandingPadInst::New(env, llvm::cast<llvm::LandingPadInst>(instruction));
+    } else if (llvm::isa<llvm::UnreachableInst>(instruction)) {
+        return UnreachableInst::New(env, llvm::cast<llvm::UnreachableInst>(instruction));
+    } else if (llvm::isa<llvm::PHINode>(instruction)) {
+        return PHINode::New(env, llvm::cast<llvm::PHINode>(instruction));
     }
     return constructor.New({Napi::External<llvm::Instruction>::New(env, instruction)});
 }

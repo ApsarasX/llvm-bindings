@@ -12,10 +12,10 @@ void GlobalObject::Init(Napi::Env env, Napi::Object &exports) {
 }
 
 Napi::Object GlobalObject::New(Napi::Env env, llvm::GlobalObject *globalObject) {
-    if (llvm::Function::classof(globalObject)) {
-        return Function::New(env, static_cast<llvm::Function *>(globalObject));
-    } else if (llvm::GlobalVariable::classof(globalObject)) {
-        return GlobalVariable::New(env, static_cast<llvm::GlobalVariable *>(globalObject));
+    if (llvm::isa<llvm::Function>(globalObject)) {
+        return Function::New(env, llvm::cast<llvm::Function>(globalObject));
+    } else if (llvm::isa<llvm::GlobalVariable>(globalObject)) {
+        return GlobalVariable::New(env, llvm::cast<llvm::GlobalVariable>(globalObject));
     }
     return constructor.New({Napi::External<llvm::GlobalObject>::New(env, globalObject)});
 }

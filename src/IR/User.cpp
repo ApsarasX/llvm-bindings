@@ -15,10 +15,10 @@ void User::Init(Napi::Env env, Napi::Object &exports) {
 }
 
 Napi::Value User::New(Napi::Env env, llvm::User *user) {
-    if (llvm::Constant::classof(user)) {
-        return Constant::New(env, static_cast<llvm::Constant *>(user));
-    } else if (llvm::Instruction::classof(user)) {
-        return Instruction::New(env, static_cast<llvm::Instruction *>(user));
+    if (llvm::isa<llvm::Constant>(user)) {
+        return Constant::New(env, llvm::cast<llvm::Constant>(user));
+    } else if (llvm::isa<llvm::Instruction>(user)) {
+        return Instruction::New(env, llvm::cast<llvm::Instruction>(user));
     }
     return constructor.New({Napi::External<llvm::User>::New(env, user)});
 }

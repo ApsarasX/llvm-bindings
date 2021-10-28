@@ -18,21 +18,25 @@ void Constant::Init(Napi::Env env, Napi::Object &exports) {
 }
 
 Napi::Object Constant::New(Napi::Env env, llvm::Constant *constant) {
-    if (llvm::GlobalValue::classof(constant)) {
-        return GlobalValue::New(env, static_cast<llvm::GlobalValue *>(constant));
-    } else if (llvm::ConstantInt::classof(constant)) {
-        return ConstantInt::New(env, static_cast<llvm::ConstantInt *>(constant));
-    } else if (llvm::ConstantFP::classof(constant)) {
-        return ConstantFP::New(env, static_cast<llvm::ConstantFP *>(constant));
-    } else if (llvm::ConstantPointerNull::classof(constant)) {
-        return ConstantPointerNull::New(env, static_cast<llvm::ConstantPointerNull *>(constant));
+    if (llvm::isa<llvm::GlobalValue>(constant)) {
+        return GlobalValue::New(env, llvm::cast<llvm::GlobalValue>(constant));
+    } else if (llvm::isa<llvm::ConstantInt>(constant)) {
+        return ConstantInt::New(env, llvm::cast<llvm::ConstantInt>(constant));
+    } else if (llvm::isa<llvm::ConstantFP>(constant)) {
+        return ConstantFP::New(env, llvm::cast<llvm::ConstantFP>(constant));
+    } else if (llvm::isa<llvm::ConstantPointerNull>(constant)) {
+        return ConstantPointerNull::New(env, llvm::cast<llvm::ConstantPointerNull>(constant));
+    } else if (llvm::isa<llvm::ConstantStruct>(constant)) {
+        return ConstantStruct::New(env, llvm::cast<llvm::ConstantStruct>(constant));
     }
+    // TODO: more structured clearly
     return constructor.New({Napi::External<llvm::Constant>::New(env, constant)});
 }
 
 bool Constant::IsClassOf(const Napi::Value &value) {
     return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
+
 // TODO: [Potential Bug] Always return nullptr
 llvm::Constant *Constant::Extract(const Napi::Value &value) {
     if (value.IsNull()) {

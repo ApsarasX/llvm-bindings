@@ -24,12 +24,12 @@ void Value::Init(Napi::Env env, Napi::Object &exports) {
 }
 
 Napi::Value Value::New(Napi::Env env, llvm::Value *value) {
-    if (llvm::Argument::classof(value)) {
-        return Argument::New(env, static_cast<llvm::Argument *>(value));
-    } else if (llvm::BasicBlock::classof(value)) {
-        return BasicBlock::New(env, static_cast<llvm::BasicBlock *>(value));
-    } else if (llvm::User::classof(value)) {
-        return User::New(env, static_cast<llvm::User *>(value));
+    if (llvm::isa<llvm::Argument>(value)) {
+        return Argument::New(env, llvm::cast<llvm::Argument>(value));
+    } else if (llvm::isa<llvm::BasicBlock>(value)) {
+        return BasicBlock::New(env, llvm::cast<llvm::BasicBlock>(value));
+    } else if (llvm::isa<llvm::User>(value)) {
+        return User::New(env, llvm::cast<llvm::User>(value));
     }
     return constructor.New({Napi::External<llvm::Value>::New(env, value)});
 }

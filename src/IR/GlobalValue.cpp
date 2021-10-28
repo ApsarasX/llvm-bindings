@@ -30,8 +30,8 @@ void GlobalValue::Init(Napi::Env env, Napi::Object &exports) {
 }
 
 Napi::Object GlobalValue::New(Napi::Env env, llvm::GlobalValue *globalValue) {
-    if (llvm::GlobalObject::classof(globalValue)) {
-        return GlobalObject::New(env, static_cast<llvm::GlobalObject *>(globalValue));
+    if (llvm::isa<llvm::GlobalObject>(globalValue)) {
+        return GlobalObject::New(env, llvm::cast<llvm::GlobalObject>(globalValue));
     }
     return constructor.New({Napi::External<llvm::GlobalValue>::New(env, globalValue)});
 }
