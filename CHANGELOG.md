@@ -1,3 +1,35 @@
+## [0.2.3](https://github.com/ApsarasX/llvm-bindings/compare/v0.2.2...v0.2.3) (2021-10-29)
+
+
+### Bug Fixes
+
+* **IR:** add missing signature of IRBuilder.CreateResume ([a1271cb](https://github.com/ApsarasX/llvm-bindings/commit/a1271cb9d29ec6ee89f46894cf5831a945b8e3dd))
+* **IR:** address transmission of InsertPoint's temporary object ([a07a1fe](https://github.com/ApsarasX/llvm-bindings/commit/a07a1fe958db52443a26769ed6505e282fb3efbd))
+* **IR:** IRBuilder.SetInsertPoint typo ([e2db57d](https://github.com/ApsarasX/llvm-bindings/commit/e2db57d44661288804582a7d3e5fe1eb451fecc1))
+
+
+### Features
+
+* **IR:** add class ConstantExpr ([fbe662f](https://github.com/ApsarasX/llvm-bindings/commit/fbe662fba4cc269a02c62916dc9b92f309f4f24f))
+* **IR:** add ConstantExpr.getType ([fb751eb](https://github.com/ApsarasX/llvm-bindings/commit/fb751eba4d0f989317c8372d85620497e343a1ed))
+* **IR:** add DataLayout.getTypeAllocSize ([18044f0](https://github.com/ApsarasX/llvm-bindings/commit/18044f0beb96fee08b00ad0d50fa3a21d69a8675))
+* **IR:** add Function.hasPersonalityFn, Function.setPersonalityFn and Function.setDoesNotThrow ([6238bf6](https://github.com/ApsarasX/llvm-bindings/commit/6238bf60d88ac84cf1acae225f92df1f99819ef6))
+* **IR:** add Function.insertInto, Function.removeFromParent and Function.eraseFromParent ([43fda5c](https://github.com/ApsarasX/llvm-bindings/commit/43fda5c81b0221666782f781b16362d553bb1c1f))
+* **IR:** add Intrinsic ([403f747](https://github.com/ApsarasX/llvm-bindings/commit/403f74740cc4023965a96041d8734e278c9d0865))
+* **IR:** add InvokeInst and IRBuilder.CreateInvoke ([520f7a3](https://github.com/ApsarasX/llvm-bindings/commit/520f7a3f0256727e46b16b7f9f7ac1f4677b43d3))
+* **IR:** add IRBuilder.CreateInsertValue ([6f60ded](https://github.com/ApsarasX/llvm-bindings/commit/6f60ded1d1b1222704949cc4903343b9aae60ebc))
+* **IR:** add IRBuilder.InsertPoint, IRBuilder.saveIP, IRBuilder.saveAndClearIP and IRBuilder.restoreIP ([4303af6](https://github.com/ApsarasX/llvm-bindings/commit/4303af691306121ffdceec7ea136ce92b97b1563))
+* **IR:** add LandingPadInst, IRBuilder.CreateExtractValue and IRBuilder.CreateLandingPad ([2bd479a](https://github.com/ApsarasX/llvm-bindings/commit/2bd479aa71d22b5cfd7dba539776b25a1aed9e0c))
+* **IR:** add Module.getOrInsertFunction and FunctionCallee ([693fdd5](https://github.com/ApsarasX/llvm-bindings/commit/693fdd598a25fdcbaf8360f88de7d0cb8ee39c39))
+* **IR:** add overloaded form of IRBuilder.CreateCall ([1909cb8](https://github.com/ApsarasX/llvm-bindings/commit/1909cb869b1f4edfad91071a97af41be585ab5d6))
+* **IR:** add overloaded form of IRBuilder.CreateCall ([d150d2c](https://github.com/ApsarasX/llvm-bindings/commit/d150d2cbad3f62a3915d584c63a304bd929011ad))
+* **IR:** add overloaded form of IRBuilder.CreateInvoke ([815122d](https://github.com/ApsarasX/llvm-bindings/commit/815122dbae3c2210fac7bc557b492751d91a29ba))
+* **IR:** add ResumeInst and IRBuilder.CreateResume ([95358ad](https://github.com/ApsarasX/llvm-bindings/commit/95358ade3ee25e48be2e30cf533e18d05e3e7e75))
+* **IR:** add some duplicated methods of Type and Type.isSameType ([0d6eabc](https://github.com/ApsarasX/llvm-bindings/commit/0d6eabcbe6272f4439571c7294715f6ff4192e8e))
+* **IR:** add StructType.get ([7e27eee](https://github.com/ApsarasX/llvm-bindings/commit/7e27eeec1f05f820f2fb2d87c3145b2bf4b40e1d))
+
+
+
 ## [0.2.2](https://github.com/ApsarasX/llvm-bindings/compare/v0.2.1...v0.2.2) (2021-10-15)
 
 
