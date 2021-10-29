@@ -310,6 +310,13 @@ declare namespace llvm {
 
         public getFirstNonPHI(): Instruction | null;
 
+        public insertInto(parent: Function, insertBefore?: BasicBlock): void;
+
+        public removeFromParent(): void;
+
+        // customized
+        public eraseFromParent(): void;
+
         // duplicated
         public use_empty(): boolean;
 

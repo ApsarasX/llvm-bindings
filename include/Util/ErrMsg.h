@@ -25,6 +25,7 @@ namespace ErrMsg {
         namespace BasicBlock {
             static const char *constructor = "BasicBlock.constructor needs to be called with new (external: Napi::External<llvm::BasicBlock>)";
             static const char *Create = "BasicBlock.Create needs to be called with: (context: LLVMContext, name?: string, parent?: Function, insertBefore?: BasicBlock)";
+            static const char *insertInto = "BasicBlock.insertInto needs to be called with: (parent: Function, insertBefore?: BasicBlock)";
         }
         namespace BranchInst {
             static const char *constructor = "BranchInst.constructor needs to be called with new (external: Napi::External<llvm::BranchInst>)";

@@ -9,6 +9,9 @@ void BasicBlock::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("getModule", &BasicBlock::getModule),
             InstanceMethod("getTerminator", &BasicBlock::getTerminator),
             InstanceMethod("getFirstNonPHI", &BasicBlock::getFirstNonPHI),
+            InstanceMethod("insertInto", &BasicBlock::insertInto),
+            InstanceMethod("removeFromParent", &BasicBlock::removeFromParent),
+            InstanceMethod("eraseFromParent", &BasicBlock::eraseFromParent),
             InstanceMethod("use_empty", &BasicBlock::useEmpty),
             InstanceMethod("deleteSelf", &BasicBlock::deleteSelf)
     });
@@ -104,6 +107,27 @@ Napi::Value BasicBlock::getFirstNonPHI(const Napi::CallbackInfo &info) {
         return Instruction::New(env, nonPHIInst);
     }
     return env.Null();
+}
+
+void BasicBlock::insertInto(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    unsigned argsLen = info.Length();
+    if (argsLen == 1 && Function::IsClassOf(info[0]) ||
+        argsLen == 2 && Function::IsClassOf(info[0]) && BasicBlock::IsClassOf(info[1])) {
+        llvm::Function *parent = Function::Extract(info[0]);
+        llvm::BasicBlock *insertBefore = argsLen == 2 ? BasicBlock::Extract(info[1]) : nullptr;
+        basicBlock->insertInto(parent, insertBefore);
+        return;
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::BasicBlock::insertInto);
+}
+
+void BasicBlock::removeFromParent(const Napi::CallbackInfo &info) {
+    basicBlock->removeFromParent();
+}
+
+void BasicBlock::eraseFromParent(const Napi::CallbackInfo &info) {
+    basicBlock->eraseFromParent();
 }
 
 Napi::Value BasicBlock::useEmpty(const Napi::CallbackInfo &info) {
