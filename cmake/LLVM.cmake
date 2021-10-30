@@ -1,9 +1,8 @@
 if (CMAKE_HOST_SYSTEM_NAME STREQUAL Darwin)
     list(APPEND CMAKE_PREFIX_PATH /usr/local/opt/llvm/lib/cmake/llvm)
-    list(APPEND CMAKE_PREFIX_PATH /usr/local/opt/llvm@12/lib/cmake/llvm)
 endif ()
 
-find_package(LLVM 12 REQUIRED CONFIG)
+find_package(LLVM 13 REQUIRED CONFIG)
 
 message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
 

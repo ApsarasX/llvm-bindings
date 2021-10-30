@@ -150,6 +150,8 @@ declare namespace llvm {
 
         public getPrimitiveSizeInBits(): number;
 
+        public getPointerElementType(): Type;
+
         // extra
         public static isSameType(type1: Type, type2: Type): boolean;
 
@@ -195,6 +197,9 @@ declare namespace llvm {
 
         // duplicated
         public getTypeID(): number;
+
+        // duplicated
+        public getPointerElementType(): Type;
 
         protected constructor();
     }
@@ -783,12 +788,9 @@ declare namespace llvm {
 
         public CreateLandingPad(type: Type, numClauses: number, name?: string): LandingPadInst;
 
-        public CreateGEP(ptr: Value, idxList: Value[], name?: string): Value;
-        public CreateGEP(ptr: Value, idx: Value, name?: string): Value;
         public CreateGEP(type: Type, ptr: Value, idxList: Value[], name?: string): Value;
         public CreateGEP(type: Type, ptr: Value, idx: Value, name?: string): Value;
 
-        public CreateInBoundsGEP(ptr: Value, idxList: Value[], name?: string): Value;
         public CreateInBoundsGEP(type: Type, ptr: Value, idxList: Value[], name?: string): Value;
         public CreateInBoundsGEP(type: Type, ptr: Value, idx: Value, name?: string): Value;
 

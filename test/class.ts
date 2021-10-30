@@ -17,7 +17,7 @@ export default function (): void {
     builder.SetInsertPoint(entryBB);
 
     const thisPtr = func.getArg(0);
-    const propertyPtr = builder.CreateGEP(thisPtr, [
+    const propertyPtr = builder.CreateGEP(classStructType, thisPtr, [
         builder.getInt32(0),
         builder.getInt32(1)
     ]);

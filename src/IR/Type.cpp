@@ -129,6 +129,7 @@ void Type::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("isAggregateType", &Type::isTypeFactory<&llvm::Type::isAggregateType>),
             InstanceMethod("getPointerTo", &Type::getPointerTo),
             InstanceMethod("getPrimitiveSizeInBits", &Type::getPrimitiveSizeInBits),
+            InstanceMethod("getPointerElementType", &Type::getPointerElementType),
             StaticMethod("isSameType", &Type::isSameType)
     });
     constructor = Napi::Persistent(func);
@@ -211,6 +212,10 @@ Napi::Value Type::isIntegerTy(const Napi::CallbackInfo &info) {
     }
     bool result = info.Length() == 0 ? type->isIntegerTy() : type->isIntegerTy(info[0].As<Napi::Number>());
     return Napi::Boolean::New(env, result);
+}
+
+Napi::Value Type::getPointerElementType(const Napi::CallbackInfo &info) {
+    return Type::New(info.Env(), type->getPointerElementType());
 }
 
 static bool isSameType(llvm::Type *type1, llvm::Type *type2) {

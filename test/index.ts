@@ -9,7 +9,7 @@ import testParseIRFile from './parseIRFile';
 import testLinker from './linker';
 import testWriteBitcodeToFile from './writeBitcodeToFile';
 import testIntrinsic from './intrinsic';
-import testGetOrInsertFunction from './getOrInsertFunction';
+import testException from './exception';
 import testType from './type';
 
 testAdd();
@@ -23,5 +23,5 @@ testParseIRFile();
 testLinker();
 testWriteBitcodeToFile();
 testIntrinsic();
-testGetOrInsertFunction();
+testException();
 testType();

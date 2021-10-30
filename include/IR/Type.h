@@ -39,5 +39,7 @@ private:
         return Napi::Boolean::New(info.Env(), (type->*method)());
     }
 
+    Napi::Value getPointerElementType(const Napi::CallbackInfo &info);
+
     static Napi::Value isSameType(const Napi::CallbackInfo &info);
 };

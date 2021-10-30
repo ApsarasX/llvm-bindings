@@ -148,12 +148,9 @@ namespace ErrMsg {
             static const char *CreateInsertValue = "IRBuilder.CreateInsertValue needs to be called with (agg: Value, value: Value, idxs: number[], name?: string)";
             static const char *CreateLandingPad = "IRBuilder.CreateLandingPad needs to be called with (type: Type, numClauses: number, name?: string)";
             static const char *CreateGEP = "IRBuilder.CreateGEP needs to be called with:"
-                                           "\n\t - (ptr: Value, idxList: Value[], name?: string)"
-                                           "\n\t - (ptr: Value, idx: Value, name?: string)"
                                            "\n\t - (type: Type, ptr: Value, idxList: Value[], name?: string)"
                                            "\n\t - (type: Type, ptr: Value, idx: Value, name?: string)";
             static const char *CreateInBoundsGEP = "IRBuilder.CreateInBoundsGEP needs to be called with:"
-                                                   "\n\t - (ptr: Value, idxList: Value[], name?: string)"
                                                    "\n\t - (type: Type, ptr: Value, idxList: Value[], name?: string)"
                                                    "\n\t - (type: Type, ptr: Value, idx: Value, name?: string)";
             static const char *CreateCastFactory = "IRBuilder.[CreateCast] needs to be called with (value: Value, destType: Type, name?: string)";

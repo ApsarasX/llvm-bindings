@@ -14,7 +14,7 @@ static void WriteBitcodeToFile(const Napi::CallbackInfo &info) {
     llvm::Module *module = Module::Extract(info[0]);
     std::string fileName = info[1].As<Napi::String>();
     std::error_code errorCode;
-    llvm::raw_fd_ostream byteCodeFile(fileName, errorCode, llvm::sys::fs::F_None);
+    llvm::raw_fd_ostream byteCodeFile(fileName, errorCode);
     if (errorCode) {
         throw Napi::TypeError::New(env, errorCode.message() + ": " + fileName);
     }

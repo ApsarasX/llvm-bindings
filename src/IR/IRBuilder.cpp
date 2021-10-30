@@ -390,21 +390,11 @@ Napi::Value IRBuilder::CreateGEP(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     unsigned argsLen = info.Length();
     std::vector<llvm::Value *> idxList;
-    if (argsLen >= 2 && Value::IsClassOf(info[0]) && (argsLen == 2 || argsLen >= 3 && info[2].IsString())) {
-        llvm::Value *ptr = Value::Extract(info[0]);
-        const std::string &name = argsLen >= 3 ? std::string(info[2].As<Napi::String>()) : "";
-        if (Value::IsClassOf(info[1])) {
-            llvm::Value *idx = Value::Extract(info[1]);
-            return Value::New(env, builder->CreateGEP(ptr, idx, name));
-        } else if (info[1].IsArray() && assembleValueArray(info[1].As<Napi::Array>(), idxList)) {
-            return Value::New(env, builder->CreateGEP(ptr, idxList, name));
-        }
-    } else if (argsLen >= 3 &&
-               Type::IsClassOf(info[0]) && Value::IsClassOf(info[1]) &&
-               (argsLen == 3 || argsLen >= 4 && info[3].IsString())) {
+    if (argsLen == 3 && Type::IsClassOf(info[0]) && Value::IsClassOf(info[1]) ||
+        argsLen == 4 && Type::IsClassOf(info[0]) && Value::IsClassOf(info[1]) && info[3].IsString()) {
         llvm::Type *type = Type::Extract(info[0]);
         llvm::Value *ptr = Value::Extract(info[1]);
-        const std::string &name = argsLen >= 4 ? std::string(info[3].As<Napi::String>()) : "";
+        const std::string &name = argsLen == 4 ? std::string(info[3].As<Napi::String>()) : "";
         if (Value::IsClassOf(info[2])) {
             llvm::Value *idx = Value::Extract(info[2]);
             return Value::New(env, builder->CreateGEP(type, ptr, idx, name));
@@ -419,17 +409,8 @@ Napi::Value IRBuilder::CreateInBoundsGEP(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     unsigned argsLen = info.Length();
     std::vector<llvm::Value *> idxList;
-    if (argsLen >= 2 &&
-        Value::IsClassOf(info[0]) && info[1].IsArray() &&
-        (argsLen == 2 || argsLen >= 3 && info[2].IsString())) {
-        llvm::Value *ptr = Value::Extract(info[0]);
-        const std::string &name = argsLen >= 3 ? std::string(info[2].As<Napi::String>()) : "";
-        if (assembleValueArray(info[1].As<Napi::Array>(), idxList)) {
-            return Value::New(env, builder->CreateInBoundsGEP(ptr, idxList, name));
-        }
-    } else if (argsLen >= 3 &&
-               Type::IsClassOf(info[0]) && Value::IsClassOf(info[1]) &&
-               (argsLen == 3 || argsLen >= 4 && info[3].IsString())) {
+    if (argsLen == 3 && Type::IsClassOf(info[0]) && Value::IsClassOf(info[1]) ||
+        argsLen == 4 && Type::IsClassOf(info[0]) && Value::IsClassOf(info[1]) && info[3].IsString()) {
         llvm::Type *type = Type::Extract(info[0]);
         llvm::Value *ptr = Value::Extract(info[1]);
         const std::string &name = argsLen >= 4 ? std::string(info[3].As<Napi::String>()) : "";
@@ -503,37 +484,56 @@ Napi::Value IRBuilder::getIntPtrTy(const Napi::CallbackInfo &info) {
     return IntegerType::New(env, type);
 }
 
-#define CreateGlobalStringOrPtr(methodName, returnType) \
-    Napi::Env env = info.Env(); \
-    unsigned argsLen = info.Length(); \
-    if (argsLen == 0 || !info[0].IsString() || \
-        argsLen >= 2 && !info[1].IsString() || \
-        argsLen >= 3 && !info[2].IsNumber() || \
-        argsLen >= 4 && !Module::IsClassOf(info[3])) { \
-        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::methodName); \
-    } \
-    const std::string &str = info[0].As<Napi::String>(); \
-    std::string name; \
-    unsigned addrSpace = 0; \
-    llvm::Module *module = nullptr; \
-    if (argsLen >= 2) { \
-        name = info[1].As<Napi::String>(); \
-    } \
-    if (argsLen >= 3) { \
-        addrSpace = info[2].As<Napi::Number>(); \
-    } \
-    if (argsLen >= 4) { \
-        module = Module::Extract(info[3]); \
-    } \
-    llvm::returnType *result = builder->methodName(str, name, addrSpace, module); \
-    return returnType::New(env, result);
-
 Napi::Value IRBuilder::CreateGlobalString(const Napi::CallbackInfo &info) {
-    CreateGlobalStringOrPtr(CreateGlobalString, GlobalVariable)
+    Napi::Env env = info.Env();
+    unsigned argsLen = info.Length();
+    if (argsLen == 0 || !info[0].IsString() ||
+        argsLen >= 2 && !info[1].IsString() ||
+        argsLen >= 3 && !info[2].IsNumber() ||
+        argsLen >= 4 && !Module::IsClassOf(info[3])) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateGlobalString);
+    }
+    const std::string &str = info[0].As<Napi::String>();
+    std::string name;
+    unsigned addrSpace = 0;
+    llvm::Module *module = nullptr;
+    if (argsLen >= 2) {
+        name = info[1].As<Napi::String>();
+    }
+    if (argsLen >= 3) {
+        addrSpace = info[2].As<Napi::Number>();
+    }
+    if (argsLen >= 4) {
+        module = Module::Extract(info[3]);
+    }
+    llvm::GlobalVariable *globalStr = builder->CreateGlobalString(str, name, addrSpace, module);
+    return GlobalVariable::New(env, globalStr);
 }
 
 Napi::Value IRBuilder::CreateGlobalStringPtr(const Napi::CallbackInfo &info) {
-    CreateGlobalStringOrPtr(CreateGlobalStringPtr, Constant)
+    Napi::Env env = info.Env();
+    unsigned argsLen = info.Length();
+    if (argsLen == 0 || !info[0].IsString() ||
+        argsLen >= 2 && !info[1].IsString() ||
+        argsLen >= 3 && !info[2].IsNumber() ||
+        argsLen >= 4 && !Module::IsClassOf(info[3])) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateGlobalStringPtr);
+    }
+    const std::string &str = info[0].As<Napi::String>();
+    std::string name;
+    unsigned addrSpace = 0;
+    llvm::Module *module = nullptr;
+    if (argsLen >= 2) {
+        name = info[1].As<Napi::String>();
+    }
+    if (argsLen >= 3) {
+        addrSpace = info[2].As<Napi::Number>();
+    }
+    if (argsLen >= 4) {
+        module = Module::Extract(info[3]);
+    }
+    llvm::Constant *globalStrPtr = builder->CreateGlobalStringPtr(str, name, addrSpace, module);
+    return Constant::New(env, globalStrPtr);
 }
 
 Napi::Value IRBuilder::CreatePHI(const Napi::CallbackInfo &info) {

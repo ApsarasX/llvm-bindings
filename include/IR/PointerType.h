@@ -37,4 +37,6 @@ private:
     Napi::Value isVoidTy(const Napi::CallbackInfo &info);
 
     Napi::Value getTypeID(const Napi::CallbackInfo &info);
+
+    Napi::Value getPointerElementType(const Napi::CallbackInfo &info);
 };

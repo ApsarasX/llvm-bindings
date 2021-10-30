@@ -11,7 +11,8 @@ void PointerType::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("isStructTy", &PointerType::isStructTy),
             InstanceMethod("isIntegerTy", &PointerType::isIntegerTy),
             InstanceMethod("isVoidTy", &PointerType::isVoidTy),
-            InstanceMethod("getTypeID", &PointerType::getTypeID)
+            InstanceMethod("getTypeID", &PointerType::getTypeID),
+            InstanceMethod("getPointerElementType", &PointerType::getPointerElementType)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -94,4 +95,8 @@ Napi::Value PointerType::isVoidTy(const Napi::CallbackInfo &info) {
 
 Napi::Value PointerType::getTypeID(const Napi::CallbackInfo &info) {
     return Napi::Number::New(info.Env(), pointerType->getTypeID());
+}
+
+Napi::Value PointerType::getPointerElementType(const Napi::CallbackInfo &info) {
+    return Type::New(info.Env(), pointerType->getPointerElementType());
 }

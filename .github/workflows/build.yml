@@ -41,12 +41,7 @@ jobs:
         run: |
           sudo wget https://apt.llvm.org/llvm.sh
           sudo chmod +x llvm.sh
-          sudo ./llvm.sh 12
-      - name: Install Prerequirements(macOS)
-        if: ${{ runner.os == 'macOS' }}
-        run: |
-          brew uninstall llvm
-          brew install llvm@12
+          sudo ./llvm.sh 13
       - name: Install Dependencies
         run: npm install --ignore-scripts
       - name: CMake Build Debug and Test

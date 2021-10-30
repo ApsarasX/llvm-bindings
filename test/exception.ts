@@ -11,7 +11,7 @@ import {
 import { getContextModuleBuilder, createFunction } from './util';
 
 export default function () {
-    const { context, module, builder } = getContextModuleBuilder('getOrInsertFunction.cpp');
+    const { context, module, builder } = getContextModuleBuilder('exception.cpp');
     const i8PtrType = builder.getInt8PtrTy();
     const voidType = builder.getVoidTy();
     const mainFunc = createFunction('main', voidType, [], module);
@@ -23,12 +23,16 @@ export default function () {
     const entryBB = BasicBlock.Create(context, 'entry', mainFunc);
     builder.SetInsertPoint(entryBB);
 
-    const errMsgStr = builder.CreateGlobalString("error message");
+    const errMsgStr = builder.CreateGlobalString('error message');
 
     const tmp1 = builder.CreateCall(allocExceptionFunc, [builder.getInt64(8)]);
     const tmp2 = builder.CreateBitCast(tmp1, PointerType.getUnqual(builder.getInt8PtrTy()));
     builder.CreateStore(
-        builder.CreateInBoundsGEP(errMsgStr, [builder.getInt64(0), builder.getInt64(0)]),
+        builder.CreateInBoundsGEP(
+            errMsgStr.getType().getPointerElementType(),
+            errMsgStr,
+            [builder.getInt64(0), builder.getInt64(0)]
+        ),
         tmp2
     );
     const tinfo = new GlobalVariable(
