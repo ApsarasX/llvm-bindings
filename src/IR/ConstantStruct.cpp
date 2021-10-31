@@ -46,7 +46,7 @@ Napi::Value ConstantStruct::get(const Napi::CallbackInfo &info) {
     auto valuesArray = info[1].As<Napi::Array>();
     unsigned numValues = valuesArray.Length();
     std::vector<llvm::Constant *> values(numValues);
-    for (int i = 0; i < numValues; ++i) {
+    for (unsigned i = 0; i < numValues; ++i) {
         values[i] = Constant::Extract(valuesArray.Get(i));
     }
     llvm::Constant *constantStruct = llvm::ConstantStruct::get(structType, values);

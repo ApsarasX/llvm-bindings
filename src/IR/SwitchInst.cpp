@@ -39,7 +39,7 @@ llvm::SwitchInst *SwitchInst::getLLVMPrimitive() {
 
 void SwitchInst::addCase(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    int argsLen = info.Length();
+    unsigned argsLen = info.Length();
     if (argsLen >= 2 && ConstantInt::IsClassOf(info[0]) && BasicBlock::IsClassOf(info[1])) {
         llvm::ConstantInt *onVal = ConstantInt::Extract(info[0]);
         llvm::BasicBlock *dest = BasicBlock::Extract(info[1]);

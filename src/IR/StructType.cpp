@@ -59,7 +59,7 @@ Napi::Value StructType::create(const Napi::CallbackInfo &info) {
         auto eleTypesArray = info[1].As<Napi::Array>();
         unsigned numElements = eleTypesArray.Length();
         std::vector<llvm::Type *> elementTypes(numElements);
-        for (int i = 0; i < numElements; ++i) {
+        for (unsigned i = 0; i < numElements; ++i) {
             elementTypes[i] = Type::Extract(eleTypesArray.Get(i));
         }
         structType = llvm::StructType::create(context, elementTypes, name);
@@ -82,7 +82,7 @@ Napi::Value StructType::get(const Napi::CallbackInfo &info) {
         auto eleTypesArray = info[1].As<Napi::Array>();
         unsigned numElements = eleTypesArray.Length();
         std::vector<llvm::Type *> elementTypes(numElements);
-        for (int i = 0; i < numElements; ++i) {
+        for (unsigned i = 0; i < numElements; ++i) {
             elementTypes[i] = Type::Extract(eleTypesArray.Get(i));
         }
         structType = llvm::StructType::get(context, elementTypes);
@@ -100,7 +100,7 @@ void StructType::setBody(const Napi::CallbackInfo &info) {
     auto eleTypesArray = info[0].As<Napi::Array>();
     unsigned numElements = eleTypesArray.Length();
     std::vector<llvm::Type *> elementTypes(numElements);
-    for (int i = 0; i < numElements; ++i) {
+    for (unsigned i = 0; i < numElements; ++i) {
         elementTypes[i] = Type::Extract(eleTypesArray.Get(i));
     }
     structType->setBody(elementTypes);

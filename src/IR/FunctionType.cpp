@@ -51,9 +51,9 @@ Napi::Value FunctionType::get(const Napi::CallbackInfo &info) {
     llvm::FunctionType *functionType;
     if (argsLen >= 3) {
         auto paramsArray = info[1].As<Napi::Array>();
-        int numParams = paramsArray.Length();
+        unsigned numParams = paramsArray.Length();
         std::vector<llvm::Type *> paramTypes(numParams);
-        for (int i = 0; i < numParams; ++i) {
+        for (unsigned i = 0; i < numParams; ++i) {
             paramTypes[i] = Type::Extract(paramsArray.Get(i));
         }
         functionType = llvm::FunctionType::get(returnType, paramTypes, isVarArg);

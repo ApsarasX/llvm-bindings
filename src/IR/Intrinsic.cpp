@@ -15,7 +15,7 @@ static Napi::Value getDeclaration(const Napi::CallbackInfo &info) {
         auto types = info[1].As<Napi::Array>();
         unsigned numTypes = types.Length();
         std::vector<llvm::Type *> paramTypes(numTypes);
-        for (int i = 0; i < numTypes; ++i) {
+        for (unsigned i = 0; i < numTypes; ++i) {
             paramTypes[i] = Type::Extract(types.Get(i));
         }
         function = llvm::Intrinsic::getDeclaration(module, id, paramTypes);
