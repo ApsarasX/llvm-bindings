@@ -2,10 +2,14 @@
 
 LLVM bindings for Node.js/JavaScript/TypeScript
 
+![github-action](https://img.shields.io/github/workflow/status/ApsarasX/llvm-bindings/Build?style=flat-square)
+![npm](https://img.shields.io/npm/v/llvm-bindings?style=flat-square)
+![github-license](https://img.shields.io/github/license/ApsarasX/llvm-bindings?style=flat-square)
+
 ## Supported OS
 
-- [x] macOS
-- [x] Ubuntu
+- [x] macOS (Catalina, Big Sur x86_64)
+- [x] Ubuntu (18.04, 20.04)
 - [ ] Windows
 
 ## Supported LLVM methods
@@ -86,6 +90,7 @@ Due to the limitation of `node-addon-api`, this project has not implemented inhe
 | ------------ | ------------ |
 |  0.0.x, 0.1.x |  11.0.x, 11.1.x |
 |  0.2.x        |  12.0.x         |
+|  0.3.x        |  13.0.x         |
 
 ## Acknowledgments
 - [MichaReiser](https://github.com/MichaReiser): the creator of [llvm-node](https://github.com/MichaReiser/llvm-node)
