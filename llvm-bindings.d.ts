@@ -510,6 +510,12 @@ declare namespace llvm {
         protected constructor();
     }
 
+    class UndefValue extends Constant {
+        public static get(type: Type): UndefValue;
+
+        protected constructor();
+    }
+
     class GlobalValue extends Constant {
         public static readonly LinkageTypes: {
             ExternalLinkage: number;

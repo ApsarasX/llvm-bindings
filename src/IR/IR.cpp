@@ -30,6 +30,7 @@ void InitIR(Napi::Env env, Napi::Object &exports) {
     ConstantExpr::Init(env, exports);
     ConstantPointerNull::Init(env, exports);
     ConstantStruct::Init(env, exports);
+    UndefValue::Init(env, exports);
     GlobalValue::Init(env, exports);
     GlobalObject::Init(env, exports);
     GlobalVariable::Init(env, exports);

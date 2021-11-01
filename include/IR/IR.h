@@ -31,6 +31,7 @@
 #include "IR/ConstantExpr.h"
 #include "IR/ConstantPointerNull.h"
 #include "IR/ConstantStruct.h"
+#include "IR/UndefValue.h"
 #include "IR/GlobalValue.h"
 #include "IR/GlobalObject.h"
 #include "IR/GlobalVariable.h"

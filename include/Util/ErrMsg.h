@@ -71,6 +71,10 @@ namespace ErrMsg {
             static const char *constructor = "ConstantStruct.constructor needs to be called with new (external: Napi::External<llvm::ConstantPointerNull>)";
             static const char *get = "ConstantStruct.get needs to be called with (type: StructType, values: Constant[])";
         }
+        namespace UndefValue {
+            static const char *constructor = "UndefValue.constructor needs to be called with new (external: Napi::External<llvm::UndefValue>)";
+            static const char *get = "UndefValue.get needs to be called with (type: Type)";
+        }
         namespace DataLayout {
             static const char *constructor = "DataLayout.constructor needs to be called with"
                                              "\n\t - new (external: Napi::External<llvm::DataLayout>)"
