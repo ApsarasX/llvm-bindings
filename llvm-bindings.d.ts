@@ -656,6 +656,8 @@ declare namespace llvm {
 
     class IRBuilder {
         public constructor(context: LLVMContext);
+        public constructor(theBB: BasicBlock);
+        public constructor(ip: Instruction);
 
         public CreateAdd(lhs: Value, rhs: Value, name?: string): Value;
 

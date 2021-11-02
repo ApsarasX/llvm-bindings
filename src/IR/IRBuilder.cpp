@@ -141,11 +141,25 @@ LLVMIRBuilder *IRBuilder::Extract(const Napi::Value &value) {
 
 IRBuilder::IRBuilder(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
-    if (!info.IsConstructCall() || info.Length() == 0 || !LLVMContext::IsClassOf(info[0])) {
-        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::constructor);
+    if (info.IsConstructCall()) {
+        unsigned argsLen = info.Length();
+        if (argsLen == 1) {
+            if (LLVMContext::IsClassOf(info[0])) {
+                llvm::LLVMContext &context = LLVMContext::Extract(info[0]);
+                builder = new llvm::IRBuilder(context);
+                return;
+            } else if (BasicBlock::IsClassOf(info[0])) {
+                llvm::BasicBlock *theBB = BasicBlock::Extract(info[0]);
+                builder = new llvm::IRBuilder(theBB);
+                return;
+            } else if (Instruction::IsClassOf(info[0])) {
+                llvm::Instruction *ip = Instruction::Extract(info[0]);
+                builder = new llvm::IRBuilder(ip);
+                return;
+            }
+        }
     }
-    llvm::LLVMContext &context = LLVMContext::Extract(info[0]);
-    builder = new llvm::IRBuilder(context);
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::constructor);
 }
 
 LLVMIRBuilder *IRBuilder::getLLVMPrimitive() {
