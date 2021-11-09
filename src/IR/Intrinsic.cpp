@@ -1,28 +1,28 @@
 #include "IR/IR.h"
 #include "Util/Util.h"
 
-static Napi::Value getDeclaration(const Napi::CallbackInfo &info) {
+Napi::Value getDeclaration(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     unsigned argsLen = info.Length();
-    if (!(argsLen == 2 && Module::IsClassOf(info[0]) && info[1].IsNumber()) &&
-        !(argsLen >= 3 && Module::IsClassOf(info[0]) && info[1].IsNumber()) && info[2].IsArray()) {
-        throw Napi::TypeError::New(env, ErrMsg::Namespace::Intrinsic::getDeclaration);
-    }
-    llvm::Module *module = Module::Extract(info[0]);
-    llvm::Intrinsic::ID id = static_cast<llvm::Intrinsic::ID>(info[1].As<Napi::Number>().Uint32Value());
-    llvm::Function *function;
-    if (argsLen >= 3) {
-        auto types = info[1].As<Napi::Array>();
-        unsigned numTypes = types.Length();
-        std::vector<llvm::Type *> paramTypes(numTypes);
-        for (unsigned i = 0; i < numTypes; ++i) {
-            paramTypes[i] = Type::Extract(types.Get(i));
+    if (argsLen == 2 && Module::IsClassOf(info[0]) && info[1].IsNumber() ||
+        argsLen == 3 && Module::IsClassOf(info[0]) && info[1].IsNumber() && info[2].IsArray()) {
+        llvm::Module *module = Module::Extract(info[0]);
+        llvm::Intrinsic::ID id = static_cast<llvm::Intrinsic::ID>(info[1].As<Napi::Number>().Uint32Value());
+        llvm::Function *function;
+        if (argsLen == 3) {
+            auto types = info[2].As<Napi::Array>();
+            unsigned numTypes = types.Length();
+            std::vector<llvm::Type *> paramTypes(numTypes);
+            for (unsigned i = 0; i < numTypes; ++i) {
+                paramTypes[i] = Type::Extract(types.Get(i));
+            }
+            function = llvm::Intrinsic::getDeclaration(module, id, paramTypes);
+        } else {
+            function = llvm::Intrinsic::getDeclaration(module, id);
         }
-        function = llvm::Intrinsic::getDeclaration(module, id, paramTypes);
-    } else {
-        function = llvm::Intrinsic::getDeclaration(module, id);
+        return Function::New(env, function);
     }
-    return Function::New(env, function);
+    throw Napi::TypeError::New(env, ErrMsg::Namespace::Intrinsic::getDeclaration);
 }
 
 void Intrinsic::Init(Napi::Env env, Napi::Object &exports) {
