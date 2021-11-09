@@ -1,3 +1,18 @@
+## [0.3.1](https://github.com/ApsarasX/llvm-bindings/compare/v0.3.0...v0.3.1) (2021-11-09)
+
+
+### Bug Fixes
+
+* **IR:** Intrinsic.getDeclaration function parameter handling ([c23b779](https://github.com/ApsarasX/llvm-bindings/commit/c23b7794227112c5f5911c0716a101aeca0d755c))
+
+
+### Features
+
+* **IR:** add class UndefValue ([d014816](https://github.com/ApsarasX/llvm-bindings/commit/d014816c8d9f1c798fdf2e31d09f07cc86b0716e))
+* **IR:** add overloaded form of IRBuilder constructor ([0400bf4](https://github.com/ApsarasX/llvm-bindings/commit/0400bf42870f3c70a07fcd2230f441648e51bd39))
+
+
+
 # [0.3.0](https://github.com/ApsarasX/llvm-bindings/compare/v0.2.3...v0.3.0) (2021-10-31)
 
 
