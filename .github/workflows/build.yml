@@ -5,8 +5,7 @@ on:
     branches:
       - '**'
     paths-ignore:
-      - 'README.md'
-      - 'CHANGELOG.md'
+      - '*.md'
       - 'LICENSE'
     tags-ignore:
       - '**'
@@ -14,8 +13,7 @@ on:
     branches:
       - '**'
     paths-ignore:
-      - 'README.md'
-      - 'CHANGELOG.md'
+      - '*.md'
       - 'LICENSE'
     tags-ignore:
       - '**'
