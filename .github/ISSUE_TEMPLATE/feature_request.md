@@ -1,5 +1,5 @@
 ---
-name: Feature request
+name: Feature Request
 about: Suggest some LLVM APIs for this project
 title: "[Feature]"
 labels: ''
