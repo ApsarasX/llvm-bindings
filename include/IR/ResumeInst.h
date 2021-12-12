@@ -21,4 +21,6 @@ public:
 
 private:
     llvm::ResumeInst *resumeInst = nullptr;
+
+    void setDebugLoc(const Napi::CallbackInfo &info);
 };

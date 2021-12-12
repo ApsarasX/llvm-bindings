@@ -31,5 +31,7 @@ private:
     Napi::Value getFunction(const Napi::CallbackInfo &info);
 
     Napi::Value getType(const Napi::CallbackInfo &info);
+
+    void setDebugLoc(const Napi::CallbackInfo &info);
 };
 

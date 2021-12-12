@@ -4,7 +4,8 @@
 void ReturnInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "ReturnInst", {
-            InstanceMethod("getReturnValue", &ReturnInst::getReturnValue)
+            InstanceMethod("getReturnValue", &ReturnInst::getReturnValue),
+            InstanceMethod("setDebugLoc", &ReturnInst::setDebugLoc)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -39,4 +40,13 @@ llvm::ReturnInst *ReturnInst::getLLVMPrimitive() {
 
 Napi::Value ReturnInst::getReturnValue(const Napi::CallbackInfo &info) {
     return Value::New(info.Env(), returnInst->getReturnValue());
+}
+
+void ReturnInst::setDebugLoc(const Napi::CallbackInfo &info) {
+    if (info.Length() == 1 && DebugLoc::IsClassOf(info[0])) {
+        llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
+        returnInst->setDebugLoc(*location);
+        return;
+    }
+    throw Napi::TypeError::New(info.Env(), ErrMsg::Class::ReturnInst::setDebugLoc);
 }

@@ -21,4 +21,6 @@ public:
 
 private:
     llvm::UnreachableInst *unreachableInst = nullptr;
+
+    void setDebugLoc(const Napi::CallbackInfo &info);
 };

@@ -6,7 +6,8 @@ void StoreInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::Function func = DefineClass(env, "StoreInst", {
             InstanceMethod("getValueOperand", &StoreInst::getValueOperand),
             InstanceMethod("getPointerOperand", &StoreInst::getPointerOperand),
-            InstanceMethod("getPointerOperandType", &StoreInst::getPointerOperandType)
+            InstanceMethod("getPointerOperandType", &StoreInst::getPointerOperandType),
+            InstanceMethod("setDebugLoc", &StoreInst::setDebugLoc)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -49,4 +50,13 @@ Napi::Value StoreInst::getPointerOperand(const Napi::CallbackInfo &info) {
 
 Napi::Value StoreInst::getPointerOperandType(const Napi::CallbackInfo &info) {
     return Type::New(info.Env(), storeInst->getPointerOperandType());
+}
+
+void StoreInst::setDebugLoc(const Napi::CallbackInfo &info) {
+    if (info.Length() == 1 && DebugLoc::IsClassOf(info[0])) {
+        llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
+        storeInst->setDebugLoc(*location);
+        return;
+    }
+    throw Napi::TypeError::New(info.Env(), ErrMsg::Class::StoreInst::setDebugLoc);
 }

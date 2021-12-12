@@ -31,4 +31,6 @@ private:
     Napi::Value getNumSuccessors(const Napi::CallbackInfo &info);
 
     Napi::Value getSuccessor(const Napi::CallbackInfo &info);
+
+    void setDebugLoc(const Napi::CallbackInfo &info);
 };

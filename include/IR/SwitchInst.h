@@ -23,4 +23,6 @@ private:
     llvm::SwitchInst *switchInst = nullptr;
 
     void addCase(const Napi::CallbackInfo &info);
+
+    void setDebugLoc(const Napi::CallbackInfo &info);
 };

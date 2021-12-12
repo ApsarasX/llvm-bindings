@@ -123,6 +123,7 @@ void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("saveIP", &IRBuilder::saveIP),
             InstanceMethod("saveAndClearIP", &IRBuilder::saveAndClearIP),
             InstanceMethod("restoreIP", &IRBuilder::restoreIP),
+            InstanceMethod("SetCurrentDebugLocation", &IRBuilder::SetCurrentDebugLocation),
 
             StaticValue("InsertPoint", InsertPoint::Init(env, exports))
     });
@@ -690,6 +691,22 @@ void IRBuilder::restoreIP(const Napi::CallbackInfo &info) {
         throw Napi::TypeError::New(info.Env(), ErrMsg::Class::IRBuilder::restoreIP);
     }
     builder->restoreIP(InsertPoint::Extract(info[0]));
+}
+
+void IRBuilder::SetCurrentDebugLocation(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 1) {
+        if (DebugLoc::IsClassOf(info[0])) {
+            llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
+            builder->SetCurrentDebugLocation(*location);
+            return;
+        } else if (DILocation::IsClassOf(info[0])) {
+            llvm::DILocation *location = DILocation::Extract(info[0]);
+            builder->SetCurrentDebugLocation(location);
+            return;
+        }
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::SetCurrentDebugLocation);
 }
 
 Napi::Function IRBuilder::InsertPoint::Init(Napi::Env env, Napi::Object &exports) {

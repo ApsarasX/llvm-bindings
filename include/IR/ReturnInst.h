@@ -23,4 +23,6 @@ private:
     llvm::ReturnInst *returnInst = nullptr;
 
     Napi::Value getReturnValue(const Napi::CallbackInfo &info);
+
+    void setDebugLoc(const Napi::CallbackInfo &info);
 };

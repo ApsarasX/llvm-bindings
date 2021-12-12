@@ -4,8 +4,8 @@
 void FunctionCallee::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "FunctionCallee", {
-        InstanceMethod("getFunctionType", &FunctionCallee::getFunctionType),
-        InstanceMethod("getCallee", &FunctionCallee::getCallee)
+            InstanceMethod("getFunctionType", &FunctionCallee::getFunctionType),
+            InstanceMethod("getCallee", &FunctionCallee::getCallee)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -30,7 +30,7 @@ FunctionCallee::FunctionCallee(const Napi::CallbackInfo &info) : ObjectWrap(info
     if (!info.IsConstructCall()) {
         throw Napi::TypeError::New(env, ErrMsg::Class::FunctionCallee::constructor);
     }
-    if(tmpCallee) {
+    if (tmpCallee) {
         callee = tmpCallee;
         tmpCallee = llvm::FunctionCallee(nullptr);
     }

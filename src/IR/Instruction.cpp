@@ -1,3 +1,6 @@
+
+#include <IR/Instruction.h>
+
 #include "IR/IR.h"
 #include "Util/Util.h"
 
@@ -8,7 +11,8 @@ void Instruction::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("getParent", &Instruction::getParent),
             InstanceMethod("getModule", &Instruction::getModule),
             InstanceMethod("getFunction", &Instruction::getFunction),
-            InstanceMethod("getType", &Instruction::getType)
+            InstanceMethod("getType", &Instruction::getType),
+            InstanceMethod("setDebugLoc", &Instruction::setDebugLoc)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -106,4 +110,13 @@ Napi::Value Instruction::getType(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     llvm::Type *type = instruction->getType();
     return Type::New(env, type);
+}
+
+void Instruction::setDebugLoc(const Napi::CallbackInfo &info) {
+    if (info.Length() == 1 && DebugLoc::IsClassOf(info[0])) {
+        llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
+        instruction->setDebugLoc(*location);
+        return;
+    }
+    throw Napi::TypeError::New(info.Env(), ErrMsg::Class::Instruction::setDebugLoc);
 }

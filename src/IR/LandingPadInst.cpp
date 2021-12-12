@@ -5,7 +5,8 @@ void LandingPadInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "LandingPadInst", {
             InstanceMethod("setCleanup", &LandingPadInst::setCleanup),
-            InstanceMethod("addClause", &LandingPadInst::addClause)
+            InstanceMethod("addClause", &LandingPadInst::addClause),
+            InstanceMethod("setDebugLoc", &LandingPadInst::setDebugLoc)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -56,4 +57,13 @@ void LandingPadInst::addClause(const Napi::CallbackInfo &info) {
         return;
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::LandingPadInst::addClause);
+}
+
+void LandingPadInst::setDebugLoc(const Napi::CallbackInfo &info) {
+    if (info.Length() == 1 && DebugLoc::IsClassOf(info[0])) {
+        llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
+        lpInst->setDebugLoc(*location);
+        return;
+    }
+    throw Napi::TypeError::New(info.Env(), ErrMsg::Class::LandingPadInst::setDebugLoc);
 }

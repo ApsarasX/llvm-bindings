@@ -13,7 +13,7 @@ export default function (toPrint: boolean = true): Module | null {
     const b = func.getArg(1);
     const result = builder.CreateAdd(a, b);
     builder.CreateRet(result);
-    
+
     if (verifyFunction(func)) {
         console.error('Verifying function failed');
         return null;

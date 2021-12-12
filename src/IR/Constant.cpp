@@ -28,7 +28,7 @@ Napi::Object Constant::New(Napi::Env env, llvm::Constant *constant) {
         return ConstantExpr::New(env, llvm::cast<llvm::ConstantExpr>(constant));
     } else if (llvm::isa<llvm::ConstantPointerNull>(constant)) {
         return ConstantPointerNull::New(env, llvm::cast<llvm::ConstantPointerNull>(constant));
-    }  else if (llvm::isa<llvm::ConstantStruct>(constant)) {
+    } else if (llvm::isa<llvm::ConstantStruct>(constant)) {
         return ConstantStruct::New(env, llvm::cast<llvm::ConstantStruct>(constant));
     }
     // TODO: more structured clearly

@@ -23,4 +23,6 @@ private:
     llvm::PHINode *phiNode = nullptr;
 
     void addIncoming(const Napi::CallbackInfo &info);
+
+    void setDebugLoc(const Napi::CallbackInfo &info);
 };

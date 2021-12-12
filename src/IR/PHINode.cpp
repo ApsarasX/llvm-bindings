@@ -7,7 +7,8 @@
 void PHINode::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "PHINode", {
-            InstanceMethod("addIncoming", &PHINode::addIncoming)
+            InstanceMethod("addIncoming", &PHINode::addIncoming),
+            InstanceMethod("setDebugLoc", &PHINode::setDebugLoc)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -48,4 +49,13 @@ void PHINode::addIncoming(const Napi::CallbackInfo &info) {
         return;
     }
     throw Napi::TypeError::New(info.Env(), ErrMsg::Class::PHINode::addIncoming);
+}
+
+void PHINode::setDebugLoc(const Napi::CallbackInfo &info) {
+    if (info.Length() == 1 && DebugLoc::IsClassOf(info[0])) {
+        llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
+        phiNode->setDebugLoc(*location);
+        return;
+    }
+    throw Napi::TypeError::New(info.Env(), ErrMsg::Class::PHINode::setDebugLoc);
 }

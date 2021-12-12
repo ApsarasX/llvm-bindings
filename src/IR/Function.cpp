@@ -24,7 +24,9 @@ void Function::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("removeDeadConstantUsers", &Function::removeDeadConstantUsers),
             InstanceMethod("hasPersonalityFn", &Function::hasPersonalityFn),
             InstanceMethod("setPersonalityFn", &Function::setPersonalityFn),
-            InstanceMethod("setDoesNotThrow", &Function::setDoesNotThrow)
+            InstanceMethod("setDoesNotThrow", &Function::setDoesNotThrow),
+            InstanceMethod("setSubprogram", &Function::setSubprogram),
+            InstanceMethod("getSubprogram", &Function::getSubprogram)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -170,4 +172,18 @@ void Function::setPersonalityFn(const Napi::CallbackInfo &info) {
 
 void Function::setDoesNotThrow(const Napi::CallbackInfo &info) {
     function->setDoesNotThrow();
+}
+
+void Function::setSubprogram(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 1 && DISubprogram::IsClassOf(info[0])) {
+        llvm::DISubprogram *subprogram = DISubprogram::Extract(info[0]);
+        function->setSubprogram(subprogram);
+        return;
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::Function::setSubprogram);
+}
+
+Napi::Value Function::getSubprogram(const Napi::CallbackInfo &info) {
+    return DISubprogram::New(info.Env(), function->getSubprogram());
 }

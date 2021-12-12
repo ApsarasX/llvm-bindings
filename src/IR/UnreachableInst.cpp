@@ -4,6 +4,7 @@
 void UnreachableInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "UnreachableInst", {
+            InstanceMethod("setDebugLoc", &UnreachableInst::setDebugLoc)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -34,4 +35,13 @@ UnreachableInst::UnreachableInst(const Napi::CallbackInfo &info) : ObjectWrap(in
 
 llvm::UnreachableInst *UnreachableInst::getLLVMPrimitive() {
     return unreachableInst;
+}
+
+void UnreachableInst::setDebugLoc(const Napi::CallbackInfo &info) {
+    if (info.Length() == 1 && DebugLoc::IsClassOf(info[0])) {
+        llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
+        unreachableInst->setDebugLoc(*location);
+        return;
+    }
+    throw Napi::TypeError::New(info.Env(), ErrMsg::Class::UnreachableInst::setDebugLoc);
 }

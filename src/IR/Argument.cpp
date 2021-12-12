@@ -21,6 +21,7 @@ Napi::Object Argument::New(Napi::Env env, llvm::Argument *argument) {
 bool Argument::IsClassOf(const Napi::Value &value) {
     return value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
+
 // TODO: [Potential Bug] Always return nullptr
 llvm::Argument *Argument::Extract(const Napi::Value &value) {
     return Unwrap(value.As<Napi::Object>())->getLLVMPrimitive();

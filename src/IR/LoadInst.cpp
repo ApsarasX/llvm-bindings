@@ -4,7 +4,8 @@
 void LoadInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "LoadInst", {
-            InstanceMethod("getType", &LoadInst::getType)
+            InstanceMethod("getType", &LoadInst::getType),
+            InstanceMethod("setDebugLoc", &LoadInst::setDebugLoc)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -41,4 +42,13 @@ Napi::Value LoadInst::getType(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     llvm::Type *type = loadInst->getType();
     return Type::New(env, type);
+}
+
+void LoadInst::setDebugLoc(const Napi::CallbackInfo &info) {
+    if (info.Length() == 1 && DebugLoc::IsClassOf(info[0])) {
+        llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
+        loadInst->setDebugLoc(*location);
+        return;
+    }
+    throw Napi::TypeError::New(info.Env(), ErrMsg::Class::LoadInst::setDebugLoc);
 }

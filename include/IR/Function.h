@@ -57,4 +57,8 @@ private:
     void setPersonalityFn(const Napi::CallbackInfo &info);
 
     void setDoesNotThrow(const Napi::CallbackInfo &info);
+
+    void setSubprogram(const Napi::CallbackInfo &info);
+
+    Napi::Value getSubprogram(const Napi::CallbackInfo &info);
 };

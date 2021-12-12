@@ -1,5 +1,7 @@
 #include <llvm/Support/raw_ostream.h>
 #include <llvm/Support/FileSystem.h>
+#include <IR/Module.h>
+
 #include "IR/IR.h"
 #include "Util/Util.h"
 
@@ -20,7 +22,8 @@ void Module::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("setSourceFileName", &Module::setSourceFileName),
             InstanceMethod("getTargetTriple", &Module::getTargetTriple),
             InstanceMethod("setTargetTriple", &Module::setTargetTriple),
-            InstanceMethod("print", &Module::print)
+            InstanceMethod("print", &Module::print),
+            InstanceMethod("addModuleFlag", &Module::addModuleFlag)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -56,6 +59,10 @@ Module::Module(const Napi::CallbackInfo &info) : ObjectWrap(info) {
         return;
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::Module::constructor);
+}
+
+llvm::Module *Module::getLLVMPrimitive() {
+    return module;
 }
 
 Napi::Value Module::empty(const Napi::CallbackInfo &info) {
@@ -203,6 +210,18 @@ void Module::print(const Napi::CallbackInfo &info) {
     }
 }
 
-llvm::Module *Module::getLLVMPrimitive() {
-    return module;
+void Module::addModuleFlag(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 3 && info[0].IsNumber() && info[1].IsString() && info[2].IsNumber()) {
+        unsigned behaviorNum = info[0].As<Napi::Number>();
+        if (behaviorNum < llvm::Module::ModFlagBehaviorFirstVal || behaviorNum > llvm::Module::ModFlagBehaviorLastVal) {
+            throw Napi::TypeError::New(env, ErrMsg::Class::Module::addModuleFlag);
+        }
+        auto behavior = llvm::Module::ModFlagBehavior(behaviorNum);
+        const std::string &key = info[1].As<Napi::String>();
+        unsigned value = info[2].As<Napi::Number>();
+        module->addModuleFlag(behavior, key, value);
+        return;
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::Module::addModuleFlag);
 }

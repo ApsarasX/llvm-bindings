@@ -51,4 +51,6 @@ private:
     void setTargetTriple(const Napi::CallbackInfo &info);
 
     void print(const Napi::CallbackInfo &info);
+
+    void addModuleFlag(const Napi::CallbackInfo &info);
 };

@@ -4,7 +4,8 @@
 void SwitchInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "SwitchInst", {
-            InstanceMethod("addCase", &SwitchInst::addCase)
+            InstanceMethod("addCase", &SwitchInst::addCase),
+            InstanceMethod("setDebugLoc", &SwitchInst::setDebugLoc)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -47,4 +48,13 @@ void SwitchInst::addCase(const Napi::CallbackInfo &info) {
     } else {
         throw Napi::TypeError::New(env, ErrMsg::Class::SwitchInst::addCase);
     }
+}
+
+void SwitchInst::setDebugLoc(const Napi::CallbackInfo &info) {
+    if (info.Length() == 1 && DebugLoc::IsClassOf(info[0])) {
+        llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
+        switchInst->setDebugLoc(*location);
+        return;
+    }
+    throw Napi::TypeError::New(info.Env(), ErrMsg::Class::SwitchInst::setDebugLoc);
 }

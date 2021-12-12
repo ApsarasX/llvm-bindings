@@ -4,6 +4,7 @@
 void CallInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "CallInst", {
+            InstanceMethod("setDebugLoc", &CallInst::setDebugLoc)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -34,4 +35,13 @@ CallInst::CallInst(const Napi::CallbackInfo &info) : ObjectWrap(info) {
 
 llvm::CallInst *CallInst::getLLVMPrimitive() {
     return callInst;
+}
+
+void CallInst::setDebugLoc(const Napi::CallbackInfo &info) {
+    if (info.Length() == 1 && DebugLoc::IsClassOf(info[0])) {
+        llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
+        callInst->setDebugLoc(*location);
+        return;
+    }
+    throw Napi::TypeError::New(info.Env(), ErrMsg::Class::CallInst::setDebugLoc);
 }

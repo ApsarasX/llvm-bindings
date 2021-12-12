@@ -11,6 +11,7 @@ import testWriteBitcodeToFile from './writeBitcodeToFile';
 import testIntrinsic from './intrinsic';
 import testException from './exception';
 import testType from './type';
+import testDebugInfo from './debugInfo';
 
 testAdd();
 testFibonacci();
@@ -25,3 +26,4 @@ testWriteBitcodeToFile();
 testIntrinsic();
 testException();
 testType();
+testDebugInfo();

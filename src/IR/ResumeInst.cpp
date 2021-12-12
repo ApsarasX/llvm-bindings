@@ -3,7 +3,9 @@
 
 void ResumeInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
-    Napi::Function func = DefineClass(env, "ResumeInst", {});
+    Napi::Function func = DefineClass(env, "ResumeInst", {
+            InstanceMethod("setDebugLoc", &ResumeInst::setDebugLoc)
+    });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
     Inherit(env, constructor.Value(), Instruction::constructor.Value());
@@ -33,4 +35,13 @@ ResumeInst::ResumeInst(const Napi::CallbackInfo &info) : ObjectWrap(info) {
 
 llvm::ResumeInst *ResumeInst::getLLVMPrimitive() {
     return resumeInst;
+}
+
+void ResumeInst::setDebugLoc(const Napi::CallbackInfo &info) {
+    if (info.Length() == 1 && DebugLoc::IsClassOf(info[0])) {
+        llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
+        resumeInst->setDebugLoc(*location);
+        return;
+    }
+    throw Napi::TypeError::New(info.Env(), ErrMsg::Class::ResumeInst::setDebugLoc);
 }

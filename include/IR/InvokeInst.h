@@ -21,4 +21,6 @@ public:
 
 private:
     llvm::InvokeInst *invokeInst = nullptr;
+
+    void setDebugLoc(const Napi::CallbackInfo &info);
 };

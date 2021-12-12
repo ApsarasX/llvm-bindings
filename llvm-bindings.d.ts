@@ -353,6 +353,9 @@ declare namespace llvm {
         // duplicated
         public getType(): Type;
 
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
 
@@ -363,6 +366,9 @@ declare namespace llvm {
 
         // duplicated
         public getType(): llvm.Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
 
         protected constructor();
     }
@@ -378,14 +384,23 @@ declare namespace llvm {
 
         public getSuccessor(i: number): BasicBlock;
 
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
 
     class CallInst extends Instruction {
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
 
     class InvokeInst extends Instruction {
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
 
@@ -393,21 +408,33 @@ declare namespace llvm {
         // duplicated
         public getType(): llvm.Type;
 
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
 
     class ReturnInst extends Instruction {
         public getReturnValue(): Value;
 
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
 
     class ResumeInst extends Instruction {
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
 
     class SwitchInst extends Instruction {
         public addCase(onVal: ConstantInt, dest: BasicBlock): void;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
 
         protected constructor();
     }
@@ -419,6 +446,9 @@ declare namespace llvm {
 
         public getPointerOperandType(): Type;
 
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
 
@@ -427,15 +457,24 @@ declare namespace llvm {
 
         public addClause(clauseVal: Constant): void;
 
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
 
     class UnreachableInst extends Instruction {
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
 
     class PHINode extends Instruction {
         public addIncoming(value: Value, basicBlock: BasicBlock): void;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
 
         protected constructor();
     }
@@ -601,6 +640,10 @@ declare namespace llvm {
 
         public setDoesNotThrow(): void;
 
+        public setSubprogram(subprogram: DISubprogram): void;
+
+        public getSubprogram(): DISubprogram;
+
         protected constructor();
     }
 
@@ -652,6 +695,8 @@ declare namespace llvm {
 
         // customized
         public print(filename?: string): void;
+
+        public addModuleFlag(behavior: number, key: string, value: number): void;
     }
 
     class IRBuilder {
@@ -906,6 +951,10 @@ declare namespace llvm {
         public saveAndClearIP(): IRBuilder.InsertPoint;
 
         public restoreIP(ip: IRBuilder.InsertPoint): void;
+
+        public SetCurrentDebugLocation(location: DebugLoc): void;
+        // extra
+        public SetCurrentDebugLocation(location: DILocation): void;
     }
 
     namespace IRBuilder {
@@ -1219,6 +1268,87 @@ declare namespace llvm {
     }
 
     class SMDiagnostic {
+        public constructor();
+    }
+
+    class Metadata {
+        protected constructor();
+    }
+
+    class MDNode extends Metadata {
+        protected constructor();
+    }
+
+    class DILocation extends MDNode {
+        public static get(context: LLVMContext, line: number, column: number, metadata: Metadata): DILocation;
+        public static get(context: LLVMContext, line: number, column: number, scope: DILocalScope): DILocation;
+
+        protected constructor();
+    }
+
+    class DINode extends MDNode {
+        protected constructor();
+    }
+
+    class DIScope extends DINode {
+        protected constructor();
+    }
+
+    class DICompileUnit extends DIScope {
+        public getFile(): DIFile;
+
+        protected constructor();
+    }
+
+    class DIFile extends DIScope {
+        protected constructor();
+    }
+
+    class DILocalScope extends DIScope {
+        protected constructor();
+    }
+
+    class DISubprogram extends DILocalScope {
+        protected constructor();
+    }
+
+    class DIType extends DIScope {
+        protected constructor();
+    }
+
+    class DIBasicType extends DIType {
+        protected constructor();
+    }
+
+    class DISubroutineType extends DIType {
+        protected constructor();
+    }
+
+    class DIBuilder {
+        public constructor(module: Module);
+
+        public createFile(filename: string, directory: string): DIFile;
+
+        public createCompileUnit(lang: number, file: DIFile, producer: string, isOptimized: boolean, flags: string, rv: number): DICompileUnit;
+
+        public createFunction(scope: DIScope, name: string, linkage: string, file: DIFile, line: number, type: DISubroutineType, scopeLine: number, flags: number, spFlags: number): DISubprogram;
+
+        public createBasicType(name: string, sizeInBits: number, encoding: number): DIBasicType;
+
+        public getOrCreateTypeArray(elements: Metadata[]): DITypeRefArray;
+
+        public createSubroutineType(paramTypes: DITypeRefArray): DISubroutineType;
+
+        public finalizeSubprogram(subprogram: DISubprogram): void;
+
+        public finalize(): void;
+    }
+
+    class DITypeRefArray {
+        protected constructor();
+    }
+
+    class DebugLoc {
         public constructor();
     }
 

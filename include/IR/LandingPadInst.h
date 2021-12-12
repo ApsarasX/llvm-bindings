@@ -25,4 +25,6 @@ private:
     void setCleanup(const Napi::CallbackInfo &info);
 
     void addClause(const Napi::CallbackInfo &info);
+
+    void setDebugLoc(const Napi::CallbackInfo &info);
 };

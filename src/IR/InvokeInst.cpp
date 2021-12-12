@@ -4,6 +4,7 @@
 void InvokeInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "InvokeInst", {
+            InstanceMethod("setDebugLoc", &InvokeInst::setDebugLoc)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -34,4 +35,13 @@ InvokeInst::InvokeInst(const Napi::CallbackInfo &info) : ObjectWrap(info) {
 
 llvm::InvokeInst *InvokeInst::getLLVMPrimitive() {
     return invokeInst;
+}
+
+void InvokeInst::setDebugLoc(const Napi::CallbackInfo &info) {
+    if (info.Length() == 1 && DebugLoc::IsClassOf(info[0])) {
+        llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
+        invokeInst->setDebugLoc(*location);
+        return;
+    }
+    throw Napi::TypeError::New(info.Env(), ErrMsg::Class::InvokeInst::setDebugLoc);
 }

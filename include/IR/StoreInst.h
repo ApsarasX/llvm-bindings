@@ -27,4 +27,6 @@ private:
     Napi::Value getPointerOperand(const Napi::CallbackInfo &info);
 
     Napi::Value getPointerOperandType(const Napi::CallbackInfo &info);
+
+    void setDebugLoc(const Napi::CallbackInfo &info);
 };

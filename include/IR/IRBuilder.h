@@ -232,6 +232,8 @@ private:
 
     void restoreIP(const Napi::CallbackInfo &info);
 
+    void SetCurrentDebugLocation(const Napi::CallbackInfo &info);
+
     class InsertPoint : public Napi::ObjectWrap<InsertPoint> {
     public:
         static inline Napi::FunctionReference constructor; // NOLINT

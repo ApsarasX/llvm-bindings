@@ -8,7 +8,8 @@ void BranchInst::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("isConditional", &BranchInst::isConditional),
             InstanceMethod("getCondition", &BranchInst::getCondition),
             InstanceMethod("getNumSuccessors", &BranchInst::getNumSuccessors),
-            InstanceMethod("getSuccessor", &BranchInst::getSuccessor)
+            InstanceMethod("getSuccessor", &BranchInst::getSuccessor),
+            InstanceMethod("setDebugLoc", &BranchInst::setDebugLoc)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -65,4 +66,13 @@ Napi::Value BranchInst::getSuccessor(const Napi::CallbackInfo &info) {
         return BasicBlock::New(env, successor);
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::BranchInst::getSuccessor);
+}
+
+void BranchInst::setDebugLoc(const Napi::CallbackInfo &info) {
+    if (info.Length() == 1 && DebugLoc::IsClassOf(info[0])) {
+        llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
+        branchInst->setDebugLoc(*location);
+        return;
+    }
+    throw Napi::TypeError::New(info.Env(), ErrMsg::Class::BranchInst::setDebugLoc);
 }
