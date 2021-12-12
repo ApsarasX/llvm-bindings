@@ -8,9 +8,15 @@ LLVM bindings for Node.js/JavaScript/TypeScript
 
 ## Supported OS
 
-- [x] macOS (Catalina, Big Sur x86_64)
-- [x] Ubuntu (18.04, 20.04)
-- [ ] Windows
+|  | x86_64 | ARM64 |
+| :---: | :---: | :---: |
+| macOS 10.15 Catalina | ✅ | / |
+| macOS 11 Big Sur | ✅ | Untested |
+| macOS 12 Monterey | Untested | Untested |
+| Ubuntu 18.04 | ✅ | ✅ |
+| Ubuntu 20.04 | ✅ | ✅ |
+| Windows 10 | ❌ | ❌ |
+| Windows 11 | ❌ | ❌ |
 
 ## Supported LLVM methods
 
