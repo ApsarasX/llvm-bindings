@@ -42,6 +42,7 @@ void InitIR(Napi::Env env, Napi::Object &exports) {
     DataLayout::Init(env, exports);
     Verifier::Init(env, exports);
     Intrinsic::Init(env, exports);
+    LLVMConstants::Init(env, exports);
     Metadata::Init(env, exports);
     MDNode::Init(env, exports);
     DILocation::Init(env, exports);

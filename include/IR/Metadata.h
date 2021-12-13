@@ -22,3 +22,7 @@ public:
 private:
     llvm::Metadata *metadata = nullptr;
 };
+
+namespace LLVMConstants {
+    void Init(Napi::Env env, Napi::Object &exports);
+}

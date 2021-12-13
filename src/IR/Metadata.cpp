@@ -40,3 +40,9 @@ Metadata::Metadata(const Napi::CallbackInfo &info) : ObjectWrap(info) {
 llvm::Metadata *Metadata::getLLVMPrimitive() {
     return metadata;
 }
+
+void LLVMConstants::Init(Napi::Env env, Napi::Object &exports) {
+    Napi::Object constantsNS = Napi::Object::New(env);
+    constantsNS.Set("DEBUG_METADATA_VERSION", Napi::Number::New(env, llvm::LLVMConstants::DEBUG_METADATA_VERSION));
+    exports.Set("LLVMConstants", constantsNS);
+}

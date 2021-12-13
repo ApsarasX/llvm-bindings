@@ -1,4 +1,5 @@
 #include "ADT/ADT.h"
+#include "BinaryFormat/BinaryFormat.h"
 #include "Bitcode/Bitcode.h"
 #include "IR/IR.h"
 #include "IRReader/IRReader.h"
@@ -8,6 +9,7 @@
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
     InitADT(env, exports);
+    InitBinaryFormat(env, exports);
     InitBitCode(env, exports);
     InitIR(env, exports);
     InitIRReader(env, exports);

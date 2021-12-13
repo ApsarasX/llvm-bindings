@@ -1297,6 +1297,44 @@ declare namespace llvm {
     }
 
     class DINode extends MDNode {
+        public static readonly DIFlags: {
+            FlagZero: number;
+            FlagPrivate: number;
+            FlagProtected: number;
+            FlagPublic: number;
+            FlagFwdDecl: number;
+            FlagAppleBlock: number;
+            FlagReservedBit4: number;
+            FlagVirtual: number;
+            FlagArtificial: number;
+            FlagExplicit: number;
+            FlagPrototyped: number;
+            FlagObjcClassComplete: number;
+            FlagObjectPointer: number;
+            FlagVector: number;
+            FlagStaticMember: number;
+            FlagLValueReference: number;
+            FlagRValueReference: number;
+            FlagExportSymbols: number;
+            FlagSingleInheritance: number;
+            FlagMultipleInheritance: number;
+            FlagVirtualInheritance: number;
+            FlagIntroducedVirtual: number;
+            FlagBitField: number;
+            FlagNoReturn: number;
+            FlagTypePassByValue: number;
+            FlagTypePassByReference: number;
+            FlagEnumClass: number;
+            FlagThunk: number;
+            FlagNonTrivial: number;
+            FlagBigEndian: number;
+            FlagLittleEndian: number;
+            FlagAllCallsDescribed: number;
+            FlagIndirectVirtualBase: number;
+            FlagAccessibility: number;
+            FlagPtrToMemberRep: number;
+        }
+
         protected constructor();
     }
 
@@ -1319,6 +1357,23 @@ declare namespace llvm {
     }
 
     class DISubprogram extends DILocalScope {
+        public static readonly DISPFlags: {
+            SPFlagZero: number;
+            SPFlagVirtual: number;
+            SPFlagPureVirtual: number;
+            SPFlagLocalToUnit: number;
+            SPFlagDefinition: number;
+            SPFlagOptimized: number;
+            SPFlagPure: number;
+            SPFlagElemental: number;
+            SPFlagRecursive: number;
+            SPFlagMainSubprogram: number;
+            SPFlagDeleted: number;
+            SPFlagObjCDirect: number;
+            SPFlagNonvirtual: number;
+            SPFlagVirtuality: number;
+        }
+
         protected constructor();
     }
 
@@ -1386,6 +1441,79 @@ declare namespace llvm {
 
     class DebugLoc {
         public constructor();
+    }
+
+    namespace LLVMConstants {
+        const DEBUG_METADATA_VERSION: number;
+    }
+
+    namespace dwarf {
+        namespace LLVMConstants {
+            const DWARF_VERSION: number;
+        }
+        namespace TypeKind {
+            const DW_ATE_address: number;
+            const DW_ATE_boolean: number;
+            const DW_ATE_complex_float: number;
+            const DW_ATE_float: number;
+            const DW_ATE_signed: number;
+            const DW_ATE_signed_char: number;
+            const DW_ATE_unsigned: number;
+            const DW_ATE_unsigned_char: number;
+            const DW_ATE_imaginary_float: number;
+            const DW_ATE_packed_decimal: number;
+            const DW_ATE_numeric_string: number;
+            const DW_ATE_edited: number;
+            const DW_ATE_signed_fixed: number;
+            const DW_ATE_unsigned_fixed: number;
+            const DW_ATE_decimal_float: number;
+            const DW_ATE_UTF: number;
+            const DW_ATE_UCS: number;
+            const DW_ATE_ASCII: number;
+            const DW_ATE_lo_user: number;
+            const DW_ATE_hi_user: number;
+        }
+        namespace SourceLanguage {
+            const DW_LANG_C89: number;
+            const DW_LANG_C: number;
+            const DW_LANG_Ada83: number;
+            const DW_LANG_C_plus_plus: number;
+            const DW_LANG_Cobol74: number;
+            const DW_LANG_Cobol85: number;
+            const DW_LANG_Fortran77: number;
+            const DW_LANG_Fortran90: number;
+            const DW_LANG_Pascal83: number;
+            const DW_LANG_Modula2: number;
+            const DW_LANG_Java: number;
+            const DW_LANG_C99: number;
+            const DW_LANG_Ada95: number;
+            const DW_LANG_Fortran95: number;
+            const DW_LANG_PLI: number;
+            const DW_LANG_ObjC: number;
+            const DW_LANG_ObjC_plus_plus: number;
+            const DW_LANG_UPC: number;
+            const DW_LANG_D: number;
+            const DW_LANG_Python: number;
+            const DW_LANG_OpenCL: number;
+            const DW_LANG_Go: number;
+            const DW_LANG_Modula3: number;
+            const DW_LANG_Haskell: number;
+            const DW_LANG_C_plus_plus_03: number;
+            const DW_LANG_C_plus_plus_11: number;
+            const DW_LANG_OCaml: number;
+            const DW_LANG_Rust: number;
+            const DW_LANG_C11: number;
+            const DW_LANG_Swift: number;
+            const DW_LANG_Julia: number;
+            const DW_LANG_Dylan: number;
+            const DW_LANG_C_plus_plus_14: number;
+            const DW_LANG_Fortran03: number;
+            const DW_LANG_Fortran08: number;
+            const DW_LANG_RenderScript: number;
+            const DW_LANG_BLISS: number;
+            const DW_LANG_lo_user: number;
+            const DW_LANG_hi_user: number;
+        }
     }
 
     function InitializeAllTargetInfos(): void;

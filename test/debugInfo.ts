@@ -6,13 +6,15 @@ import {
     DICompileUnit,
     DIFile,
     DILocation,
+    DISubprogram,
     Function,
     FunctionType,
     IRBuilder,
     LLVMContext,
     Module,
+    dwarf,
     verifyFunction,
-    verifyModule
+    verifyModule, DINode
 } from '..';
 import { getContextModuleBuilder } from './util';
 
@@ -33,7 +35,7 @@ function createAddFunc(
     const debugInfoSubroutineType = debugInfoBuilder.createSubroutineType(debugInfoParamTypes);
     const debugInfoAddFuncSubprogram = debugInfoBuilder.createFunction(
         debugInfoFile, 'add', '', debugInfoFile, 1,
-        debugInfoSubroutineType, 1, 0, 1 << 3
+        debugInfoSubroutineType, 1, DINode.DIFlags.FlagPrototyped, DISubprogram.DISPFlags.SPFlagDefinition
     );
 
     addFunc.setSubprogram(debugInfoAddFuncSubprogram);
@@ -101,7 +103,7 @@ function createMainFunc(
     const debugInfoSubroutineType = debugInfoBuilder.createSubroutineType(debugInfoParamTypes);
     const debugInfoMainFuncSubprogram = debugInfoBuilder.createFunction(
         debugInfoFile, 'main', '', debugInfoFile, 5,
-        debugInfoSubroutineType, 5, 0, 1 << 3
+        debugInfoSubroutineType, 5, DINode.DIFlags.FlagPrototyped, DISubprogram.DISPFlags.SPFlagDefinition
     );
 
     mainFunc.setSubprogram(debugInfoMainFuncSubprogram);
@@ -170,15 +172,14 @@ function createMainFunc(
     return mainFunc;
 }
 
-
 export default function (): void {
     const { context, module, builder } = getContextModuleBuilder('debug-info.cpp');
     module.addModuleFlag(2, "Debug Info Version", 3);
     module.addModuleFlag(2, "Dwarf Version", 4);
     const debugInfoBuilder = new DIBuilder(module);
     const debugInfoFile = debugInfoBuilder.createFile('debug-info.cpp', __dirname);
-    const debugInfoUnit = debugInfoBuilder.createCompileUnit(0x0002, debugInfoFile, "llvm-bindings", false, "", 0);
-    const debugInfoBasicType = debugInfoBuilder.createBasicType("int", 32, 0x05);
+    const debugInfoUnit = debugInfoBuilder.createCompileUnit(dwarf.SourceLanguage.DW_LANG_C, debugInfoFile, "llvm-bindings", false, "", 0);
+    const debugInfoBasicType = debugInfoBuilder.createBasicType("int", 32, dwarf.TypeKind.DW_ATE_float);
 
     const addFunc = createAddFunc(context, module, builder, debugInfoBuilder, debugInfoFile, debugInfoUnit, debugInfoBasicType);
     createMainFunc(context, module, builder, debugInfoBuilder, debugInfoFile, debugInfoUnit, debugInfoBasicType, addFunc);
