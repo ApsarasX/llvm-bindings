@@ -53,6 +53,7 @@ void InitIR(Napi::Env env, Napi::Object &exports) {
     DICompileUnit::Init(env, exports);
     DIFile::Init(env, exports);
     DILocalScope::Init(env, exports);
+    DILexicalBlock::Init(env, exports);
     DISubprogram::Init(env, exports);
     DIType::Init(env, exports);
     DIBasicType::Init(env, exports);

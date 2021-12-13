@@ -1,6 +1,3 @@
-
-#include <IR/DIBuilder.h>
-
 #include "IR/IR.h"
 #include "Util/Util.h"
 
@@ -10,6 +7,7 @@ void DIBuilder::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("createFile", &DIBuilder::createFile),
             InstanceMethod("createCompileUnit", &DIBuilder::createCompileUnit),
             InstanceMethod("createFunction", &DIBuilder::createFunction),
+            InstanceMethod("createLexicalBlock", &DIBuilder::createLexicalBlock),
             InstanceMethod("createBasicType", &DIBuilder::createBasicType),
             InstanceMethod("getOrCreateTypeArray", &DIBuilder::getOrCreateTypeArray),
             InstanceMethod("createSubroutineType", &DIBuilder::createSubroutineType),
@@ -121,6 +119,23 @@ Napi::Value DIBuilder::createFunction(const Napi::CallbackInfo &info) {
         return DISubprogram::New(env, subprogram);
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::DIBuilder::createFunction);
+}
+
+Napi::Value DIBuilder::createLexicalBlock(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 4
+        && DIScope::IsClassOf(info[0])
+        && DIFile::IsClassOf(info[1])
+        && info[2].IsNumber()
+        && info[3].IsNumber()) {
+        llvm::DIScope *scope = DIScope::Extract(info[0]);
+        llvm::DIFile *file = DIFile::Extract(info[1]);
+        unsigned line = info[2].As<Napi::Number>();
+        unsigned column = info[3].As<Napi::Number>();
+        llvm::DILexicalBlock *block = builder->createLexicalBlock(scope, file, line, column);
+        return DILexicalBlock::New(env, block);
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::DIBuilder::createLexicalBlock);
 }
 
 Napi::Value DIBuilder::createBasicType(const Napi::CallbackInfo &info) {

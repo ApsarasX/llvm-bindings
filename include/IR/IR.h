@@ -53,6 +53,7 @@
 #include "IR/DICompileUnit.h"
 #include "IR/DIFile.h"
 #include "IR/DILocalScope.h"
+#include "IR/DILexicalBlock.h"
 #include "IR/DISubprogram.h"
 #include "IR/DIType.h"
 #include "IR/DIBasicType.h"

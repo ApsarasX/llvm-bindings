@@ -1,5 +1,3 @@
-#include <llvm/Target/TargetMachine.h>
-
 #include "Target/Target.h"
 #include "Util/Util.h"
 

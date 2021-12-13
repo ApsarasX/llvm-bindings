@@ -12,7 +12,9 @@ void DILocalScope::Init(Napi::Env env, Napi::Object &exports) {
 }
 
 Napi::Value DILocalScope::New(Napi::Env env, llvm::DILocalScope *scope) {
-    if (llvm::isa<llvm::DISubprogram>(scope)) {
+    if (llvm::isa<llvm::DILexicalBlock>(scope)) {
+        return DILexicalBlock::New(env, llvm::cast<llvm::DILexicalBlock>(scope));
+    } else if (llvm::isa<llvm::DISubprogram>(scope)) {
         return DISubprogram::New(env, llvm::cast<llvm::DISubprogram>(scope));
     }
     return constructor.New({Napi::External<llvm::DILocalScope>::New(env, scope)});

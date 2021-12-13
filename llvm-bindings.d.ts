@@ -1356,6 +1356,10 @@ declare namespace llvm {
         protected constructor();
     }
 
+    class DILexicalBlock extends DILocalScope {
+        protected constructor();
+    }
+
     class DISubprogram extends DILocalScope {
         public static readonly DISPFlags: {
             SPFlagZero: number;
@@ -1410,9 +1414,11 @@ declare namespace llvm {
 
         public createFunction(scope: DIScope, name: string, linkage: string, file: DIFile, line: number, type: DISubroutineType, scopeLine: number, flags: number, spFlags: number): DISubprogram;
 
+        public createLexicalBlock(scope: DIScope, file: DIFile, line: number, column: number): DILexicalBlock;
+
         public createBasicType(name: string, sizeInBits: number, encoding: number): DIBasicType;
 
-        public getOrCreateTypeArray(elements: Metadata[]): DITypeRefArray;
+        public getOrCreateTypeArray(elements: (Metadata | null)[]): DITypeRefArray;
 
         public createSubroutineType(paramTypes: DITypeRefArray): DISubroutineType;
 

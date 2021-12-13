@@ -330,6 +330,9 @@ namespace ErrMsg {
         namespace DILocalScope {
             static const char *constructor = "DILocalScope.constructor needs to be called with new (external: Napi::External<llvm::DILocalScope>)";
         }
+        namespace DILexicalBlock {
+            static const char *constructor = "DILexicalBlock.constructor needs to be called with new (external: Napi::External<llvm::DILexicalBlock>)";
+        }
         namespace DISubprogram {
             static const char *constructor = "DISubprogram.constructor needs to be called with new (external: Napi::External<llvm::DISubprogram>)";
         }
@@ -358,6 +361,7 @@ namespace ErrMsg {
             static const char *createFile = "DIBuilder.createFile needs to be called with (filename: string, directory: string)";
             static const char *createCompileUnit = "DIBuilder.createCompileUnit needs to be called with (lang: number, file: DIFile, producer: string, isOptimized: boolean, flags: string, rv: number)";
             static const char *createFunction = "DIBuilder.createFunction needs to be called with: (scope: DIScope, name: string, linkage: string, file: DIFile, line: number, type: DISubroutineType, scopeLine: number, flags: number, spFlags: number)";
+            static const char *createLexicalBlock = "DIBuilder.createLexicalBlock needs to be called with: (scope: DIScope, file: DIFile, line: number, column: number)";
             static const char *createBasicType = "DIBuilder.createBasicType needs to be called with (name: string, sizeInBits: number, encoding: number)";
             static const char *getOrCreateTypeArray = "DIBuilder.getOrCreateTypeArray needs to be called with (elements: Metadata[])";
             static const char *createSubroutineType = "DIBuilder.createSubroutineType needs to be called with (paramTypes: DITypeRefArray)";

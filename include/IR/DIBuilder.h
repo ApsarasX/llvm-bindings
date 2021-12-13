@@ -28,6 +28,8 @@ private:
 
     Napi::Value createFunction(const Napi::CallbackInfo &info);
 
+    Napi::Value createLexicalBlock(const Napi::CallbackInfo &info);
+
     Napi::Value createBasicType(const Napi::CallbackInfo &info);
 
     Napi::Value getOrCreateTypeArray(const Napi::CallbackInfo &info);

@@ -1,6 +1,3 @@
-
-#include <IR/Instruction.h>
-
 #include "IR/IR.h"
 #include "Util/Util.h"
 
