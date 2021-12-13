@@ -157,6 +157,9 @@ bool Type::IsClassOf(const Napi::Value &value) {
 }
 
 llvm::Type *Type::Extract(const Napi::Value &value) {
+    if (value.IsNull()) {
+        return nullptr;
+    }
     return Unwrap(value.As<Napi::Object>())->getLLVMPrimitive();
 }
 

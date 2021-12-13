@@ -22,6 +22,9 @@ bool SwitchInst::IsClassOf(const Napi::Value &value) {
 }
 
 llvm::SwitchInst *SwitchInst::Extract(const Napi::Value &value) {
+    if (value.IsNull()) {
+        return nullptr;
+    }
     return Unwrap(value.As<Napi::Object>())->getLLVMPrimitive();
 }
 

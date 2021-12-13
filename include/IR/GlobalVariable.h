@@ -27,4 +27,6 @@ private:
     void removeFromParent(const Napi::CallbackInfo &info);
 
     void eraseFromParent(const Napi::CallbackInfo &info);
+
+    void addDebugInfo(const Napi::CallbackInfo &info);
 };

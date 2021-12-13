@@ -12,7 +12,11 @@ void MDNode::Init(Napi::Env env, Napi::Object &exports) {
 }
 
 Napi::Value MDNode::New(Napi::Env env, llvm::MDNode *node) {
-    if (llvm::isa<llvm::DILocation>(node)) {
+    if (llvm::isa<llvm::DIExpression>(node)) {
+        return DIExpression::New(env, llvm::cast<llvm::DIExpression>(node));
+    } else if (llvm::isa<llvm::DIGlobalVariableExpression>(node)) {
+        return DIGlobalVariableExpression::New(env, llvm::cast<llvm::DIGlobalVariableExpression>(node));
+    } else if (llvm::isa<llvm::DILocation>(node)) {
         return DILocation::New(env, llvm::cast<llvm::DILocation>(node));
     } else if (llvm::isa<llvm::DINode>(node)) {
         return DINode::New(env, llvm::cast<llvm::DINode>(node));

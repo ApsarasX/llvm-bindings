@@ -25,6 +25,9 @@ bool GlobalObject::IsClassOf(const Napi::Value &value) {
 }
 
 llvm::GlobalObject *GlobalObject::Extract(const Napi::Value &value) {
+    if (value.IsNull()) {
+        return nullptr;
+    }
     return Unwrap(value.As<Napi::Object>())->getLLVMPrimitive();
 }
 

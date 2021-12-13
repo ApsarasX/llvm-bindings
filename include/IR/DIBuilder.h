@@ -34,9 +34,17 @@ private:
 
     Napi::Value createSubroutineType(const Napi::CallbackInfo &info);
 
-//    Napi::Value createGlobalVariableExpression(const Napi::CallbackInfo &info);
-//
-//    Napi::Value insertDbgValueIntrinsic(const Napi::CallbackInfo &info);
+    Napi::Value createExpression(const Napi::CallbackInfo &info);
+
+    Napi::Value createParameterVariable(const Napi::CallbackInfo &info);
+
+    Napi::Value createAutoVariable(const Napi::CallbackInfo &info);
+
+    Napi::Value createGlobalVariableExpression(const Napi::CallbackInfo &info);
+
+    Napi::Value insertDeclare(const Napi::CallbackInfo &info);
+
+    Napi::Value insertDbgValueIntrinsic(const Napi::CallbackInfo &info);
 
     void finalizeSubprogram(const Napi::CallbackInfo &info);
 

@@ -114,6 +114,8 @@ namespace ErrMsg {
                                              "\n\t - new (external: Napi::External<llvm::GlobalVariable>)"
                                              "\n\t - new (type: Type, isConstant: boolean, linkage: LinkageTypes, initializer?: Constant, name?: string)"
                                              "\n\t - new (module: Module, type: Type, isConstant: boolean, linkage: LinkageTypes, initializer: Constant, name?: string)";
+
+            static const char *addDebugInfo = "GlobalVariable.addDebugInfo needs to be called with (gv: DIGlobalVariableExpression)";
         }
         namespace Instruction {
             static const char *constructor = "Instruction.constructor needs to be called with new (external: Napi::External<llvm::Instruction>)";
@@ -307,6 +309,12 @@ namespace ErrMsg {
                                      "\n\t - (context: LLVMContext, line: number, column: number, metadata: Metadata)"
                                      "\n\t - (context: LLVMContext, line: number, column: number, scope: DILocalScope)";
         }
+        namespace DIExpression {
+            static const char *constructor = "DIExpression.constructor needs to be called with new (external: Napi::External<llvm::DIExpression>)";
+        }
+        namespace DIGlobalVariableExpression {
+            static const char *constructor = "DIGlobalVariableExpression.constructor needs to be called with new (external: Napi::External<llvm::DIGlobalVariableExpression>)";
+        }
         namespace DINode {
             static const char *constructor = "DINode.constructor needs to be called with new (external: Napi::External<llvm::DINode>)";
         }
@@ -334,6 +342,15 @@ namespace ErrMsg {
         namespace DISubroutineType {
             static const char *constructor = "DISubroutineType.constructor needs to be called with new (external: Napi::External<llvm::DISubroutineType>)";
         }
+        namespace DIVariable {
+            static const char *constructor = "DIVariable.constructor needs to be called with new (external: Napi::External<llvm::DIVariable>)";
+        }
+        namespace DILocalVariable {
+            static const char *constructor = "DILocalVariable.constructor needs to be called with new (external: Napi::External<llvm::DILocalVariable>)";
+        }
+        namespace DIGlobalVariable {
+            static const char *constructor = "DIGlobalVariable.constructor needs to be called with new (external: Napi::External<llvm::DIGlobalVariable>)";
+        }
         namespace DIBuilder {
             static const char *constructor = "DIBuilder.constructor needs to be called with:"
                                              "\n\t - new (external: Napi::External<llvm::DIBuilder>)"
@@ -344,6 +361,15 @@ namespace ErrMsg {
             static const char *createBasicType = "DIBuilder.createBasicType needs to be called with (name: string, sizeInBits: number, encoding: number)";
             static const char *getOrCreateTypeArray = "DIBuilder.getOrCreateTypeArray needs to be called with (elements: Metadata[])";
             static const char *createSubroutineType = "DIBuilder.createSubroutineType needs to be called with (paramTypes: DITypeRefArray)";
+            static const char *createParameterVariable = "DIBuilder.createParameterVariable needs to be called with (scope: DIScope, name: string, argNo: number, file: DIFile, line: number, type: DIType, alwaysPreserve?: boolean)";
+            static const char *createAutoVariable = "DIBuilder.createAutoVariable needs to be called with (scope: DIScope, name: string, file: DIFile, line: number, type: DIType, alwaysPreserve?: boolean)";
+            static const char *createGlobalVariableExpression = "DIBuilder.createGlobalVariableExpression needs to be called with (context: DIScope, name: string, linkage: string, file: DIFile, line: number, type: DIType, IsLocalToUnit: boolean)";
+            static const char *insertDeclare = "DIBuilder.insertDeclare needs to be called with:"
+                                               "\n\t - (storage: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBB: BasicBlock)"
+                                               "\n\t - (storage: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBefore: Instruction)";
+            static const char *insertDbgValueIntrinsic = "DIBuilder.insertDbgValueIntrinsic needs to be called with:"
+                                                         "\n\t - (value: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBB: BasicBlock)"
+                                                         "\n\t - (value: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBefore: Instruction)";;
             static const char *finalizeSubprogram = "DIBuilder.finalizeSubprogram needs to be called with (subprogram: DISubprogram)";
         }
         namespace DITypeRefArray {

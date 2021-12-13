@@ -39,6 +39,9 @@ Napi::Object Module::New(Napi::Env env, llvm::Module *module) {
 }
 
 llvm::Module *Module::Extract(const Napi::Value &value) {
+    if (value.IsNull()) {
+        return nullptr;
+    }
     return Unwrap(value.As<Napi::Object>())->getLLVMPrimitive();
 }
 

@@ -6,7 +6,8 @@ void GlobalVariable::Init(Napi::Env env, Napi::Object &exports) {
     Napi::Function func = DefineClass(env, "GlobalVariable", {
             InstanceMethod("getType", &GlobalVariable::getType),
             InstanceMethod("removeFromParent", &GlobalVariable::removeFromParent),
-            InstanceMethod("eraseFromParent", &GlobalVariable::eraseFromParent)
+            InstanceMethod("eraseFromParent", &GlobalVariable::eraseFromParent),
+            InstanceMethod("addDebugInfo", &GlobalVariable::addDebugInfo)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -23,6 +24,9 @@ bool GlobalVariable::IsClassOf(const Napi::Value &value) {
 }
 
 llvm::GlobalVariable *GlobalVariable::Extract(const Napi::Value &value) {
+    if (value.IsNull()) {
+        return nullptr;
+    }
     return Unwrap(value.As<Napi::Object>())->getLLVMPrimitive();
 }
 
@@ -87,4 +91,14 @@ void GlobalVariable::removeFromParent(const Napi::CallbackInfo &info) {
 
 void GlobalVariable::eraseFromParent(const Napi::CallbackInfo &info) {
     globalVariable->eraseFromParent();
+}
+
+void GlobalVariable::addDebugInfo(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 1 && DIGlobalVariableExpression::IsClassOf(info[0])) {
+        llvm::DIGlobalVariableExpression *gv = DIGlobalVariableExpression::Extract(info[0]);
+        globalVariable->addDebugInfo(gv);
+        return;
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::GlobalVariable::addDebugInfo);
 }

@@ -14,6 +14,8 @@ void DINode::Init(Napi::Env env, Napi::Object &exports) {
 Napi::Value DINode::New(Napi::Env env, llvm::DINode *node) {
     if (llvm::isa<llvm::DIScope>(node)) {
         return DIScope::New(env, llvm::cast<llvm::DIScope>(node));
+    } else if (llvm::isa<llvm::DIVariable>(node)) {
+        return DIVariable::New(env, llvm::cast<llvm::DIVariable>(node));
     }
     return constructor.New({Napi::External<llvm::DINode>::New(env, node)});
 }

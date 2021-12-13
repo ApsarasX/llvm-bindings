@@ -46,6 +46,8 @@
 #include "IR/Metadata.h"
 #include "IR/MDNode.h"
 #include "IR/DILocation.h"
+#include "IR/DIExpression.h"
+#include "IR/DIGlobalVariableExpression.h"
 #include "IR/DINode.h"
 #include "IR/DIScope.h"
 #include "IR/DICompileUnit.h"
@@ -55,8 +57,11 @@
 #include "IR/DIType.h"
 #include "IR/DIBasicType.h"
 #include "IR/DISubroutineType.h"
-#include "IR/DITypeRefArray.h"
+#include "IR/DIVariable.h"
+#include "IR/DILocalVariable.h"
+#include "IR/DIGlobalVariable.h"
 #include "IR/DIBuilder.h"
+#include "IR/DITypeRefArray.h"
 #include "IR/DebugLoc.h"
 
 void InitIR(Napi::Env env, Napi::Object &exports);

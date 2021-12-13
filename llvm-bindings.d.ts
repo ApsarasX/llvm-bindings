@@ -594,6 +594,8 @@ declare namespace llvm {
         public removeFromParent(): void;
 
         public eraseFromParent(): void;
+
+        public addDebugInfo(gv: DIGlobalVariableExpression): void;
     }
 
     class Function extends GlobalObject {
@@ -1286,6 +1288,14 @@ declare namespace llvm {
         protected constructor();
     }
 
+    class DIExpression extends MDNode {
+        protected constructor();
+    }
+
+    class DIGlobalVariableExpression extends MDNode {
+        protected constructor();
+    }
+
     class DINode extends MDNode {
         protected constructor();
     }
@@ -1324,6 +1334,18 @@ declare namespace llvm {
         protected constructor();
     }
 
+    class DIVariable extends DINode {
+        protected constructor();
+    }
+
+    class DILocalVariable extends DIVariable {
+        protected constructor();
+    }
+
+    class DIGlobalVariable extends DIVariable {
+        protected constructor();
+    }
+
     class DIBuilder {
         public constructor(module: Module);
 
@@ -1338,6 +1360,20 @@ declare namespace llvm {
         public getOrCreateTypeArray(elements: Metadata[]): DITypeRefArray;
 
         public createSubroutineType(paramTypes: DITypeRefArray): DISubroutineType;
+
+        public createExpression(): DIExpression;
+
+        public createParameterVariable(scope: DIScope, name: string, argNo: number, file: DIFile, line: number, type: DIType, alwaysPreserve?: boolean): DILocalVariable;
+
+        public createAutoVariable(scope: DIScope, name: string, file: DIFile, line: number, type: DIType, alwaysPreserve?: boolean): DILocalVariable;
+
+        public createGlobalVariableExpression(context: DIScope, name: string, linkage: string, file: DIFile, line: number, type: DIType, IsLocalToUnit: boolean): DIGlobalVariableExpression;
+
+        public insertDeclare(storage: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBB: BasicBlock | null): Instruction;
+        public insertDeclare(storage: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBefore: Instruction): Instruction;
+
+        public insertDbgValueIntrinsic(value: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBB: BasicBlock): Instruction;
+        public insertDbgValueIntrinsic(value: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBefore: Instruction): Instruction;
 
         public finalizeSubprogram(subprogram: DISubprogram): void;
 

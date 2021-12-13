@@ -24,6 +24,9 @@ bool StoreInst::IsClassOf(const Napi::Value &value) {
 }
 
 llvm::StoreInst *StoreInst::Extract(const Napi::Value &value) {
+    if (value.IsNull()) {
+        return nullptr;
+    }
     return Unwrap(value.As<Napi::Object>())->getLLVMPrimitive();
 }
 

@@ -45,6 +45,8 @@ void InitIR(Napi::Env env, Napi::Object &exports) {
     Metadata::Init(env, exports);
     MDNode::Init(env, exports);
     DILocation::Init(env, exports);
+    DIExpression::Init(env, exports);
+    DIGlobalVariableExpression::Init(env, exports);
     DINode::Init(env, exports);
     DIScope::Init(env, exports);
     DICompileUnit::Init(env, exports);
@@ -54,6 +56,9 @@ void InitIR(Napi::Env env, Napi::Object &exports) {
     DIType::Init(env, exports);
     DIBasicType::Init(env, exports);
     DISubroutineType::Init(env, exports);
+    DIVariable::Init(env, exports);
+    DILocalVariable::Init(env, exports);
+    DIGlobalVariable::Init(env, exports);
     DIBuilder::Init(env, exports);
     DITypeRefArray::Init(env, exports);
     DebugLoc::Init(env, exports);
