@@ -664,6 +664,18 @@ declare namespace llvm {
     }
 
     class Module {
+        public static readonly ModFlagBehavior: {
+            Error: number;
+            Warning: number;
+            Require: number;
+            Override: number;
+            Append: number;
+            AppendUnique: number;
+            Max: number;
+            ModFlagBehaviorFirstVal: number;
+            ModFlagBehaviorLastVal: number;
+        }
+
         public constructor(moduleID: string, context: LLVMContext);
 
         public empty(): boolean;
@@ -1426,11 +1438,11 @@ declare namespace llvm {
 
         public createParameterVariable(scope: DIScope, name: string, argNo: number, file: DIFile, line: number, type: DIType, alwaysPreserve?: boolean): DILocalVariable;
 
-        public createAutoVariable(scope: DIScope, name: string, file: DIFile, line: number, type: DIType, alwaysPreserve?: boolean): DILocalVariable;
+        public createAutoVariable(scope: DIScope, name: string, file: DIFile, line: number, type: DIType | null, alwaysPreserve?: boolean): DILocalVariable;
 
         public createGlobalVariableExpression(context: DIScope, name: string, linkage: string, file: DIFile, line: number, type: DIType, IsLocalToUnit: boolean): DIGlobalVariableExpression;
 
-        public insertDeclare(storage: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBB: BasicBlock | null): Instruction;
+        public insertDeclare(storage: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBB: BasicBlock): Instruction;
         public insertDeclare(storage: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBefore: Instruction): Instruction;
 
         public insertDbgValueIntrinsic(value: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBB: BasicBlock): Instruction;

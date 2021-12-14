@@ -4,6 +4,18 @@
 
 void Module::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
+
+    Napi::Object flagBehaviorNS = Napi::Object::New(env);
+    flagBehaviorNS.Set("Error", Napi::Number::New(env, llvm::Module::ModFlagBehavior::Error));
+    flagBehaviorNS.Set("Warning", Napi::Number::New(env, llvm::Module::ModFlagBehavior::Warning));
+    flagBehaviorNS.Set("Require", Napi::Number::New(env, llvm::Module::ModFlagBehavior::Require));
+    flagBehaviorNS.Set("Override", Napi::Number::New(env, llvm::Module::ModFlagBehavior::Override));
+    flagBehaviorNS.Set("Append", Napi::Number::New(env, llvm::Module::ModFlagBehavior::Append));
+    flagBehaviorNS.Set("AppendUnique", Napi::Number::New(env, llvm::Module::ModFlagBehavior::AppendUnique));
+    flagBehaviorNS.Set("Max", Napi::Number::New(env, llvm::Module::ModFlagBehavior::Max));
+    flagBehaviorNS.Set("ModFlagBehaviorFirstVal", Napi::Number::New(env, llvm::Module::ModFlagBehavior::ModFlagBehaviorFirstVal));
+    flagBehaviorNS.Set("ModFlagBehaviorLastVal", Napi::Number::New(env, llvm::Module::ModFlagBehavior::ModFlagBehaviorLastVal));
+
     Napi::Function func = DefineClass(env, "Module", {
             InstanceMethod("empty", &Module::empty),
             InstanceMethod("getFunction", &Module::getFunction),
@@ -20,7 +32,8 @@ void Module::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("getTargetTriple", &Module::getTargetTriple),
             InstanceMethod("setTargetTriple", &Module::setTargetTriple),
             InstanceMethod("print", &Module::print),
-            InstanceMethod("addModuleFlag", &Module::addModuleFlag)
+            InstanceMethod("addModuleFlag", &Module::addModuleFlag),
+            StaticValue("ModFlagBehavior", flagBehaviorNS)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
