@@ -1,47 +1,30 @@
-import {
-    BasicBlock,
-    DebugLoc,
-    DIBasicType,
-    DIBuilder,
-    DICompileUnit,
-    DIFile,
-    DILocation,
-    DISubprogram,
-    Function,
-    FunctionType,
-    IRBuilder,
-    LLVMContext,
-    Module,
-    dwarf,
-    verifyFunction,
-    verifyModule, DINode
-} from '..';
-import { getContextModuleBuilder } from './util';
+import path from 'path';
+import llvm from '..';
 
 function createAddFunc(
-    context: LLVMContext,
-    module: Module,
-    builder: IRBuilder,
-    debugInfoBuilder: DIBuilder,
-    debugInfoFile: DIFile,
-    debugInfoUnit: DICompileUnit,
-    debugInfoBasicType: DIBasicType): Function {
+    context: llvm.LLVMContext,
+    module: llvm.Module,
+    builder: llvm.IRBuilder,
+    debugInfoBuilder: llvm.DIBuilder,
+    debugInfoFile: llvm.DIFile,
+    debugInfoUnit: llvm.DICompileUnit,
+    debugInfoBasicType: llvm.DIBasicType): llvm.Function {
 
     const addFuncReturnType = builder.getInt32Ty();
     const addFuncParamTypes = [builder.getInt32Ty(), builder.getInt32Ty()];
-    const addFuncType = FunctionType.get(addFuncReturnType, addFuncParamTypes, false);
-    const addFunc = Function.Create(addFuncType, Function.LinkageTypes.ExternalLinkage, 'add', module);
+    const addFuncType = llvm.FunctionType.get(addFuncReturnType, addFuncParamTypes, false);
+    const addFunc = llvm.Function.Create(addFuncType, llvm.Function.LinkageTypes.ExternalLinkage, 'add', module);
     const debugInfoParamTypes = debugInfoBuilder.getOrCreateTypeArray([debugInfoBasicType, debugInfoBasicType, debugInfoBasicType]);
     const debugInfoSubroutineType = debugInfoBuilder.createSubroutineType(debugInfoParamTypes);
     const debugInfoAddFuncSubprogram = debugInfoBuilder.createFunction(
         debugInfoFile, 'add', '', debugInfoFile, 1,
-        debugInfoSubroutineType, 1, DINode.DIFlags.FlagPrototyped, DISubprogram.DISPFlags.SPFlagDefinition
+        debugInfoSubroutineType, 1, llvm.DINode.DIFlags.FlagPrototyped, llvm.DISubprogram.DISPFlags.SPFlagDefinition
     );
 
     addFunc.setSubprogram(debugInfoAddFuncSubprogram);
-    builder.SetCurrentDebugLocation(new DebugLoc());
+    builder.SetCurrentDebugLocation(new llvm.DebugLoc());
 
-    const entryBB = BasicBlock.Create(context, 'entry', addFunc);
+    const entryBB = llvm.BasicBlock.Create(context, 'entry', addFunc);
     builder.SetInsertPoint(entryBB);
 
     const allocaA = builder.CreateAlloca(builder.getInt32Ty(), null, 'a');
@@ -51,7 +34,7 @@ function createAddFunc(
         allocaA,
         diLocalVarA,
         debugInfoBuilder.createExpression(),
-        DILocation.get(context, 1, 0, debugInfoAddFuncSubprogram),
+        llvm.DILocation.get(context, 1, 0, debugInfoAddFuncSubprogram),
         builder.GetInsertBlock()!
     );
 
@@ -62,68 +45,68 @@ function createAddFunc(
         allocaB,
         diLocalVarB,
         debugInfoBuilder.createExpression(),
-        DILocation.get(context, 1, 0, debugInfoAddFuncSubprogram),
+        llvm.DILocation.get(context, 1, 0, debugInfoAddFuncSubprogram),
         builder.GetInsertBlock()!
     );
 
-    builder.SetCurrentDebugLocation(DILocation.get(context, 2, 12, debugInfoAddFuncSubprogram));
+    builder.SetCurrentDebugLocation(llvm.DILocation.get(context, 2, 12, debugInfoAddFuncSubprogram));
     const loadA = builder.CreateLoad(builder.getInt32Ty(), allocaA);
 
-    builder.SetCurrentDebugLocation(DILocation.get(context, 2, 16, debugInfoAddFuncSubprogram));
+    builder.SetCurrentDebugLocation(llvm.DILocation.get(context, 2, 16, debugInfoAddFuncSubprogram));
     const loadB = builder.CreateLoad(builder.getInt32Ty(), allocaB);
 
-    builder.SetCurrentDebugLocation(DILocation.get(context, 2, 14, debugInfoAddFuncSubprogram));
+    builder.SetCurrentDebugLocation(llvm.DILocation.get(context, 2, 14, debugInfoAddFuncSubprogram));
     const value = builder.CreateAdd(loadA, loadB);
 
-    builder.SetCurrentDebugLocation(DILocation.get(context, 2, 5, debugInfoAddFuncSubprogram));
+    builder.SetCurrentDebugLocation(llvm.DILocation.get(context, 2, 5, debugInfoAddFuncSubprogram));
     builder.CreateRet(value);
 
     debugInfoBuilder.finalizeSubprogram(debugInfoAddFuncSubprogram);
-    if (verifyFunction(addFunc)) {
-        console.error('Verifying function failed');
+    if (llvm.verifyFunction(addFunc)) {
+        console.error(`${path.basename(__filename)}: verifying the 'add' function failed`);
     }
     return addFunc;
 }
 
 function createMainFunc(
-    context: LLVMContext,
-    module: Module,
-    builder: IRBuilder,
-    debugInfoBuilder: DIBuilder,
-    debugInfoFile: DIFile,
-    debugInfoUnit: DICompileUnit,
-    debugInfoBasicType: DIBasicType,
-    addFunc: Function): Function {
+    context: llvm.LLVMContext,
+    module: llvm.Module,
+    builder: llvm.IRBuilder,
+    debugInfoBuilder: llvm.DIBuilder,
+    debugInfoFile: llvm.DIFile,
+    debugInfoUnit: llvm.DICompileUnit,
+    debugInfoBasicType: llvm.DIBasicType,
+    addFunc: llvm.Function): llvm.Function {
 
     const mainFuncReturnType = builder.getInt32Ty();
-    const mainFuncType = FunctionType.get(mainFuncReturnType, false);
-    const mainFunc = Function.Create(mainFuncType, Function.LinkageTypes.ExternalLinkage, 'main', module);
+    const mainFuncType = llvm.FunctionType.get(mainFuncReturnType, false);
+    const mainFunc = llvm.Function.Create(mainFuncType, llvm.Function.LinkageTypes.ExternalLinkage, 'main', module);
     const debugInfoParamTypes = debugInfoBuilder.getOrCreateTypeArray([debugInfoBasicType]);
     const debugInfoSubroutineType = debugInfoBuilder.createSubroutineType(debugInfoParamTypes);
     const debugInfoMainFuncSubprogram = debugInfoBuilder.createFunction(
         debugInfoFile, 'main', '', debugInfoFile, 5,
-        debugInfoSubroutineType, 5, DINode.DIFlags.FlagPrototyped, DISubprogram.DISPFlags.SPFlagDefinition
+        debugInfoSubroutineType, 5, llvm.DINode.DIFlags.FlagPrototyped, llvm.DISubprogram.DISPFlags.SPFlagDefinition
     );
 
     mainFunc.setSubprogram(debugInfoMainFuncSubprogram);
-    builder.SetCurrentDebugLocation(new DebugLoc());
+    builder.SetCurrentDebugLocation(new llvm.DebugLoc());
 
-    const entryBB = BasicBlock.Create(context, 'entry', mainFunc);
+    const entryBB = llvm.BasicBlock.Create(context, 'entry', mainFunc);
     builder.SetInsertPoint(entryBB);
 
-    const allocaA = builder.CreateAlloca(builder.getInt32Ty(), null, "a");
-    const allocaB = builder.CreateAlloca(builder.getInt32Ty(), null, "b");
-    const allocaC = builder.CreateAlloca(builder.getInt32Ty(), null, "c");
+    const allocaA = builder.CreateAlloca(builder.getInt32Ty(), null, 'a');
+    const allocaB = builder.CreateAlloca(builder.getInt32Ty(), null, 'b');
+    const allocaC = builder.CreateAlloca(builder.getInt32Ty(), null, 'c');
 
     const diLocalVarA = debugInfoBuilder.createAutoVariable(debugInfoMainFuncSubprogram, 'a', debugInfoFile, 6, debugInfoBasicType);
     debugInfoBuilder.insertDeclare(
         allocaA,
         diLocalVarA,
         debugInfoBuilder.createExpression(),
-        DILocation.get(context, 6, 9, debugInfoMainFuncSubprogram),
+        llvm.DILocation.get(context, 6, 9, debugInfoMainFuncSubprogram),
         builder.GetInsertBlock()!
     );
-    builder.SetCurrentDebugLocation(DILocation.get(context, 6, 9, debugInfoMainFuncSubprogram));
+    builder.SetCurrentDebugLocation(llvm.DILocation.get(context, 6, 9, debugInfoMainFuncSubprogram));
     builder.CreateStore(builder.getInt32(1), allocaA);
 
     const diLocalVarB = debugInfoBuilder.createAutoVariable(debugInfoMainFuncSubprogram, 'b', debugInfoFile, 7, debugInfoBasicType);
@@ -131,10 +114,10 @@ function createMainFunc(
         allocaB,
         diLocalVarB,
         debugInfoBuilder.createExpression(),
-        DILocation.get(context, 7, 9, debugInfoMainFuncSubprogram),
+        llvm.DILocation.get(context, 7, 9, debugInfoMainFuncSubprogram),
         builder.GetInsertBlock()!
     );
-    builder.SetCurrentDebugLocation(DILocation.get(context, 7, 9, debugInfoMainFuncSubprogram));
+    builder.SetCurrentDebugLocation(llvm.DILocation.get(context, 7, 9, debugInfoMainFuncSubprogram));
     builder.CreateStore(builder.getInt32(2), allocaB);
 
     const diLocalVarC = debugInfoBuilder.createAutoVariable(debugInfoMainFuncSubprogram, 'c', debugInfoFile, 8, debugInfoBasicType);
@@ -142,51 +125,54 @@ function createMainFunc(
         allocaC,
         diLocalVarC,
         debugInfoBuilder.createExpression(),
-        DILocation.get(context, 8, 9, debugInfoMainFuncSubprogram),
+        llvm.DILocation.get(context, 8, 9, debugInfoMainFuncSubprogram),
         builder.GetInsertBlock()!
     );
 
-    builder.SetCurrentDebugLocation(DILocation.get(context, 8, 17, debugInfoMainFuncSubprogram));
+    builder.SetCurrentDebugLocation(llvm.DILocation.get(context, 8, 17, debugInfoMainFuncSubprogram));
     const loadA = builder.CreateLoad(builder.getInt32Ty(), allocaA);
 
-    builder.SetCurrentDebugLocation(DILocation.get(context, 8, 20, debugInfoMainFuncSubprogram));
+    builder.SetCurrentDebugLocation(llvm.DILocation.get(context, 8, 20, debugInfoMainFuncSubprogram));
     const loadB = builder.CreateLoad(builder.getInt32Ty(), allocaB);
 
-    builder.SetCurrentDebugLocation(DILocation.get(context, 8, 13, debugInfoMainFuncSubprogram));
+    builder.SetCurrentDebugLocation(llvm.DILocation.get(context, 8, 13, debugInfoMainFuncSubprogram));
     const callRet = builder.CreateCall(addFunc, [loadA, loadB]);
 
-    builder.SetCurrentDebugLocation(DILocation.get(context, 8, 9, debugInfoMainFuncSubprogram));
+    builder.SetCurrentDebugLocation(llvm.DILocation.get(context, 8, 9, debugInfoMainFuncSubprogram));
     builder.CreateStore(callRet, allocaC);
 
-    builder.SetCurrentDebugLocation(DILocation.get(context, 9, 12, debugInfoMainFuncSubprogram));
+    builder.SetCurrentDebugLocation(llvm.DILocation.get(context, 9, 12, debugInfoMainFuncSubprogram));
     const loadC = builder.CreateLoad(builder.getInt32Ty(), allocaC);
 
-    builder.SetCurrentDebugLocation(DILocation.get(context, 9, 5, debugInfoMainFuncSubprogram));
+    builder.SetCurrentDebugLocation(llvm.DILocation.get(context, 9, 5, debugInfoMainFuncSubprogram));
     builder.CreateRet(loadC);
 
     debugInfoBuilder.finalizeSubprogram(debugInfoMainFuncSubprogram);
-    if (verifyFunction(mainFunc)) {
-        console.error('Verifying function failed');
+    if (llvm.verifyFunction(mainFunc)) {
+        console.error(`${path.basename(__filename)}: verifying the 'main' function failed`);
     }
     return mainFunc;
 }
 
-export default function (): void {
-    const { context, module, builder } = getContextModuleBuilder('debug-info.cpp');
-    module.addModuleFlag(2, "Debug Info Version", 3);
-    module.addModuleFlag(2, "Dwarf Version", 4);
-    const debugInfoBuilder = new DIBuilder(module);
-    const debugInfoFile = debugInfoBuilder.createFile('debug-info.cpp', __dirname);
-    const debugInfoUnit = debugInfoBuilder.createCompileUnit(dwarf.SourceLanguage.DW_LANG_C, debugInfoFile, "llvm-bindings", false, "", 0);
-    const debugInfoBasicType = debugInfoBuilder.createBasicType("int", 32, dwarf.TypeKind.DW_ATE_float);
+export default function testDebugInfo(): void {
+    const filename = path.basename(__filename);
+    const context = new llvm.LLVMContext();
+    const module = new llvm.Module(filename, context);
+    const builder = new llvm.IRBuilder(context);
+
+    module.addModuleFlag(llvm.Module.ModFlagBehavior.Warning, 'Debug Info Version', llvm.LLVMConstants.DEBUG_METADATA_VERSION);
+    module.addModuleFlag(llvm.Module.ModFlagBehavior.Warning, 'Dwarf Version', llvm.dwarf.LLVMConstants.DWARF_VERSION);
+    const debugInfoBuilder = new llvm.DIBuilder(module);
+    const debugInfoFile = debugInfoBuilder.createFile(path.basename(__filename), __dirname);
+    const debugInfoUnit = debugInfoBuilder.createCompileUnit(llvm.dwarf.SourceLanguage.DW_LANG_C, debugInfoFile, 'llvm-bindings', false, '', 0);
+    const debugInfoBasicType = debugInfoBuilder.createBasicType('int', 32, llvm.dwarf.TypeKind.DW_ATE_float);
 
     const addFunc = createAddFunc(context, module, builder, debugInfoBuilder, debugInfoFile, debugInfoUnit, debugInfoBasicType);
     createMainFunc(context, module, builder, debugInfoBuilder, debugInfoFile, debugInfoUnit, debugInfoBasicType, addFunc);
 
-
     debugInfoBuilder.finalize();
-    if (verifyModule(module)) {
-        console.error('Verifying module failed');
+    if (llvm.verifyModule(module)) {
+        console.error(`${filename}: verifying the module failed`);
         return;
     }
     module.print();

@@ -1,11 +1,17 @@
-import { BasicBlock, ConstantFP, verifyFunction, verifyModule } from '..';
-import { getContextModuleBuilder, createFunction } from './util';
+import path from 'path';
+import llvm from '..';
 
-export default function (): void {
-    const { context, module, builder } = getContextModuleBuilder('unary.cpp');
+export default function testUnary(): void {
+    const filename = path.basename(__filename);
+    const context = new llvm.LLVMContext();
+    const module = new llvm.Module(filename, context);
+    const builder = new llvm.IRBuilder(context);
+
     const returnType = builder.getVoidTy();
-    const func = createFunction('unary', returnType, [], module);
-    const entryBB = BasicBlock.Create(context, 'entry', func);
+    const functionType = llvm.FunctionType.get(returnType, false);
+    const func = llvm.Function.Create(functionType, llvm.Function.LinkageTypes.ExternalLinkage, 'unary', module);
+
+    const entryBB = llvm.BasicBlock.Create(context, 'entry', func);
     builder.SetInsertPoint(entryBB);
 
     const boolAlloca = builder.CreateAlloca(builder.getInt1Ty(), null, 'bool_alloca');
@@ -27,19 +33,19 @@ export default function (): void {
     builder.CreateStore(negIntegerValue, integerAlloca);
 
     const floatAlloca = builder.CreateAlloca(builder.getDoubleTy(), null, 'float_alloca');
-    builder.CreateStore(ConstantFP.get(builder.getDoubleTy(), 11.1), floatAlloca);
+    builder.CreateStore(llvm.ConstantFP.get(builder.getDoubleTy(), 11.1), floatAlloca);
     const floatValue = builder.CreateLoad(builder.getDoubleTy(), floatAlloca, 'float_value');
     const negFloatValue = builder.CreateFNeg(floatValue, 'neg_float_value');
     builder.CreateStore(negFloatValue, floatAlloca);
 
     builder.CreateRetVoid()
 
-    if (verifyFunction(func)) {
-        console.error('Verifying function failed');
+    if (llvm.verifyFunction(func)) {
+        console.error(`${filename}: verifying the 'unary' function failed`);
         return;
     }
-    if (verifyModule(module)) {
-        console.error('Verifying module failed');
+    if (llvm.verifyModule(module)) {
+        console.error(`${filename}: verifying the module failed`);
         return;
     }
     module.print();

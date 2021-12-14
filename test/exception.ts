@@ -1,32 +1,30 @@
-import {
-    BasicBlock,
-    ConstantPointerNull,
-    Function,
-    FunctionType,
-    GlobalVariable,
-    PointerType,
-    verifyFunction,
-    verifyModule
-} from '..';
-import { getContextModuleBuilder, createFunction } from './util';
+import path from 'path';
+import llvm from '..';
 
-export default function () {
-    const { context, module, builder } = getContextModuleBuilder('exception.cpp');
+export default function testException() {
+    const filename = path.basename(__filename);
+    const context = new llvm.LLVMContext();
+    const module = new llvm.Module(filename, context);
+    const builder = new llvm.IRBuilder(context);
+
     const i8PtrType = builder.getInt8PtrTy();
     const voidType = builder.getVoidTy();
-    const mainFunc = createFunction('main', voidType, [], module);
-    const allocExceptionFuncType = FunctionType.get(i8PtrType, [builder.getInt64Ty()], false);
+
+    const functionType = llvm.FunctionType.get(voidType, false);
+    const mainFunc = llvm.Function.Create(functionType, llvm.Function.LinkageTypes.ExternalLinkage, 'exception', module);
+
+    const allocExceptionFuncType = llvm.FunctionType.get(i8PtrType, [builder.getInt64Ty()], false);
     const allocExceptionFunc = module.getOrInsertFunction('__cxa_allocate_exception', allocExceptionFuncType);
-    const throwFuncType = FunctionType.get(voidType, [i8PtrType, i8PtrType, i8PtrType], false);
+    const throwFuncType = llvm.FunctionType.get(voidType, [i8PtrType, i8PtrType, i8PtrType], false);
     const throwFunc = module.getOrInsertFunction('__cxa_throw', throwFuncType);
 
-    const entryBB = BasicBlock.Create(context, 'entry', mainFunc);
+    const entryBB = llvm.BasicBlock.Create(context, 'entry', mainFunc);
     builder.SetInsertPoint(entryBB);
 
     const errMsgStr = builder.CreateGlobalString('error message');
 
     const tmp1 = builder.CreateCall(allocExceptionFunc, [builder.getInt64(8)]);
-    const tmp2 = builder.CreateBitCast(tmp1, PointerType.getUnqual(builder.getInt8PtrTy()));
+    const tmp2 = builder.CreateBitCast(tmp1, llvm.PointerType.getUnqual(builder.getInt8PtrTy()));
     builder.CreateStore(
         builder.CreateInBoundsGEP(
             errMsgStr.getType().getPointerElementType(),
@@ -35,23 +33,23 @@ export default function () {
         ),
         tmp2
     );
-    const tinfo = new GlobalVariable(
+    const tinfo = new llvm.GlobalVariable(
         module,
         builder.getInt8PtrTy(),
         true,
-        Function.LinkageTypes.ExternalLinkage,
+        llvm.Function.LinkageTypes.ExternalLinkage,
         null
     );
     const tmp3 = builder.CreateBitCast(tinfo, builder.getInt8PtrTy());
-    builder.CreateCall(throwFunc, [tmp1, tmp3, ConstantPointerNull.get(builder.getInt8PtrTy())]);
+    builder.CreateCall(throwFunc, [tmp1, tmp3, llvm.ConstantPointerNull.get(builder.getInt8PtrTy())]);
     builder.CreateUnreachable();
 
-    if (verifyFunction(mainFunc)) {
-        console.error('Verifying function failed');
+    if (llvm.verifyFunction(mainFunc)) {
+        console.error(`${filename}: verifying the 'exception' function failed`);
         return;
     }
-    if (verifyModule(module)) {
-        console.error('Verifying module failed');
+    if (llvm.verifyModule(module)) {
+        console.error(`${filename}: verifying the module failed`);
         return;
     }
     module.print();

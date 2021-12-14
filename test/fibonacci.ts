@@ -1,15 +1,20 @@
-import { BasicBlock, verifyFunction, verifyModule } from '..';
-import { getContextModuleBuilder, createFunction } from './util';
+import path from 'path';
+import llvm from '..';
 
-export default function (): void {
-    const { context, module, builder } = getContextModuleBuilder('fibonacci.cpp');
+export default function testFibonacci(): void {
+    const filename = path.basename(__filename);
+    const context = new llvm.LLVMContext();
+    const module = new llvm.Module(filename, context);
+    const builder = new llvm.IRBuilder(context);
+
     const returnType = builder.getInt32Ty();
     const paramTypes = [builder.getInt32Ty()];
-    const func = createFunction('fibonacci', returnType, paramTypes, module);
+    const functionType = llvm.FunctionType.get(returnType, paramTypes, false);
+    const func = llvm.Function.Create(functionType, llvm.Function.LinkageTypes.ExternalLinkage, 'fibonacci', module);
 
-    const entryBB = BasicBlock.Create(context, 'entry', func);
-    const thenBB = BasicBlock.Create(context, 'then', func);
-    const elseBB = BasicBlock.Create(context, 'else', func);
+    const entryBB = llvm.BasicBlock.Create(context, 'entry', func);
+    const thenBB = llvm.BasicBlock.Create(context, 'then', func);
+    const elseBB = llvm.BasicBlock.Create(context, 'else', func);
 
     builder.SetInsertPoint(entryBB);
     const cond = builder.CreateICmpULE(func.getArg(0), builder.getInt32(1), 'cond');
@@ -26,12 +31,12 @@ export default function (): void {
     const result = builder.CreateAdd(ret1, ret2);
     builder.CreateRet(result);
 
-    if (verifyFunction(func)) {
-        console.error('Verifying function failed');
+    if (llvm.verifyFunction(func)) {
+        console.error(`${filename}: verifying the 'fibonacci' function failed`);
         return;
     }
-    if (verifyModule(module)) {
-        console.error('Verifying module failed');
+    if (llvm.verifyModule(module)) {
+        console.error(`${filename}: verifying the module failed`);
         return;
     }
     module.print();

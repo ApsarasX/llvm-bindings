@@ -1,10 +1,17 @@
-import { BasicBlock, verifyFunction, verifyModule } from '..';
-import { getContextModuleBuilder, createFunction } from './util';
+import path from 'path';
+import llvm from '..';
 
-export default function (): void {
-    const { context, module, builder } = getContextModuleBuilder('variable.cpp');
-    const func = createFunction('test', builder.getVoidTy(), [], module);
-    const entryBB = BasicBlock.Create(context, 'entry', func);
+export default function testVariable(): void {
+    const filename = path.basename(__filename);
+    const context = new llvm.LLVMContext();
+    const module = new llvm.Module(filename, context);
+    const builder = new llvm.IRBuilder(context);
+
+    const returnType = builder.getInt32Ty();
+    const functionType = llvm.FunctionType.get(returnType, false);
+    const func = llvm.Function.Create(functionType, llvm.Function.LinkageTypes.ExternalLinkage, 'variable', module);
+
+    const entryBB = llvm.BasicBlock.Create(context, 'entry', func);
     builder.SetInsertPoint(entryBB);
     const alloca = builder.CreateAlloca(builder.getInt32Ty(), null, 'a');
     builder.CreateStore(builder.getInt32(11), alloca);
@@ -17,12 +24,12 @@ export default function (): void {
 
     builder.CreateRetVoid();
 
-    if (verifyFunction(func)) {
-        console.error('Verifying function failed');
+    if (llvm.verifyFunction(func)) {
+        console.error(`${filename}: 'verifying the function failed`);
         return;
     }
-    if (verifyModule(module)) {
-        console.error('Verifying module failed');
+    if (llvm.verifyModule(module)) {
+        console.error(`${filename}: verifying the module failed`);
         return;
     }
     module.print();

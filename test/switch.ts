@@ -1,17 +1,22 @@
-import { BasicBlock, verifyFunction, verifyModule } from '..';
-import { getContextModuleBuilder, createFunction } from './util';
+import path from 'path';
+import llvm from '..';
 
-export default function (): void {
-    const { context, module, builder } = getContextModuleBuilder('switch.cpp');
+export default function testSwitch(): void {
+    const filename = path.basename(__filename);
+    const context = new llvm.LLVMContext();
+    const module = new llvm.Module(filename, context);
+    const builder = new llvm.IRBuilder(context);
+
     const returnType = builder.getInt32Ty();
     const paramTypes = [builder.getInt32Ty()];
-    const func = createFunction('process', returnType, paramTypes, module);
+    const functionType = llvm.FunctionType.get(returnType, paramTypes, false);
+    const func = llvm.Function.Create(functionType, llvm.Function.LinkageTypes.ExternalLinkage, 'switch', module);
 
-    const entryBB = BasicBlock.Create(context, 'entry', func);
-    const case1BB = BasicBlock.Create(context, 'switch.case1', func);
-    const case2BB = BasicBlock.Create(context, 'switch.case2', func);
-    const defaultCaseBB = BasicBlock.Create(context, 'switch.default', func);
-    const exitBB = BasicBlock.Create(context, 'switch.exit', func);
+    const entryBB = llvm.BasicBlock.Create(context, 'entry', func);
+    const case1BB = llvm.BasicBlock.Create(context, 'switch.case1', func);
+    const case2BB = llvm.BasicBlock.Create(context, 'switch.case2', func);
+    const defaultCaseBB = llvm.BasicBlock.Create(context, 'switch.default', func);
+    const exitBB = llvm.BasicBlock.Create(context, 'switch.exit', func);
 
     // entry
     builder.SetInsertPoint(entryBB);
@@ -40,12 +45,12 @@ export default function (): void {
     const retVal = builder.CreateLoad(builder.getInt32Ty(), retPtr);
     builder.CreateRet(retVal);
 
-    if (verifyFunction(func)) {
-        console.error('Verifying function failed');
+    if (llvm.verifyFunction(func)) {
+        console.error(`${filename}: verifying the 'switch' function failed`);
         return;
     }
-    if (verifyModule(module)) {
-        console.error('Verifying module failed');
+    if (llvm.verifyModule(module)) {
+        console.error(`${filename}: verifying the module failed`);
         return;
     }
     module.print();
