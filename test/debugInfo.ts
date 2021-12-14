@@ -52,9 +52,8 @@ function createAddFunc(
         diLocalVarA,
         debugInfoBuilder.createExpression(),
         DILocation.get(context, 1, 0, debugInfoAddFuncSubprogram),
-        builder.GetInsertBlock()
+        builder.GetInsertBlock()!
     );
-
 
     const allocaB = builder.CreateAlloca(builder.getInt32Ty(), null, 'b');
     builder.CreateStore(addFunc.getArg(1), allocaB);
@@ -64,7 +63,7 @@ function createAddFunc(
         diLocalVarB,
         debugInfoBuilder.createExpression(),
         DILocation.get(context, 1, 0, debugInfoAddFuncSubprogram),
-        builder.GetInsertBlock()
+        builder.GetInsertBlock()!
     );
 
     builder.SetCurrentDebugLocation(DILocation.get(context, 2, 12, debugInfoAddFuncSubprogram));
@@ -122,7 +121,7 @@ function createMainFunc(
         diLocalVarA,
         debugInfoBuilder.createExpression(),
         DILocation.get(context, 6, 9, debugInfoMainFuncSubprogram),
-        builder.GetInsertBlock()
+        builder.GetInsertBlock()!
     );
     builder.SetCurrentDebugLocation(DILocation.get(context, 6, 9, debugInfoMainFuncSubprogram));
     builder.CreateStore(builder.getInt32(1), allocaA);
@@ -133,7 +132,7 @@ function createMainFunc(
         diLocalVarB,
         debugInfoBuilder.createExpression(),
         DILocation.get(context, 7, 9, debugInfoMainFuncSubprogram),
-        builder.GetInsertBlock()
+        builder.GetInsertBlock()!
     );
     builder.SetCurrentDebugLocation(DILocation.get(context, 7, 9, debugInfoMainFuncSubprogram));
     builder.CreateStore(builder.getInt32(2), allocaB);
@@ -144,7 +143,7 @@ function createMainFunc(
         diLocalVarC,
         debugInfoBuilder.createExpression(),
         DILocation.get(context, 8, 9, debugInfoMainFuncSubprogram),
-        builder.GetInsertBlock()
+        builder.GetInsertBlock()!
     );
 
     builder.SetCurrentDebugLocation(DILocation.get(context, 8, 17, debugInfoMainFuncSubprogram));
