@@ -49,6 +49,17 @@ sudo apt-get install cmake
 npm install llvm-bindings
 ```
 
+### Custom LLVM Installation
+You can use the npm configuration options to set the path to the LLVM cmake directory. This is needed if you don't want to use the system default LLVM installation.
+
+```shell
+# specify the llvm cmake directory by npm and cmake-js
+npm config set cmake_LLVM_DIR $(path-to-llvm/bin/llvm-config --cmakedir)
+
+# install llvm-bindings by npm
+npm install llvm-bindings
+```
+
 ## Usage
 
 ```javascript
