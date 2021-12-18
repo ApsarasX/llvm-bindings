@@ -1,3 +1,21 @@
+## [0.3.2](https://github.com/ApsarasX/llvm-bindings/compare/v0.3.1...v0.3.2) (2021-12-18)
+
+
+### Bug Fixes
+
+* **IR:** the insertBB passed into DIBuilder.insertDeclare may be null ([ea0760b](https://github.com/ApsarasX/llvm-bindings/commit/ea0760b91dde64518cc64987758e3fab28de7c05))
+
+
+### Features
+
+* **IR:** add DILexicalBlock and DIBuilder.createLexicalBlock ([38519e0](https://github.com/ApsarasX/llvm-bindings/commit/38519e039d98aeaa2ed55b6a9425840c05bec344))
+* **IR:** add Module.ModFlagBehavior(enum) ([2c4f1be](https://github.com/ApsarasX/llvm-bindings/commit/2c4f1be72bf46aeae2a4ce4534b5d7379feba8bf))
+* **IR:** add some classes and methods related to debug information ([7531651](https://github.com/ApsarasX/llvm-bindings/commit/75316515fb0ac3d4f18ab46093b562897b5b5a81))
+* **IR:** supplement more classes and methods related to debug information ([4314aaa](https://github.com/ApsarasX/llvm-bindings/commit/4314aaa6a04968c5190a323f39bb8b02000f3704))
+* **IR:** supplement some enums related to debug information ([c08e087](https://github.com/ApsarasX/llvm-bindings/commit/c08e087c34277aa579d1a36d0148d2429e541070))
+
+
+
 ## [0.3.1](https://github.com/ApsarasX/llvm-bindings/compare/v0.3.0...v0.3.1) (2021-11-09)
 
 
