@@ -18,5 +18,3 @@ private:
 
     llvm::Linker *linker = nullptr;
 };
-
-void InitLinker(Napi::Env env, Napi::Object &exports);

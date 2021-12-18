@@ -7,8 +7,133 @@ declare namespace llvm {
         public constructor(value: number);
     }
 
+    namespace LLVMConstants {
+        const DEBUG_METADATA_VERSION: number;
+    }
+
+    namespace dwarf {
+        namespace LLVMConstants {
+            const DWARF_VERSION: number;
+        }
+        namespace TypeKind {
+            const DW_ATE_address: number;
+            const DW_ATE_boolean: number;
+            const DW_ATE_complex_float: number;
+            const DW_ATE_float: number;
+            const DW_ATE_signed: number;
+            const DW_ATE_signed_char: number;
+            const DW_ATE_unsigned: number;
+            const DW_ATE_unsigned_char: number;
+            const DW_ATE_imaginary_float: number;
+            const DW_ATE_packed_decimal: number;
+            const DW_ATE_numeric_string: number;
+            const DW_ATE_edited: number;
+            const DW_ATE_signed_fixed: number;
+            const DW_ATE_unsigned_fixed: number;
+            const DW_ATE_decimal_float: number;
+            const DW_ATE_UTF: number;
+            const DW_ATE_UCS: number;
+            const DW_ATE_ASCII: number;
+            const DW_ATE_lo_user: number;
+            const DW_ATE_hi_user: number;
+        }
+        namespace SourceLanguage {
+            const DW_LANG_C89: number;
+            const DW_LANG_C: number;
+            const DW_LANG_Ada83: number;
+            const DW_LANG_C_plus_plus: number;
+            const DW_LANG_Cobol74: number;
+            const DW_LANG_Cobol85: number;
+            const DW_LANG_Fortran77: number;
+            const DW_LANG_Fortran90: number;
+            const DW_LANG_Pascal83: number;
+            const DW_LANG_Modula2: number;
+            const DW_LANG_Java: number;
+            const DW_LANG_C99: number;
+            const DW_LANG_Ada95: number;
+            const DW_LANG_Fortran95: number;
+            const DW_LANG_PLI: number;
+            const DW_LANG_ObjC: number;
+            const DW_LANG_ObjC_plus_plus: number;
+            const DW_LANG_UPC: number;
+            const DW_LANG_D: number;
+            const DW_LANG_Python: number;
+            const DW_LANG_OpenCL: number;
+            const DW_LANG_Go: number;
+            const DW_LANG_Modula3: number;
+            const DW_LANG_Haskell: number;
+            const DW_LANG_C_plus_plus_03: number;
+            const DW_LANG_C_plus_plus_11: number;
+            const DW_LANG_OCaml: number;
+            const DW_LANG_Rust: number;
+            const DW_LANG_C11: number;
+            const DW_LANG_Swift: number;
+            const DW_LANG_Julia: number;
+            const DW_LANG_Dylan: number;
+            const DW_LANG_C_plus_plus_14: number;
+            const DW_LANG_Fortran03: number;
+            const DW_LANG_Fortran08: number;
+            const DW_LANG_RenderScript: number;
+            const DW_LANG_BLISS: number;
+            const DW_LANG_lo_user: number;
+            const DW_LANG_hi_user: number;
+        }
+    }
+
+    function WriteBitcodeToFile(module: Module, filename: string): void;
+
     class LLVMContext {
         public constructor();
+    }
+
+    class Module {
+        public static readonly ModFlagBehavior: {
+            Error: number;
+            Warning: number;
+            Require: number;
+            Override: number;
+            Append: number;
+            AppendUnique: number;
+            Max: number;
+            ModFlagBehaviorFirstVal: number;
+            ModFlagBehaviorLastVal: number;
+        }
+
+        public constructor(moduleID: string, context: LLVMContext);
+
+        public empty(): boolean;
+
+        public getFunction(name: string): Function | null;
+
+        public getOrInsertFunction(name: string, funcType: FunctionType): FunctionCallee;
+
+        public getGlobalVariable(name: string, allowInternal?: boolean): GlobalVariable | null;
+
+        public getTypeByName(name: string): StructType | null;
+
+        public getName(): string;
+
+        public getDataLayout(): DataLayout;
+
+        public setDataLayout(desc: string): void;
+        public setDataLayout(dataLayout: DataLayout): void;
+
+        public getModuleIdentifier(): string;
+
+        public setModuleIdentifier(moduleID: string): void;
+
+        public getSourceFileName(): string;
+
+        public setSourceFileName(sourceFileName: string): void;
+
+        public getTargetTriple(): string;
+
+        public setTargetTriple(triple: string): void;
+
+        // customized
+        public print(filename?: string): void;
+
+        public addModuleFlag(behavior: number, key: string, value: number): void;
     }
 
     class Type {
@@ -176,34 +301,6 @@ declare namespace llvm {
         protected constructor();
     }
 
-    class PointerType extends Type {
-        public static get(elementType: Type, addrSpace: number): PointerType;
-
-        public static getUnqual(elementType: Type): PointerType;
-
-        public getElementType(): Type;
-
-        // duplicated
-        public isPointerTy(): boolean;
-
-        // duplicated
-        public isStructTy(): boolean;
-
-        // duplicated
-        public isIntegerTy(bitWidth?: number): boolean;
-
-        // duplicated
-        public isVoidTy(): boolean;
-
-        // duplicated
-        public getTypeID(): number;
-
-        // duplicated
-        public getPointerElementType(): Type;
-
-        protected constructor();
-    }
-
     class FunctionType extends Type {
         public static get(returnType: Type, isVarArg: boolean): FunctionType;
         public static get(returnType: Type, paramTypes: Type[], isVarArg: boolean): FunctionType;
@@ -213,6 +310,14 @@ declare namespace llvm {
 
         // duplicated
         public getTypeID(): number;
+
+        protected constructor();
+    }
+
+    class FunctionCallee {
+        public getFunctionType(): FunctionType;
+
+        public getCallee(): Value;
 
         protected constructor();
     }
@@ -261,6 +366,34 @@ declare namespace llvm {
 
         // duplicated
         public getTypeID(): number;
+
+        protected constructor();
+    }
+
+    class PointerType extends Type {
+        public static get(elementType: Type, addrSpace: number): PointerType;
+
+        public static getUnqual(elementType: Type): PointerType;
+
+        public getElementType(): Type;
+
+        // duplicated
+        public isPointerTy(): boolean;
+
+        // duplicated
+        public isStructTy(): boolean;
+
+        // duplicated
+        public isIntegerTy(bitWidth?: number): boolean;
+
+        // duplicated
+        public isVoidTy(): boolean;
+
+        // duplicated
+        public getTypeID(): number;
+
+        // duplicated
+        public getPointerElementType(): Type;
 
         protected constructor();
     }
@@ -341,144 +474,6 @@ declare namespace llvm {
         protected constructor();
     }
 
-    class Instruction extends User {
-        public user_back(): Instruction | null;
-
-        public getParent(): BasicBlock | null;
-
-        public getModule(): Module | null;
-
-        public getFunction(): Function | null;
-
-        // duplicated
-        public getType(): Type;
-
-        // duplicated
-        public setDebugLoc(location: DebugLoc): void;
-
-        protected constructor();
-    }
-
-    class AllocaInst extends Instruction {
-        public getAllocatedType(): Type;
-
-        public getArraySize(): Value;
-
-        // duplicated
-        public getType(): llvm.Type;
-
-        // duplicated
-        public setDebugLoc(location: DebugLoc): void;
-
-        protected constructor();
-    }
-
-    class BranchInst extends Instruction {
-        public isUnconditional(): boolean;
-
-        public isConditional(): boolean;
-
-        public getCondition(): Value;
-
-        public getNumSuccessors(): number;
-
-        public getSuccessor(i: number): BasicBlock;
-
-        // duplicated
-        public setDebugLoc(location: DebugLoc): void;
-
-        protected constructor();
-    }
-
-    class CallInst extends Instruction {
-        // duplicated
-        public setDebugLoc(location: DebugLoc): void;
-
-        protected constructor();
-    }
-
-    class InvokeInst extends Instruction {
-        // duplicated
-        public setDebugLoc(location: DebugLoc): void;
-
-        protected constructor();
-    }
-
-    class LoadInst extends Instruction {
-        // duplicated
-        public getType(): llvm.Type;
-
-        // duplicated
-        public setDebugLoc(location: DebugLoc): void;
-
-        protected constructor();
-    }
-
-    class ReturnInst extends Instruction {
-        public getReturnValue(): Value;
-
-        // duplicated
-        public setDebugLoc(location: DebugLoc): void;
-
-        protected constructor();
-    }
-
-    class ResumeInst extends Instruction {
-        // duplicated
-        public setDebugLoc(location: DebugLoc): void;
-
-        protected constructor();
-    }
-
-    class SwitchInst extends Instruction {
-        public addCase(onVal: ConstantInt, dest: BasicBlock): void;
-
-        // duplicated
-        public setDebugLoc(location: DebugLoc): void;
-
-        protected constructor();
-    }
-
-    class StoreInst extends Instruction {
-        public getValueOperand(): Value;
-
-        public getPointerOperand(): Value;
-
-        public getPointerOperandType(): Type;
-
-        // duplicated
-        public setDebugLoc(location: DebugLoc): void;
-
-        protected constructor();
-    }
-
-    class LandingPadInst extends Instruction {
-        public setCleanup(value: boolean): void;
-
-        public addClause(clauseVal: Constant): void;
-
-        // duplicated
-        public setDebugLoc(location: DebugLoc): void;
-
-        protected constructor();
-    }
-
-    class UnreachableInst extends Instruction {
-        // duplicated
-        public setDebugLoc(location: DebugLoc): void;
-
-        protected constructor();
-    }
-
-    class PHINode extends Instruction {
-        public addIncoming(value: Value, basicBlock: BasicBlock): void;
-
-        // duplicated
-        public setDebugLoc(location: DebugLoc): void;
-
-        protected constructor();
-    }
-
     class Constant extends User {
         public static getNullValue(type: Type): Constant;
 
@@ -526,11 +521,8 @@ declare namespace llvm {
         protected constructor();
     }
 
-    class ConstantExpr extends Constant {
-        public static getBitCast(constant: Constant, type: Type): Constant;
-
-        // duplicated
-        public getType(): Type;
+    class ConstantStruct extends Constant {
+        public static get(type: StructType, values: Constant[]): Constant;
 
         protected constructor();
     }
@@ -543,8 +535,11 @@ declare namespace llvm {
         protected constructor();
     }
 
-    class ConstantStruct extends Constant {
-        public static get(type: StructType, values: Constant[]): Constant;
+    class ConstantExpr extends Constant {
+        public static getBitCast(constant: Constant, type: Type): Constant;
+
+        // duplicated
+        public getType(): Type;
 
         protected constructor();
     }
@@ -649,68 +644,142 @@ declare namespace llvm {
         protected constructor();
     }
 
-    class FunctionCallee {
-        public getFunctionType(): FunctionType;
+    class Instruction extends User {
+        public user_back(): Instruction | null;
 
-        public getCallee(): Value;
+        public getParent(): BasicBlock | null;
+
+        public getModule(): Module | null;
+
+        public getFunction(): Function | null;
+
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
 
         protected constructor();
     }
 
-    class DataLayout {
-        public constructor(desc: string);
+    class AllocaInst extends Instruction {
+        public getAllocatedType(): Type;
 
-        public getTypeAllocSize(type: Type): number;
+        public getArraySize(): Value;
+
+        // duplicated
+        public getType(): llvm.Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
     }
 
-    class Module {
-        public static readonly ModFlagBehavior: {
-            Error: number;
-            Warning: number;
-            Require: number;
-            Override: number;
-            Append: number;
-            AppendUnique: number;
-            Max: number;
-            ModFlagBehaviorFirstVal: number;
-            ModFlagBehaviorLastVal: number;
-        }
+    class LoadInst extends Instruction {
+        // duplicated
+        public getType(): llvm.Type;
 
-        public constructor(moduleID: string, context: LLVMContext);
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
 
-        public empty(): boolean;
+        protected constructor();
+    }
 
-        public getFunction(name: string): Function | null;
+    class StoreInst extends Instruction {
+        public getValueOperand(): Value;
 
-        public getOrInsertFunction(name: string, funcType: FunctionType): FunctionCallee;
+        public getPointerOperand(): Value;
 
-        public getGlobalVariable(name: string, allowInternal?: boolean): GlobalVariable | null;
+        public getPointerOperandType(): Type;
 
-        public getTypeByName(name: string): StructType | null;
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
 
-        public getName(): string;
+        protected constructor();
+    }
 
-        public getDataLayout(): DataLayout;
+    class CallInst extends Instruction {
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
 
-        public setDataLayout(desc: string): void;
-        public setDataLayout(dataLayout: DataLayout): void;
+        protected constructor();
+    }
 
-        public getModuleIdentifier(): string;
+    class PHINode extends Instruction {
+        public addIncoming(value: Value, basicBlock: BasicBlock): void;
 
-        public setModuleIdentifier(moduleID: string): void;
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
 
-        public getSourceFileName(): string;
+        protected constructor();
+    }
 
-        public setSourceFileName(sourceFileName: string): void;
+    class LandingPadInst extends Instruction {
+        public setCleanup(value: boolean): void;
 
-        public getTargetTriple(): string;
+        public addClause(clauseVal: Constant): void;
 
-        public setTargetTriple(triple: string): void;
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
 
-        // customized
-        public print(filename?: string): void;
+        protected constructor();
+    }
 
-        public addModuleFlag(behavior: number, key: string, value: number): void;
+    class ReturnInst extends Instruction {
+        public getReturnValue(): Value;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class BranchInst extends Instruction {
+        public isUnconditional(): boolean;
+
+        public isConditional(): boolean;
+
+        public getCondition(): Value;
+
+        public getNumSuccessors(): number;
+
+        public getSuccessor(i: number): BasicBlock;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class SwitchInst extends Instruction {
+        public addCase(onVal: ConstantInt, dest: BasicBlock): void;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class InvokeInst extends Instruction {
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class ResumeInst extends Instruction {
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class UnreachableInst extends Instruction {
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
     }
 
     class IRBuilder {
@@ -976,6 +1045,192 @@ declare namespace llvm {
             protected constructor();
         }
     }
+
+    class Metadata {
+        protected constructor();
+    }
+
+    class MDNode extends Metadata {
+        protected constructor();
+    }
+
+    class DebugLoc {
+        public constructor();
+    }
+
+    class DITypeRefArray {
+        protected constructor();
+    }
+
+    class DINode extends MDNode {
+        public static readonly DIFlags: {
+            FlagZero: number;
+            FlagPrivate: number;
+            FlagProtected: number;
+            FlagPublic: number;
+            FlagFwdDecl: number;
+            FlagAppleBlock: number;
+            FlagReservedBit4: number;
+            FlagVirtual: number;
+            FlagArtificial: number;
+            FlagExplicit: number;
+            FlagPrototyped: number;
+            FlagObjcClassComplete: number;
+            FlagObjectPointer: number;
+            FlagVector: number;
+            FlagStaticMember: number;
+            FlagLValueReference: number;
+            FlagRValueReference: number;
+            FlagExportSymbols: number;
+            FlagSingleInheritance: number;
+            FlagMultipleInheritance: number;
+            FlagVirtualInheritance: number;
+            FlagIntroducedVirtual: number;
+            FlagBitField: number;
+            FlagNoReturn: number;
+            FlagTypePassByValue: number;
+            FlagTypePassByReference: number;
+            FlagEnumClass: number;
+            FlagThunk: number;
+            FlagNonTrivial: number;
+            FlagBigEndian: number;
+            FlagLittleEndian: number;
+            FlagAllCallsDescribed: number;
+            FlagIndirectVirtualBase: number;
+            FlagAccessibility: number;
+            FlagPtrToMemberRep: number;
+        }
+
+        protected constructor();
+    }
+
+    class DIScope extends DINode {
+        protected constructor();
+    }
+
+    class DIFile extends DIScope {
+        protected constructor();
+    }
+
+    class DIType extends DIScope {
+        protected constructor();
+    }
+
+    class DIBasicType extends DIType {
+        protected constructor();
+    }
+
+    class DISubroutineType extends DIType {
+        protected constructor();
+    }
+
+    class DICompileUnit extends DIScope {
+        public getFile(): DIFile;
+
+        protected constructor();
+    }
+
+    class DILocalScope extends DIScope {
+        protected constructor();
+    }
+
+    class DILocation extends MDNode {
+        public static get(context: LLVMContext, line: number, column: number, metadata: Metadata): DILocation;
+        public static get(context: LLVMContext, line: number, column: number, scope: DILocalScope): DILocation;
+
+        protected constructor();
+    }
+
+    class DISubprogram extends DILocalScope {
+        public static readonly DISPFlags: {
+            SPFlagZero: number;
+            SPFlagVirtual: number;
+            SPFlagPureVirtual: number;
+            SPFlagLocalToUnit: number;
+            SPFlagDefinition: number;
+            SPFlagOptimized: number;
+            SPFlagPure: number;
+            SPFlagElemental: number;
+            SPFlagRecursive: number;
+            SPFlagMainSubprogram: number;
+            SPFlagDeleted: number;
+            SPFlagObjCDirect: number;
+            SPFlagNonvirtual: number;
+            SPFlagVirtuality: number;
+        }
+
+        protected constructor();
+    }
+
+    class DILexicalBlock extends DILocalScope {
+        protected constructor();
+    }
+
+    class DIVariable extends DINode {
+        protected constructor();
+    }
+
+    class DIExpression extends MDNode {
+        protected constructor();
+    }
+
+    class DIGlobalVariableExpression extends MDNode {
+        protected constructor();
+    }
+
+    class DILocalVariable extends DIVariable {
+        protected constructor();
+    }
+
+    class DIGlobalVariable extends DIVariable {
+        protected constructor();
+    }
+
+    class DIBuilder {
+        public constructor(module: Module);
+
+        public createFile(filename: string, directory: string): DIFile;
+
+        public createCompileUnit(lang: number, file: DIFile, producer: string, isOptimized: boolean, flags: string, rv: number): DICompileUnit;
+
+        public createFunction(scope: DIScope, name: string, linkage: string, file: DIFile, line: number, type: DISubroutineType, scopeLine: number, flags: number, spFlags: number): DISubprogram;
+
+        public createLexicalBlock(scope: DIScope, file: DIFile, line: number, column: number): DILexicalBlock;
+
+        public createBasicType(name: string, sizeInBits: number, encoding: number): DIBasicType;
+
+        public getOrCreateTypeArray(elements: (Metadata | null)[]): DITypeRefArray;
+
+        public createSubroutineType(paramTypes: DITypeRefArray): DISubroutineType;
+
+        public createExpression(): DIExpression;
+
+        public createParameterVariable(scope: DIScope, name: string, argNo: number, file: DIFile, line: number, type: DIType, alwaysPreserve?: boolean): DILocalVariable;
+
+        public createAutoVariable(scope: DIScope, name: string, file: DIFile, line: number, type: DIType | null, alwaysPreserve?: boolean): DILocalVariable;
+
+        public createGlobalVariableExpression(context: DIScope, name: string, linkage: string, file: DIFile, line: number, type: DIType, IsLocalToUnit: boolean): DIGlobalVariableExpression;
+
+        public insertDeclare(storage: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBB: BasicBlock): Instruction;
+        public insertDeclare(storage: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBefore: Instruction): Instruction;
+
+        public insertDbgValueIntrinsic(value: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBB: BasicBlock): Instruction;
+        public insertDbgValueIntrinsic(value: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBefore: Instruction): Instruction;
+
+        public finalizeSubprogram(subprogram: DISubprogram): void;
+
+        public finalize(): void;
+    }
+
+    class DataLayout {
+        public constructor(desc: string);
+
+        public getTypeAllocSize(type: Type): number;
+    }
+
+    function verifyFunction(func: Function): boolean;
+
+    function verifyModule(module: Module): boolean;
 
     namespace Intrinsic {
         const abs: number;
@@ -1245,12 +1500,6 @@ declare namespace llvm {
         function getDeclaration(module: Module, id: number, types?: Type[]): Function;
     }
 
-    function verifyFunction(func: Function): boolean;
-
-    function verifyModule(module: Module): boolean;
-
-    function WriteBitcodeToFile(module: Module, filename: string): void;
-
     function parseIRFile(filename: string, err: SMDiagnostic, context: LLVMContext): Module;
 
     class Linker {
@@ -1259,6 +1508,10 @@ declare namespace llvm {
         public linkInModule(srcModule: Module): boolean;
 
         public static linkModules(destModule: Module, srcModule: Module): boolean;
+    }
+
+    class SMDiagnostic {
+        public constructor();
     }
 
     class Target {
@@ -1279,259 +1532,6 @@ declare namespace llvm {
 
     class TargetMachine {
         protected constructor();
-    }
-
-    class SMDiagnostic {
-        public constructor();
-    }
-
-    class Metadata {
-        protected constructor();
-    }
-
-    class MDNode extends Metadata {
-        protected constructor();
-    }
-
-    class DILocation extends MDNode {
-        public static get(context: LLVMContext, line: number, column: number, metadata: Metadata): DILocation;
-        public static get(context: LLVMContext, line: number, column: number, scope: DILocalScope): DILocation;
-
-        protected constructor();
-    }
-
-    class DIExpression extends MDNode {
-        protected constructor();
-    }
-
-    class DIGlobalVariableExpression extends MDNode {
-        protected constructor();
-    }
-
-    class DINode extends MDNode {
-        public static readonly DIFlags: {
-            FlagZero: number;
-            FlagPrivate: number;
-            FlagProtected: number;
-            FlagPublic: number;
-            FlagFwdDecl: number;
-            FlagAppleBlock: number;
-            FlagReservedBit4: number;
-            FlagVirtual: number;
-            FlagArtificial: number;
-            FlagExplicit: number;
-            FlagPrototyped: number;
-            FlagObjcClassComplete: number;
-            FlagObjectPointer: number;
-            FlagVector: number;
-            FlagStaticMember: number;
-            FlagLValueReference: number;
-            FlagRValueReference: number;
-            FlagExportSymbols: number;
-            FlagSingleInheritance: number;
-            FlagMultipleInheritance: number;
-            FlagVirtualInheritance: number;
-            FlagIntroducedVirtual: number;
-            FlagBitField: number;
-            FlagNoReturn: number;
-            FlagTypePassByValue: number;
-            FlagTypePassByReference: number;
-            FlagEnumClass: number;
-            FlagThunk: number;
-            FlagNonTrivial: number;
-            FlagBigEndian: number;
-            FlagLittleEndian: number;
-            FlagAllCallsDescribed: number;
-            FlagIndirectVirtualBase: number;
-            FlagAccessibility: number;
-            FlagPtrToMemberRep: number;
-        }
-
-        protected constructor();
-    }
-
-    class DIScope extends DINode {
-        protected constructor();
-    }
-
-    class DICompileUnit extends DIScope {
-        public getFile(): DIFile;
-
-        protected constructor();
-    }
-
-    class DIFile extends DIScope {
-        protected constructor();
-    }
-
-    class DILocalScope extends DIScope {
-        protected constructor();
-    }
-
-    class DILexicalBlock extends DILocalScope {
-        protected constructor();
-    }
-
-    class DISubprogram extends DILocalScope {
-        public static readonly DISPFlags: {
-            SPFlagZero: number;
-            SPFlagVirtual: number;
-            SPFlagPureVirtual: number;
-            SPFlagLocalToUnit: number;
-            SPFlagDefinition: number;
-            SPFlagOptimized: number;
-            SPFlagPure: number;
-            SPFlagElemental: number;
-            SPFlagRecursive: number;
-            SPFlagMainSubprogram: number;
-            SPFlagDeleted: number;
-            SPFlagObjCDirect: number;
-            SPFlagNonvirtual: number;
-            SPFlagVirtuality: number;
-        }
-
-        protected constructor();
-    }
-
-    class DIType extends DIScope {
-        protected constructor();
-    }
-
-    class DIBasicType extends DIType {
-        protected constructor();
-    }
-
-    class DISubroutineType extends DIType {
-        protected constructor();
-    }
-
-    class DIVariable extends DINode {
-        protected constructor();
-    }
-
-    class DILocalVariable extends DIVariable {
-        protected constructor();
-    }
-
-    class DIGlobalVariable extends DIVariable {
-        protected constructor();
-    }
-
-    class DIBuilder {
-        public constructor(module: Module);
-
-        public createFile(filename: string, directory: string): DIFile;
-
-        public createCompileUnit(lang: number, file: DIFile, producer: string, isOptimized: boolean, flags: string, rv: number): DICompileUnit;
-
-        public createFunction(scope: DIScope, name: string, linkage: string, file: DIFile, line: number, type: DISubroutineType, scopeLine: number, flags: number, spFlags: number): DISubprogram;
-
-        public createLexicalBlock(scope: DIScope, file: DIFile, line: number, column: number): DILexicalBlock;
-
-        public createBasicType(name: string, sizeInBits: number, encoding: number): DIBasicType;
-
-        public getOrCreateTypeArray(elements: (Metadata | null)[]): DITypeRefArray;
-
-        public createSubroutineType(paramTypes: DITypeRefArray): DISubroutineType;
-
-        public createExpression(): DIExpression;
-
-        public createParameterVariable(scope: DIScope, name: string, argNo: number, file: DIFile, line: number, type: DIType, alwaysPreserve?: boolean): DILocalVariable;
-
-        public createAutoVariable(scope: DIScope, name: string, file: DIFile, line: number, type: DIType | null, alwaysPreserve?: boolean): DILocalVariable;
-
-        public createGlobalVariableExpression(context: DIScope, name: string, linkage: string, file: DIFile, line: number, type: DIType, IsLocalToUnit: boolean): DIGlobalVariableExpression;
-
-        public insertDeclare(storage: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBB: BasicBlock): Instruction;
-        public insertDeclare(storage: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBefore: Instruction): Instruction;
-
-        public insertDbgValueIntrinsic(value: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBB: BasicBlock): Instruction;
-        public insertDbgValueIntrinsic(value: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBefore: Instruction): Instruction;
-
-        public finalizeSubprogram(subprogram: DISubprogram): void;
-
-        public finalize(): void;
-    }
-
-    class DITypeRefArray {
-        protected constructor();
-    }
-
-    class DebugLoc {
-        public constructor();
-    }
-
-    namespace LLVMConstants {
-        const DEBUG_METADATA_VERSION: number;
-    }
-
-    namespace dwarf {
-        namespace LLVMConstants {
-            const DWARF_VERSION: number;
-        }
-        namespace TypeKind {
-            const DW_ATE_address: number;
-            const DW_ATE_boolean: number;
-            const DW_ATE_complex_float: number;
-            const DW_ATE_float: number;
-            const DW_ATE_signed: number;
-            const DW_ATE_signed_char: number;
-            const DW_ATE_unsigned: number;
-            const DW_ATE_unsigned_char: number;
-            const DW_ATE_imaginary_float: number;
-            const DW_ATE_packed_decimal: number;
-            const DW_ATE_numeric_string: number;
-            const DW_ATE_edited: number;
-            const DW_ATE_signed_fixed: number;
-            const DW_ATE_unsigned_fixed: number;
-            const DW_ATE_decimal_float: number;
-            const DW_ATE_UTF: number;
-            const DW_ATE_UCS: number;
-            const DW_ATE_ASCII: number;
-            const DW_ATE_lo_user: number;
-            const DW_ATE_hi_user: number;
-        }
-        namespace SourceLanguage {
-            const DW_LANG_C89: number;
-            const DW_LANG_C: number;
-            const DW_LANG_Ada83: number;
-            const DW_LANG_C_plus_plus: number;
-            const DW_LANG_Cobol74: number;
-            const DW_LANG_Cobol85: number;
-            const DW_LANG_Fortran77: number;
-            const DW_LANG_Fortran90: number;
-            const DW_LANG_Pascal83: number;
-            const DW_LANG_Modula2: number;
-            const DW_LANG_Java: number;
-            const DW_LANG_C99: number;
-            const DW_LANG_Ada95: number;
-            const DW_LANG_Fortran95: number;
-            const DW_LANG_PLI: number;
-            const DW_LANG_ObjC: number;
-            const DW_LANG_ObjC_plus_plus: number;
-            const DW_LANG_UPC: number;
-            const DW_LANG_D: number;
-            const DW_LANG_Python: number;
-            const DW_LANG_OpenCL: number;
-            const DW_LANG_Go: number;
-            const DW_LANG_Modula3: number;
-            const DW_LANG_Haskell: number;
-            const DW_LANG_C_plus_plus_03: number;
-            const DW_LANG_C_plus_plus_11: number;
-            const DW_LANG_OCaml: number;
-            const DW_LANG_Rust: number;
-            const DW_LANG_C11: number;
-            const DW_LANG_Swift: number;
-            const DW_LANG_Julia: number;
-            const DW_LANG_Dylan: number;
-            const DW_LANG_C_plus_plus_14: number;
-            const DW_LANG_Fortran03: number;
-            const DW_LANG_Fortran08: number;
-            const DW_LANG_RenderScript: number;
-            const DW_LANG_BLISS: number;
-            const DW_LANG_lo_user: number;
-            const DW_LANG_hi_user: number;
-        }
     }
 
     function InitializeAllTargetInfos(): void;

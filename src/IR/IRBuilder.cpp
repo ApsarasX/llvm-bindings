@@ -1,6 +1,6 @@
-#include "IR/IR.h"
+#include "IR/index.h"
 #include "ADT/APInt.h"
-#include "Util/Util.h"
+#include "Util/index.h"
 
 void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);

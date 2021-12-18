@@ -1,11 +1,11 @@
-#include "ADT/ADT.h"
-#include "BinaryFormat/BinaryFormat.h"
-#include "Bitcode/Bitcode.h"
-#include "IR/IR.h"
-#include "IRReader/IRReader.h"
-#include "Linker/Linker.h"
-#include "Support/Support.h"
-#include "Target/Target.h"
+#include "ADT/index.h"
+#include "BinaryFormat/index.h"
+#include "Bitcode/index.h"
+#include "IR/index.h"
+#include "IRReader/index.h"
+#include "Linker/index.h"
+#include "Support/index.h"
+#include "Target/index.h"
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
     InitADT(env, exports);

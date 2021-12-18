@@ -34,4 +34,3 @@ private:
 
     void setDebugLoc(const Napi::CallbackInfo &info);
 };
-

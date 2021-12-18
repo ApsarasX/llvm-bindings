@@ -1,5 +1,5 @@
-#include "IR/IR.h"
-#include "Util/Util.h"
+#include "IR/index.h"
+#include "Util/index.h"
 
 Napi::Value getDeclaration(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();

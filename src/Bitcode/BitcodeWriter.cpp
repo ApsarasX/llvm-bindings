@@ -1,10 +1,9 @@
-#include <llvm/Bitcode/BitcodeWriter.h>
 #include <llvm/Support/raw_ostream.h>
 #include <llvm/Support/FileSystem.h>
 
-#include "Bitcode/Bitcode.h"
-#include "IR/IR.h"
-#include "Util/Util.h"
+#include "Bitcode/index.h"
+#include "IR/index.h"
+#include "Util/index.h"
 
 static void WriteBitcodeToFile(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();

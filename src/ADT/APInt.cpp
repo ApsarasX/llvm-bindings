@@ -1,5 +1,5 @@
-#include "ADT/ADT.h"
-#include "Util/Util.h"
+#include "ADT/index.h"
+#include "Util/index.h"
 
 void APInt::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);

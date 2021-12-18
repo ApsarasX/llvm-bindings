@@ -2,9 +2,8 @@
 
 #include <napi.h>
 #include <llvm/IR/IRBuilder.h>
-
-#include "IR/IR.h"
-#include "Util/Util.h"
+#include "IR/index.h"
+#include "Util/index.h"
 
 #define unOpFactoryMacro(unOpFuncType, extraArgs...) \
 template<unOpFuncType method> \

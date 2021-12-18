@@ -28,4 +28,3 @@ private:
 
     Napi::Value getNumOperands(const Napi::CallbackInfo &info);
 };
-

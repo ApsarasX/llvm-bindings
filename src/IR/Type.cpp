@@ -1,5 +1,5 @@
-#include "IR/IR.h"
-#include "Util/Util.h"
+#include "IR/index.h"
+#include "Util/index.h"
 
 typedef llvm::Type *(getTypeFn)(llvm::LLVMContext &);
 

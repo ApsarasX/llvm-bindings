@@ -1,5 +1,5 @@
-#include "IR/IR.h"
-#include "Util/Util.h"
+#include "IR/index.h"
+#include "Util/index.h"
 
 static Napi::Value verifyFunction(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();

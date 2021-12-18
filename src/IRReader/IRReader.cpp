@@ -1,11 +1,9 @@
-#include <llvm/IRReader/IRReader.h>
+#include "IRReader/index.h"
+#include "IR/index.h"
+#include "Support/index.h"
+#include "Util/index.h"
 
-#include "IRReader/IRReader.h"
-#include "IR/IR.h"
-#include "Support/Support.h"
-#include "Util/Util.h"
-
-static Napi::Value parseIRFile(const Napi::CallbackInfo &info) {
+Napi::Value parseIRFile(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() < 3 ||
         !info[0].IsString() ||
@@ -18,8 +16,4 @@ static Napi::Value parseIRFile(const Napi::CallbackInfo &info) {
         return Module::New(env, module);
     }
     throw Napi::TypeError::New(env, ErrMsg::Function::parseIRFile);
-}
-
-void InitIRReader(Napi::Env env, Napi::Object &exports) {
-    exports.Set("parseIRFile", Napi::Function::New(env, parseIRFile));
 }

@@ -1,6 +1,10 @@
 #include "Linker/Linker.h"
-#include "IR/IR.h"
-#include "Util/Util.h"
+#include "IR/index.h"
+#include "Util/index.h"
+
+//===----------------------------------------------------------------------===//
+// class Linker
+//===----------------------------------------------------------------------===//
 
 void Linker::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -42,8 +46,4 @@ Napi::Value Linker::linkModules(const Napi::CallbackInfo &info) {
         return Napi::Boolean::New(env, failed);
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::Linker::linkModules);
-}
-
-void InitLinker(Napi::Env env, Napi::Object &exports) {
-    Linker::Init(env, exports);
 }
