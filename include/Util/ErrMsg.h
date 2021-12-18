@@ -302,6 +302,12 @@ namespace ErrMsg {
         namespace DIBasicType {
             static const char *constructor = "DIBasicType.constructor needs to be called with new (external: Napi::External<llvm::DIBasicType>)";
         }
+        namespace DIDerivedType {
+            static const char *constructor = "DIDerivedType.constructor needs to be called with new (external: Napi::External<llvm::DIDerivedType>)";
+        }
+        namespace DICompositeType {
+            static const char *constructor = "DICompositeType.constructor needs to be called with new (external: Napi::External<llvm::DICompositeType>)";
+        }
         namespace DISubroutineType {
             static const char *constructor = "DISubroutineType.constructor needs to be called with new (external: Napi::External<llvm::DISubroutineType>)";
         }
@@ -322,6 +328,9 @@ namespace ErrMsg {
         }
         namespace DILexicalBlock {
             static const char *constructor = "DILexicalBlock.constructor needs to be called with new (external: Napi::External<llvm::DILexicalBlock>)";
+        }
+        namespace DINamespace {
+            static const char *constructor = "DINamespace.constructor needs to be called with new (external: Napi::External<llvm::DINamespace>)";
         }
         namespace DIVariable {
             static const char *constructor = "DIVariable.constructor needs to be called with new (external: Napi::External<llvm::DIVariable>)";

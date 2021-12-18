@@ -123,6 +123,46 @@ private:
     llvm::DIBasicType *type = nullptr;
 };
 
+class DIDerivedType : public Napi::ObjectWrap<DIDerivedType> {
+public:
+    static inline Napi::FunctionReference constructor; // NOLINT
+
+    static void Init(Napi::Env env, Napi::Object &exports);
+
+    static Napi::Value New(Napi::Env env, llvm::DIDerivedType *type);
+
+    static bool IsClassOf(const Napi::Value &value);
+
+    static llvm::DIDerivedType *Extract(const Napi::Value &value);
+
+    explicit DIDerivedType(const Napi::CallbackInfo &info);
+
+    llvm::DIDerivedType *getLLVMPrimitive();
+
+private:
+    llvm::DIDerivedType *type = nullptr;
+};
+
+class DICompositeType : public Napi::ObjectWrap<DICompositeType> {
+public:
+    static inline Napi::FunctionReference constructor; // NOLINT
+
+    static void Init(Napi::Env env, Napi::Object &exports);
+
+    static Napi::Value New(Napi::Env env, llvm::DICompositeType *type);
+
+    static bool IsClassOf(const Napi::Value &value);
+
+    static llvm::DICompositeType *Extract(const Napi::Value &value);
+
+    explicit DICompositeType(const Napi::CallbackInfo &info);
+
+    llvm::DICompositeType *getLLVMPrimitive();
+
+private:
+    llvm::DICompositeType *type = nullptr;
+};
+
 class DISubroutineType : public Napi::ObjectWrap<DISubroutineType> {
 public:
     static inline Napi::FunctionReference constructor; // NOLINT
@@ -245,6 +285,26 @@ public:
 
 private:
     llvm::DILexicalBlock *block = nullptr;
+};
+
+class DINamespace : public Napi::ObjectWrap<DINamespace> {
+public:
+    static inline Napi::FunctionReference constructor; // NOLINT
+
+    static void Init(Napi::Env env, Napi::Object &exports);
+
+    static Napi::Value New(Napi::Env env, llvm::DINamespace *ns);
+
+    static bool IsClassOf(const Napi::Value &value);
+
+    static llvm::DINamespace *Extract(const Napi::Value &value);
+
+    explicit DINamespace(const Napi::CallbackInfo &info);
+
+    llvm::DINamespace *getLLVMPrimitive();
+
+private:
+    llvm::DINamespace *ns = nullptr;
 };
 
 class DIVariable : public Napi::ObjectWrap<DIVariable> {

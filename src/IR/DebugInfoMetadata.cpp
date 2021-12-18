@@ -160,14 +160,16 @@ void DIScope::Init(Napi::Env env, Napi::Object &exports) {
 }
 
 Napi::Value DIScope::New(Napi::Env env, llvm::DIScope *scope) {
-    if (llvm::isa<llvm::DICompileUnit>(scope)) {
-        return DICompileUnit::New(env, llvm::cast<llvm::DICompileUnit>(scope));
-    } else if (llvm::isa<llvm::DIFile>(scope)) {
+    if (llvm::isa<llvm::DIFile>(scope)) {
         return DIFile::New(env, llvm::cast<llvm::DIFile>(scope));
-    } else if (llvm::isa<llvm::DILocalScope>(scope)) {
-        return DILocalScope::New(env, llvm::cast<llvm::DILocalScope>(scope));
     } else if (llvm::isa<llvm::DIType>(scope)) {
         return DIType::New(env, llvm::cast<llvm::DIType>(scope));
+    } else if (llvm::isa<llvm::DICompileUnit>(scope)) {
+        return DICompileUnit::New(env, llvm::cast<llvm::DICompileUnit>(scope));
+    } else if (llvm::isa<llvm::DILocalScope>(scope)) {
+        return DILocalScope::New(env, llvm::cast<llvm::DILocalScope>(scope));
+    } else if (llvm::isa<llvm::DINamespace>(scope)) {
+        return DINamespace::New(env, llvm::cast<llvm::DINamespace>(scope));
     }
     return constructor.New({Napi::External<llvm::DIScope>::New(env, scope)});
 }
@@ -255,6 +257,10 @@ void DIType::Init(Napi::Env env, Napi::Object &exports) {
 Napi::Value DIType::New(Napi::Env env, llvm::DIType *type) {
     if (llvm::isa<llvm::DIBasicType>(type)) {
         return DIBasicType::New(env, llvm::cast<llvm::DIBasicType>(type));
+    } else if (llvm::isa<llvm::DIDerivedType>(type)) {
+        return DIDerivedType::New(env, llvm::cast<llvm::DIDerivedType>(type));
+    } else if (llvm::isa<llvm::DICompositeType>(type)) {
+        return DICompositeType::New(env, llvm::cast<llvm::DICompositeType>(type));
     } else if (llvm::isa<llvm::DISubroutineType>(type)) {
         return DISubroutineType::New(env, llvm::cast<llvm::DISubroutineType>(type));
     }
@@ -324,6 +330,90 @@ DIBasicType::DIBasicType(const Napi::CallbackInfo &info) : ObjectWrap(info) {
 }
 
 llvm::DIBasicType *DIBasicType::getLLVMPrimitive() {
+    return type;
+}
+
+//===----------------------------------------------------------------------===//
+// class DIDerivedType
+//===----------------------------------------------------------------------===//
+
+void DIDerivedType::Init(Napi::Env env, Napi::Object &exports) {
+    Napi::HandleScope scope(env);
+    Napi::Function func = DefineClass(env, "DIDerivedType", {
+    });
+    constructor = Napi::Persistent(func);
+    constructor.SuppressDestruct();
+    Inherit(env, constructor.Value(), DIType::constructor.Value());
+    exports.Set("DIDerivedType", func);
+}
+
+Napi::Value DIDerivedType::New(Napi::Env env, llvm::DIDerivedType *type) {
+    return constructor.New({Napi::External<llvm::DIDerivedType>::New(env, type)});
+}
+
+bool DIDerivedType::IsClassOf(const Napi::Value &value) {
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
+}
+
+llvm::DIDerivedType *DIDerivedType::Extract(const Napi::Value &value) {
+    if (value.IsNull()) {
+        return nullptr;
+    }
+    return Unwrap(value.As<Napi::Object>())->getLLVMPrimitive();
+}
+
+DIDerivedType::DIDerivedType(const Napi::CallbackInfo &info) : ObjectWrap(info) {
+    Napi::Env env = info.Env();
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::DIDerivedType::constructor);
+    }
+    auto external = info[0].As<Napi::External<llvm::DIDerivedType>>();
+    type = external.Data();
+}
+
+llvm::DIDerivedType *DIDerivedType::getLLVMPrimitive() {
+    return type;
+}
+
+//===----------------------------------------------------------------------===//
+// class DICompositeType
+//===----------------------------------------------------------------------===//
+
+void DICompositeType::Init(Napi::Env env, Napi::Object &exports) {
+    Napi::HandleScope scope(env);
+    Napi::Function func = DefineClass(env, "DICompositeType", {
+    });
+    constructor = Napi::Persistent(func);
+    constructor.SuppressDestruct();
+    Inherit(env, constructor.Value(), DIType::constructor.Value());
+    exports.Set("DICompositeType", func);
+}
+
+Napi::Value DICompositeType::New(Napi::Env env, llvm::DICompositeType *type) {
+    return constructor.New({Napi::External<llvm::DICompositeType>::New(env, type)});
+}
+
+bool DICompositeType::IsClassOf(const Napi::Value &value) {
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
+}
+
+llvm::DICompositeType *DICompositeType::Extract(const Napi::Value &value) {
+    if (value.IsNull()) {
+        return nullptr;
+    }
+    return Unwrap(value.As<Napi::Object>())->getLLVMPrimitive();
+}
+
+DICompositeType::DICompositeType(const Napi::CallbackInfo &info) : ObjectWrap(info) {
+    Napi::Env env = info.Env();
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::DICompositeType::constructor);
+    }
+    auto external = info[0].As<Napi::External<llvm::DICompositeType>>();
+    type = external.Data();
+}
+
+llvm::DICompositeType *DICompositeType::getLLVMPrimitive() {
     return type;
 }
 
@@ -611,6 +701,48 @@ DILexicalBlock::DILexicalBlock(const Napi::CallbackInfo &info) : ObjectWrap(info
 
 llvm::DILexicalBlock *DILexicalBlock::getLLVMPrimitive() {
     return block;
+}
+
+//===----------------------------------------------------------------------===//
+// class DINamespace
+//===----------------------------------------------------------------------===//
+
+void DINamespace::Init(Napi::Env env, Napi::Object &exports) {
+    Napi::HandleScope scope(env);
+    Napi::Function func = DefineClass(env, "DINamespace", {
+    });
+    constructor = Napi::Persistent(func);
+    constructor.SuppressDestruct();
+    Inherit(env, constructor.Value(), DIScope::constructor.Value());
+    exports.Set("DINamespace", func);
+}
+
+Napi::Value DINamespace::New(Napi::Env env, llvm::DINamespace *ns) {
+    return constructor.New({Napi::External<llvm::DINamespace>::New(env, ns)});
+}
+
+bool DINamespace::IsClassOf(const Napi::Value &value) {
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
+}
+
+llvm::DINamespace *DINamespace::Extract(const Napi::Value &value) {
+    if (value.IsNull()) {
+        return nullptr;
+    }
+    return Unwrap(value.As<Napi::Object>())->getLLVMPrimitive();
+}
+
+DINamespace::DINamespace(const Napi::CallbackInfo &info) : ObjectWrap(info) {
+    Napi::Env env = info.Env();
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::DINamespace::constructor);
+    }
+    auto external = info[0].As<Napi::External<llvm::DINamespace>>();
+    ns = external.Data();
+}
+
+llvm::DINamespace *DINamespace::getLLVMPrimitive() {
+    return ns;
 }
 
 //===----------------------------------------------------------------------===//

@@ -49,12 +49,15 @@ void InitIR(Napi::Env env, Napi::Object &exports) {
     DIFile::Init(env, exports);
     DIType::Init(env, exports);
     DIBasicType::Init(env, exports);
+    DIDerivedType::Init(env, exports);
+    DICompositeType::Init(env, exports);
     DISubroutineType::Init(env, exports);
     DICompileUnit::Init(env, exports);
     DILocalScope::Init(env, exports);
     DILocation::Init(env, exports);
     DISubprogram::Init(env, exports);
     DILexicalBlock::Init(env, exports);
+    DINamespace::Init(env, exports);
     DIVariable::Init(env, exports);
     DIExpression::Init(env, exports);
     DIGlobalVariable::Init(env, exports);

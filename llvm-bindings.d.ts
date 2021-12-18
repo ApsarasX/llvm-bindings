@@ -1120,6 +1120,14 @@ declare namespace llvm {
         protected constructor();
     }
 
+    class DIDerivedType extends DIType {
+        protected constructor();
+    }
+
+    class DICompositeType extends DIType {
+        protected constructor();
+    }
+
     class DISubroutineType extends DIType {
         protected constructor();
     }
@@ -1163,6 +1171,10 @@ declare namespace llvm {
     }
 
     class DILexicalBlock extends DILocalScope {
+        protected constructor();
+    }
+
+    class DINamespace extends DIScope {
         protected constructor();
     }
 
