@@ -1546,15 +1546,25 @@ declare namespace llvm {
         protected constructor();
     }
 
-    function InitializeAllTargetInfos(): void;
+    // function InitializeAllTargetInfos(): void;
+    //
+    // function InitializeAllTargets(): void;
+    //
+    // function InitializeAllTargetMCs(): void;
+    //
+    // function InitializeAllAsmPrinters(): void;
+    //
+    // function InitializeAllAsmParsers(): void;
+    //
+    // function InitializeAllDisassemblers(): void;
 
-    function InitializeAllTargets(): void;
+    function InitializeNativeTarget(): void;
 
-    function InitializeAllTargetMCs(): void;
+    function InitializeNativeTargetAsmPrinter(): void;
 
-    function InitializeAllAsmParsers(): void;
+    function InitializeNativeTargetAsmParser(): void;
 
-    function InitializeAllAsmPrinters(): void;
+    function InitializeNativeTargetDisassembler(): void;
 }
 
 export = llvm;
