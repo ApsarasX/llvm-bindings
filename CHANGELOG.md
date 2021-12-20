@@ -1,3 +1,17 @@
+## [0.3.3](https://github.com/ApsarasX/llvm-bindings/compare/v0.3.2...v0.3.3) (2021-12-20)
+
+
+### Bug Fixes
+
+* **Support:** symbol not found error in TargetSelect ([701c3b3](https://github.com/ApsarasX/llvm-bindings/commit/701c3b34baad0b1bb80a3b24ccb3097f6c95bc28))
+
+
+### Features
+
+* **IR:** add class DIDerivedType, class DICompositeType and class DINamespace ([40e7471](https://github.com/ApsarasX/llvm-bindings/commit/40e74716e4cf45c75d86331949947628620b2f3b))
+
+
+
 ## [0.3.2](https://github.com/ApsarasX/llvm-bindings/compare/v0.3.1...v0.3.2) (2021-12-18)
 
 
