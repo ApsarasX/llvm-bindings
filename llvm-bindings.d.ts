@@ -699,6 +699,16 @@ declare namespace llvm {
         protected constructor();
     }
 
+    class GetElementPtrInst extends Instruction {
+        // duplicated
+        public getType(): llvm.Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
     class CallInst extends Instruction {
         // duplicated
         public setDebugLoc(location: DebugLoc): void;

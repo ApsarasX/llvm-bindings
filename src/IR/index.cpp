@@ -27,8 +27,9 @@ void InitIR(Napi::Env env, Napi::Object &exports) {
     Function::Init(env, exports);
     Instruction::Init(env, exports);
     AllocaInst::Init(env, exports);
-    StoreInst::Init(env, exports);
     LoadInst::Init(env, exports);
+    StoreInst::Init(env, exports);
+    GetElementPtrInst::Init(env, exports);
     CallInst::Init(env, exports);
     PHINode::Init(env, exports);
     LandingPadInst::Init(env, exports);

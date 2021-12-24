@@ -71,6 +71,65 @@ void AllocaInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
+// class LoadInst
+//===----------------------------------------------------------------------===//
+
+void LoadInst::Init(Napi::Env env, Napi::Object &exports) {
+    Napi::HandleScope scope(env);
+    Napi::Function func = DefineClass(env, "LoadInst", {
+            InstanceMethod("getType", &LoadInst::getType),
+            InstanceMethod("setDebugLoc", &LoadInst::setDebugLoc)
+    });
+    constructor = Napi::Persistent(func);
+    constructor.SuppressDestruct();
+    Inherit(env, constructor.Value(), Instruction::constructor.Value());
+    exports.Set("LoadInst", func);
+}
+
+Napi::Object LoadInst::New(Napi::Env env, llvm::LoadInst *loadInst) {
+    return constructor.New({Napi::External<llvm::LoadInst>::New(env, loadInst)});
+}
+
+bool LoadInst::IsClassOf(const Napi::Value &value) {
+    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+}
+
+llvm::LoadInst *LoadInst::Extract(const Napi::Value &value) {
+    if (value.IsNull()) {
+        return nullptr;
+    }
+    return Unwrap(value.As<Napi::Object>())->getLLVMPrimitive();
+}
+
+LoadInst::LoadInst(const Napi::CallbackInfo &info) : ObjectWrap(info) {
+    Napi::Env env = info.Env();
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::LoadInst::constructor);
+    }
+    auto external = info[0].As<Napi::External<llvm::LoadInst>>();
+    loadInst = external.Data();
+}
+
+llvm::LoadInst *LoadInst::getLLVMPrimitive() {
+    return loadInst;
+}
+
+Napi::Value LoadInst::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Type *type = loadInst->getType();
+    return Type::New(env, type);
+}
+
+void LoadInst::setDebugLoc(const Napi::CallbackInfo &info) {
+    if (info.Length() == 1 && DebugLoc::IsClassOf(info[0])) {
+        llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
+        loadInst->setDebugLoc(*location);
+        return;
+    }
+    throw Napi::TypeError::New(info.Env(), ErrMsg::Class::LoadInst::setDebugLoc);
+}
+
+//===----------------------------------------------------------------------===//
 // class StoreInst
 //===----------------------------------------------------------------------===//
 
@@ -138,62 +197,62 @@ void StoreInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class LoadInst
+// class GetElementPtrInst
 //===----------------------------------------------------------------------===//
 
-void LoadInst::Init(Napi::Env env, Napi::Object &exports) {
+void GetElementPtrInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
-    Napi::Function func = DefineClass(env, "LoadInst", {
-            InstanceMethod("getType", &LoadInst::getType),
-            InstanceMethod("setDebugLoc", &LoadInst::setDebugLoc)
+    Napi::Function func = DefineClass(env, "GetElementPtrInst", {
+            InstanceMethod("getType", &GetElementPtrInst::getType),
+            InstanceMethod("setDebugLoc", &GetElementPtrInst::setDebugLoc)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
     Inherit(env, constructor.Value(), Instruction::constructor.Value());
-    exports.Set("LoadInst", func);
+    exports.Set("GetElementPtrInst", func);
 }
 
-Napi::Object LoadInst::New(Napi::Env env, llvm::LoadInst *loadInst) {
-    return constructor.New({Napi::External<llvm::LoadInst>::New(env, loadInst)});
+Napi::Object GetElementPtrInst::New(Napi::Env env, llvm::GetElementPtrInst *gepInst) {
+    return constructor.New({Napi::External<llvm::GetElementPtrInst>::New(env, gepInst)});
 }
 
-bool LoadInst::IsClassOf(const Napi::Value &value) {
+bool GetElementPtrInst::IsClassOf(const Napi::Value &value) {
     return value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
-llvm::LoadInst *LoadInst::Extract(const Napi::Value &value) {
+llvm::GetElementPtrInst *GetElementPtrInst::Extract(const Napi::Value &value) {
     if (value.IsNull()) {
         return nullptr;
     }
     return Unwrap(value.As<Napi::Object>())->getLLVMPrimitive();
 }
 
-LoadInst::LoadInst(const Napi::CallbackInfo &info) : ObjectWrap(info) {
+GetElementPtrInst::GetElementPtrInst(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
     if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
-        throw Napi::TypeError::New(env, ErrMsg::Class::LoadInst::constructor);
+        throw Napi::TypeError::New(env, ErrMsg::Class::GetElementPtrInst::constructor);
     }
-    auto external = info[0].As<Napi::External<llvm::LoadInst>>();
-    loadInst = external.Data();
+    auto external = info[0].As<Napi::External<llvm::GetElementPtrInst>>();
+    gepInst = external.Data();
 }
 
-llvm::LoadInst *LoadInst::getLLVMPrimitive() {
-    return loadInst;
+llvm::GetElementPtrInst *GetElementPtrInst::getLLVMPrimitive() {
+    return gepInst;
 }
 
-Napi::Value LoadInst::getType(const Napi::CallbackInfo &info) {
+Napi::Value GetElementPtrInst::getType(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    llvm::Type *type = loadInst->getType();
+    llvm::Type *type = gepInst->getType();
     return Type::New(env, type);
 }
 
-void LoadInst::setDebugLoc(const Napi::CallbackInfo &info) {
+void GetElementPtrInst::setDebugLoc(const Napi::CallbackInfo &info) {
     if (info.Length() == 1 && DebugLoc::IsClassOf(info[0])) {
         llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
-        loadInst->setDebugLoc(*location);
+        gepInst->setDebugLoc(*location);
         return;
     }
-    throw Napi::TypeError::New(info.Env(), ErrMsg::Class::LoadInst::setDebugLoc);
+    throw Napi::TypeError::New(info.Env(), ErrMsg::Class::GetElementPtrInst::setDebugLoc);
 }
 
 //===----------------------------------------------------------------------===//

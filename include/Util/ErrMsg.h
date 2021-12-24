@@ -164,13 +164,17 @@ namespace ErrMsg {
             static const char *constructor = "AllocaInst.constructor needs to be called with new (external: Napi::External<llvm::AllocaInst>)";
             static const char *setDebugLoc = "AllocaInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
+        namespace LoadInst {
+            static const char *constructor = "LoadInst.constructor needs to be called with new (external: Napi::External<llvm::LoadInst>)";
+            static const char *setDebugLoc = "LoadInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+        }
         namespace StoreInst {
             static const char *constructor = "StoreInst.constructor needs to be called with new (external: Napi::External<llvm::StoreInst>)";
             static const char *setDebugLoc = "StoreInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
-        namespace LoadInst {
-            static const char *constructor = "LoadInst.constructor needs to be called with new (external: Napi::External<llvm::LoadInst>)";
-            static const char *setDebugLoc = "LoadInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+        namespace GetElementPtrInst {
+            static const char *constructor = "GetElementPtrInst.constructor needs to be called with new (external: Napi::External<llvm::GetElementPtrInst>)";
+            static const char *setDebugLoc = "GetElementPtrInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace CallInst {
             static const char *constructor = "CallInst.constructor needs to be called with new (external: Napi::External<llvm::CallInst>)";

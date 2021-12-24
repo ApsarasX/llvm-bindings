@@ -31,6 +31,30 @@ private:
     void setDebugLoc(const Napi::CallbackInfo &info);
 };
 
+class LoadInst : public Napi::ObjectWrap<LoadInst> {
+public:
+    static inline Napi::FunctionReference constructor; // NOLINT
+
+    static void Init(Napi::Env env, Napi::Object &exports);
+
+    static Napi::Object New(Napi::Env env, llvm::LoadInst *loadInst);
+
+    static bool IsClassOf(const Napi::Value &value);
+
+    static llvm::LoadInst *Extract(const Napi::Value &value);
+
+    explicit LoadInst(const Napi::CallbackInfo &info);
+
+    llvm::LoadInst *getLLVMPrimitive();
+
+private:
+    llvm::LoadInst *loadInst = nullptr;
+
+    Napi::Value getType(const Napi::CallbackInfo &info);
+
+    void setDebugLoc(const Napi::CallbackInfo &info);
+};
+
 class StoreInst : public Napi::ObjectWrap<StoreInst> {
 public:
     static inline Napi::FunctionReference constructor; // NOLINT
@@ -59,24 +83,24 @@ private:
     void setDebugLoc(const Napi::CallbackInfo &info);
 };
 
-class LoadInst : public Napi::ObjectWrap<LoadInst> {
+class GetElementPtrInst : public Napi::ObjectWrap<GetElementPtrInst> {
 public:
     static inline Napi::FunctionReference constructor; // NOLINT
 
     static void Init(Napi::Env env, Napi::Object &exports);
 
-    static Napi::Object New(Napi::Env env, llvm::LoadInst *loadInst);
+    static Napi::Object New(Napi::Env env, llvm::GetElementPtrInst *gepInst);
 
     static bool IsClassOf(const Napi::Value &value);
 
-    static llvm::LoadInst *Extract(const Napi::Value &value);
+    static llvm::GetElementPtrInst *Extract(const Napi::Value &value);
 
-    explicit LoadInst(const Napi::CallbackInfo &info);
+    explicit GetElementPtrInst(const Napi::CallbackInfo &info);
 
-    llvm::LoadInst *getLLVMPrimitive();
+    llvm::GetElementPtrInst *getLLVMPrimitive();
 
 private:
-    llvm::LoadInst *loadInst = nullptr;
+    llvm::GetElementPtrInst *gepInst = nullptr;
 
     Napi::Value getType(const Napi::CallbackInfo &info);
 

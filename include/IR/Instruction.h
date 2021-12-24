@@ -9,7 +9,7 @@ public:
 
     static void Init(Napi::Env env, Napi::Object &exports);
 
-    static Napi::Value New(Napi::Env env, llvm::Instruction *instruction);
+    static Napi::Value New(Napi::Env env, llvm::Instruction *inst);
 
     static bool IsClassOf(const Napi::Value &value);
 
@@ -20,7 +20,7 @@ public:
     llvm::Instruction *getLLVMPrimitive();
 
 private:
-    llvm::Instruction *instruction = nullptr;
+    llvm::Instruction *inst = nullptr;
 
     Napi::Value userBack(const Napi::CallbackInfo &info);
 

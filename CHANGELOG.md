@@ -161,7 +161,7 @@
 
 ### Bug Fixes
 
-* **IR:** change the return type of IRBuilder.Create<Inst> to the corresponding instruction type ([45be7ed](https://github.com/ApsarasX/llvm-bindings/commit/45be7ed768ae094dbced767355a65240f4c229aa))
+* **IR:** change the return type of IRBuilder.Create<Inst> to the corresponding inst type ([45be7ed](https://github.com/ApsarasX/llvm-bindings/commit/45be7ed768ae094dbced767355a65240f4c229aa))
 
 
 ### Features
@@ -218,7 +218,7 @@
 ### Features
 
 * **IR:** add class PHINode and IRBuilder.CreatePHI ([3cf11fb](https://github.com/ApsarasX/llvm-bindings/commit/3cf11fb766e087bf4ec60aa35c908e847f04340e))
-* **IR:** add more create methods of cast instruction in IRBuilder ([14a1a70](https://github.com/ApsarasX/llvm-bindings/commit/14a1a70e8800137c81e4706be5195d36d0e1760d))
+* **IR:** add more create methods of cast inst in IRBuilder ([14a1a70](https://github.com/ApsarasX/llvm-bindings/commit/14a1a70e8800137c81e4706be5195d36d0e1760d))
 
 
 
@@ -229,7 +229,7 @@
 
 * **IR:** add class Instruction and supplement several APIs of class BasicBlock ([510973f](https://github.com/ApsarasX/llvm-bindings/commit/510973f2fe56b1960b3a8aa4d94d4db1c99f544e))
 * **IR:** add IRBuilder.CreateGlobalString and IRBuilder.CreateGlobalStringPtr ([02bb15c](https://github.com/ApsarasX/llvm-bindings/commit/02bb15ce113bcc30372e3e10c3fedc35dde4bc17))
-* **IR:** add several instruction classes, include AllocaInst, BranchInst, CallInst, LoadInst, ReturnInst and StoreInst ([8be97ad](https://github.com/ApsarasX/llvm-bindings/commit/8be97ad42a3c6267a31a19d719cb1d9107c9bc73))
+* **IR:** add several inst classes, include AllocaInst, BranchInst, CallInst, LoadInst, ReturnInst and StoreInst ([8be97ad](https://github.com/ApsarasX/llvm-bindings/commit/8be97ad42a3c6267a31a19d719cb1d9107c9bc73))
 * **IR:** make static 'New' functions of classes with subclasses more precise ([b3bbb66](https://github.com/ApsarasX/llvm-bindings/commit/b3bbb664b6835a9d9becf24bb06dd1ef5e710ddc))
 
 
