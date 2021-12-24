@@ -21,7 +21,8 @@ void GlobalValue::Init(Napi::Env env, Napi::Object &exports) {
     visibilityTypes.Set("ProtectedVisibility", Napi::Number::New(env, llvm::GlobalValue::VisibilityTypes::ProtectedVisibility));
     Napi::Function func = DefineClass(env, "GlobalValue", {
             StaticValue("LinkageTypes", linkageTypes),
-            StaticValue("VisibilityTypes", visibilityTypes)
+            StaticValue("VisibilityTypes", visibilityTypes),
+            InstanceMethod("getType", &GlobalValue::getType)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -58,4 +59,10 @@ GlobalValue::GlobalValue(const Napi::CallbackInfo &info) : ObjectWrap(info) {
 
 llvm::GlobalValue *GlobalValue::getLLVMPrimitive() {
     return globalValue;
+}
+
+Napi::Value GlobalValue::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::PointerType *type = globalValue->getType();
+    return PointerType::New(env, type);
 }

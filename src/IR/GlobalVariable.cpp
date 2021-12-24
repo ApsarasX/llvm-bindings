@@ -81,8 +81,8 @@ llvm::GlobalVariable *GlobalVariable::getLLVMPrimitive() {
 
 Napi::Value GlobalVariable::getType(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    llvm::Type *type = globalVariable->getType();
-    return Type::New(env, type);
+    llvm::PointerType *type = globalVariable->getType();
+    return PointerType::New(env, type);
 }
 
 void GlobalVariable::removeFromParent(const Napi::CallbackInfo &info) {

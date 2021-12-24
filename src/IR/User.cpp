@@ -6,7 +6,8 @@ void User::Init(Napi::Env env, Napi::Object &exports) {
     Napi::Function func = DefineClass(env, "User", {
             InstanceMethod("getOperand", &User::getOperand),
             InstanceMethod("setOperand", &User::setOperand),
-            InstanceMethod("getNumOperands", &User::getNumOperands)
+            InstanceMethod("getNumOperands", &User::getNumOperands),
+            InstanceMethod("getType", &User::getType)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -43,6 +44,10 @@ User::User(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     user = external.Data();
 }
 
+llvm::User *User::getLLVMPrimitive() {
+    return user;
+}
+
 Napi::Value User::getOperand(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() == 0 || !info[0].IsNumber()) {
@@ -69,6 +74,8 @@ Napi::Value User::getNumOperands(const Napi::CallbackInfo &info) {
     return Napi::Number::New(env, num);
 }
 
-llvm::User *User::getLLVMPrimitive() {
-    return user;
+Napi::Value User::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Type *type = user->getType();
+    return Type::New(env, type);
 }

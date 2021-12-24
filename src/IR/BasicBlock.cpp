@@ -13,6 +13,7 @@ void BasicBlock::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("removeFromParent", &BasicBlock::removeFromParent),
             InstanceMethod("eraseFromParent", &BasicBlock::eraseFromParent),
             InstanceMethod("use_empty", &BasicBlock::useEmpty),
+            InstanceMethod("getType", &BasicBlock::getType),
             InstanceMethod("deleteSelf", &BasicBlock::deleteSelf)
     });
     constructor = Napi::Persistent(func);
@@ -137,6 +138,13 @@ Napi::Value BasicBlock::useEmpty(const Napi::CallbackInfo &info) {
     return Napi::Boolean::New(info.Env(), basicBlock->use_empty());
 }
 
+Napi::Value BasicBlock::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Type *type = basicBlock->getType();
+    return Type::New(env, type);
+}
+
+// TODO: more consideration for security
 void BasicBlock::deleteSelf(const Napi::CallbackInfo &info) {
     delete basicBlock;
     basicBlock = nullptr;

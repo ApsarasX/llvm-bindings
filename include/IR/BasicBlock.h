@@ -40,5 +40,7 @@ private:
 
     Napi::Value useEmpty(const Napi::CallbackInfo &info);
 
+    Napi::Value getType(const Napi::CallbackInfo &info);
+
     void deleteSelf(const Napi::CallbackInfo &info);
 };

@@ -27,4 +27,6 @@ private:
     void setOperand(const Napi::CallbackInfo &info);
 
     Napi::Value getNumOperands(const Napi::CallbackInfo &info);
+
+    Napi::Value getType(const Napi::CallbackInfo &info);
 };

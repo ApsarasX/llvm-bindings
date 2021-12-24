@@ -429,6 +429,9 @@ declare namespace llvm {
         public getArgNo(): number;
 
         // duplicated
+        public getType(): Type;
+
+        // duplicated
         public setName(name: string): void;
     }
 
@@ -458,6 +461,9 @@ declare namespace llvm {
         // duplicated
         public use_empty(): boolean;
 
+        // duplicated
+        public getType(): Type;
+
         // extra
         public deleteSelf(): void;
 
@@ -470,6 +476,9 @@ declare namespace llvm {
         public setOperand(i: number, value: Value): void;
 
         public getNumOperands(): number;
+
+        // duplicated
+        public getType(): Type;
 
         protected constructor();
     }
@@ -524,6 +533,9 @@ declare namespace llvm {
     class ConstantStruct extends Constant {
         public static get(type: StructType, values: Constant[]): Constant;
 
+        // duplicated
+        public getType(): StructType;
+
         protected constructor();
     }
 
@@ -546,6 +558,9 @@ declare namespace llvm {
 
     class UndefValue extends Constant {
         public static get(type: Type): UndefValue;
+
+        // duplicated
+        public getType(): Type;
 
         protected constructor();
     }
@@ -570,10 +585,16 @@ declare namespace llvm {
             ProtectedVisibility: number;
         }
 
+        // duplicated
+        public getType(): PointerType;
+
         protected constructor();
     }
 
     class GlobalObject extends GlobalValue {
+        // duplicated
+        public getType(): PointerType;
+
         protected constructor();
     }
 
@@ -584,7 +605,7 @@ declare namespace llvm {
         public constructor(module: Module, type: Type, isConstant: boolean, linkage: number, initializer: Constant | null, name?: string);
 
         // duplicated
-        public getType(): Type;
+        public getType(): PointerType;
 
         public removeFromParent(): void;
 
@@ -641,6 +662,9 @@ declare namespace llvm {
 
         public getSubprogram(): DISubprogram;
 
+        // duplicated
+        public getType(): PointerType;
+
         protected constructor();
     }
 
@@ -668,7 +692,7 @@ declare namespace llvm {
         public getArraySize(): Value;
 
         // duplicated
-        public getType(): llvm.Type;
+        public getType(): PointerType;
 
         // duplicated
         public setDebugLoc(location: DebugLoc): void;
@@ -678,7 +702,7 @@ declare namespace llvm {
 
     class LoadInst extends Instruction {
         // duplicated
-        public getType(): llvm.Type;
+        public getType(): Type;
 
         // duplicated
         public setDebugLoc(location: DebugLoc): void;
@@ -694,6 +718,9 @@ declare namespace llvm {
         public getPointerOperandType(): Type;
 
         // duplicated
+        public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
 
         protected constructor();
@@ -701,7 +728,7 @@ declare namespace llvm {
 
     class GetElementPtrInst extends Instruction {
         // duplicated
-        public getType(): llvm.Type;
+        public getType(): Type;
 
         // duplicated
         public setDebugLoc(location: DebugLoc): void;
@@ -711,6 +738,9 @@ declare namespace llvm {
 
     class CallInst extends Instruction {
         // duplicated
+        public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
 
         protected constructor();
@@ -718,6 +748,9 @@ declare namespace llvm {
 
     class PHINode extends Instruction {
         public addIncoming(value: Value, basicBlock: BasicBlock): void;
+
+        // duplicated
+        public getType(): Type;
 
         // duplicated
         public setDebugLoc(location: DebugLoc): void;
@@ -731,6 +764,9 @@ declare namespace llvm {
         public addClause(clauseVal: Constant): void;
 
         // duplicated
+        public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
 
         protected constructor();
@@ -738,6 +774,9 @@ declare namespace llvm {
 
     class ReturnInst extends Instruction {
         public getReturnValue(): Value;
+
+        // duplicated
+        public getType(): Type;
 
         // duplicated
         public setDebugLoc(location: DebugLoc): void;
@@ -757,6 +796,9 @@ declare namespace llvm {
         public getSuccessor(i: number): BasicBlock;
 
         // duplicated
+        public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
 
         protected constructor();
@@ -766,12 +808,18 @@ declare namespace llvm {
         public addCase(onVal: ConstantInt, dest: BasicBlock): void;
 
         // duplicated
+        public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
 
         protected constructor();
     }
 
     class InvokeInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
         // duplicated
         public setDebugLoc(location: DebugLoc): void;
 
@@ -780,12 +828,18 @@ declare namespace llvm {
 
     class ResumeInst extends Instruction {
         // duplicated
+        public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
 
         protected constructor();
     }
 
     class UnreachableInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
         // duplicated
         public setDebugLoc(location: DebugLoc): void;
 

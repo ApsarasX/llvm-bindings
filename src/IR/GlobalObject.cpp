@@ -4,6 +4,7 @@
 void GlobalObject::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "GlobalObject", {
+            InstanceMethod("getType", &GlobalObject::getType)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -42,4 +43,10 @@ GlobalObject::GlobalObject(const Napi::CallbackInfo &info) : ObjectWrap(info) {
 
 llvm::GlobalObject *GlobalObject::getLLVMPrimitive() {
     return globalObject;
+}
+
+Napi::Value GlobalObject::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::PointerType *type = globalObject->getType();
+    return PointerType::New(env, type);
 }

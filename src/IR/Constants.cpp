@@ -293,7 +293,8 @@ Napi::Value ConstantFP::getType(const Napi::CallbackInfo &info) {
 void ConstantStruct::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "ConstantStruct", {
-            StaticMethod("get", &ConstantStruct::get)
+            StaticMethod("get", &ConstantStruct::get),
+            InstanceMethod("getType", &ConstantStruct::getType)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -343,6 +344,12 @@ Napi::Value ConstantStruct::get(const Napi::CallbackInfo &info) {
     }
     llvm::Constant *constantStruct = llvm::ConstantStruct::get(structType, values);
     return Constant::New(env, constantStruct);
+}
+
+Napi::Value ConstantStruct::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::StructType *type = constantStruct->getType();
+    return StructType::New(env, type);
 }
 
 //===----------------------------------------------------------------------===//
@@ -470,7 +477,8 @@ Napi::Value ConstantExpr::getType(const Napi::CallbackInfo &info) {
 void UndefValue::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "UndefValue", {
-            StaticMethod("get", &UndefValue::get)
+            StaticMethod("get", &UndefValue::get),
+            InstanceMethod("getType", &UndefValue::getType)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -514,4 +522,10 @@ Napi::Value UndefValue::get(const Napi::CallbackInfo &info) {
         return UndefValue::New(env, undefValue);
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::UndefValue::get);
+}
+
+Napi::Value UndefValue::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Type *type = undefValue->getType();
+    return Type::New(env, type);
 }

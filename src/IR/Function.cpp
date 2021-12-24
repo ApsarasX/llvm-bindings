@@ -23,7 +23,8 @@ void Function::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("setPersonalityFn", &Function::setPersonalityFn),
             InstanceMethod("setDoesNotThrow", &Function::setDoesNotThrow),
             InstanceMethod("setSubprogram", &Function::setSubprogram),
-            InstanceMethod("getSubprogram", &Function::getSubprogram)
+            InstanceMethod("getSubprogram", &Function::getSubprogram),
+            InstanceMethod("getType", &Function::getType)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -186,4 +187,10 @@ void Function::setSubprogram(const Napi::CallbackInfo &info) {
 
 Napi::Value Function::getSubprogram(const Napi::CallbackInfo &info) {
     return DISubprogram::New(info.Env(), function->getSubprogram());
+}
+
+Napi::Value Function::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::PointerType *type = function->getType();
+    return PointerType::New(env, type);
 }

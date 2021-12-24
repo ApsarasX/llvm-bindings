@@ -61,4 +61,6 @@ private:
     void setSubprogram(const Napi::CallbackInfo &info);
 
     Napi::Value getSubprogram(const Napi::CallbackInfo &info);
+
+    Napi::Value getType(const Napi::CallbackInfo &info);
 };

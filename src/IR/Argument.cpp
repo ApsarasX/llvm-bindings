@@ -6,6 +6,7 @@ void Argument::Init(Napi::Env env, Napi::Object &exports) {
     Napi::Function func = DefineClass(env, "Argument", {
             InstanceMethod("getParent", &Argument::getParent),
             InstanceMethod("getArgNo", &Argument::getArgNo),
+            InstanceMethod("getType", &Argument::getType),
             InstanceMethod("setName", &Argument::setName)
     });
     constructor = Napi::Persistent(func);
@@ -73,6 +74,12 @@ Napi::Value Argument::getParent(const Napi::CallbackInfo &info) {
 Napi::Value Argument::getArgNo(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     return Napi::Number::New(env, argument->getArgNo());
+}
+
+Napi::Value Argument::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Type *type = argument->getType();
+    return Type::New(env, type);
 }
 
 void Argument::setName(const Napi::CallbackInfo &info) {

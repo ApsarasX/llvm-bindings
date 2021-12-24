@@ -80,6 +80,8 @@ private:
 
     Napi::Value getPointerOperandType(const Napi::CallbackInfo &info);
 
+    Napi::Value getType(const Napi::CallbackInfo &info);
+
     void setDebugLoc(const Napi::CallbackInfo &info);
 };
 
@@ -126,6 +128,8 @@ public:
 private:
     llvm::CallInst *callInst = nullptr;
 
+    Napi::Value getType(const Napi::CallbackInfo &info);
+
     void setDebugLoc(const Napi::CallbackInfo &info);
 };
 
@@ -149,6 +153,8 @@ private:
     llvm::PHINode *phiNode = nullptr;
 
     void addIncoming(const Napi::CallbackInfo &info);
+
+    Napi::Value getType(const Napi::CallbackInfo &info);
 
     void setDebugLoc(const Napi::CallbackInfo &info);
 };
@@ -176,6 +182,8 @@ private:
 
     void addClause(const Napi::CallbackInfo &info);
 
+    Napi::Value getType(const Napi::CallbackInfo &info);
+
     void setDebugLoc(const Napi::CallbackInfo &info);
 };
 
@@ -199,6 +207,8 @@ private:
     llvm::ReturnInst *returnInst = nullptr;
 
     Napi::Value getReturnValue(const Napi::CallbackInfo &info);
+
+    Napi::Value getType(const Napi::CallbackInfo &info);
 
     void setDebugLoc(const Napi::CallbackInfo &info);
 };
@@ -232,6 +242,8 @@ private:
 
     Napi::Value getSuccessor(const Napi::CallbackInfo &info);
 
+    Napi::Value getType(const Napi::CallbackInfo &info);
+
     void setDebugLoc(const Napi::CallbackInfo &info);
 };
 
@@ -256,6 +268,8 @@ private:
 
     void addCase(const Napi::CallbackInfo &info);
 
+    Napi::Value getType(const Napi::CallbackInfo &info);
+
     void setDebugLoc(const Napi::CallbackInfo &info);
 };
 
@@ -277,6 +291,8 @@ public:
 
 private:
     llvm::InvokeInst *invokeInst = nullptr;
+
+    Napi::Value getType(const Napi::CallbackInfo &info);
 
     void setDebugLoc(const Napi::CallbackInfo &info);
 };
@@ -300,6 +316,8 @@ public:
 private:
     llvm::ResumeInst *resumeInst = nullptr;
 
+    Napi::Value getType(const Napi::CallbackInfo &info);
+
     void setDebugLoc(const Napi::CallbackInfo &info);
 };
 
@@ -321,6 +339,8 @@ public:
 
 private:
     llvm::UnreachableInst *unreachableInst = nullptr;
+
+    Napi::Value getType(const Napi::CallbackInfo &info);
 
     void setDebugLoc(const Napi::CallbackInfo &info);
 };

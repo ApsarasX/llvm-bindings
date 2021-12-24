@@ -57,8 +57,8 @@ Napi::Value AllocaInst::getArraySize(const Napi::CallbackInfo &info) {
 
 Napi::Value AllocaInst::getType(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    llvm::Type *type = allocaInst->getType();
-    return Type::New(env, type);
+    llvm::PointerType *type = allocaInst->getType();
+    return PointerType::New(env, type);
 }
 
 void AllocaInst::setDebugLoc(const Napi::CallbackInfo &info) {
@@ -139,6 +139,7 @@ void StoreInst::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("getValueOperand", &StoreInst::getValueOperand),
             InstanceMethod("getPointerOperand", &StoreInst::getPointerOperand),
             InstanceMethod("getPointerOperandType", &StoreInst::getPointerOperandType),
+            InstanceMethod("getType", &StoreInst::getType),
             InstanceMethod("setDebugLoc", &StoreInst::setDebugLoc)
     });
     constructor = Napi::Persistent(func);
@@ -185,6 +186,12 @@ Napi::Value StoreInst::getPointerOperand(const Napi::CallbackInfo &info) {
 
 Napi::Value StoreInst::getPointerOperandType(const Napi::CallbackInfo &info) {
     return Type::New(info.Env(), storeInst->getPointerOperandType());
+}
+
+Napi::Value StoreInst::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Type *type = storeInst->getType();
+    return Type::New(env, type);
 }
 
 void StoreInst::setDebugLoc(const Napi::CallbackInfo &info) {
@@ -262,6 +269,7 @@ void GetElementPtrInst::setDebugLoc(const Napi::CallbackInfo &info) {
 void CallInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "CallInst", {
+            InstanceMethod("getType", &CallInst::getType),
             InstanceMethod("setDebugLoc", &CallInst::setDebugLoc)
     });
     constructor = Napi::Persistent(func);
@@ -298,6 +306,12 @@ llvm::CallInst *CallInst::getLLVMPrimitive() {
     return callInst;
 }
 
+Napi::Value CallInst::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Type *type = callInst->getType();
+    return Type::New(env, type);
+}
+
 void CallInst::setDebugLoc(const Napi::CallbackInfo &info) {
     if (info.Length() == 1 && DebugLoc::IsClassOf(info[0])) {
         llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
@@ -315,6 +329,7 @@ void PHINode::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "PHINode", {
             InstanceMethod("addIncoming", &PHINode::addIncoming),
+            InstanceMethod("getType", &PHINode::getType),
             InstanceMethod("setDebugLoc", &PHINode::setDebugLoc)
     });
     constructor = Napi::Persistent(func);
@@ -361,6 +376,12 @@ void PHINode::addIncoming(const Napi::CallbackInfo &info) {
     throw Napi::TypeError::New(info.Env(), ErrMsg::Class::PHINode::addIncoming);
 }
 
+Napi::Value PHINode::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Type *type = phiNode->getType();
+    return Type::New(env, type);
+}
+
 void PHINode::setDebugLoc(const Napi::CallbackInfo &info) {
     if (info.Length() == 1 && DebugLoc::IsClassOf(info[0])) {
         llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
@@ -379,6 +400,7 @@ void LandingPadInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::Function func = DefineClass(env, "LandingPadInst", {
             InstanceMethod("setCleanup", &LandingPadInst::setCleanup),
             InstanceMethod("addClause", &LandingPadInst::addClause),
+            InstanceMethod("getType", &LandingPadInst::getType),
             InstanceMethod("setDebugLoc", &LandingPadInst::setDebugLoc)
     });
     constructor = Napi::Persistent(func);
@@ -417,7 +439,6 @@ llvm::LandingPadInst *LandingPadInst::getLLVMPrimitive() {
 
 void LandingPadInst::setCleanup(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    unsigned argsLen = info.Length();
     if (info.Length() == 1 && info[0].IsBoolean()) {
         lpInst->setCleanup(info[0].As<Napi::Boolean>());
         return;
@@ -427,12 +448,17 @@ void LandingPadInst::setCleanup(const Napi::CallbackInfo &info) {
 
 void LandingPadInst::addClause(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    unsigned argsLen = info.Length();
     if (info.Length() == 1 && Constant::IsClassOf(info[0])) {
         lpInst->addClause(Constant::Extract(info[0]));
         return;
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::LandingPadInst::addClause);
+}
+
+Napi::Value LandingPadInst::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Type *type = lpInst->getType();
+    return Type::New(env, type);
 }
 
 void LandingPadInst::setDebugLoc(const Napi::CallbackInfo &info) {
@@ -452,6 +478,7 @@ void ReturnInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "ReturnInst", {
             InstanceMethod("getReturnValue", &ReturnInst::getReturnValue),
+            InstanceMethod("getType", &ReturnInst::getType),
             InstanceMethod("setDebugLoc", &ReturnInst::setDebugLoc)
     });
     constructor = Napi::Persistent(func);
@@ -492,6 +519,12 @@ Napi::Value ReturnInst::getReturnValue(const Napi::CallbackInfo &info) {
     return Value::New(info.Env(), returnInst->getReturnValue());
 }
 
+Napi::Value ReturnInst::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Type *type = returnInst->getType();
+    return Type::New(env, type);
+}
+
 void ReturnInst::setDebugLoc(const Napi::CallbackInfo &info) {
     if (info.Length() == 1 && DebugLoc::IsClassOf(info[0])) {
         llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
@@ -513,6 +546,7 @@ void BranchInst::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("getCondition", &BranchInst::getCondition),
             InstanceMethod("getNumSuccessors", &BranchInst::getNumSuccessors),
             InstanceMethod("getSuccessor", &BranchInst::getSuccessor),
+            InstanceMethod("getType", &BranchInst::getType),
             InstanceMethod("setDebugLoc", &BranchInst::setDebugLoc)
     });
     constructor = Napi::Persistent(func);
@@ -575,6 +609,12 @@ Napi::Value BranchInst::getSuccessor(const Napi::CallbackInfo &info) {
     throw Napi::TypeError::New(env, ErrMsg::Class::BranchInst::getSuccessor);
 }
 
+Napi::Value BranchInst::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Type *type = branchInst->getType();
+    return Type::New(env, type);
+}
+
 void BranchInst::setDebugLoc(const Napi::CallbackInfo &info) {
     if (info.Length() == 1 && DebugLoc::IsClassOf(info[0])) {
         llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
@@ -592,6 +632,7 @@ void SwitchInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "SwitchInst", {
             InstanceMethod("addCase", &SwitchInst::addCase),
+            InstanceMethod("getType", &SwitchInst::getType),
             InstanceMethod("setDebugLoc", &SwitchInst::setDebugLoc)
     });
     constructor = Napi::Persistent(func);
@@ -640,6 +681,12 @@ void SwitchInst::addCase(const Napi::CallbackInfo &info) {
     }
 }
 
+Napi::Value SwitchInst::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Type *type = switchInst->getType();
+    return Type::New(env, type);
+}
+
 void SwitchInst::setDebugLoc(const Napi::CallbackInfo &info) {
     if (info.Length() == 1 && DebugLoc::IsClassOf(info[0])) {
         llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
@@ -656,6 +703,7 @@ void SwitchInst::setDebugLoc(const Napi::CallbackInfo &info) {
 void InvokeInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "InvokeInst", {
+            InstanceMethod("getType", &InvokeInst::getType),
             InstanceMethod("setDebugLoc", &InvokeInst::setDebugLoc)
     });
     constructor = Napi::Persistent(func);
@@ -692,6 +740,12 @@ llvm::InvokeInst *InvokeInst::getLLVMPrimitive() {
     return invokeInst;
 }
 
+Napi::Value InvokeInst::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Type *type = invokeInst->getType();
+    return Type::New(env, type);
+}
+
 void InvokeInst::setDebugLoc(const Napi::CallbackInfo &info) {
     if (info.Length() == 1 && DebugLoc::IsClassOf(info[0])) {
         llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
@@ -708,6 +762,7 @@ void InvokeInst::setDebugLoc(const Napi::CallbackInfo &info) {
 void ResumeInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "ResumeInst", {
+            InstanceMethod("getType", &ResumeInst::getType),
             InstanceMethod("setDebugLoc", &ResumeInst::setDebugLoc)
     });
     constructor = Napi::Persistent(func);
@@ -744,6 +799,12 @@ llvm::ResumeInst *ResumeInst::getLLVMPrimitive() {
     return resumeInst;
 }
 
+Napi::Value ResumeInst::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Type *type = resumeInst->getType();
+    return Type::New(env, type);
+}
+
 void ResumeInst::setDebugLoc(const Napi::CallbackInfo &info) {
     if (info.Length() == 1 && DebugLoc::IsClassOf(info[0])) {
         llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
@@ -760,6 +821,7 @@ void ResumeInst::setDebugLoc(const Napi::CallbackInfo &info) {
 void UnreachableInst::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "UnreachableInst", {
+            InstanceMethod("getType", &UnreachableInst::getType),
             InstanceMethod("setDebugLoc", &UnreachableInst::setDebugLoc)
     });
     constructor = Napi::Persistent(func);
@@ -794,6 +856,12 @@ UnreachableInst::UnreachableInst(const Napi::CallbackInfo &info) : ObjectWrap(in
 
 llvm::UnreachableInst *UnreachableInst::getLLVMPrimitive() {
     return unreachableInst;
+}
+
+Napi::Value UnreachableInst::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Type *type = unreachableInst->getType();
+    return Type::New(env, type);
 }
 
 void UnreachableInst::setDebugLoc(const Napi::CallbackInfo &info) {

@@ -73,6 +73,8 @@ private:
     llvm::ConstantStruct *constantStruct = nullptr;
 
     static Napi::Value get(const Napi::CallbackInfo &info);
+
+    Napi::Value getType(const Napi::CallbackInfo &info);
 };
 
 class ConstantPointerNull : public Napi::ObjectWrap<ConstantPointerNull> {
@@ -143,4 +145,6 @@ private:
     llvm::UndefValue *undefValue = nullptr;
 
     static Napi::Value get(const Napi::CallbackInfo &info);
+
+    Napi::Value getType(const Napi::CallbackInfo &info);
 };
