@@ -133,6 +133,42 @@ private:
     void setDebugLoc(const Napi::CallbackInfo &info);
 };
 
+class SelectInst : public Napi::ObjectWrap<SelectInst> {
+public:
+    static inline Napi::FunctionReference constructor; // NOLINT
+
+    static void Init(Napi::Env env, Napi::Object &exports);
+
+    static Napi::Object New(Napi::Env env, llvm::SelectInst *selectInst);
+
+    static bool IsClassOf(const Napi::Value &value);
+
+    static llvm::SelectInst *Extract(const Napi::Value &value);
+
+    explicit SelectInst(const Napi::CallbackInfo &info);
+
+    llvm::SelectInst *getLLVMPrimitive();
+
+private:
+    llvm::SelectInst *selectInst = nullptr;
+
+    Napi::Value getCondition(const Napi::CallbackInfo &info);
+
+    Napi::Value getTrueValue(const Napi::CallbackInfo &info);
+
+    Napi::Value getFalseValue(const Napi::CallbackInfo &info);
+
+    void setCondition(const Napi::CallbackInfo &info);
+
+    void setTrueValue(const Napi::CallbackInfo &info);
+
+    void setFalseValue(const Napi::CallbackInfo &info);
+
+    Napi::Value getType(const Napi::CallbackInfo &info);
+
+    void setDebugLoc(const Napi::CallbackInfo &info);
+};
+
 class PHINode : public Napi::ObjectWrap<PHINode> {
 public:
     static inline Napi::FunctionReference constructor; // NOLINT
@@ -279,7 +315,7 @@ public:
 
     static void Init(Napi::Env env, Napi::Object &exports);
 
-    static Napi::Object New(Napi::Env env, llvm::InvokeInst *callInst);
+    static Napi::Object New(Napi::Env env, llvm::InvokeInst *invokeInst);
 
     static bool IsClassOf(const Napi::Value &value);
 

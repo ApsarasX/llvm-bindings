@@ -746,6 +746,28 @@ declare namespace llvm {
         protected constructor();
     }
 
+    class SelectInst extends Instruction {
+        public getCondition(): Value;
+
+        public getTrueValue(): Value;
+
+        public getFalseValue(): Value;
+
+        public setCondition(value: Value): void;
+
+        public setTrueValue(value: Value): void;
+
+        public setFalseValue(value: Value): void;
+
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
     class PHINode extends Instruction {
         public addIncoming(value: Value, basicBlock: BasicBlock): void;
 

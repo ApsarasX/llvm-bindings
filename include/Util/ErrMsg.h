@@ -180,6 +180,13 @@ namespace ErrMsg {
             static const char *constructor = "CallInst.constructor needs to be called with new (external: Napi::External<llvm::CallInst>)";
             static const char *setDebugLoc = "CallInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
+        namespace SelectInst {
+            static const char *constructor = "SelectInst.constructor needs to be called with new (external: Napi::External<llvm::SelectInst>)";
+            static const char *setCondition = "SelectInst.setCondition needs to be called with (value: Value)";
+            static const char *setTrueValue = "SelectInst.setTrueValue needs to be called with (value: Value)";
+            static const char *setFalseValue = "SelectInst.setFalseValue needs to be called with (value: Value)";
+            static const char *setDebugLoc = "SelectInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+        }
         namespace PHINode {
             static const char *constructor = "PHINode.constructor needs to be called with new (external: Napi::External<llvm::PHINode>)";
             static const char *addIncoming = "PHINode.addIncoming needs to be called with (value: Value, basicBlock: BasicBlock)";

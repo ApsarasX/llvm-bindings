@@ -28,6 +28,8 @@ Napi::Value Instruction::New(Napi::Env env, llvm::Instruction *inst) {
         return GetElementPtrInst::New(env, llvm::cast<llvm::GetElementPtrInst>(inst));
     } else if (llvm::isa<llvm::CallInst>(inst)) {
         return CallInst::New(env, llvm::cast<llvm::CallInst>(inst));
+    } else if (llvm::isa<llvm::SelectInst>(inst)) {
+        return SelectInst::New(env, llvm::cast<llvm::SelectInst>(inst));
     } else if (llvm::isa<llvm::PHINode>(inst)) {
         return PHINode::New(env, llvm::cast<llvm::PHINode>(inst));
     } else if (llvm::isa<llvm::LandingPadInst>(inst)) {

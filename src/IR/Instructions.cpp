@@ -322,6 +322,110 @@ void CallInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
+// class SelectInst
+//===----------------------------------------------------------------------===//
+
+void SelectInst::Init(Napi::Env env, Napi::Object &exports) {
+    Napi::HandleScope scope(env);
+    Napi::Function func = DefineClass(env, "SelectInst", {
+            InstanceMethod("getType", &SelectInst::getType),
+            InstanceMethod("getCondition", &SelectInst::getCondition),
+            InstanceMethod("getTrueValue", &SelectInst::getTrueValue),
+            InstanceMethod("getFalseValue", &SelectInst::getFalseValue),
+            InstanceMethod("setCondition", &SelectInst::setCondition),
+            InstanceMethod("setTrueValue", &SelectInst::setTrueValue),
+            InstanceMethod("setFalseValue", &SelectInst::setFalseValue),
+            InstanceMethod("setDebugLoc", &SelectInst::setDebugLoc)
+    });
+    constructor = Napi::Persistent(func);
+    constructor.SuppressDestruct();
+    Inherit(env, constructor.Value(), Instruction::constructor.Value());
+    exports.Set("SelectInst", func);
+}
+
+Napi::Object SelectInst::New(Napi::Env env, llvm::SelectInst *selectInst) {
+    return constructor.New({Napi::External<llvm::SelectInst>::New(env, selectInst)});
+}
+
+bool SelectInst::IsClassOf(const Napi::Value &value) {
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
+}
+
+llvm::SelectInst *SelectInst::Extract(const Napi::Value &value) {
+    if (value.IsNull()) {
+        return nullptr;
+    }
+    return Unwrap(value.As<Napi::Object>())->getLLVMPrimitive();
+}
+
+SelectInst::SelectInst(const Napi::CallbackInfo &info) : ObjectWrap(info) {
+    Napi::Env env = info.Env();
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::SelectInst::constructor);
+    }
+    auto external = info[0].As<Napi::External<llvm::SelectInst>>();
+    selectInst = external.Data();
+}
+
+llvm::SelectInst *SelectInst::getLLVMPrimitive() {
+    return selectInst;
+}
+
+Napi::Value SelectInst::getCondition(const Napi::CallbackInfo &info) {
+    return Value::New(info.Env(), selectInst->getCondition());
+}
+
+Napi::Value SelectInst::getTrueValue(const Napi::CallbackInfo &info) {
+    return Value::New(info.Env(), selectInst->getTrueValue());
+}
+
+Napi::Value SelectInst::getFalseValue(const Napi::CallbackInfo &info) {
+    return Value::New(info.Env(), selectInst->getFalseValue());
+}
+
+void SelectInst::setCondition(const Napi::CallbackInfo &info) {
+    if (info.Length() == 1 && Value::IsClassOf(info[0])) {
+        llvm::Value *cond = Value::Extract(info[0]);
+        selectInst->setCondition(cond);
+        return;
+    }
+    throw Napi::TypeError::New(info.Env(), ErrMsg::Class::SelectInst::setCondition);
+}
+
+void SelectInst::setTrueValue(const Napi::CallbackInfo &info) {
+    if (info.Length() == 1 && Value::IsClassOf(info[0])) {
+        llvm::Value *cond = Value::Extract(info[0]);
+        selectInst->setTrueValue(cond);
+        return;
+    }
+    throw Napi::TypeError::New(info.Env(), ErrMsg::Class::SelectInst::setTrueValue);
+}
+
+void SelectInst::setFalseValue(const Napi::CallbackInfo &info) {
+    if (info.Length() == 1 && Value::IsClassOf(info[0])) {
+        llvm::Value *cond = Value::Extract(info[0]);
+        selectInst->setFalseValue(cond);
+        return;
+    }
+    throw Napi::TypeError::New(info.Env(), ErrMsg::Class::SelectInst::setFalseValue);
+}
+
+Napi::Value SelectInst::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::Type *type = selectInst->getType();
+    return Type::New(env, type);
+}
+
+void SelectInst::setDebugLoc(const Napi::CallbackInfo &info) {
+    if (info.Length() == 1 && DebugLoc::IsClassOf(info[0])) {
+        llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
+        selectInst->setDebugLoc(*location);
+        return;
+    }
+    throw Napi::TypeError::New(info.Env(), ErrMsg::Class::SelectInst::setDebugLoc);
+}
+
+//===----------------------------------------------------------------------===//
 // class PHINode
 //===----------------------------------------------------------------------===//
 
