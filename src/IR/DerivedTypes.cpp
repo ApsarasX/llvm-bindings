@@ -25,7 +25,7 @@ Napi::Object IntegerType::New(Napi::Env env, llvm::IntegerType *type) {
 }
 
 bool IntegerType::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::IntegerType *IntegerType::Extract(const Napi::Value &value) {
@@ -102,7 +102,7 @@ Napi::Object FunctionType::New(Napi::Env env, llvm::FunctionType *type) {
 }
 
 bool FunctionType::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::FunctionType *FunctionType::Extract(const Napi::Value &value) {
@@ -178,7 +178,7 @@ Napi::Object FunctionCallee::New(Napi::Env env, llvm::FunctionCallee callee) {
 }
 
 bool FunctionCallee::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::FunctionCallee FunctionCallee::Extract(const Napi::Value &value) {
@@ -238,7 +238,7 @@ Napi::Object StructType::New(Napi::Env env, llvm::StructType *type) {
 }
 
 bool StructType::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::StructType *StructType::Extract(const Napi::Value &value) {
@@ -382,7 +382,7 @@ Napi::Object ArrayType::New(Napi::Env env, llvm::ArrayType *type) {
 }
 
 bool ArrayType::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::ArrayType *ArrayType::Extract(const Napi::Value &value) {
@@ -472,7 +472,7 @@ Napi::Object PointerType::New(Napi::Env env, llvm::PointerType *type) {
 }
 
 bool PointerType::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::PointerType *PointerType::Extract(const Napi::Value &value) {

@@ -26,7 +26,7 @@ Napi::Object BasicBlock::New(Napi::Env env, llvm::BasicBlock *basicBlock) {
 }
 
 bool BasicBlock::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::BasicBlock *BasicBlock::Extract(const Napi::Value &value) {

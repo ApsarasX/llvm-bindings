@@ -19,7 +19,7 @@ Napi::Object TargetMachine::New(Napi::Env env, llvm::TargetMachine *machine) {
 }
 
 bool TargetMachine::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 TargetMachine::TargetMachine(const Napi::CallbackInfo &info) : ObjectWrap(info) {

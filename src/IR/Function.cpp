@@ -36,7 +36,7 @@ Napi::Object Function::New(Napi::Env env, llvm::Function *function) {
 }
 
 bool Function::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::Function *Function::Extract(const Napi::Value &value) {

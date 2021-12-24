@@ -24,7 +24,7 @@ Napi::Value User::New(Napi::Env env, llvm::User *user) {
 }
 
 bool User::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::User *User::Extract(const Napi::Value &value) {

@@ -20,7 +20,7 @@ Napi::Object GlobalVariable::New(Napi::Env env, llvm::GlobalVariable *variable) 
 }
 
 bool GlobalVariable::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::GlobalVariable *GlobalVariable::Extract(const Napi::Value &value) {

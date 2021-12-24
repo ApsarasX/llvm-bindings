@@ -133,7 +133,7 @@ void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
 }
 
 bool IRBuilder::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 LLVMIRBuilder *IRBuilder::Extract(const Napi::Value &value) {
@@ -727,7 +727,7 @@ Napi::Object IRBuilder::InsertPoint::New(Napi::Env env, llvm::IRBuilderBase::Ins
 }
 
 bool IRBuilder::InsertPoint::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::IRBuilderBase::InsertPoint IRBuilder::InsertPoint::Extract(const Napi::Value &value) {

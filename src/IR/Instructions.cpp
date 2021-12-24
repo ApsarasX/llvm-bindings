@@ -24,7 +24,7 @@ Napi::Object AllocaInst::New(Napi::Env env, llvm::AllocaInst *allocaInst) {
 }
 
 bool AllocaInst::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::AllocaInst *AllocaInst::Extract(const Napi::Value &value) {
@@ -91,7 +91,7 @@ Napi::Object LoadInst::New(Napi::Env env, llvm::LoadInst *loadInst) {
 }
 
 bool LoadInst::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::LoadInst *LoadInst::Extract(const Napi::Value &value) {
@@ -152,7 +152,7 @@ Napi::Object StoreInst::New(Napi::Env env, llvm::StoreInst *branchInst) {
 }
 
 bool StoreInst::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::StoreInst *StoreInst::Extract(const Napi::Value &value) {
@@ -217,7 +217,7 @@ Napi::Object GetElementPtrInst::New(Napi::Env env, llvm::GetElementPtrInst *gepI
 }
 
 bool GetElementPtrInst::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::GetElementPtrInst *GetElementPtrInst::Extract(const Napi::Value &value) {
@@ -275,7 +275,7 @@ Napi::Object CallInst::New(Napi::Env env, llvm::CallInst *callInst) {
 }
 
 bool CallInst::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::CallInst *CallInst::Extract(const Napi::Value &value) {
@@ -328,7 +328,7 @@ Napi::Object PHINode::New(Napi::Env env, llvm::PHINode *phiNode) {
 }
 
 bool PHINode::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::PHINode *PHINode::Extract(const Napi::Value &value) {
@@ -392,7 +392,7 @@ Napi::Object LandingPadInst::New(Napi::Env env, llvm::LandingPadInst *lpInst) {
 }
 
 bool LandingPadInst::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::LandingPadInst *LandingPadInst::Extract(const Napi::Value &value) {
@@ -465,7 +465,7 @@ Napi::Object ReturnInst::New(Napi::Env env, llvm::ReturnInst *returnInst) {
 }
 
 bool ReturnInst::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::ReturnInst *ReturnInst::Extract(const Napi::Value &value) {
@@ -526,7 +526,7 @@ Napi::Object BranchInst::New(Napi::Env env, llvm::BranchInst *branchInst) {
 }
 
 bool BranchInst::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::BranchInst *BranchInst::Extract(const Napi::Value &value) {
@@ -605,7 +605,7 @@ Napi::Object SwitchInst::New(Napi::Env env, llvm::SwitchInst *switchInst) {
 }
 
 bool SwitchInst::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::SwitchInst *SwitchInst::Extract(const Napi::Value &value) {
@@ -669,7 +669,7 @@ Napi::Object InvokeInst::New(Napi::Env env, llvm::InvokeInst *invokeInst) {
 }
 
 bool InvokeInst::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::InvokeInst *InvokeInst::Extract(const Napi::Value &value) {
@@ -721,7 +721,7 @@ Napi::Object ResumeInst::New(Napi::Env env, llvm::ResumeInst *resumeInst) {
 }
 
 bool ResumeInst::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::ResumeInst *ResumeInst::Extract(const Napi::Value &value) {
@@ -773,7 +773,7 @@ Napi::Object UnreachableInst::New(Napi::Env env, llvm::UnreachableInst *unreacha
 }
 
 bool UnreachableInst::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::UnreachableInst *UnreachableInst::Extract(const Napi::Value &value) {

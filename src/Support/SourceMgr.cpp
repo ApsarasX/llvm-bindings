@@ -15,7 +15,7 @@ void SMDiagnostic::Init(Napi::Env env, Napi::Object &exports) {
 }
 
 bool SMDiagnostic::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::SMDiagnostic &SMDiagnostic::Extract(const Napi::Value &value) {

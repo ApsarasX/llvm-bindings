@@ -16,7 +16,7 @@ Napi::Object DataLayout::New(Napi::Env env, llvm::DataLayout *dl) {
 }
 
 bool DataLayout::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::DataLayout &DataLayout::Extract(const Napi::Value &value) {

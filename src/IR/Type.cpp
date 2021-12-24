@@ -153,7 +153,7 @@ Napi::Object Type::New(Napi::Env env, llvm::Type *type) {
 }
 
 bool Type::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::Type *Type::Extract(const Napi::Value &value) {

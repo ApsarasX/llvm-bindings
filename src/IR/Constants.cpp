@@ -141,7 +141,7 @@ Napi::Object ConstantInt::New(Napi::Env env, llvm::ConstantInt *constantInt) {
 }
 
 bool ConstantInt::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::ConstantInt *ConstantInt::Extract(const Napi::Value &value) {
@@ -218,7 +218,7 @@ Napi::Object ConstantFP::New(Napi::Env env, llvm::ConstantFP *constantFP) {
 }
 
 bool ConstantFP::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::ConstantFP *ConstantFP::Extract(const Napi::Value &value) {
@@ -306,7 +306,7 @@ Napi::Object ConstantStruct::New(Napi::Env env, llvm::ConstantStruct *constantSt
 }
 
 bool ConstantStruct::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::ConstantStruct *ConstantStruct::Extract(const Napi::Value &value) {
@@ -366,7 +366,7 @@ Napi::Object ConstantPointerNull::New(Napi::Env env, llvm::ConstantPointerNull *
 }
 
 bool ConstantPointerNull::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::ConstantPointerNull *ConstantPointerNull::Extract(const Napi::Value &value) {
@@ -426,7 +426,7 @@ Napi::Object ConstantExpr::New(Napi::Env env, llvm::ConstantExpr *constantExpr) 
 }
 
 bool ConstantExpr::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::ConstantExpr *ConstantExpr::Extract(const Napi::Value &value) {
@@ -483,7 +483,7 @@ Napi::Object UndefValue::New(Napi::Env env, llvm::UndefValue *undefValue) {
 }
 
 bool UndefValue::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::UndefValue *UndefValue::Extract(const Napi::Value &value) {

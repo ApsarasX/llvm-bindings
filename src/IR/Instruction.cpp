@@ -49,7 +49,7 @@ Napi::Value Instruction::New(Napi::Env env, llvm::Instruction *inst) {
 }
 
 bool Instruction::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 llvm::Instruction *Instruction::Extract(const Napi::Value &value) {

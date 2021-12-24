@@ -41,7 +41,7 @@ void Module::Init(Napi::Env env, Napi::Object &exports) {
 }
 
 bool Module::IsClassOf(const Napi::Value &value) {
-    return value.As<Napi::Object>().InstanceOf(constructor.Value());
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
 }
 
 Napi::Object Module::New(Napi::Env env, llvm::Module *module) {
