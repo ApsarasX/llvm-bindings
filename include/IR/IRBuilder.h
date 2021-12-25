@@ -9,26 +9,25 @@
 template<funcType method> \
 Napi::Value getIntFactory(const Napi::CallbackInfo &info) { \
     Napi::Env env = info.Env(); \
-    if (info.Length() == 0 || !info[0].IsNumber()) { \
-        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::getIntFactory); \
+    if (info.Length() == 1 && info[0].IsNumber()) { \
+        unsigned value = info[0].As<Napi::Number>(); \
+        return ConstantInt::New(env, (builder->*method)(value)); \
     } \
-    unsigned value = info[0].As<Napi::Number>(); \
-    return ConstantInt::New(env, (builder->*method)(value)); \
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::getIntFactory); \
 }
 
 #define binOpFactoryMacro(binOpFuncType, extraArgs...) \
 template<binOpFuncType method> \
 Napi::Value binOpFactory(const Napi::CallbackInfo &info) { \
     Napi::Env env = info.Env(); \
-    size_t argsLen = info.Length(); \
-    if(argsLen >= 2 && Value::IsClassOf(info[0]) && Value::IsClassOf(info[1])) { \
-        if(argsLen == 2 || argsLen >= 3 && info[2].IsString()) { \
-            llvm::Value *lhs = Value::Extract(info[0]); \
-            llvm::Value *rhs = Value::Extract(info[1]); \
-            const std::string &name = argsLen >= 3 ? info[2].As<Napi::String>().Utf8Value() : ""; \
-            llvm::Value *result = (builder->*method)(lhs, rhs, name, ##extraArgs); \
-            return Value::New(env, result); \
-        } \
+    unsigned argsLen = info.Length(); \
+    if (argsLen == 2 && Value::IsClassOf(info[0]) && Value::IsClassOf(info[1]) || \
+        argsLen == 3 && Value::IsClassOf(info[0]) && Value::IsClassOf(info[1]) && info[2].IsString()) { \
+        llvm::Value *lhs = Value::Extract(info[0]); \
+        llvm::Value *rhs = Value::Extract(info[1]); \
+        const std::string &name = argsLen == 3 ? std::string(info[2].As<Napi::String>()) : ""; \
+        llvm::Value *result = (builder->*method)(lhs, rhs, name, ##extraArgs); \
+        return Value::New(env, result); \
     } \
     throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateBinOpFactory); \
 }
@@ -37,14 +36,13 @@ Napi::Value binOpFactory(const Napi::CallbackInfo &info) { \
 template<unOpFuncType method> \
 Napi::Value unOpFactory(const Napi::CallbackInfo &info) { \
     Napi::Env env = info.Env(); \
-    size_t argsLen = info.Length(); \
-    if(argsLen >= 1 && Value::IsClassOf(info[0])) { \
-        if(argsLen == 1 || argsLen >= 2 && info[1].IsString()) { \
-            llvm::Value *value = Value::Extract(info[0]); \
-            const std::string &name = argsLen >= 2 ? info[1].As<Napi::String>().Utf8Value() : ""; \
-            llvm::Value *result = (builder->*method)(value, name, ##extraArgs); \
-            return Value::New(env, result); \
-        } \
+    unsigned argsLen = info.Length(); \
+    if (argsLen == 1 && Value::IsClassOf(info[0]) || \
+        argsLen == 2 && Value::IsClassOf(info[0]) && info[1].IsString()) { \
+        llvm::Value *value = Value::Extract(info[0]); \
+        const std::string &name = argsLen == 2 ? std::string(info[1].As<Napi::String>()) : ""; \
+        llvm::Value *result = (builder->*method)(value, name, ##extraArgs); \
+        return Value::New(env, result); \
     } \
     throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateUnOpFactory); \
 }
@@ -196,6 +194,8 @@ private:
     Napi::Value CreateCondBr(const Napi::CallbackInfo &info);
 
     Napi::Value CreateSwitch(const Napi::CallbackInfo &info);
+
+    Napi::Value CreateIndirectBr(const Napi::CallbackInfo &info);
 
     Napi::Value CreateInvoke(const Napi::CallbackInfo &info);
 

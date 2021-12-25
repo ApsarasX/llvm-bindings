@@ -183,7 +183,7 @@ declare namespace llvm {
 
         public static getTokenTy(context: LLVMContext): Type;
 
-        public static getIntNTy(context: LLVMContext, n: number): IntegerType;
+        public static getIntNTy(context: LLVMContext, numBits: number): IntegerType;
 
         public static getInt1Ty(context: LLVMContext): IntegerType;
 
@@ -1247,7 +1247,7 @@ declare namespace llvm {
 
         public getInt64(value: number): ConstantInt;
 
-        public getIntN(n: number, value: number): ConstantInt;
+        public getIntN(numBits: number, value: number): ConstantInt;
 
         public getInt(value: APInt): ConstantInt;
 
@@ -1267,7 +1267,7 @@ declare namespace llvm {
 
         public getInt128Ty(): IntegerType;
 
-        public getIntNTy(n: number): IntegerType;
+        public getIntNTy(numBits: number): IntegerType;
 
         public getHalfTy(): Type;
 
@@ -1296,6 +1296,8 @@ declare namespace llvm {
         public CreateCondBr(cond: Value, thenBB: BasicBlock, elseBB: BasicBlock): BranchInst;
 
         public CreateSwitch(value: Value, dest: BasicBlock, numCases?: number): SwitchInst;
+
+        public CreateIndirectBr(addr: Value, numDests?: number): IndirectBrInst;
 
         // customized
         public CreateInvoke(callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string): InvokeInst;
@@ -1495,6 +1497,16 @@ declare namespace llvm {
         public CreateInsertValue(agg: Value, value: Value, idxs: number[], name?: string): Value;
 
         public CreateLandingPad(type: Type, numClauses: number, name?: string): LandingPadInst;
+
+        //===--------------------------------------------------------------------===//
+        // Utility creation methods
+        //===--------------------------------------------------------------------===//
+
+        public CreateIsNull(value: Value, name?: string): Value;
+
+        public CreateIsNotNull(value: Value, name?: string): Value;
+
+        public CreatePtrDiff(lhs: Value, rhs: Value, name?: string): Value;
     }
 
     namespace IRBuilder {

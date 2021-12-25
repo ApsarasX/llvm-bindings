@@ -32,7 +32,7 @@ namespace ErrMsg {
         namespace Type {
             static const char *constructor = "Type.constructor needs to be called with new (external: Napi::External<llvm::Type>)";
             static const char *getPointerTo = "Type.getPointer needs to called with: (addrSpace?: number)";
-            static const char *getIntNTy = "Type.getIntNTy needs to be called with: (context: LLVMContext, n: number)";
+            static const char *getIntNTy = "Type.getIntNTy needs to be called with: (context: LLVMContext, numBits: number)";
             static const char *isIntegerTy = "Type.isIntegerTy needs to be called with: (bitWidth?: number)";
             static const char *getTypeFactory = "Type.[getType] needs to be called with (context: LLVMContext)";
             static const char *getIntTypeFactory = "Type.[getIntType] needs to be called with (context: LLVMContext)";
@@ -374,10 +374,10 @@ namespace ErrMsg {
 
             static const char *getInt1 = "IRBuilder.getInt1 needs to be called with (value: boolean)";
             static const char *getIntFactory = "IRBuilder.[getIntX] needs to be called with (value: number)";
-            static const char *getIntN = "IRBuilder.getIntN needs to be called with (n: number, value: number)";
+            static const char *getIntN = "IRBuilder.getIntN needs to be called with (numBits: number, value: number)";
             static const char *getInt = "IRBuilder.getInt needs to be called with (value: APInt)";
 
-            static const char *getIntNTy = "IRBuilder.getIntNTy needs to be called with (n: number)";
+            static const char *getIntNTy = "IRBuilder.getIntNTy needs to be called with (numBits: number)";
             static const char *getInt8PtrTy = "IRBuilder.getInt8PtrTy needs to be called with (addrSpace?: number)";
             static const char *getIntPtrTy = "IRBuilder.getIntPtrTy needs to be called with (dataLayout: DataLayout, addrSpace?: number)";
 
@@ -385,6 +385,7 @@ namespace ErrMsg {
             static const char *CreateBr = "IRBuilder.CreateBr needs to be called with: (destBB: BasicBlock)";
             static const char *CreateCondBr = "IRBuilder.CreateCondBr needs to be called with: (cond: Value, thenBB: BasicBlock, elseBB: BasicBlock)";
             static const char *CreateSwitch = "IRBuilder.CreateSwitch needs to be called with: (value: Value, dest: BasicBlock, numCases?: number)";
+            static const char *CreateIndirectBr = "IRBuilder.CreateIndirectBr needs to be called with: (addr: Value, numDests?: number)";
             static const char *CreateInvoke = "IRBuilder.CreateInvoke needs to be called with:"
                                               "\n\t - (callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string)"
                                               "\n\t - (callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string)"
