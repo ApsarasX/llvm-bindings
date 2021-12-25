@@ -155,6 +155,32 @@ private:
     Napi::Value getTypeID(const Napi::CallbackInfo &info);
 };
 
+class VectorType : public Napi::ObjectWrap<VectorType> {
+public:
+    static inline Napi::FunctionReference constructor; // NOLINT;
+
+    static void Init(Napi::Env env, Napi::Object &exports);
+
+    static Napi::Object New(Napi::Env env, llvm::VectorType *type);
+
+    static bool IsClassOf(const Napi::Value &value);
+
+    static llvm::VectorType *Extract(const Napi::Value &value);
+
+    explicit VectorType(const Napi::CallbackInfo &info);
+
+    llvm::VectorType *getLLVMPrimitive();
+
+private:
+    llvm::VectorType *vectorType = nullptr;
+
+    Napi::Value isStructTy(const Napi::CallbackInfo &info);
+
+    Napi::Value isVoidTy(const Napi::CallbackInfo &info);
+
+    Napi::Value getTypeID(const Napi::CallbackInfo &info);
+};
+
 class PointerType : public Napi::ObjectWrap<PointerType> {
 public:
     static inline Napi::FunctionReference constructor; // NOLINT;

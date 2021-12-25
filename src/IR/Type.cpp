@@ -140,14 +140,16 @@ void Type::Init(Napi::Env env, Napi::Object &exports) {
 Napi::Object Type::New(Napi::Env env, llvm::Type *type) {
     if (type->isIntegerTy()) {
         return IntegerType::New(env, llvm::cast<llvm::IntegerType>(type));
-    } else if (type->isPointerTy()) {
-        return PointerType::New(env, llvm::cast<llvm::PointerType>(type));
     } else if (type->isFunctionTy()) {
         return FunctionType::New(env, llvm::cast<llvm::FunctionType>(type));
-    } else if (type->isArrayTy()) {
-        return ArrayType::New(env, llvm::cast<llvm::ArrayType>(type));
     } else if (type->isStructTy()) {
         return StructType::New(env, llvm::cast<llvm::StructType>(type));
+    } else if (type->isArrayTy()) {
+        return ArrayType::New(env, llvm::cast<llvm::ArrayType>(type));
+    } else if (type->isVectorTy()) {
+        return VectorType::New(env, llvm::cast<llvm::VectorType>(type));
+    } else if (type->isPointerTy()) {
+        return PointerType::New(env, llvm::cast<llvm::PointerType>(type));
     }
     return constructor.New({Napi::External<llvm::Type>::New(env, type)});
 }

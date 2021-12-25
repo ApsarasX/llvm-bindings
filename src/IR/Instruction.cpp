@@ -24,12 +24,34 @@ Napi::Value Instruction::New(Napi::Env env, llvm::Instruction *inst) {
         return LoadInst::New(env, llvm::cast<llvm::LoadInst>(inst));
     } else if (llvm::isa<llvm::StoreInst>(inst)) {
         return StoreInst::New(env, llvm::cast<llvm::StoreInst>(inst));
+    } else if (llvm::isa<llvm::FenceInst>(inst)) {
+        return FenceInst::New(env, llvm::cast<llvm::FenceInst>(inst));
+    } else if (llvm::isa<llvm::AtomicCmpXchgInst>(inst)) {
+        return AtomicCmpXchgInst::New(env, llvm::cast<llvm::AtomicCmpXchgInst>(inst));
+    } else if (llvm::isa<llvm::AtomicRMWInst>(inst)) {
+        return AtomicRMWInst::New(env, llvm::cast<llvm::AtomicRMWInst>(inst));
     } else if (llvm::isa<llvm::GetElementPtrInst>(inst)) {
         return GetElementPtrInst::New(env, llvm::cast<llvm::GetElementPtrInst>(inst));
+    } else if (llvm::isa<llvm::ICmpInst>(inst)) {
+        return ICmpInst::New(env, llvm::cast<llvm::ICmpInst>(inst));
+    } else if (llvm::isa<llvm::FCmpInst>(inst)) {
+        return FCmpInst::New(env, llvm::cast<llvm::FCmpInst>(inst));
     } else if (llvm::isa<llvm::CallInst>(inst)) {
         return CallInst::New(env, llvm::cast<llvm::CallInst>(inst));
     } else if (llvm::isa<llvm::SelectInst>(inst)) {
         return SelectInst::New(env, llvm::cast<llvm::SelectInst>(inst));
+    } else if (llvm::isa<llvm::VAArgInst>(inst)) {
+        return VAArgInst::New(env, llvm::cast<llvm::VAArgInst>(inst));
+    } else if (llvm::isa<llvm::ExtractElementInst>(inst)) {
+        return ExtractElementInst::New(env, llvm::cast<llvm::ExtractElementInst>(inst));
+    } else if (llvm::isa<llvm::InsertElementInst>(inst)) {
+        return InsertElementInst::New(env, llvm::cast<llvm::InsertElementInst>(inst));
+    } else if (llvm::isa<llvm::ShuffleVectorInst>(inst)) {
+        return ShuffleVectorInst::New(env, llvm::cast<llvm::ShuffleVectorInst>(inst));
+    } else if (llvm::isa<llvm::ExtractValueInst>(inst)) {
+        return ExtractValueInst::New(env, llvm::cast<llvm::ExtractValueInst>(inst));
+    } else if (llvm::isa<llvm::InsertValueInst>(inst)) {
+        return InsertValueInst::New(env, llvm::cast<llvm::InsertValueInst>(inst));
     } else if (llvm::isa<llvm::PHINode>(inst)) {
         return PHINode::New(env, llvm::cast<llvm::PHINode>(inst));
     } else if (llvm::isa<llvm::LandingPadInst>(inst)) {
@@ -40,12 +62,54 @@ Napi::Value Instruction::New(Napi::Env env, llvm::Instruction *inst) {
         return BranchInst::New(env, llvm::cast<llvm::BranchInst>(inst));
     } else if (llvm::isa<llvm::SwitchInst>(inst)) {
         return SwitchInst::New(env, llvm::cast<llvm::SwitchInst>(inst));
+    } else if (llvm::isa<llvm::IndirectBrInst>(inst)) {
+        return IndirectBrInst::New(env, llvm::cast<llvm::IndirectBrInst>(inst));
     } else if (llvm::isa<llvm::InvokeInst>(inst)) {
         return InvokeInst::New(env, llvm::cast<llvm::InvokeInst>(inst));
+    } else if (llvm::isa<llvm::CallBrInst>(inst)) {
+        return CallBrInst::New(env, llvm::cast<llvm::CallBrInst>(inst));
     } else if (llvm::isa<llvm::ResumeInst>(inst)) {
         return ResumeInst::New(env, llvm::cast<llvm::ResumeInst>(inst));
+    } else if (llvm::isa<llvm::CatchSwitchInst>(inst)) {
+        return CatchSwitchInst::New(env, llvm::cast<llvm::CatchSwitchInst>(inst));
+    } else if (llvm::isa<llvm::CleanupPadInst>(inst)) {
+        return CleanupPadInst::New(env, llvm::cast<llvm::CleanupPadInst>(inst));
+    } else if (llvm::isa<llvm::CatchPadInst>(inst)) {
+        return CatchPadInst::New(env, llvm::cast<llvm::CatchPadInst>(inst));
+    } else if (llvm::isa<llvm::CatchReturnInst>(inst)) {
+        return CatchReturnInst::New(env, llvm::cast<llvm::CatchReturnInst>(inst));
+    } else if (llvm::isa<llvm::CleanupReturnInst>(inst)) {
+        return CleanupReturnInst::New(env, llvm::cast<llvm::CleanupReturnInst>(inst));
     } else if (llvm::isa<llvm::UnreachableInst>(inst)) {
         return UnreachableInst::New(env, llvm::cast<llvm::UnreachableInst>(inst));
+    } else if (llvm::isa<llvm::TruncInst>(inst)) {
+        return TruncInst::New(env, llvm::cast<llvm::TruncInst>(inst));
+    } else if (llvm::isa<llvm::ZExtInst>(inst)) {
+        return ZExtInst::New(env, llvm::cast<llvm::ZExtInst>(inst));
+    } else if (llvm::isa<llvm::SExtInst>(inst)) {
+        return SExtInst::New(env, llvm::cast<llvm::SExtInst>(inst));
+    } else if (llvm::isa<llvm::FPTruncInst>(inst)) {
+        return FPTruncInst::New(env, llvm::cast<llvm::FPTruncInst>(inst));
+    } else if (llvm::isa<llvm::FPExtInst>(inst)) {
+        return FPExtInst::New(env, llvm::cast<llvm::FPExtInst>(inst));
+    } else if (llvm::isa<llvm::UIToFPInst>(inst)) {
+        return UIToFPInst::New(env, llvm::cast<llvm::UIToFPInst>(inst));
+    } else if (llvm::isa<llvm::SIToFPInst>(inst)) {
+        return SIToFPInst::New(env, llvm::cast<llvm::SIToFPInst>(inst));
+    } else if (llvm::isa<llvm::FPToUIInst>(inst)) {
+        return FPToUIInst::New(env, llvm::cast<llvm::FPToUIInst>(inst));
+    } else if (llvm::isa<llvm::FPToSIInst>(inst)) {
+        return FPToSIInst::New(env, llvm::cast<llvm::FPToSIInst>(inst));
+    } else if (llvm::isa<llvm::IntToPtrInst>(inst)) {
+        return IntToPtrInst::New(env, llvm::cast<llvm::IntToPtrInst>(inst));
+    } else if (llvm::isa<llvm::PtrToIntInst>(inst)) {
+        return PtrToIntInst::New(env, llvm::cast<llvm::PtrToIntInst>(inst));
+    } else if (llvm::isa<llvm::BitCastInst>(inst)) {
+        return BitCastInst::New(env, llvm::cast<llvm::BitCastInst>(inst));
+    } else if (llvm::isa<llvm::AddrSpaceCastInst>(inst)) {
+        return AddrSpaceCastInst::New(env, llvm::cast<llvm::AddrSpaceCastInst>(inst));
+    } else if (llvm::isa<llvm::FreezeInst>(inst)) {
+        return FreezeInst::New(env, llvm::cast<llvm::FreezeInst>(inst));
     }
     return constructor.New({Napi::External<llvm::Instruction>::New(env, inst)});
 }

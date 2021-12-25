@@ -370,6 +370,19 @@ declare namespace llvm {
         protected constructor();
     }
 
+    class VectorType extends Type {
+        // duplicated
+        public isStructTy(): boolean;
+
+        // duplicated
+        public isVoidTy(): boolean;
+
+        // duplicated
+        public getTypeID(): number;
+
+        protected constructor();
+    }
+
     class PointerType extends Type {
         public static get(elementType: Type, addrSpace: number): PointerType;
 
@@ -726,7 +739,57 @@ declare namespace llvm {
         protected constructor();
     }
 
+    class FenceInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class AtomicCmpXchgInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class AtomicRMWInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
     class GetElementPtrInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class ICmpInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class FCmpInst extends Instruction {
         // duplicated
         public getType(): Type;
 
@@ -759,6 +822,66 @@ declare namespace llvm {
 
         public setFalseValue(value: Value): void;
 
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class VAArgInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class ExtractElementInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class InsertElementInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class ShuffleVectorInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class ExtractValueInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class InsertValueInst extends Instruction {
         // duplicated
         public getType(): Type;
 
@@ -838,7 +961,27 @@ declare namespace llvm {
         protected constructor();
     }
 
+    class IndirectBrInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
     class InvokeInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class CallBrInst extends Instruction {
         // duplicated
         public getType(): Type;
 
@@ -858,7 +1001,197 @@ declare namespace llvm {
         protected constructor();
     }
 
+    class CatchSwitchInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class CleanupPadInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class CatchPadInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class CatchReturnInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class CleanupReturnInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
     class UnreachableInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class TruncInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class ZExtInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class SExtInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class FPTruncInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class FPExtInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class UIToFPInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class SIToFPInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class FPToUIInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class FPToSIInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class IntToPtrInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class PtrToIntInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class BitCastInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class AddrSpaceCastInst extends Instruction {
+        // duplicated
+        public getType(): Type;
+
+        // duplicated
+        public setDebugLoc(location: DebugLoc): void;
+
+        protected constructor();
+    }
+
+    class FreezeInst extends Instruction {
         // duplicated
         public getType(): Type;
 

@@ -445,6 +445,63 @@ Napi::Value ArrayType::getTypeID(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
+// class ArrayType
+//===----------------------------------------------------------------------===//
+
+void VectorType::Init(Napi::Env env, Napi::Object &exports) {
+    Napi::HandleScope scope(env);
+    Napi::Function func = DefineClass(env, "VectorType", {
+            InstanceMethod("isStructTy", &VectorType::isStructTy),
+            InstanceMethod("isVoidTy", &VectorType::isVoidTy),
+            InstanceMethod("getTypeID", &VectorType::getTypeID)
+    });
+    constructor = Napi::Persistent(func);
+    constructor.SuppressDestruct();
+    Inherit(env, constructor.Value(), Type::constructor.Value());
+    exports.Set("VectorType", func);
+}
+
+Napi::Object VectorType::New(Napi::Env env, llvm::VectorType *type) {
+    return constructor.New({Napi::External<llvm::VectorType>::New(env, type)});
+}
+
+bool VectorType::IsClassOf(const Napi::Value &value) {
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
+}
+
+llvm::VectorType *VectorType::Extract(const Napi::Value &value) {
+    if (value.IsNull()) {
+        return nullptr;
+    }
+    return Unwrap(value.As<Napi::Object>())->getLLVMPrimitive();
+}
+
+VectorType::VectorType(const Napi::CallbackInfo &info) : ObjectWrap(info) {
+    Napi::Env env = info.Env();
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::VectorType::constructor);
+    }
+    auto external = info[0].As<Napi::External<llvm::VectorType>>();
+    vectorType = external.Data();
+}
+
+llvm::VectorType *VectorType::getLLVMPrimitive() {
+    return vectorType;
+}
+
+Napi::Value VectorType::isStructTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), vectorType->isStructTy());
+}
+
+Napi::Value VectorType::isVoidTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), vectorType->isVoidTy());
+}
+
+Napi::Value VectorType::getTypeID(const Napi::CallbackInfo &info) {
+    return Napi::Number::New(info.Env(), vectorType->getTypeID());
+}
+
+//===----------------------------------------------------------------------===//
 // class PointerType
 //===----------------------------------------------------------------------===//
 
