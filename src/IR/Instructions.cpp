@@ -2,7 +2,7 @@
 #include "Util/index.h"
 
 //===----------------------------------------------------------------------===//
-// class AllocaInst
+//                        AllocaInst Class
 //===----------------------------------------------------------------------===//
 
 void AllocaInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -71,7 +71,7 @@ void AllocaInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class LoadInst
+//                        LoadInst Class
 //===----------------------------------------------------------------------===//
 
 void LoadInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -130,7 +130,7 @@ void LoadInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class StoreInst
+//                        StoreInst Class
 //===----------------------------------------------------------------------===//
 
 void StoreInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -204,7 +204,7 @@ void StoreInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class FenceInst
+//                        FenceInst Class
 //===----------------------------------------------------------------------===//
 
 void FenceInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -263,7 +263,7 @@ void FenceInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class AtomicCmpXchgInst
+//                        AtomicCmpXchgInst Class
 //===----------------------------------------------------------------------===//
 
 void AtomicCmpXchgInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -322,7 +322,7 @@ void AtomicCmpXchgInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class AtomicRMWInst
+//                        AtomicRMWInst Class
 //===----------------------------------------------------------------------===//
 
 void AtomicRMWInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -381,7 +381,7 @@ void AtomicRMWInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class GetElementPtrInst
+//                        GetElementPtrInst Class
 //===----------------------------------------------------------------------===//
 
 void GetElementPtrInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -440,7 +440,7 @@ void GetElementPtrInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class ICmpInst
+//                        ICmpInst Class
 //===----------------------------------------------------------------------===//
 
 void ICmpInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -499,7 +499,7 @@ void ICmpInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class FCmpInst
+//                        FCmpInst Class
 //===----------------------------------------------------------------------===//
 
 void FCmpInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -558,7 +558,7 @@ void FCmpInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class CallInst
+//                        CallInst Class
 //===----------------------------------------------------------------------===//
 
 void CallInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -617,7 +617,7 @@ void CallInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class SelectInst
+//                        SelectInst Class
 //===----------------------------------------------------------------------===//
 
 void SelectInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -721,7 +721,7 @@ void SelectInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class VAArgInst
+//                        VAArgInst Class
 //===----------------------------------------------------------------------===//
 
 void VAArgInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -780,7 +780,7 @@ void VAArgInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class ExtractElementInst
+//                        ExtractElementInst Class
 //===----------------------------------------------------------------------===//
 
 void ExtractElementInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -839,7 +839,7 @@ void ExtractElementInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class InsertElementInst
+//                        InsertElementInst Class
 //===----------------------------------------------------------------------===//
 
 void InsertElementInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -898,7 +898,7 @@ void InsertElementInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class ShuffleVectorInst
+//                        ShuffleVectorInst Class
 //===----------------------------------------------------------------------===//
 
 void ShuffleVectorInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -957,7 +957,7 @@ void ShuffleVectorInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class ExtractValueInst
+//                        ExtractValueInst Class
 //===----------------------------------------------------------------------===//
 
 void ExtractValueInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -1016,7 +1016,7 @@ void ExtractValueInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class InsertValueInst
+//                        InsertValueInst Class
 //===----------------------------------------------------------------------===//
 
 void InsertValueInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -1075,7 +1075,7 @@ void InsertValueInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class PHINode
+//                        PHINode Class
 //===----------------------------------------------------------------------===//
 
 void PHINode::Init(Napi::Env env, Napi::Object &exports) {
@@ -1145,7 +1145,7 @@ void PHINode::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class LandingPadInst
+//                        LandingPadInst Class
 //===----------------------------------------------------------------------===//
 
 void LandingPadInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -1224,7 +1224,7 @@ void LandingPadInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class ReturnInst
+//                        ReturnInst Class
 //===----------------------------------------------------------------------===//
 
 void ReturnInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -1288,7 +1288,7 @@ void ReturnInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class BranchInst
+//                        BranchInst Class
 //===----------------------------------------------------------------------===//
 
 void BranchInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -1378,7 +1378,7 @@ void BranchInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class SwitchInst
+//                        SwitchInst Class
 //===----------------------------------------------------------------------===//
 
 void SwitchInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -1450,7 +1450,7 @@ void SwitchInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class IndirectBrInst
+//                        IndirectBrInst Class
 //===----------------------------------------------------------------------===//
 
 void IndirectBrInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -1509,7 +1509,7 @@ void IndirectBrInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class InvokeInst
+//                        InvokeInst Class
 //===----------------------------------------------------------------------===//
 
 void InvokeInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -1568,7 +1568,7 @@ void InvokeInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class CallBrInst
+//                        CallBrInst Class
 //===----------------------------------------------------------------------===//
 
 void CallBrInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -1627,7 +1627,7 @@ void CallBrInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class ResumeInst
+//                        ResumeInst Class
 //===----------------------------------------------------------------------===//
 
 void ResumeInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -1686,7 +1686,7 @@ void ResumeInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class CatchSwitchInst
+//                        CatchSwitchInst Class
 //===----------------------------------------------------------------------===//
 
 void CatchSwitchInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -1745,7 +1745,7 @@ void CatchSwitchInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class CleanupPadInst
+//                        CleanupPadInst Class
 //===----------------------------------------------------------------------===//
 
 void CleanupPadInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -1804,7 +1804,7 @@ void CleanupPadInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class CatchPadInst
+//                        CatchPadInst Class
 //===----------------------------------------------------------------------===//
 
 void CatchPadInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -1863,7 +1863,7 @@ void CatchPadInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class CatchReturnInst
+//                        CatchReturnInst Class
 //===----------------------------------------------------------------------===//
 
 void CatchReturnInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -1922,7 +1922,7 @@ void CatchReturnInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class CleanupReturnInst
+//                        CleanupReturnInst Class
 //===----------------------------------------------------------------------===//
 
 void CleanupReturnInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -1981,7 +1981,7 @@ void CleanupReturnInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class UnreachableInst
+//                        UnreachableInst Class
 //===----------------------------------------------------------------------===//
 
 void UnreachableInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -2040,7 +2040,7 @@ void UnreachableInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class TruncInst
+//                        TruncInst Class
 //===----------------------------------------------------------------------===//
 
 void TruncInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -2099,7 +2099,7 @@ void TruncInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class ZExtInst
+//                        ZExtInst Class
 //===----------------------------------------------------------------------===//
 
 void ZExtInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -2158,7 +2158,7 @@ void ZExtInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class SExtInst
+//                        SExtInst Class
 //===----------------------------------------------------------------------===//
 
 void SExtInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -2217,7 +2217,7 @@ void SExtInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class FPTruncInst
+//                        FPTruncInst Class
 //===----------------------------------------------------------------------===//
 
 void FPTruncInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -2276,7 +2276,7 @@ void FPTruncInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class FPExtInst
+//                        FPExtInst Class
 //===----------------------------------------------------------------------===//
 
 void FPExtInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -2335,7 +2335,7 @@ void FPExtInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class UIToFPInst
+//                        UIToFPInst Class
 //===----------------------------------------------------------------------===//
 
 void UIToFPInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -2394,7 +2394,7 @@ void UIToFPInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class SIToFPInst
+//                        SIToFPInst Class
 //===----------------------------------------------------------------------===//
 
 void SIToFPInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -2453,7 +2453,7 @@ void SIToFPInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class FPToUIInst
+//                        FPToUIInst Class
 //===----------------------------------------------------------------------===//
 
 void FPToUIInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -2512,7 +2512,7 @@ void FPToUIInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class FPToSIInst
+//                        FPToSIInst Class
 //===----------------------------------------------------------------------===//
 
 void FPToSIInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -2571,7 +2571,7 @@ void FPToSIInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class IntToPtrInst
+//                        IntToPtrInst Class
 //===----------------------------------------------------------------------===//
 
 void IntToPtrInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -2630,7 +2630,7 @@ void IntToPtrInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class PtrToIntInst
+//                        PtrToIntInst Class
 //===----------------------------------------------------------------------===//
 
 void PtrToIntInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -2689,7 +2689,7 @@ void PtrToIntInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class BitCastInst
+//                        BitCastInst Class
 //===----------------------------------------------------------------------===//
 
 void BitCastInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -2748,7 +2748,7 @@ void BitCastInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class AddrSpaceCastInst
+//                        AddrSpaceCastInst Class
 //===----------------------------------------------------------------------===//
 
 void AddrSpaceCastInst::Init(Napi::Env env, Napi::Object &exports) {
@@ -2807,7 +2807,7 @@ void AddrSpaceCastInst::setDebugLoc(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class FreezeInst
+//                        FreezeInst Class
 //===----------------------------------------------------------------------===//
 
 void FreezeInst::Init(Napi::Env env, Napi::Object &exports) {

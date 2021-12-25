@@ -2,7 +2,7 @@
 #include "Util/index.h"
 
 //===----------------------------------------------------------------------===//
-// class IntegerType
+//                        IntegerType Class
 //===----------------------------------------------------------------------===//
 
 void IntegerType::Init(Napi::Env env, Napi::Object &exports) {
@@ -81,7 +81,7 @@ Napi::Value IntegerType::getTypeID(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class FunctionType
+//                        FunctionType Class
 //===----------------------------------------------------------------------===//
 
 void FunctionType::Init(Napi::Env env, Napi::Object &exports) {
@@ -158,7 +158,7 @@ Napi::Value FunctionType::getTypeID(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class FunctionCallee
+//                        FunctionCallee Class
 //===----------------------------------------------------------------------===//
 
 void FunctionCallee::Init(Napi::Env env, Napi::Object &exports) {
@@ -212,7 +212,7 @@ Napi::Value FunctionCallee::getCallee(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class StructType
+//                        StructType Class
 //===----------------------------------------------------------------------===//
 
 void StructType::Init(Napi::Env env, Napi::Object &exports) {
@@ -357,7 +357,7 @@ Napi::Value StructType::getTypeID(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class ArrayType
+//                        ArrayType Class
 //===----------------------------------------------------------------------===//
 
 void ArrayType::Init(Napi::Env env, Napi::Object &exports) {
@@ -445,7 +445,7 @@ Napi::Value ArrayType::getTypeID(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class ArrayType
+//                        VectorType Class
 //===----------------------------------------------------------------------===//
 
 void VectorType::Init(Napi::Env env, Napi::Object &exports) {
@@ -502,7 +502,7 @@ Napi::Value VectorType::getTypeID(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class PointerType
+//                        PointerType Class
 //===----------------------------------------------------------------------===//
 
 void PointerType::Init(Napi::Env env, Napi::Object &exports) {

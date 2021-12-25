@@ -3,7 +3,7 @@
 #include "Util/index.h"
 
 //===----------------------------------------------------------------------===//
-// class Constant
+//                        Constant Class
 //===----------------------------------------------------------------------===//
 
 void Constant::Init(Napi::Env env, Napi::Object &exports) {
@@ -106,7 +106,7 @@ llvm::Constant *Constant::getLLVMPrimitive() {
 }
 
 //===----------------------------------------------------------------------===//
-// class ConstantInt
+//                        ConstantInt Class
 //===----------------------------------------------------------------------===//
 
 typedef llvm::ConstantInt *(GetBool)(llvm::LLVMContext &);
@@ -197,7 +197,7 @@ Napi::Value ConstantInt::getType(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class ConstantFP
+//                        ConstantFP Class
 //===----------------------------------------------------------------------===//
 
 void ConstantFP::Init(Napi::Env env, Napi::Object &exports) {
@@ -287,7 +287,7 @@ Napi::Value ConstantFP::getType(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class ConstantStruct
+//                        ConstantStruct Class
 //===----------------------------------------------------------------------===//
 
 void ConstantStruct::Init(Napi::Env env, Napi::Object &exports) {
@@ -353,7 +353,7 @@ Napi::Value ConstantStruct::getType(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class ConstantPointerNull
+//                        ConstantPointerNull Class
 //===----------------------------------------------------------------------===//
 
 void ConstantPointerNull::Init(Napi::Env env, Napi::Object &exports) {
@@ -412,7 +412,7 @@ Napi::Value ConstantPointerNull::getType(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class ConstantExpr
+//                        ConstantExpr Class
 //===----------------------------------------------------------------------===//
 
 void ConstantExpr::Init(Napi::Env env, Napi::Object &exports) {
@@ -471,7 +471,7 @@ Napi::Value ConstantExpr::getType(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class UndefValue
+//                        UndefValue Class
 //===----------------------------------------------------------------------===//
 
 void UndefValue::Init(Napi::Env env, Napi::Object &exports) {

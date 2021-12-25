@@ -2,7 +2,7 @@
 #include "Util/index.h"
 
 //===----------------------------------------------------------------------===//
-// class DITypeRefArray
+//                        DITypeRefArray Class
 //===----------------------------------------------------------------------===//
 
 void DITypeRefArray::Init(Napi::Env env, Napi::Object &exports) {
@@ -43,7 +43,7 @@ llvm::DITypeRefArray *DITypeRefArray::getLLVMPrimitive() {
 }
 
 //===----------------------------------------------------------------------===//
-// class DINode
+//                        DINode Class
 //===----------------------------------------------------------------------===//
 
 void DINode::Init(Napi::Env env, Napi::Object &exports) {
@@ -146,7 +146,7 @@ llvm::DINode *DINode::getLLVMPrimitive() {
 }
 
 //===----------------------------------------------------------------------===//
-// class DIScope
+//                        DIScope Class
 //===----------------------------------------------------------------------===//
 
 void DIScope::Init(Napi::Env env, Napi::Object &exports) {
@@ -199,7 +199,7 @@ llvm::DIScope *DIScope::getLLVMPrimitive() {
 }
 
 //===----------------------------------------------------------------------===//
-// class DIFile
+//                        DIFile Class
 //===----------------------------------------------------------------------===//
 
 void DIFile::Init(Napi::Env env, Napi::Object &exports) {
@@ -241,7 +241,7 @@ llvm::DIFile *DIFile::getLLVMPrimitive() {
 }
 
 //===----------------------------------------------------------------------===//
-// class DIType
+//                        DIType Class
 //===----------------------------------------------------------------------===//
 
 void DIType::Init(Napi::Env env, Napi::Object &exports) {
@@ -292,7 +292,7 @@ llvm::DIType *DIType::getLLVMPrimitive() {
 }
 
 //===----------------------------------------------------------------------===//
-// class DIBasicType
+//                        DIBasicType Class
 //===----------------------------------------------------------------------===//
 
 void DIBasicType::Init(Napi::Env env, Napi::Object &exports) {
@@ -334,7 +334,7 @@ llvm::DIBasicType *DIBasicType::getLLVMPrimitive() {
 }
 
 //===----------------------------------------------------------------------===//
-// class DIDerivedType
+//                        DIDerivedType Class
 //===----------------------------------------------------------------------===//
 
 void DIDerivedType::Init(Napi::Env env, Napi::Object &exports) {
@@ -376,7 +376,7 @@ llvm::DIDerivedType *DIDerivedType::getLLVMPrimitive() {
 }
 
 //===----------------------------------------------------------------------===//
-// class DICompositeType
+//                        DICompositeType Class
 //===----------------------------------------------------------------------===//
 
 void DICompositeType::Init(Napi::Env env, Napi::Object &exports) {
@@ -418,7 +418,7 @@ llvm::DICompositeType *DICompositeType::getLLVMPrimitive() {
 }
 
 //===----------------------------------------------------------------------===//
-// class DISubroutineType
+//                        DISubroutineType Class
 //===----------------------------------------------------------------------===//
 
 void DISubroutineType::Init(Napi::Env env, Napi::Object &exports) {
@@ -460,7 +460,7 @@ llvm::DISubroutineType *DISubroutineType::getLLVMPrimitive() {
 }
 
 //===----------------------------------------------------------------------===//
-// class DICompileUnit
+//                        DICompileUnit Class
 //===----------------------------------------------------------------------===//
 
 void DICompileUnit::Init(Napi::Env env, Napi::Object &exports) {
@@ -507,7 +507,7 @@ Napi::Value DICompileUnit::getFile(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class DILocalScope
+//                        DILocalScope Class
 //===----------------------------------------------------------------------===//
 
 void DILocalScope::Init(Napi::Env env, Napi::Object &exports) {
@@ -554,7 +554,7 @@ llvm::DILocalScope *DILocalScope::getLLVMPrimitive() {
 }
 
 //===----------------------------------------------------------------------===//
-// class DILocation
+//                        DILocation Class
 //===----------------------------------------------------------------------===//
 
 void DILocation::Init(Napi::Env env, Napi::Object &exports) {
@@ -617,7 +617,7 @@ Napi::Value DILocation::get(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// class DISubprogram
+//                        DISubprogram Class
 //===----------------------------------------------------------------------===//
 
 void DISubprogram::Init(Napi::Env env, Napi::Object &exports) {
@@ -659,7 +659,7 @@ llvm::DISubprogram *DISubprogram::getLLVMPrimitive() {
 }
 
 //===----------------------------------------------------------------------===//
-// class DILexicalBlock
+//                        DILexicalBlock Class
 //===----------------------------------------------------------------------===//
 
 void DILexicalBlock::Init(Napi::Env env, Napi::Object &exports) {
@@ -704,7 +704,7 @@ llvm::DILexicalBlock *DILexicalBlock::getLLVMPrimitive() {
 }
 
 //===----------------------------------------------------------------------===//
-// class DINamespace
+//                        DINamespace Class
 //===----------------------------------------------------------------------===//
 
 void DINamespace::Init(Napi::Env env, Napi::Object &exports) {
@@ -746,7 +746,7 @@ llvm::DINamespace *DINamespace::getLLVMPrimitive() {
 }
 
 //===----------------------------------------------------------------------===//
-// class DIVariable
+//                        DIVariable Class
 //===----------------------------------------------------------------------===//
 
 void DIVariable::Init(Napi::Env env, Napi::Object &exports) {
@@ -793,7 +793,7 @@ llvm::DIVariable *DIVariable::getLLVMPrimitive() {
 }
 
 //===----------------------------------------------------------------------===//
-// class DIExpression
+//                        DIExpression Class
 //===----------------------------------------------------------------------===//
 
 void DIExpression::Init(Napi::Env env, Napi::Object &exports) {
@@ -835,7 +835,7 @@ llvm::DIExpression *DIExpression::getLLVMPrimitive() {
 }
 
 //===----------------------------------------------------------------------===//
-// class DIGlobalVariable
+//                        DIGlobalVariable Class
 //===----------------------------------------------------------------------===//
 
 void DIGlobalVariable::Init(Napi::Env env, Napi::Object &exports) {
@@ -877,7 +877,7 @@ llvm::DIGlobalVariable *DIGlobalVariable::getLLVMPrimitive() {
 }
 
 //===----------------------------------------------------------------------===//
-// class DILocalVariable
+//                        DILocalVariable Class
 //===----------------------------------------------------------------------===//
 
 void DILocalVariable::Init(Napi::Env env, Napi::Object &exports) {
@@ -919,7 +919,7 @@ llvm::DILocalVariable *DILocalVariable::getLLVMPrimitive() {
 }
 
 //===----------------------------------------------------------------------===//
-// class DIGlobalVariableExpression
+//                        DIGlobalVariableExpression Class
 //===----------------------------------------------------------------------===//
 
 void DIGlobalVariableExpression::Init(Napi::Env env, Napi::Object &exports) {

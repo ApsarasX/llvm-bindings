@@ -3,7 +3,7 @@
 #include "Util/index.h"
 
 //===----------------------------------------------------------------------===//
-// class Target
+//                        Target Class
 //===----------------------------------------------------------------------===//
 
 void Target::Init(Napi::Env env, Napi::Object &exports) {
@@ -24,13 +24,13 @@ Napi::Object Target::New(Napi::Env env, llvm::Target *target) {
 
 Target::Target(const Napi::CallbackInfo &info) : Napi::ObjectWrap<Target>{info} {
     Napi::Env env = info.Env();
-    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
-        throw Napi::TypeError::New(env, ErrMsg::Class::Target::constructor);
+    if (info.IsConstructCall() && info.Length() == 1 && info[0].IsExternal()) {
+        auto external = info[0].As<Napi::External<llvm::Target>>();
+        target = external.Data();
+        return;
     }
-    auto external = info[0].As<Napi::External<llvm::Target>>();
-    target = external.Data();
+    throw Napi::TypeError::New(env, ErrMsg::Class::Target::constructor);
 }
-
 
 Napi::Value Target::createTargetMachine(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
@@ -60,24 +60,23 @@ Napi::Value Target::getShortDescription(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
-// namespace TargetRegistry
+//                        TargetRegistry Namespace
 //===----------------------------------------------------------------------===//
 
 // TODO: implement class TargetRegistry
 
 static Napi::Value lookupTarget(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() == 0 || !info[0].IsString()) {
-        throw Napi::TypeError::New(env, ErrMsg::Class::TargetRegistry::lookupTarget);
+    if (info.Length() == 1 && info[0].IsString()) {
+        std::string triple = info[0].As<Napi::String>();
+        std::string error;
+        const llvm::Target *result = llvm::TargetRegistry::lookupTarget(triple, error);
+        if (!error.empty()) {
+            llvm::errs() << "Failed to lookup target: " + error + '\n';
+        }
+        return Target::New(env, const_cast<llvm::Target *>(result));
     }
-    std::string triple = info[0].As<Napi::String>();
-    std::string error;
-    const llvm::Target *result = llvm::TargetRegistry::lookupTarget(triple, error);
-    if (!result) {
-        const std::string &msg = "Failed to lookup Target: " + error;
-        throw Napi::Error::New(env, msg);
-    }
-    return Target::New(env, const_cast<llvm::Target *>(result));
+    throw Napi::TypeError::New(env, ErrMsg::Class::TargetRegistry::lookupTarget);
 }
 
 void InitTargetRegistry(Napi::Env env, Napi::Object &exports) {

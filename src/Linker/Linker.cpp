@@ -2,10 +2,6 @@
 #include "IR/index.h"
 #include "Util/index.h"
 
-//===----------------------------------------------------------------------===//
-// class Linker
-//===----------------------------------------------------------------------===//
-
 void Linker::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "Linker", {

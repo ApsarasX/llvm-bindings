@@ -1,10 +1,6 @@
 #include "Support/index.h"
 #include "Util/index.h"
 
-//===----------------------------------------------------------------------===//
-// class SMDiagnostic
-//===----------------------------------------------------------------------===//
-
 void SMDiagnostic::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "SMDiagnostic", {

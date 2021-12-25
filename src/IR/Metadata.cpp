@@ -2,7 +2,7 @@
 #include "Util/index.h"
 
 //===----------------------------------------------------------------------===//
-// class Metadata
+//                        Metadata Class
 //===----------------------------------------------------------------------===//
 
 void Metadata::Init(Napi::Env env, Napi::Object &exports) {
@@ -46,7 +46,7 @@ llvm::Metadata *Metadata::getLLVMPrimitive() {
 }
 
 //===----------------------------------------------------------------------===//
-// class MDNode
+//                        MDNode Class
 //===----------------------------------------------------------------------===//
 
 void MDNode::Init(Napi::Env env, Napi::Object &exports) {
@@ -97,7 +97,7 @@ llvm::MDNode *MDNode::getLLVMPrimitive() {
 }
 
 //===----------------------------------------------------------------------===//
-// namespace LLVMConstants
+//                        LLVMConstants Namespace
 //===----------------------------------------------------------------------===//
 
 void LLVMConstants::Init(Napi::Env env, Napi::Object &exports) {
