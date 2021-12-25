@@ -360,17 +360,31 @@ namespace ErrMsg {
                                              "\n\t - new (theBB: BasicBlock)"
                                              "\n\t - new (context: LLVMContext)"
                                              "\n\t - new (ip: Instruction)";
-            static const char *CreateBinOpFactory = "IRBuilder.[CreateBinaryOperation] needs to be called with: (lhs: Value, rhs: Value, name?: string)";
-            static const char *CreateUnOpFactory = "IRBuilder.[CreateUnaryOperation] needs to be called with: (value: Value, name?: string)";
-            static const char *CreateAlloca = "IRBuilder.CreateAlloca needs to be called with: (type: Type, arraySize?: Value, name?: string)";
+            namespace InsertPoint {
+                static const char *constructor = "IRBuilder.InsertPoint.constructor needs to be called with new ()";
+            }
+            static const char *SetInsertPoint = "IRBuilder.SetInsertPoint needs to be called with:"
+                                                "\n\t - (basicBlock: BasicBlock)"
+                                                "\n\t - (inst: Instruction)";
+            static const char *SetCurrentDebugLocation = "IRBuilder.SetCurrentDebugLocation needs to be called with:"
+                                                         "\n\t - (location: DebugLoc)"
+                                                         "\n\t - (location: DILocation)";
+            static const char *restoreIP = "IRBuilder.restoreIP needs to be called with (ip: IRBuilder.InsertPoint)";
+            static const char *CreateGlobalString = "IRBuilder.CreateGlobalString needs to be called with (str: string, name?: string, addrSpace?: number, module?: Module)";
+
+            static const char *getInt1 = "IRBuilder.getInt1 needs to be called with (value: boolean)";
+            static const char *getIntFactory = "IRBuilder.[getIntX] needs to be called with (value: number)";
+            static const char *getIntN = "IRBuilder.getIntN needs to be called with (n: number, value: number)";
+            static const char *getInt = "IRBuilder.getInt needs to be called with (value: APInt)";
+
+            static const char *getIntNTy = "IRBuilder.getIntNTy needs to be called with (n: number)";
+            static const char *getInt8PtrTy = "IRBuilder.getInt8PtrTy needs to be called with (addrSpace?: number)";
+            static const char *getIntPtrTy = "IRBuilder.getIntPtrTy needs to be called with (dataLayout: DataLayout, addrSpace?: number)";
+
+            static const char *CreateRet = "IRBuilder.CreateRet needs to be called with: (value: Value)";
             static const char *CreateBr = "IRBuilder.CreateBr needs to be called with: (destBB: BasicBlock)";
-            static const char *CreateCall = "IRBuilder.CreateCall needs to be called with:"
-                                            "\n\t - (callee: Function, name?: string)"
-                                            "\n\t - (callee: Function, args: Value[], name?: string)"
-                                            "\n\t - (callee: FunctionCallee, name?: string)"
-                                            "\n\t - (callee: FunctionCallee, args: Value[], name?: string)"
-                                            "\n\t - (funcType: FunctionType, callee: Value, name?: string)"
-                                            "\n\t - (funcType: FunctionType, callee: Value, args: Value[], name?: string)";
+            static const char *CreateCondBr = "IRBuilder.CreateCondBr needs to be called with: (cond: Value, thenBB: BasicBlock, elseBB: BasicBlock)";
+            static const char *CreateSwitch = "IRBuilder.CreateSwitch needs to be called with: (value: Value, dest: BasicBlock, numCases?: number)";
             static const char *CreateInvoke = "IRBuilder.CreateInvoke needs to be called with:"
                                               "\n\t - (callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string)"
                                               "\n\t - (callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string)"
@@ -378,42 +392,38 @@ namespace ErrMsg {
                                               "\n\t - (callee: FunctionCallee, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string)"
                                               "\n\t - (funcType: FunctionType, callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string)"
                                               "\n\t - (funcType: FunctionType, callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string)";
-            static const char *CreateCondBr = "IRBuilder.CreateCondBr needs to be called with: (cond: Value, thenBB: BasicBlock, elseBB: BasicBlock)";
-            static const char *CreateLoad = "IRBuilder.CreateLoad needs to be called with: (type: Type, ptr: Value, name?: string)";
-            static const char *CreateRet = "IRBuilder.CreateRet needs to be called with: (value: Value)";
             static const char *CreateResume = "IRBuilder.CreateRet needs to be called with: (exn: Value)";
-            static const char *CreateSwitch = "IRBuilder.CreateSwitch needs to be called with: (value: Value, dest: BasicBlock, numCases?: number)";
+
+            static const char *CreateBinOpFactory = "IRBuilder.[CreateBinaryOperation] needs to be called with: (lhs: Value, rhs: Value, name?: string)";
+            static const char *CreateUnOpFactory = "IRBuilder.[CreateUnaryOperation] needs to be called with: (value: Value, name?: string)";
+
+            static const char *CreateAlloca = "IRBuilder.CreateAlloca needs to be called with: (type: Type, arraySize?: Value, name?: string)";
+            static const char *CreateLoad = "IRBuilder.CreateLoad needs to be called with: (type: Type, ptr: Value, name?: string)";
             static const char *CreateStore = "IRBuilder.CreateStore needs to be called with: (value: Value, ptr: Value)";
-            static const char *CreateGlobalString = "IRBuilder.CreateGlobalString needs to be called with (str: string, name?: string, addrSpace?: number, module?: Module)";
-            static const char *CreateGlobalStringPtr = "IRBuilder.CreateGlobalStringPtr needs to be called with (str: string, name?: string, addrSpace?: number, module?: Module)";
-            static const char *CreatePHI = "IRBuilder.CreatePHI needs to be called with: (type: Type, numReservedValues: number, name?: string)";
-            static const char *CreateSelect = "IRBuilder.CreateSelect needs to be called with (cond: Value, trueValue: Value, falseValue: Value, name?: string)";
-            static const char *CreateExtractValue = "IRBuilder.CreateExtractValue needs to be called with (agg: Value, idxs: number[], name?: string)";
-            static const char *CreateInsertValue = "IRBuilder.CreateInsertValue needs to be called with (agg: Value, value: Value, idxs: number[], name?: string)";
-            static const char *CreateLandingPad = "IRBuilder.CreateLandingPad needs to be called with (type: Type, numClauses: number, name?: string)";
             static const char *CreateGEP = "IRBuilder.CreateGEP needs to be called with:"
                                            "\n\t - (type: Type, ptr: Value, idxList: Value[], name?: string)"
                                            "\n\t - (type: Type, ptr: Value, idx: Value, name?: string)";
             static const char *CreateInBoundsGEP = "IRBuilder.CreateInBoundsGEP needs to be called with:"
                                                    "\n\t - (type: Type, ptr: Value, idxList: Value[], name?: string)"
                                                    "\n\t - (type: Type, ptr: Value, idx: Value, name?: string)";
+            static const char *CreateGlobalStringPtr = "IRBuilder.CreateGlobalStringPtr needs to be called with (str: string, name?: string, addrSpace?: number, module?: Module)";
+
             static const char *CreateCastFactory = "IRBuilder.[CreateCast] needs to be called with (value: Value, destType: Type, name?: string)";
             static const char *CreateIntCast = "IRBuilder.CreateIntCast needs to be called with (value: Value, destType: Type, isSigned: boolean, name?: string)";
-            static const char *getInt1 = "IRBuilder.getInt1 needs to be called with (value: boolean)";
-            static const char *getIntFactory = "IRBuilder.[getIntX] needs to be called with (value: number)";
-            static const char *getIntN = "IRBuilder.getIntN needs to be called with (n: number, value: number)";
-            static const char *getInt = "IRBuilder.getInt needs to be called with (value: APInt)";
-            static const char *getIntNTy = "IRBuilder.getIntNTy needs to be called with (n: number)";
-            static const char *getInt8PtrTy = "IRBuilder.getInt8PtrTy needs to be called with (addrSpace?: number)";
-            static const char *getIntPtrTy = "IRBuilder.getIntPtrTy needs to be called with (dataLayout: DataLayout, addrSpace?: number)";
-            static const char *SetInsertPoint = "IRBuilder.SetInsertPoint needs to be called with: (basicBlock: BasicBlock)";
-            static const char *restoreIP = "IRBuilder.restoreIP needs to be called with (ip: IRBuilder.InsertPoint)";
-            static const char *SetCurrentDebugLocation = "IRBuilder.SetCurrentDebugLocation needs to be called with"
-                                                         "\n\t - (location: DebugLoc)"
-                                                         "\n\t - (location: DILocation)";
-            namespace InsertPoint {
-                static const char *constructor = "IRBuilder.InsertPoint.constructor needs to be called with new ()";
-            }
+
+            static const char *CreatePHI = "IRBuilder.CreatePHI needs to be called with: (type: Type, numReservedValues: number, name?: string)";
+            static const char *CreateCall = "IRBuilder.CreateCall needs to be called with:"
+                                            "\n\t - (callee: Function, name?: string)"
+                                            "\n\t - (callee: Function, args: Value[], name?: string)"
+                                            "\n\t - (callee: FunctionCallee, name?: string)"
+                                            "\n\t - (callee: FunctionCallee, args: Value[], name?: string)"
+                                            "\n\t - (funcType: FunctionType, callee: Value, name?: string)"
+                                            "\n\t - (funcType: FunctionType, callee: Value, args: Value[], name?: string)";
+            static const char *CreateSelect = "IRBuilder.CreateSelect needs to be called with (cond: Value, trueValue: Value, falseValue: Value, name?: string)";
+            static const char *CreateExtractValue = "IRBuilder.CreateExtractValue needs to be called with (agg: Value, idxs: number[], name?: string)";
+            static const char *CreateInsertValue = "IRBuilder.CreateInsertValue needs to be called with (agg: Value, value: Value, idxs: number[], name?: string)";
+            static const char *CreateLandingPad = "IRBuilder.CreateLandingPad needs to be called with (type: Type, numClauses: number, name?: string)";
+
         }
         namespace Metadata {
             static const char *constructor = "Metadata.constructor needs to be called with new (external: Napi::External<llvm::Metadata>)";

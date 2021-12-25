@@ -5,6 +5,71 @@
 void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "IRBuilder", {
+            //===--------------------------------------------------------------------===//
+            // Builder configuration methods
+            //===--------------------------------------------------------------------===//
+
+            InstanceMethod("ClearInsertionPoint", &IRBuilder::ClearInsertionPoint),
+            InstanceMethod("GetInsertBlock", &IRBuilder::GetInsertBlock),
+            InstanceMethod("SetInsertPoint", &IRBuilder::SetInsertPoint),
+            InstanceMethod("SetCurrentDebugLocation", &IRBuilder::SetCurrentDebugLocation),
+
+            StaticValue("InsertPoint", InsertPoint::Init(env, exports)),
+            InstanceMethod("saveIP", &IRBuilder::saveIP),
+            InstanceMethod("saveAndClearIP", &IRBuilder::saveAndClearIP),
+            InstanceMethod("restoreIP", &IRBuilder::restoreIP),
+
+            //===--------------------------------------------------------------------===//
+            // Miscellaneous creation methods.
+            //===--------------------------------------------------------------------===//
+
+            InstanceMethod("CreateGlobalString", &IRBuilder::CreateGlobalString),
+            InstanceMethod("getInt1", &IRBuilder::getInt1),
+            InstanceMethod("getTrue", &IRBuilder::getBoolFactory<&LLVMIRBuilder::getTrue>),
+            InstanceMethod("getFalse", &IRBuilder::getBoolFactory<&LLVMIRBuilder::getFalse>),
+            InstanceMethod("getInt8", &IRBuilder::getIntFactory<&LLVMIRBuilder::getInt8>),
+            InstanceMethod("getInt16", &IRBuilder::getIntFactory<&LLVMIRBuilder::getInt16>),
+            InstanceMethod("getInt32", &IRBuilder::getIntFactory<&LLVMIRBuilder::getInt32>),
+            InstanceMethod("getInt64", &IRBuilder::getIntFactory<&LLVMIRBuilder::getInt64>),
+            InstanceMethod("getIntN", &IRBuilder::getIntN),
+            InstanceMethod("getInt", &IRBuilder::getInt),
+
+            //===--------------------------------------------------------------------===//
+            // Type creation methods
+            //===--------------------------------------------------------------------===//
+
+            InstanceMethod("getInt1Ty", &IRBuilder::getIntTypeFactory<&LLVMIRBuilder::getInt1Ty>),
+            InstanceMethod("getInt8Ty", &IRBuilder::getIntTypeFactory<&LLVMIRBuilder::getInt8Ty>),
+            InstanceMethod("getInt16Ty", &IRBuilder::getIntTypeFactory<&LLVMIRBuilder::getInt16Ty>),
+            InstanceMethod("getInt32Ty", &IRBuilder::getIntTypeFactory<&LLVMIRBuilder::getInt32Ty>),
+            InstanceMethod("getInt64Ty", &IRBuilder::getIntTypeFactory<&LLVMIRBuilder::getInt64Ty>),
+            InstanceMethod("getInt128Ty", &IRBuilder::getIntTypeFactory<&LLVMIRBuilder::getInt128Ty>),
+            InstanceMethod("getIntNTy", &IRBuilder::getIntNTy),
+            InstanceMethod("getHalfTy", &IRBuilder::getTypeFactory<&LLVMIRBuilder::getHalfTy>),
+            InstanceMethod("getBFloatTy", &IRBuilder::getTypeFactory<&LLVMIRBuilder::getBFloatTy>),
+            InstanceMethod("getFloatTy", &IRBuilder::getTypeFactory<&LLVMIRBuilder::getFloatTy>),
+            InstanceMethod("getDoubleTy", &IRBuilder::getTypeFactory<&LLVMIRBuilder::getDoubleTy>),
+            InstanceMethod("getVoidTy", &IRBuilder::getTypeFactory<&LLVMIRBuilder::getVoidTy>),
+            InstanceMethod("getInt8PtrTy", &IRBuilder::getInt8PtrTy),
+            InstanceMethod("getIntPtrTy", &IRBuilder::getIntPtrTy),
+
+            //===--------------------------------------------------------------------===//
+            // Instruction creation methods: Terminators
+            //===--------------------------------------------------------------------===//
+
+            InstanceMethod("CreateRetVoid", &IRBuilder::CreateRetVoid),
+            InstanceMethod("CreateRet", &IRBuilder::CreateRet),
+            InstanceMethod("CreateBr", &IRBuilder::CreateBr),
+            InstanceMethod("CreateCondBr", &IRBuilder::CreateCondBr),
+            InstanceMethod("CreateSwitch", &IRBuilder::CreateSwitch),
+            InstanceMethod("CreateInvoke", &IRBuilder::CreateInvoke),
+            InstanceMethod("CreateResume", &IRBuilder::CreateResume),
+            InstanceMethod("CreateUnreachable", &IRBuilder::CreateUnreachable),
+
+            //===--------------------------------------------------------------------===//
+            // Instruction creation methods: Binary Operators
+            //===--------------------------------------------------------------------===//
+
             InstanceMethod("CreateAdd", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateAdd>),
             InstanceMethod("CreateFAdd", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFAdd>),
             InstanceMethod("CreateSub", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateSub>),
@@ -23,52 +88,24 @@ void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("CreateShl", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateShl>),
             InstanceMethod("CreateAShr", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateAShr>),
             InstanceMethod("CreateLShr", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateLShr>),
-            InstanceMethod("CreateICmpEQ", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpEQ>),
-            InstanceMethod("CreateICmpNE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpNE>),
-            InstanceMethod("CreateICmpSGE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpSGE>),
-            InstanceMethod("CreateICmpSGT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpSGT>),
-            InstanceMethod("CreateICmpSLE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpSLE>),
-            InstanceMethod("CreateICmpSLT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpSLT>),
-            InstanceMethod("CreateICmpUGE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpUGE>),
-            InstanceMethod("CreateICmpUGT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpUGT>),
-            InstanceMethod("CreateICmpULE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpULE>),
-            InstanceMethod("CreateICmpULT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpULT>),
-            InstanceMethod("CreateFCmpOEQ", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpOEQ>),
-            InstanceMethod("CreateFCmpONE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpONE>),
-            InstanceMethod("CreateFCmpOGE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpOGE>),
-            InstanceMethod("CreateFCmpOGT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpOGT>),
-            InstanceMethod("CreateFCmpOLE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpOLE>),
-            InstanceMethod("CreateFCmpOLT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpOLT>),
-            InstanceMethod("CreateFCmpUEQ", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpUEQ>),
-            InstanceMethod("CreateFCmpUNE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpUNE>),
-            InstanceMethod("CreateFCmpUGE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpUGE>),
-            InstanceMethod("CreateFCmpUGT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpUGT>),
-            InstanceMethod("CreateFCmpULE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpULE>),
-            InstanceMethod("CreateFCmpULT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpULT>),
             InstanceMethod("CreateNeg", &IRBuilder::unOpFactory<&LLVMIRBuilder::CreateNeg>),
             InstanceMethod("CreateFNeg", &IRBuilder::unOpFactory<&LLVMIRBuilder::CreateFNeg>),
             InstanceMethod("CreateNot", &IRBuilder::unOpFactory<&LLVMIRBuilder::CreateNot>),
+
+            //===--------------------------------------------------------------------===//
+            // Instruction creation methods: Memory Instructions
+            //===--------------------------------------------------------------------===//
+
             InstanceMethod("CreateAlloca", &IRBuilder::CreateAlloca),
-            InstanceMethod("CreateBr", &IRBuilder::CreateBr),
-            InstanceMethod("CreateCall", &IRBuilder::CreateCall),
-            InstanceMethod("CreateInvoke", &IRBuilder::CreateInvoke),
-            InstanceMethod("CreateCondBr", &IRBuilder::CreateCondBr),
-            InstanceMethod("CreateUnreachable", &IRBuilder::CreateUnreachable),
             InstanceMethod("CreateLoad", &IRBuilder::CreateLoad),
-            InstanceMethod("CreateRet", &IRBuilder::CreateRet),
-            InstanceMethod("CreateRetVoid", &IRBuilder::CreateRetVoid),
-            InstanceMethod("CreateResume", &IRBuilder::CreateResume),
-            InstanceMethod("CreateSwitch", &IRBuilder::CreateSwitch),
             InstanceMethod("CreateStore", &IRBuilder::CreateStore),
             InstanceMethod("CreateGEP", &IRBuilder::CreateGEP),
             InstanceMethod("CreateInBoundsGEP", &IRBuilder::CreateInBoundsGEP),
-            InstanceMethod("CreateGlobalString", &IRBuilder::CreateGlobalString),
             InstanceMethod("CreateGlobalStringPtr", &IRBuilder::CreateGlobalStringPtr),
-            InstanceMethod("CreatePHI", &IRBuilder::CreatePHI),
-            InstanceMethod("CreateSelect", &IRBuilder::CreateSelect),
-            InstanceMethod("CreateExtractValue", &IRBuilder::CreateExtractValue),
-            InstanceMethod("CreateInsertValue", &IRBuilder::CreateInsertValue),
-            InstanceMethod("CreateLandingPad", &IRBuilder::CreateLandingPad),
+
+            //===--------------------------------------------------------------------===//
+            // Instruction creation methods: Cast/Conversion Operators
+            //===--------------------------------------------------------------------===//
 
             InstanceMethod("CreateTrunc", &IRBuilder::CreateCastFactory<&LLVMIRBuilder::CreateTrunc>),
             InstanceMethod("CreateZExt", &IRBuilder::CreateCastFactory<&LLVMIRBuilder::CreateZExt>),
@@ -93,39 +130,44 @@ void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("CreateIntCast", &IRBuilder::CreateIntCast),
             InstanceMethod("CreateBitOrPointerCast", &IRBuilder::CreateCastFactory<&LLVMIRBuilder::CreateBitOrPointerCast>),
             InstanceMethod("CreateFPCast", &IRBuilder::CreateCastFactory<&LLVMIRBuilder::CreateFPCast>),
-            InstanceMethod("getInt1", &IRBuilder::getInt1),
-            InstanceMethod("getTrue", &IRBuilder::getBoolFactory<&LLVMIRBuilder::getTrue>),
-            InstanceMethod("getFalse", &IRBuilder::getBoolFactory<&LLVMIRBuilder::getFalse>),
-            InstanceMethod("getInt8", &IRBuilder::getIntFactory<&LLVMIRBuilder::getInt8>),
-            InstanceMethod("getInt16", &IRBuilder::getIntFactory<&LLVMIRBuilder::getInt16>),
-            InstanceMethod("getInt32", &IRBuilder::getIntFactory<&LLVMIRBuilder::getInt32>),
-            InstanceMethod("getInt64", &IRBuilder::getIntFactory<&LLVMIRBuilder::getInt64>),
-            InstanceMethod("getIntN", &IRBuilder::getIntN),
-            InstanceMethod("getInt", &IRBuilder::getInt),
-            InstanceMethod("getInt1Ty", &IRBuilder::getIntTypeFactory<&LLVMIRBuilder::getInt1Ty>),
-            InstanceMethod("getInt8Ty", &IRBuilder::getIntTypeFactory<&LLVMIRBuilder::getInt8Ty>),
-            InstanceMethod("getInt16Ty", &IRBuilder::getIntTypeFactory<&LLVMIRBuilder::getInt16Ty>),
-            InstanceMethod("getInt32Ty", &IRBuilder::getIntTypeFactory<&LLVMIRBuilder::getInt32Ty>),
-            InstanceMethod("getInt64Ty", &IRBuilder::getIntTypeFactory<&LLVMIRBuilder::getInt64Ty>),
-            InstanceMethod("getInt128Ty", &IRBuilder::getIntTypeFactory<&LLVMIRBuilder::getInt128Ty>),
-            InstanceMethod("getIntNTy", &IRBuilder::getIntNTy),
-            InstanceMethod("getHalfTy", &IRBuilder::getTypeFactory<&LLVMIRBuilder::getHalfTy>),
-            InstanceMethod("getBFloatTy", &IRBuilder::getTypeFactory<&LLVMIRBuilder::getBFloatTy>),
-            InstanceMethod("getFloatTy", &IRBuilder::getTypeFactory<&LLVMIRBuilder::getFloatTy>),
-            InstanceMethod("getDoubleTy", &IRBuilder::getTypeFactory<&LLVMIRBuilder::getDoubleTy>),
-            InstanceMethod("getVoidTy", &IRBuilder::getTypeFactory<&LLVMIRBuilder::getVoidTy>),
-            InstanceMethod("getInt8PtrTy", &IRBuilder::getInt8PtrTy),
-            InstanceMethod("getIntPtrTy", &IRBuilder::getIntPtrTy),
 
-            InstanceMethod("SetInsertPoint", &IRBuilder::SetInsertPoint),
-            InstanceMethod("GetInsertBlock", &IRBuilder::GetInsertBlock),
-            InstanceMethod("ClearInsertionPoint", &IRBuilder::ClearInsertionPoint),
-            InstanceMethod("saveIP", &IRBuilder::saveIP),
-            InstanceMethod("saveAndClearIP", &IRBuilder::saveAndClearIP),
-            InstanceMethod("restoreIP", &IRBuilder::restoreIP),
-            InstanceMethod("SetCurrentDebugLocation", &IRBuilder::SetCurrentDebugLocation),
+            //===--------------------------------------------------------------------===//
+            // Instruction creation methods: Compare Instructions
+            //===--------------------------------------------------------------------===//
 
-            StaticValue("InsertPoint", InsertPoint::Init(env, exports))
+            InstanceMethod("CreateICmpEQ", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpEQ>),
+            InstanceMethod("CreateICmpNE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpNE>),
+            InstanceMethod("CreateICmpSGE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpSGE>),
+            InstanceMethod("CreateICmpSGT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpSGT>),
+            InstanceMethod("CreateICmpSLE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpSLE>),
+            InstanceMethod("CreateICmpSLT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpSLT>),
+            InstanceMethod("CreateICmpUGE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpUGE>),
+            InstanceMethod("CreateICmpUGT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpUGT>),
+            InstanceMethod("CreateICmpULE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpULE>),
+            InstanceMethod("CreateICmpULT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateICmpULT>),
+            InstanceMethod("CreateFCmpOEQ", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpOEQ>),
+            InstanceMethod("CreateFCmpONE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpONE>),
+            InstanceMethod("CreateFCmpOGE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpOGE>),
+            InstanceMethod("CreateFCmpOGT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpOGT>),
+            InstanceMethod("CreateFCmpOLE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpOLE>),
+            InstanceMethod("CreateFCmpOLT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpOLT>),
+            InstanceMethod("CreateFCmpUEQ", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpUEQ>),
+            InstanceMethod("CreateFCmpUNE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpUNE>),
+            InstanceMethod("CreateFCmpUGE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpUGE>),
+            InstanceMethod("CreateFCmpUGT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpUGT>),
+            InstanceMethod("CreateFCmpULE", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpULE>),
+            InstanceMethod("CreateFCmpULT", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreateFCmpULT>),
+
+            //===--------------------------------------------------------------------===//
+            // Instruction creation methods: Other Instructions
+            //===--------------------------------------------------------------------===//
+
+            InstanceMethod("CreatePHI", &IRBuilder::CreatePHI),
+            InstanceMethod("CreateCall", &IRBuilder::CreateCall),
+            InstanceMethod("CreateSelect", &IRBuilder::CreateSelect),
+            InstanceMethod("CreateExtractValue", &IRBuilder::CreateExtractValue),
+            InstanceMethod("CreateInsertValue", &IRBuilder::CreateInsertValue),
+            InstanceMethod("CreateLandingPad", &IRBuilder::CreateLandingPad),
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -170,30 +212,9 @@ LLVMIRBuilder *IRBuilder::getLLVMPrimitive() {
     return builder;
 }
 
-Napi::Value IRBuilder::CreateAlloca(const Napi::CallbackInfo &info) {
-    Napi::Env env = info.Env();
-    unsigned argsLen = info.Length();
-    if (argsLen == 1 && Type::IsClassOf(info[0]) ||
-        argsLen == 2 && Type::IsClassOf(info[0]) && Value::IsClassOf(info[1]) ||
-        argsLen >= 3 && Type::IsClassOf(info[0]) && Value::IsClassOf(info[1]) && info[2].IsString()) {
-        llvm::Type *type = Type::Extract(info[0]);
-        llvm::Value *arraySize = argsLen >= 2 ? Value::Extract(info[1]) : nullptr;
-        std::string name = argsLen >= 3 ? std::string(info[2].As<Napi::String>()) : "";
-        llvm::AllocaInst *alloca = builder->CreateAlloca(type, arraySize, name);
-        return AllocaInst::New(env, alloca);
-    }
-    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateAlloca);
-}
-
-Napi::Value IRBuilder::CreateBr(const Napi::CallbackInfo &info) {
-    Napi::Env env = info.Env();
-    if (info.Length() >= 1 && BasicBlock::IsClassOf(info[0])) {
-        llvm::BasicBlock *destBB = BasicBlock::Extract(info[0]);
-        llvm::BranchInst *branch = builder->CreateBr(destBB);
-        return BranchInst::New(env, branch);
-    }
-    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateBr);
-}
+//===--------------------------------------------------------------------===//
+// Custom helpers
+//===--------------------------------------------------------------------===//
 
 bool assembleValueArray(Napi::Array values, std::vector<llvm::Value *> &valueArray) {
     unsigned size = values.Length();
@@ -207,54 +228,252 @@ bool assembleValueArray(Napi::Array values, std::vector<llvm::Value *> &valueArr
     return true;
 }
 
-Napi::Value IRBuilder::CreateCall(const Napi::CallbackInfo &info) {
+//===--------------------------------------------------------------------===//
+// Builder configuration methods
+//===--------------------------------------------------------------------===//
+
+void IRBuilder::ClearInsertionPoint(const Napi::CallbackInfo &info) {
+    builder->ClearInsertionPoint();
+}
+
+Napi::Value IRBuilder::GetInsertBlock(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::BasicBlock *basicBlock = builder->GetInsertBlock();
+    if (basicBlock) {
+        return BasicBlock::New(env, basicBlock);
+    }
+    return env.Null();
+}
+
+void IRBuilder::SetInsertPoint(const Napi::CallbackInfo &info) {
+    if (info.Length() >= 1) {
+        if (BasicBlock::IsClassOf(info[0])) {
+            llvm::BasicBlock *bb = BasicBlock::Extract(info[0]);
+            builder->SetInsertPoint(bb);
+            return;
+        } else if (Instruction::IsClassOf(info[0])) {
+            llvm::Instruction *inst = Instruction::Extract(info[0]);
+            builder->SetInsertPoint(inst);
+            return;
+        }
+    }
+    throw Napi::TypeError::New(info.Env(), ErrMsg::Class::IRBuilder::SetInsertPoint);
+}
+
+void IRBuilder::SetCurrentDebugLocation(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 1) {
+        if (DebugLoc::IsClassOf(info[0])) {
+            llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
+            builder->SetCurrentDebugLocation(*location);
+            return;
+        } else if (DILocation::IsClassOf(info[0])) {
+            llvm::DILocation *location = DILocation::Extract(info[0]);
+            builder->SetCurrentDebugLocation(location);
+            return;
+        }
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::SetCurrentDebugLocation);
+}
+
+Napi::Function IRBuilder::InsertPoint::Init(Napi::Env env, Napi::Object &exports) {
+    Napi::HandleScope scope(env);
+    Napi::Function func = DefineClass(env, "InsertPoint", {
+    });
+    constructor = Napi::Persistent(func);
+    constructor.SuppressDestruct();
+    return func;
+}
+
+Napi::Object IRBuilder::InsertPoint::New(Napi::Env env, llvm::IRBuilderBase::InsertPoint insertPoint) {
+    tmpInsertPoint = insertPoint;
+    return constructor.New({});
+}
+
+bool IRBuilder::InsertPoint::IsClassOf(const Napi::Value &value) {
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
+}
+
+llvm::IRBuilderBase::InsertPoint IRBuilder::InsertPoint::Extract(const Napi::Value &value) {
+    return Unwrap(value.As<Napi::Object>())->getLLVMPrimitive();
+}
+
+IRBuilder::InsertPoint::InsertPoint(const Napi::CallbackInfo &info) : ObjectWrap(info) {
+    Napi::Env env = info.Env();
+    if (!info.IsConstructCall()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::InsertPoint::constructor);
+    }
+    if (tmpInsertPoint.isSet()) {
+        insertPoint = tmpInsertPoint;
+        tmpInsertPoint = llvm::IRBuilderBase::InsertPoint();
+    }
+}
+
+llvm::IRBuilderBase::InsertPoint IRBuilder::InsertPoint::getLLVMPrimitive() {
+    return insertPoint;
+}
+
+Napi::Value IRBuilder::saveIP(const Napi::CallbackInfo &info) {
+    return InsertPoint::New(info.Env(), builder->saveIP());
+}
+
+Napi::Value IRBuilder::saveAndClearIP(const Napi::CallbackInfo &info) {
+    return InsertPoint::New(info.Env(), builder->saveAndClearIP());
+}
+
+void IRBuilder::restoreIP(const Napi::CallbackInfo &info) {
+    if (info.Length() == 0 || !InsertPoint::IsClassOf(info[0])) {
+        throw Napi::TypeError::New(info.Env(), ErrMsg::Class::IRBuilder::restoreIP);
+    }
+    builder->restoreIP(InsertPoint::Extract(info[0]));
+}
+
+//===--------------------------------------------------------------------===//
+// Miscellaneous creation methods.
+//===--------------------------------------------------------------------===//
+
+Napi::Value IRBuilder::CreateGlobalString(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     unsigned argsLen = info.Length();
-    llvm::CallInst *callInst = nullptr;
-    std::vector<llvm::Value *> calleeArgs;
-    if (argsLen == 1 && Function::IsClassOf(info[0]) ||
-        argsLen == 2 && Function::IsClassOf(info[0]) && info[1].IsString()) {
-        llvm::Function *callee = Function::Extract(info[0]);
-        std::string name = argsLen == 2 ? std::string(info[1].As<Napi::String>()) : "";
-        callInst = builder->CreateCall(callee, llvm::None, name);
-    } else if (argsLen == 2 && Function::IsClassOf(info[0]) && info[1].IsArray() ||
-               argsLen == 3 && Function::IsClassOf(info[0]) && info[1].IsArray() && info[2].IsString()) {
-        if (assembleValueArray(info[1].As<Napi::Array>(), calleeArgs)) {
-            llvm::Function *callee = Function::Extract(info[0]);
-            std::string name = argsLen == 3 ? std::string(info[2].As<Napi::String>()) : "";
-            callInst = builder->CreateCall(callee, calleeArgs, name);
-        }
-    } else if (argsLen == 1 && FunctionCallee::IsClassOf(info[0]) ||
-               argsLen == 2 && FunctionCallee::IsClassOf(info[0]) && info[1].IsString()) {
-        llvm::FunctionCallee callee = FunctionCallee::Extract(info[0]);
-        std::string name = argsLen == 2 ? std::string(info[1].As<Napi::String>()) : "";
-        callInst = builder->CreateCall(callee, llvm::None, name);
-    } else if (argsLen == 2 && FunctionCallee::IsClassOf(info[0]) && info[1].IsArray() ||
-               argsLen == 3 && FunctionCallee::IsClassOf(info[0]) && info[1].IsArray() && info[2].IsString()) {
-        if (assembleValueArray(info[1].As<Napi::Array>(), calleeArgs)) {
-            llvm::FunctionCallee callee = FunctionCallee::Extract(info[0]);
-            std::string name = argsLen == 3 ? std::string(info[2].As<Napi::String>()) : "";
-            callInst = builder->CreateCall(callee, calleeArgs, name);
-        }
-    } else if (argsLen == 2 && FunctionType::IsClassOf(info[0]) && Value::IsClassOf(info[1]) ||
-               argsLen == 3 && FunctionType::IsClassOf(info[0]) && Value::IsClassOf(info[1]) && info[2].IsString()) {
-        llvm::FunctionType *funcType = FunctionType::Extract(info[0]);
-        llvm::Value *callee = Value::Extract(info[1]);
-        std::string name = argsLen == 3 ? std::string(info[2].As<Napi::String>()) : "";
-        callInst = builder->CreateCall(funcType, callee, llvm::None, name);
-    } else if (argsLen == 3 && FunctionType::IsClassOf(info[0]) && Value::IsClassOf(info[1]) && info[2].IsArray() ||
-               argsLen == 4 && FunctionType::IsClassOf(info[0]) && Value::IsClassOf(info[1]) && info[2].IsArray() && info[3].IsString()) {
-        if (assembleValueArray(info[2].As<Napi::Array>(), calleeArgs)) {
-            llvm::FunctionType *funcType = FunctionType::Extract(info[0]);
-            llvm::Value *callee = Value::Extract(info[1]);
-            std::string name = argsLen == 4 ? std::string(info[3].As<Napi::String>()) : "";
-            callInst = builder->CreateCall(funcType, callee, calleeArgs, name);
-        }
+    if (argsLen == 0 || !info[0].IsString() ||
+        argsLen >= 2 && !info[1].IsString() ||
+        argsLen >= 3 && !info[2].IsNumber() ||
+        argsLen >= 4 && !Module::IsClassOf(info[3])) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateGlobalString);
     }
-    if (callInst) {
-        return CallInst::New(env, callInst);
+    const std::string &str = info[0].As<Napi::String>();
+    std::string name;
+    unsigned addrSpace = 0;
+    llvm::Module *module = nullptr;
+    if (argsLen >= 2) {
+        name = info[1].As<Napi::String>();
     }
-    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateCall);
+    if (argsLen >= 3) {
+        addrSpace = info[2].As<Napi::Number>();
+    }
+    if (argsLen >= 4) {
+        module = Module::Extract(info[3]);
+    }
+    llvm::GlobalVariable *globalStr = builder->CreateGlobalString(str, name, addrSpace, module);
+    return GlobalVariable::New(env, globalStr);
+}
+
+Napi::Value IRBuilder::getInt1(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 0 || !info[0].IsBoolean()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::getInt1);
+    }
+    bool value = info[0].As<Napi::Boolean>();
+    return ConstantInt::New(env, builder->getInt1(value));
+}
+
+Napi::Value IRBuilder::getIntN(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() < 2 || !info[0].IsNumber() || !info[1].IsNumber()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::getIntN);
+    }
+    unsigned n = info[0].As<Napi::Number>();
+    uint64_t value = info[1].As<Napi::Number>().Int64Value();
+    return ConstantInt::New(env, builder->getIntN(n, value));
+}
+
+Napi::Value IRBuilder::getInt(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 0 || !APInt::IsClassOf(info[0])) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::getInt);
+    }
+    llvm::APInt &value = APInt::Extract(info[0]);
+    return ConstantInt::New(env, builder->getInt(value));
+}
+
+//===--------------------------------------------------------------------===//
+// Type creation methods
+//===--------------------------------------------------------------------===//
+
+Napi::Value IRBuilder::getIntNTy(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 0 || !info[0].IsNumber()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::getIntNTy);
+    }
+    unsigned n = info[0].As<Napi::Number>();
+    return IntegerType::New(env, builder->getIntNTy(n));
+}
+
+Napi::Value IRBuilder::getInt8PtrTy(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    unsigned argsLen = info.Length();
+    if (argsLen >= 1 && !info[0].IsNumber()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::getInt8PtrTy);
+    }
+    unsigned addrSpace = argsLen >= 1 ? info[0].As<Napi::Number>() : 0;
+    llvm::PointerType *type = builder->getInt8PtrTy(addrSpace);
+    return PointerType::New(env, type);
+}
+
+Napi::Value IRBuilder::getIntPtrTy(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    unsigned argsLen = info.Length();
+    if (argsLen == 0 || !DataLayout::IsClassOf(info[0]) || argsLen >= 2 && !info[1].IsNumber()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::getIntPtrTy);
+    }
+    llvm::DataLayout &dl = DataLayout::Extract(info[0]);
+    unsigned addrSpace = argsLen >= 2 ? info[1].As<Napi::Number>() : 0;
+    llvm::IntegerType *type = builder->getIntPtrTy(dl, addrSpace);
+    return IntegerType::New(env, type);
+}
+
+//===--------------------------------------------------------------------===//
+// Instruction creation methods: Terminators
+//===--------------------------------------------------------------------===//
+
+Napi::Value IRBuilder::CreateRetVoid(const Napi::CallbackInfo &info) {
+    return ReturnInst::New(info.Env(), builder->CreateRetVoid());
+}
+
+Napi::Value IRBuilder::CreateRet(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    unsigned argsLen = info.Length();
+    if (argsLen >= 1 && Value::IsClassOf(info[0])) {
+        llvm::ReturnInst *ret = builder->CreateRet(Value::Extract(info[0]));
+        return ReturnInst::New(env, ret);
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateRet);
+}
+
+Napi::Value IRBuilder::CreateBr(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() >= 1 && BasicBlock::IsClassOf(info[0])) {
+        llvm::BasicBlock *destBB = BasicBlock::Extract(info[0]);
+        llvm::BranchInst *branch = builder->CreateBr(destBB);
+        return BranchInst::New(env, branch);
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateBr);
+}
+
+Napi::Value IRBuilder::CreateCondBr(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() >= 3 && Value::IsClassOf(info[0]) && BasicBlock::IsClassOf(info[1]) && BasicBlock::IsClassOf(info[2])) {
+        llvm::Value *cond = Value::Extract(info[0]);
+        llvm::BasicBlock *thenBB = BasicBlock::Extract(info[1]);
+        llvm::BasicBlock *elseBB = BasicBlock::Extract(info[2]);
+        llvm::BranchInst *branch = builder->CreateCondBr(cond, thenBB, elseBB);
+        return BranchInst::New(env, branch);
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateCondBr);
+}
+
+Napi::Value IRBuilder::CreateSwitch(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    unsigned argsLen = info.Length();
+    if (argsLen == 2 && Value::IsClassOf(info[0]) && BasicBlock::IsClassOf(info[1]) ||
+        argsLen >= 3 && Value::IsClassOf(info[0]) && BasicBlock::IsClassOf(info[1]) && info[2].IsNumber()) {
+        llvm::Value *value = Value::Extract(info[0]);
+        llvm::BasicBlock *dest = BasicBlock::Extract(info[1]);
+        unsigned numCases = argsLen >= 3 ? info[2].As<Napi::Number>() : 10;
+        llvm::SwitchInst *switchInst = builder->CreateSwitch(value, dest, numCases);
+        return SwitchInst::New(env, switchInst);
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateSwitch);
 }
 
 Napi::Value IRBuilder::CreateInvoke(const Napi::CallbackInfo &info) {
@@ -325,20 +544,37 @@ Napi::Value IRBuilder::CreateInvoke(const Napi::CallbackInfo &info) {
     throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateInvoke);
 }
 
-Napi::Value IRBuilder::CreateCondBr(const Napi::CallbackInfo &info) {
+Napi::Value IRBuilder::CreateResume(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() >= 3 && Value::IsClassOf(info[0]) && BasicBlock::IsClassOf(info[1]) && BasicBlock::IsClassOf(info[2])) {
-        llvm::Value *cond = Value::Extract(info[0]);
-        llvm::BasicBlock *thenBB = BasicBlock::Extract(info[1]);
-        llvm::BasicBlock *elseBB = BasicBlock::Extract(info[2]);
-        llvm::BranchInst *branch = builder->CreateCondBr(cond, thenBB, elseBB);
-        return BranchInst::New(env, branch);
+    unsigned argsLen = info.Length();
+    if (argsLen == 1 && Value::IsClassOf(info[0])) {
+        llvm::ResumeInst *resumeInst = builder->CreateResume(Value::Extract(info[0]));
+        return ResumeInst::New(info.Env(), resumeInst);
     }
-    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateCondBr);
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateResume);
 }
 
 Napi::Value IRBuilder::CreateUnreachable(const Napi::CallbackInfo &info) {
     return UnreachableInst::New(info.Env(), builder->CreateUnreachable());
+}
+
+//===--------------------------------------------------------------------===//
+// Instruction creation methods: Memory Instructions
+//===--------------------------------------------------------------------===//
+
+Napi::Value IRBuilder::CreateAlloca(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    unsigned argsLen = info.Length();
+    if (argsLen == 1 && Type::IsClassOf(info[0]) ||
+        argsLen == 2 && Type::IsClassOf(info[0]) && Value::IsClassOf(info[1]) ||
+        argsLen >= 3 && Type::IsClassOf(info[0]) && Value::IsClassOf(info[1]) && info[2].IsString()) {
+        llvm::Type *type = Type::Extract(info[0]);
+        llvm::Value *arraySize = argsLen >= 2 ? Value::Extract(info[1]) : nullptr;
+        std::string name = argsLen >= 3 ? std::string(info[2].As<Napi::String>()) : "";
+        llvm::AllocaInst *alloca = builder->CreateAlloca(type, arraySize, name);
+        return AllocaInst::New(env, alloca);
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateAlloca);
 }
 
 Napi::Value IRBuilder::CreateLoad(const Napi::CallbackInfo &info) {
@@ -353,44 +589,6 @@ Napi::Value IRBuilder::CreateLoad(const Napi::CallbackInfo &info) {
         return LoadInst::New(env, load);
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateLoad);
-}
-
-Napi::Value IRBuilder::CreateRet(const Napi::CallbackInfo &info) {
-    Napi::Env env = info.Env();
-    unsigned argsLen = info.Length();
-    if (argsLen >= 1 && Value::IsClassOf(info[0])) {
-        llvm::ReturnInst *ret = builder->CreateRet(Value::Extract(info[0]));
-        return ReturnInst::New(env, ret);
-    }
-    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateRet);
-}
-
-Napi::Value IRBuilder::CreateRetVoid(const Napi::CallbackInfo &info) {
-    return ReturnInst::New(info.Env(), builder->CreateRetVoid());
-}
-
-Napi::Value IRBuilder::CreateResume(const Napi::CallbackInfo &info) {
-    Napi::Env env = info.Env();
-    unsigned argsLen = info.Length();
-    if (argsLen == 1 && Value::IsClassOf(info[0])) {
-        llvm::ResumeInst *resumeInst = builder->CreateResume(Value::Extract(info[0]));
-        return ResumeInst::New(info.Env(), resumeInst);
-    }
-    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateResume);
-}
-
-Napi::Value IRBuilder::CreateSwitch(const Napi::CallbackInfo &info) {
-    Napi::Env env = info.Env();
-    unsigned argsLen = info.Length();
-    if (argsLen == 2 && Value::IsClassOf(info[0]) && BasicBlock::IsClassOf(info[1]) ||
-        argsLen >= 3 && Value::IsClassOf(info[0]) && BasicBlock::IsClassOf(info[1]) && info[2].IsNumber()) {
-        llvm::Value *value = Value::Extract(info[0]);
-        llvm::BasicBlock *dest = BasicBlock::Extract(info[1]);
-        unsigned numCases = argsLen >= 3 ? info[2].As<Napi::Number>() : 10;
-        llvm::SwitchInst *switchInst = builder->CreateSwitch(value, dest, numCases);
-        return SwitchInst::New(env, switchInst);
-    }
-    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateSwitch);
 }
 
 Napi::Value IRBuilder::CreateStore(const Napi::CallbackInfo &info) {
@@ -442,92 +640,6 @@ Napi::Value IRBuilder::CreateInBoundsGEP(const Napi::CallbackInfo &info) {
     throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateInBoundsGEP);
 }
 
-Napi::Value IRBuilder::getInt1(const Napi::CallbackInfo &info) {
-    Napi::Env env = info.Env();
-    if (info.Length() == 0 || !info[0].IsBoolean()) {
-        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::getInt1);
-    }
-    bool value = info[0].As<Napi::Boolean>();
-    return ConstantInt::New(env, builder->getInt1(value));
-}
-
-Napi::Value IRBuilder::getIntN(const Napi::CallbackInfo &info) {
-    Napi::Env env = info.Env();
-    if (info.Length() < 2 || !info[0].IsNumber() || !info[1].IsNumber()) {
-        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::getIntN);
-    }
-    unsigned n = info[0].As<Napi::Number>();
-    uint64_t value = info[1].As<Napi::Number>().Int64Value();
-    return ConstantInt::New(env, builder->getIntN(n, value));
-}
-
-Napi::Value IRBuilder::getInt(const Napi::CallbackInfo &info) {
-    Napi::Env env = info.Env();
-    if (info.Length() == 0 || !APInt::IsClassOf(info[0])) {
-        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::getInt);
-    }
-    llvm::APInt &value = APInt::Extract(info[0]);
-    return ConstantInt::New(env, builder->getInt(value));
-}
-
-Napi::Value IRBuilder::getIntNTy(const Napi::CallbackInfo &info) {
-    Napi::Env env = info.Env();
-    if (info.Length() == 0 || !info[0].IsNumber()) {
-        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::getIntNTy);
-    }
-    unsigned n = info[0].As<Napi::Number>();
-    return IntegerType::New(env, builder->getIntNTy(n));
-}
-
-Napi::Value IRBuilder::getInt8PtrTy(const Napi::CallbackInfo &info) {
-    Napi::Env env = info.Env();
-    unsigned argsLen = info.Length();
-    if (argsLen >= 1 && !info[0].IsNumber()) {
-        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::getInt8PtrTy);
-    }
-    unsigned addrSpace = argsLen >= 1 ? info[0].As<Napi::Number>() : 0;
-    llvm::PointerType *type = builder->getInt8PtrTy(addrSpace);
-    return PointerType::New(env, type);
-}
-
-Napi::Value IRBuilder::getIntPtrTy(const Napi::CallbackInfo &info) {
-    Napi::Env env = info.Env();
-    unsigned argsLen = info.Length();
-    if (argsLen == 0 || !DataLayout::IsClassOf(info[0]) || argsLen >= 2 && !info[1].IsNumber()) {
-        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::getIntPtrTy);
-    }
-    llvm::DataLayout &dl = DataLayout::Extract(info[0]);
-    unsigned addrSpace = argsLen >= 2 ? info[1].As<Napi::Number>() : 0;
-    llvm::IntegerType *type = builder->getIntPtrTy(dl, addrSpace);
-    return IntegerType::New(env, type);
-}
-
-Napi::Value IRBuilder::CreateGlobalString(const Napi::CallbackInfo &info) {
-    Napi::Env env = info.Env();
-    unsigned argsLen = info.Length();
-    if (argsLen == 0 || !info[0].IsString() ||
-        argsLen >= 2 && !info[1].IsString() ||
-        argsLen >= 3 && !info[2].IsNumber() ||
-        argsLen >= 4 && !Module::IsClassOf(info[3])) {
-        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateGlobalString);
-    }
-    const std::string &str = info[0].As<Napi::String>();
-    std::string name;
-    unsigned addrSpace = 0;
-    llvm::Module *module = nullptr;
-    if (argsLen >= 2) {
-        name = info[1].As<Napi::String>();
-    }
-    if (argsLen >= 3) {
-        addrSpace = info[2].As<Napi::Number>();
-    }
-    if (argsLen >= 4) {
-        module = Module::Extract(info[3]);
-    }
-    llvm::GlobalVariable *globalStr = builder->CreateGlobalString(str, name, addrSpace, module);
-    return GlobalVariable::New(env, globalStr);
-}
-
 Napi::Value IRBuilder::CreateGlobalStringPtr(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     unsigned argsLen = info.Length();
@@ -554,6 +666,32 @@ Napi::Value IRBuilder::CreateGlobalStringPtr(const Napi::CallbackInfo &info) {
     return Constant::New(env, globalStrPtr);
 }
 
+
+//===--------------------------------------------------------------------===//
+// Instruction creation methods: Cast/Conversion Operators
+//===--------------------------------------------------------------------===//
+
+Napi::Value IRBuilder::CreateIntCast(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    unsigned argsLen = info.Length();
+    if (argsLen < 3 ||
+        !Value::IsClassOf(info[0]) ||
+        !Type::IsClassOf(info[1]) ||
+        !info[2].IsBoolean() ||
+        argsLen >= 4 && !info[2].IsString()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateIntCast);
+    }
+    llvm::Value *value = Value::Extract(info[0]);
+    llvm::Type *destType = Type::Extract(info[1]);
+    bool isSigned = info[2].As<Napi::Boolean>();
+    const std::string &name = argsLen >= 4 ? std::string(info[3].As<Napi::String>()) : "";
+    return Value::New(env, builder->CreateIntCast(value, destType, isSigned, name));
+}
+
+//===--------------------------------------------------------------------===//
+// Instruction creation methods: Other Instructions
+//===--------------------------------------------------------------------===//
+
 Napi::Value IRBuilder::CreatePHI(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     unsigned argsLen = info.Length();
@@ -565,6 +703,56 @@ Napi::Value IRBuilder::CreatePHI(const Napi::CallbackInfo &info) {
     const std::string &name = argsLen >= 3 ? std::string(info[2].As<Napi::String>()) : "";
     llvm::PHINode *phiNode = builder->CreatePHI(type, numReservedValues, name);
     return PHINode::New(env, phiNode);
+}
+
+Napi::Value IRBuilder::CreateCall(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    unsigned argsLen = info.Length();
+    llvm::CallInst *callInst = nullptr;
+    std::vector<llvm::Value *> calleeArgs;
+    if (argsLen == 1 && Function::IsClassOf(info[0]) ||
+        argsLen == 2 && Function::IsClassOf(info[0]) && info[1].IsString()) {
+        llvm::Function *callee = Function::Extract(info[0]);
+        std::string name = argsLen == 2 ? std::string(info[1].As<Napi::String>()) : "";
+        callInst = builder->CreateCall(callee, llvm::None, name);
+    } else if (argsLen == 2 && Function::IsClassOf(info[0]) && info[1].IsArray() ||
+               argsLen == 3 && Function::IsClassOf(info[0]) && info[1].IsArray() && info[2].IsString()) {
+        if (assembleValueArray(info[1].As<Napi::Array>(), calleeArgs)) {
+            llvm::Function *callee = Function::Extract(info[0]);
+            std::string name = argsLen == 3 ? std::string(info[2].As<Napi::String>()) : "";
+            callInst = builder->CreateCall(callee, calleeArgs, name);
+        }
+    } else if (argsLen == 1 && FunctionCallee::IsClassOf(info[0]) ||
+               argsLen == 2 && FunctionCallee::IsClassOf(info[0]) && info[1].IsString()) {
+        llvm::FunctionCallee callee = FunctionCallee::Extract(info[0]);
+        std::string name = argsLen == 2 ? std::string(info[1].As<Napi::String>()) : "";
+        callInst = builder->CreateCall(callee, llvm::None, name);
+    } else if (argsLen == 2 && FunctionCallee::IsClassOf(info[0]) && info[1].IsArray() ||
+               argsLen == 3 && FunctionCallee::IsClassOf(info[0]) && info[1].IsArray() && info[2].IsString()) {
+        if (assembleValueArray(info[1].As<Napi::Array>(), calleeArgs)) {
+            llvm::FunctionCallee callee = FunctionCallee::Extract(info[0]);
+            std::string name = argsLen == 3 ? std::string(info[2].As<Napi::String>()) : "";
+            callInst = builder->CreateCall(callee, calleeArgs, name);
+        }
+    } else if (argsLen == 2 && FunctionType::IsClassOf(info[0]) && Value::IsClassOf(info[1]) ||
+               argsLen == 3 && FunctionType::IsClassOf(info[0]) && Value::IsClassOf(info[1]) && info[2].IsString()) {
+        llvm::FunctionType *funcType = FunctionType::Extract(info[0]);
+        llvm::Value *callee = Value::Extract(info[1]);
+        std::string name = argsLen == 3 ? std::string(info[2].As<Napi::String>()) : "";
+        callInst = builder->CreateCall(funcType, callee, llvm::None, name);
+    } else if (argsLen == 3 && FunctionType::IsClassOf(info[0]) && Value::IsClassOf(info[1]) && info[2].IsArray() ||
+               argsLen == 4 && FunctionType::IsClassOf(info[0]) && Value::IsClassOf(info[1]) && info[2].IsArray() && info[3].IsString()) {
+        if (assembleValueArray(info[2].As<Napi::Array>(), calleeArgs)) {
+            llvm::FunctionType *funcType = FunctionType::Extract(info[0]);
+            llvm::Value *callee = Value::Extract(info[1]);
+            std::string name = argsLen == 4 ? std::string(info[3].As<Napi::String>()) : "";
+            callInst = builder->CreateCall(funcType, callee, calleeArgs, name);
+        }
+    }
+    if (callInst) {
+        return CallInst::New(env, callInst);
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateCall);
 }
 
 Napi::Value IRBuilder::CreateSelect(const Napi::CallbackInfo &info) {
@@ -651,100 +839,4 @@ Napi::Value IRBuilder::CreateLandingPad(const Napi::CallbackInfo &info) {
         return LandingPadInst::New(env, lpInst);
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateLandingPad);
-}
-
-void IRBuilder::SetInsertPoint(const Napi::CallbackInfo &info) {
-    if (info.Length() >= 1) {
-        if (BasicBlock::IsClassOf(info[0])) {
-            llvm::BasicBlock *bb = BasicBlock::Extract(info[0]);
-            builder->SetInsertPoint(bb);
-            return;
-        } else if (Instruction::IsClassOf(info[0])) {
-            llvm::Instruction *inst = Instruction::Extract(info[0]);
-            builder->SetInsertPoint(inst);
-            return;
-        }
-    }
-    throw Napi::TypeError::New(info.Env(), ErrMsg::Class::IRBuilder::SetInsertPoint);
-}
-
-Napi::Value IRBuilder::GetInsertBlock(const Napi::CallbackInfo &info) {
-    Napi::Env env = info.Env();
-    llvm::BasicBlock *basicBlock = builder->GetInsertBlock();
-    if (basicBlock) {
-        return BasicBlock::New(env, basicBlock);
-    }
-    return env.Null();
-}
-
-void IRBuilder::ClearInsertionPoint(const Napi::CallbackInfo &info) {
-    builder->ClearInsertionPoint();
-}
-
-Napi::Value IRBuilder::saveIP(const Napi::CallbackInfo &info) {
-    return InsertPoint::New(info.Env(), builder->saveIP());
-}
-
-Napi::Value IRBuilder::saveAndClearIP(const Napi::CallbackInfo &info) {
-    return InsertPoint::New(info.Env(), builder->saveAndClearIP());
-}
-
-void IRBuilder::restoreIP(const Napi::CallbackInfo &info) {
-    if (info.Length() == 0 || !InsertPoint::IsClassOf(info[0])) {
-        throw Napi::TypeError::New(info.Env(), ErrMsg::Class::IRBuilder::restoreIP);
-    }
-    builder->restoreIP(InsertPoint::Extract(info[0]));
-}
-
-void IRBuilder::SetCurrentDebugLocation(const Napi::CallbackInfo &info) {
-    Napi::Env env = info.Env();
-    if (info.Length() == 1) {
-        if (DebugLoc::IsClassOf(info[0])) {
-            llvm::DebugLoc *location = DebugLoc::Extract(info[0]);
-            builder->SetCurrentDebugLocation(*location);
-            return;
-        } else if (DILocation::IsClassOf(info[0])) {
-            llvm::DILocation *location = DILocation::Extract(info[0]);
-            builder->SetCurrentDebugLocation(location);
-            return;
-        }
-    }
-    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::SetCurrentDebugLocation);
-}
-
-Napi::Function IRBuilder::InsertPoint::Init(Napi::Env env, Napi::Object &exports) {
-    Napi::HandleScope scope(env);
-    Napi::Function func = DefineClass(env, "InsertPoint", {
-    });
-    constructor = Napi::Persistent(func);
-    constructor.SuppressDestruct();
-    return func;
-}
-
-Napi::Object IRBuilder::InsertPoint::New(Napi::Env env, llvm::IRBuilderBase::InsertPoint insertPoint) {
-    tmpInsertPoint = insertPoint;
-    return constructor.New({});
-}
-
-bool IRBuilder::InsertPoint::IsClassOf(const Napi::Value &value) {
-    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
-}
-
-llvm::IRBuilderBase::InsertPoint IRBuilder::InsertPoint::Extract(const Napi::Value &value) {
-    return Unwrap(value.As<Napi::Object>())->getLLVMPrimitive();
-}
-
-IRBuilder::InsertPoint::InsertPoint(const Napi::CallbackInfo &info) : ObjectWrap(info) {
-    Napi::Env env = info.Env();
-    if (!info.IsConstructCall()) {
-        throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::InsertPoint::constructor);
-    }
-    if (tmpInsertPoint.isSet()) {
-        insertPoint = tmpInsertPoint;
-        tmpInsertPoint = llvm::IRBuilderBase::InsertPoint();
-    }
-}
-
-llvm::IRBuilderBase::InsertPoint IRBuilder::InsertPoint::getLLVMPrimitive() {
-    return insertPoint;
 }

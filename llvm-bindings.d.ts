@@ -1206,6 +1206,113 @@ declare namespace llvm {
         public constructor(theBB: BasicBlock);
         public constructor(ip: Instruction);
 
+        //===--------------------------------------------------------------------===//
+        // Builder configuration methods
+        //===--------------------------------------------------------------------===//
+
+        public ClearInsertionPoint(): void;
+
+        public GetInsertBlock(): BasicBlock | null;
+
+        public SetInsertPoint(basicBlock: BasicBlock): void;
+        public SetInsertPoint(inst: Instruction): void;
+
+        public saveIP(): IRBuilder.InsertPoint;
+
+        public saveAndClearIP(): IRBuilder.InsertPoint;
+
+        public restoreIP(ip: IRBuilder.InsertPoint): void;
+
+        public SetCurrentDebugLocation(location: DebugLoc): void;
+        // extra
+        public SetCurrentDebugLocation(location: DILocation): void;
+
+        //===--------------------------------------------------------------------===//
+        // Miscellaneous creation methods.
+        //===--------------------------------------------------------------------===//
+
+        public CreateGlobalString(str: string, name?: string, addrSpace?: number, module?: Module): GlobalVariable;
+
+        public getInt1(value: boolean): ConstantInt;
+
+        public getTrue(): ConstantInt;
+
+        public getFalse(): ConstantInt;
+
+        public getInt8(value: number): ConstantInt;
+
+        public getInt16(value: number): ConstantInt;
+
+        public getInt32(value: number): ConstantInt;
+
+        public getInt64(value: number): ConstantInt;
+
+        public getIntN(n: number, value: number): ConstantInt;
+
+        public getInt(value: APInt): ConstantInt;
+
+        //===--------------------------------------------------------------------===//
+        // Type creation methods
+        //===--------------------------------------------------------------------===//
+
+        public getInt1Ty(): IntegerType;
+
+        public getInt8Ty(): IntegerType;
+
+        public getInt16Ty(): IntegerType;
+
+        public getInt32Ty(): IntegerType;
+
+        public getInt64Ty(): IntegerType;
+
+        public getInt128Ty(): IntegerType;
+
+        public getIntNTy(n: number): IntegerType;
+
+        public getHalfTy(): Type;
+
+        public getBFloatTy(): Type;
+
+        public getFloatTy(): Type;
+
+        public getDoubleTy(): Type;
+
+        public getVoidTy(): Type;
+
+        public getInt8PtrTy(addrSpace?: number): PointerType;
+
+        public getIntPtrTy(dataLayout: DataLayout, addrSpace?: number): IntegerType;
+
+        //===--------------------------------------------------------------------===//
+        // Instruction creation methods: Terminators
+        //===--------------------------------------------------------------------===//
+
+        public CreateRetVoid(): ReturnInst;
+
+        public CreateRet(value: Value): ReturnInst;
+
+        public CreateBr(destBB: BasicBlock): BranchInst;
+
+        public CreateCondBr(cond: Value, thenBB: BasicBlock, elseBB: BasicBlock): BranchInst;
+
+        public CreateSwitch(value: Value, dest: BasicBlock, numCases?: number): SwitchInst;
+
+        // customized
+        public CreateInvoke(callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string): InvokeInst;
+        public CreateInvoke(callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string): InvokeInst;
+        public CreateInvoke(callee: FunctionCallee, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string): InvokeInst;
+        public CreateInvoke(callee: FunctionCallee, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string): InvokeInst;
+        public CreateInvoke(funcType: FunctionType, callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string): InvokeInst;
+        public CreateInvoke(funcType: FunctionType, callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string): InvokeInst;
+
+        public CreateResume(exn: Value): ResumeInst;
+
+        public CreateUnreachable(): UnreachableInst;
+
+        //===--------------------------------------------------------------------===//
+        // Instruction creation methods: Binary Operators
+        //===--------------------------------------------------------------------===//
+
         public CreateAdd(lhs: Value, rhs: Value, name?: string): Value;
 
         public CreateFAdd(lhs: Value, rhs: Value, name?: string): Value;
@@ -1242,112 +1349,35 @@ declare namespace llvm {
 
         public CreateLShr(lhs: Value, rhs: Value, name?: string): Value;
 
-        public CreateICmpEQ(lhs: Value, rhs: Value, name?: string): Value;
-
-        public CreateICmpNE(lhs: Value, rhs: Value, name?: string): Value;
-
-        public CreateICmpSGE(lhs: Value, rhs: Value, name?: string): Value;
-
-        public CreateICmpSGT(lhs: Value, rhs: Value, name?: string): Value;
-
-        public CreateICmpSLE(lhs: Value, rhs: Value, name?: string): Value;
-
-        public CreateICmpSLT(lhs: Value, rhs: Value, name?: string): Value;
-
-        public CreateICmpUGE(lhs: Value, rhs: Value, name?: string): Value;
-
-        public CreateICmpUGT(lhs: Value, rhs: Value, name?: string): Value;
-
-        public CreateICmpULE(lhs: Value, rhs: Value, name?: string): Value;
-
-        public CreateICmpULT(lhs: Value, rhs: Value, name?: string): Value;
-
-        public CreateFCmpOEQ(lhs: Value, rhs: Value, name?: string): Value;
-
-        public CreateFCmpONE(lhs: Value, rhs: Value, name?: string): Value;
-
-        public CreateFCmpOGE(lhs: Value, rhs: Value, name?: string): Value;
-
-        public CreateFCmpOGT(lhs: Value, rhs: Value, name?: string): Value;
-
-        public CreateFCmpOLE(lhs: Value, rhs: Value, name?: string): Value;
-
-        public CreateFCmpOLT(lhs: Value, rhs: Value, name?: string): Value;
-
-        public CreateFCmpUEQ(lhs: Value, rhs: Value, name?: string): Value;
-
-        public CreateFCmpUNE(lhs: Value, rhs: Value, name?: string): Value;
-
-        public CreateFCmpUGE(lhs: Value, rhs: Value, name?: string): Value;
-
-        public CreateFCmpUGT(lhs: Value, rhs: Value, name?: string): Value;
-
-        public CreateFCmpULE(lhs: Value, rhs: Value, name?: string): Value;
-
-        public CreateFCmpULT(lhs: Value, rhs: Value, name?: string): Value;
-
         public CreateNeg(value: Value, name?: string): Value;
 
         public CreateFNeg(value: Value, name?: string): Value;
 
         public CreateNot(value: Value, name?: string): Value;
 
+
+        //===--------------------------------------------------------------------===//
+        // Instruction creation methods: Memory Instructions
+        //===--------------------------------------------------------------------===//
+
         // customized
         public CreateAlloca(type: Type, arraySize?: Value | null, name?: string): AllocaInst;
 
-        public CreateBr(destBB: BasicBlock): BranchInst;
-
-        // customized
-        public CreateCall(callee: Function, name?: string): CallInst;
-        public CreateCall(callee: Function, args: Value[], name?: string): CallInst;
-        public CreateCall(callee: FunctionCallee, name?: string): CallInst;
-        public CreateCall(callee: FunctionCallee, args: Value[], name?: string): CallInst;
-        public CreateCall(funcType: FunctionType, callee: Value, name?: string): CallInst;
-        public CreateCall(funcType: FunctionType, callee: Value, args: Value[], name?: string): CallInst;
-
-        // customized
-        public CreateInvoke(callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string): InvokeInst;
-        public CreateInvoke(callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string): InvokeInst;
-        public CreateInvoke(callee: FunctionCallee, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string): InvokeInst;
-        public CreateInvoke(callee: FunctionCallee, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string): InvokeInst;
-        public CreateInvoke(funcType: FunctionType, callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string): InvokeInst;
-        public CreateInvoke(funcType: FunctionType, callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string): InvokeInst;
-
-        public CreateCondBr(cond: Value, thenBB: BasicBlock, elseBB: BasicBlock): BranchInst;
-
-        public CreateUnreachable(): UnreachableInst;
-
         public CreateLoad(type: Type, ptr: Value, name?: string): LoadInst;
 
-        public CreateRet(value: Value): ReturnInst;
-
-        public CreateRetVoid(): ReturnInst;
-
-        public CreateResume(exn: Value): ResumeInst;
-
-        public CreateSwitch(value: Value, dest: BasicBlock, numCases?: number): SwitchInst;
-
         public CreateStore(value: Value, ptr: Value): StoreInst;
-
-        public CreateGlobalString(str: string, name?: string, addrSpace?: number, module?: Module): GlobalVariable;
-
-        public CreateGlobalStringPtr(str: string, name?: string, addrSpace?: number, module?: Module): Constant;
-
-        public CreatePHI(type: Type, numReservedValues: number, name?: string): PHINode;
-
-        public CreateSelect(cond: Value, trueValue: Value, falseValue: Value, name?: string): Value;
-
-        public CreateExtractValue(agg: Value, idxs: number[], name?: string): Value;
-
-        public CreateInsertValue(agg: Value, value: Value, idxs: number[], name?: string): Value;
-
-        public CreateLandingPad(type: Type, numClauses: number, name?: string): LandingPadInst;
 
         public CreateGEP(type: Type, ptr: Value, idxList: Value[], name?: string): Value;
         public CreateGEP(type: Type, ptr: Value, idx: Value, name?: string): Value;
 
         public CreateInBoundsGEP(type: Type, ptr: Value, idxList: Value[], name?: string): Value;
         public CreateInBoundsGEP(type: Type, ptr: Value, idx: Value, name?: string): Value;
+
+        public CreateGlobalStringPtr(str: string, name?: string, addrSpace?: number, module?: Module): Constant;
+
+        //===--------------------------------------------------------------------===//
+        // Instruction creation methods: Cast/Conversion Operators
+        //===--------------------------------------------------------------------===//
 
         public CreateTrunc(value: Value, destType: Type, name?: string): Value;
 
@@ -1395,68 +1425,76 @@ declare namespace llvm {
 
         public CreateFPCast(value: Value, destType: Type, name?: string): Value;
 
-        public getInt1(value: boolean): ConstantInt;
+        //===--------------------------------------------------------------------===//
+        // Instruction creation methods: Compare Instructions
+        //===--------------------------------------------------------------------===//
 
-        public getTrue(): ConstantInt;
+        public CreateICmpEQ(lhs: Value, rhs: Value, name?: string): Value;
 
-        public getFalse(): ConstantInt;
+        public CreateICmpNE(lhs: Value, rhs: Value, name?: string): Value;
 
-        public getInt8(value: number): ConstantInt;
+        public CreateICmpSGE(lhs: Value, rhs: Value, name?: string): Value;
 
-        public getInt16(value: number): ConstantInt;
+        public CreateICmpSGT(lhs: Value, rhs: Value, name?: string): Value;
 
-        public getInt32(value: number): ConstantInt;
+        public CreateICmpSLE(lhs: Value, rhs: Value, name?: string): Value;
 
-        public getInt64(value: number): ConstantInt;
+        public CreateICmpSLT(lhs: Value, rhs: Value, name?: string): Value;
 
-        public getIntN(n: number, value: number): ConstantInt;
+        public CreateICmpUGE(lhs: Value, rhs: Value, name?: string): Value;
 
-        public getInt(value: APInt): ConstantInt;
+        public CreateICmpUGT(lhs: Value, rhs: Value, name?: string): Value;
 
-        public getInt1Ty(): IntegerType;
+        public CreateICmpULE(lhs: Value, rhs: Value, name?: string): Value;
 
-        public getInt8Ty(): IntegerType;
+        public CreateICmpULT(lhs: Value, rhs: Value, name?: string): Value;
 
-        public getInt16Ty(): IntegerType;
+        public CreateFCmpOEQ(lhs: Value, rhs: Value, name?: string): Value;
 
-        public getInt32Ty(): IntegerType;
+        public CreateFCmpONE(lhs: Value, rhs: Value, name?: string): Value;
 
-        public getInt64Ty(): IntegerType;
+        public CreateFCmpOGE(lhs: Value, rhs: Value, name?: string): Value;
 
-        public getInt128Ty(): IntegerType;
+        public CreateFCmpOGT(lhs: Value, rhs: Value, name?: string): Value;
 
-        public getIntNTy(n: number): IntegerType;
+        public CreateFCmpOLE(lhs: Value, rhs: Value, name?: string): Value;
 
-        public getHalfTy(): Type;
+        public CreateFCmpOLT(lhs: Value, rhs: Value, name?: string): Value;
 
-        public getBFloatTy(): Type;
+        public CreateFCmpUEQ(lhs: Value, rhs: Value, name?: string): Value;
 
-        public getFloatTy(): Type;
+        public CreateFCmpUNE(lhs: Value, rhs: Value, name?: string): Value;
 
-        public getDoubleTy(): Type;
+        public CreateFCmpUGE(lhs: Value, rhs: Value, name?: string): Value;
 
-        public getVoidTy(): Type;
+        public CreateFCmpUGT(lhs: Value, rhs: Value, name?: string): Value;
 
-        public getInt8PtrTy(addrSpace?: number): PointerType;
+        public CreateFCmpULE(lhs: Value, rhs: Value, name?: string): Value;
 
-        public getIntPtrTy(dataLayout: DataLayout, addrSpace?: number): IntegerType;
+        public CreateFCmpULT(lhs: Value, rhs: Value, name?: string): Value;
 
-        public SetInsertPoint(basicBlock: BasicBlock): void;
-        public SetInsertPoint(inst: Instruction): void;
 
-        public GetInsertBlock(): BasicBlock | null;
+        //===--------------------------------------------------------------------===//
+        // Instruction creation methods: Other Instructions
+        //===--------------------------------------------------------------------===//
 
-        public ClearInsertionPoint(): void;
+        public CreatePHI(type: Type, numReservedValues: number, name?: string): PHINode;
 
-        public saveIP(): IRBuilder.InsertPoint;
+        // customized
+        public CreateCall(callee: Function, name?: string): CallInst;
+        public CreateCall(callee: Function, args: Value[], name?: string): CallInst;
+        public CreateCall(callee: FunctionCallee, name?: string): CallInst;
+        public CreateCall(callee: FunctionCallee, args: Value[], name?: string): CallInst;
+        public CreateCall(funcType: FunctionType, callee: Value, name?: string): CallInst;
+        public CreateCall(funcType: FunctionType, callee: Value, args: Value[], name?: string): CallInst;
 
-        public saveAndClearIP(): IRBuilder.InsertPoint;
+        public CreateSelect(cond: Value, trueValue: Value, falseValue: Value, name?: string): Value;
 
-        public restoreIP(ip: IRBuilder.InsertPoint): void;
+        public CreateExtractValue(agg: Value, idxs: number[], name?: string): Value;
 
-        public SetCurrentDebugLocation(location: DebugLoc): void;
-        // extra
-        public SetCurrentDebugLocation(location: DILocation): void;
+        public CreateInsertValue(agg: Value, value: Value, idxs: number[], name?: string): Value;
+
+        public CreateLandingPad(type: Type, numClauses: number, name?: string): LandingPadInst;
     }
 
     namespace IRBuilder {
