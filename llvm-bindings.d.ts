@@ -2025,17 +2025,17 @@ declare namespace llvm {
         protected constructor();
     }
 
-    // function InitializeAllTargetInfos(): void;
-    //
-    // function InitializeAllTargets(): void;
-    //
-    // function InitializeAllTargetMCs(): void;
-    //
-    // function InitializeAllAsmPrinters(): void;
-    //
-    // function InitializeAllAsmParsers(): void;
-    //
-    // function InitializeAllDisassemblers(): void;
+    function InitializeAllTargetInfos(): void;
+
+    function InitializeAllTargets(): void;
+
+    function InitializeAllTargetMCs(): void;
+
+    function InitializeAllAsmPrinters(): void;
+
+    function InitializeAllAsmParsers(): void;
+
+    function InitializeAllDisassemblers(): void;
 
     function InitializeNativeTarget(): void;
 
