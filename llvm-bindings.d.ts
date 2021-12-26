@@ -82,6 +82,16 @@ declare namespace llvm {
 
     function WriteBitcodeToFile(module: Module, filename: string): void;
 
+    namespace config {
+        const LLVM_DEFAULT_TARGET_TRIPLE: string;
+        const LLVM_HOST_TRIPLE: string;
+        const LLVM_ON_UNIX: number;
+        const LLVM_VERSION_MAJOR: number;
+        const LLVM_VERSION_MINOR: number;
+        const LLVM_VERSION_PATCH: number;
+        const LLVM_VERSION_STRING: string;
+    }
+
     class LLVMContext {
         public constructor();
     }

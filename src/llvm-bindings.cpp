@@ -1,6 +1,7 @@
 #include "ADT/index.h"
 #include "BinaryFormat/index.h"
 #include "Bitcode/index.h"
+#include "Config/index.h"
 #include "IR/index.h"
 #include "IRReader/index.h"
 #include "Linker/index.h"
@@ -11,6 +12,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
     InitADT(env, exports);
     InitBinaryFormat(env, exports);
     InitBitCode(env, exports);
+    InitConfig(env, exports);
     InitIR(env, exports);
     InitIRReader(env, exports);
     InitLinker(env, exports);
