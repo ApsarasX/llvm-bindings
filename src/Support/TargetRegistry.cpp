@@ -71,16 +71,18 @@ static Napi::Value lookupTarget(const Napi::CallbackInfo &info) {
         std::string triple = info[0].As<Napi::String>();
         std::string error;
         const llvm::Target *result = llvm::TargetRegistry::lookupTarget(triple, error);
-        if (!error.empty()) {
-            llvm::errs() << "Failed to lookup target: " + error + '\n';
+        if (result) {
+            return Target::New(env, const_cast<llvm::Target *>(result));
+        } else {
+            llvm::errs() << error + '\n';
+            return env.Null();
         }
-        return Target::New(env, const_cast<llvm::Target *>(result));
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::TargetRegistry::lookupTarget);
 }
 
 void InitTargetRegistry(Napi::Env env, Napi::Object &exports) {
-    Napi::Object targetRegistry = Napi::Object::New(env);
-    targetRegistry.Set("lookupTarget", Napi::Function::New(env, &lookupTarget));
-    exports.Set("TargetRegistry", targetRegistry);
+    Napi::Object targetRegistryNS = Napi::Object::New(env);
+    targetRegistryNS.Set("lookupTarget", Napi::Function::New(env, lookupTarget));
+    exports.Set("TargetRegistry", targetRegistryNS);
 }

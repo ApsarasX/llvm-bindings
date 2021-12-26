@@ -17,4 +17,6 @@ public:
 
 private:
     const llvm::TargetMachine *targetMachine = nullptr;
+
+    Napi::Value createDataLayout(const Napi::CallbackInfo &info);
 };

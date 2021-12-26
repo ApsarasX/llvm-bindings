@@ -2006,7 +2006,7 @@ declare namespace llvm {
     }
 
     class Target {
-        public createTargetMachine(targetTriple: string, cpu: string, features?: string): void;
+        public createTargetMachine(targetTriple: string, cpu: string, features?: string): TargetMachine;
 
         public getName(): string;
 
@@ -2016,12 +2016,14 @@ declare namespace llvm {
     }
 
     class TargetRegistry {
-        static lookupTarget(target: string): Target;
+        static lookupTarget(target: string): Target | null;
 
         protected constructor();
     }
 
     class TargetMachine {
+        public createDataLayout(): DataLayout;
+
         protected constructor();
     }
 
@@ -2037,13 +2039,13 @@ declare namespace llvm {
 
     function InitializeAllDisassemblers(): void;
 
-    function InitializeNativeTarget(): void;
+    function InitializeNativeTarget(): boolean;
 
-    function InitializeNativeTargetAsmPrinter(): void;
+    function InitializeNativeTargetAsmPrinter(): boolean;
 
-    function InitializeNativeTargetAsmParser(): void;
+    function InitializeNativeTargetAsmParser(): boolean;
 
-    function InitializeNativeTargetDisassembler(): void;
+    function InitializeNativeTargetDisassembler(): boolean;
 }
 
 export = llvm;
