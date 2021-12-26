@@ -3,22 +3,29 @@
     "version": "0.3.3",
     "description": "LLVM bindings for Node.js/JavaScript/TypeScript",
     "keywords": [
-        "llvm-bindings",
         "llvm",
+        "llvm-bindings",
         "llvm-node",
+        "llvm-ts",
+        "llvm-typescript",
         "llvm-js",
-        "llvm-ts"
+        "llvm-javascript"
     ],
-    "author": "ApsarasX",
     "license": "MIT",
+    "author": "ApsarasX",
     "main": "index.js",
     "types": "llvm-bindings.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ApsarasX/llvm-bindings.git"
+    },
     "scripts": {
         "postinstall": "cross-env CMAKE_BUILD_PARALLEL_LEVEL=$(node -p 'require(`os`).cpus().length') cmake-js compile",
         "build:debug": "cross-env CMAKE_BUILD_PARALLEL_LEVEL=$(node -p 'require(`os`).cpus().length') cmake-js build -D",
         "build:release": "cross-env CMAKE_BUILD_PARALLEL_LEVEL=$(node -p 'require(`os`).cpus().length') cmake-js build",
         "pretest": "npm run build:debug",
-        "test": "ts-node test/index.ts",
+        "test:legacy": "ts-node test/index.ts",
+        "test": "npm run test:legacy && jest --verbose",
         "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
         "postversion": "git push && git push --tags && npm publish",
         "release:patch": "npm version patch -m 'release: release v%s'",
@@ -32,13 +39,15 @@
         "node-addon-api": "^4.2.0"
     },
     "devDependencies": {
-        "@types/node": "^16.11.14",
+        "@types/jest": "^27.0.3",
+        "@types/node": "^16.11.17",
         "conventional-changelog-cli": "^2.1.1",
+        "jest": "^27.4.5",
+        "ts-jest": "^27.1.2",
         "ts-node": "^10.4.0",
         "typescript": "^4.5.4"
     },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/ApsarasX/llvm-bindings.git"
+    "jest": {
+        "preset": "ts-jest"
     }
 }
