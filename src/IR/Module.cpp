@@ -217,6 +217,7 @@ void Module::print(const Napi::CallbackInfo &info) {
     unsigned argsLen = info.Length();
     if (argsLen == 0) {
         module->print(llvm::outs(), nullptr);
+        return;
     } else if (argsLen == 1 && info[0].IsString()) {
         std::string filename = info[0].As<Napi::String>();
         std::error_code errorCode;
@@ -225,6 +226,7 @@ void Module::print(const Napi::CallbackInfo &info) {
             throw Napi::TypeError::New(env, errorCode.message());
         }
         module->print(outfile, nullptr);
+        return;
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::Module::print);
 }
