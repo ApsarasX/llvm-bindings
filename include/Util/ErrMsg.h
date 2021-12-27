@@ -15,19 +15,19 @@ namespace ErrMsg {
             static const char *constructor = "Module.constructor needs to be called with"
                                              "\n\t - new (external: Napi::External<llvm::Module>)"
                                              "\n\t - new (moduleID: string, context: LLVMContext)";
-            static const char *getFunction = "Module.getFunction needs to be called with: (name: string)";
-            static const char *getOrInsertFunction = "Module.getOrInsertFunction needs to be called with: (name: string, fnType: FunctionType)";
-            static const char *getGlobalVariable = "Module.getGlobalVariable needs to be called with: (name: string, allowInternal?: boolean)";
-            static const char *getTypeByName = "Module.getTypeByName needs to be called with: (name: string)";
+            static const char *setModuleIdentifier = "Module.setModuleIdentifier needs to be called with: (moduleID: string)";
+            static const char *setSourceFileName = "Module.setSourceFileName needs to be called with: (sourceFileName: string)";
             static const char *setDataLayout = "Module.setDataLayout needs to be called with:"
                                                "\n\t - (desc: string)"
                                                "\n\t - (dataLayout: DataLayout)";
-            static const char *setModuleIdentifier = "Module.setModuleIdentifier needs to be called with: (moduleID: string)";
-            static const char *setSourceFileName = "Module.setSourceFileName needs to be called with: (sourceFileName: string)";
             static const char *setTargetTriple = "Module.setTargetTriple needs to be called with: (targetTriple: string)";
+            static const char *getFunction = "Module.getFunction needs to be called with: (name: string)";
+            static const char *getOrInsertFunction = "Module.getOrInsertFunction needs to be called with: (name: string, fnType: FunctionType)";
+            static const char *getGlobalVariable = "Module.getGlobalVariable needs to be called with: (name: string, allowInternal?: boolean)";
             static const char *print = "Module.print needs to be called with (filename?: string)";
             static const char *addModuleFlag = "Module.addModuleFlag needs to be called with (behavior: number, key: string, value: number)"
                                                "\n\t - limit: behavior ∈ [1, 7]";
+            static const char *getTypeByName = "Module.getTypeByName needs to be called with: (name: string)";
         }
         namespace Type {
             static const char *constructor = "Type.constructor needs to be called with new (external: Napi::External<llvm::Type>)";

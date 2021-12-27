@@ -111,7 +111,24 @@ declare namespace llvm {
 
         public constructor(moduleID: string, context: LLVMContext);
 
-        public empty(): boolean;
+        public getModuleIdentifier(): string;
+
+        public getSourceFileName(): string;
+
+        public getName(): string;
+
+        public getDataLayout(): DataLayout;
+
+        public getTargetTriple(): string;
+
+        public setModuleIdentifier(moduleID: string): void;
+
+        public setSourceFileName(sourceFileName: string): void;
+
+        public setDataLayout(desc: string): void;
+        public setDataLayout(dataLayout: DataLayout): void;
+
+        public setTargetTriple(triple: string): void;
 
         public getFunction(name: string): Function | null;
 
@@ -119,31 +136,14 @@ declare namespace llvm {
 
         public getGlobalVariable(name: string, allowInternal?: boolean): GlobalVariable | null;
 
-        public getTypeByName(name: string): StructType | null;
+        public addModuleFlag(behavior: number, key: string, value: number): void;
 
-        public getName(): string;
-
-        public getDataLayout(): DataLayout;
-
-        public setDataLayout(desc: string): void;
-        public setDataLayout(dataLayout: DataLayout): void;
-
-        public getModuleIdentifier(): string;
-
-        public setModuleIdentifier(moduleID: string): void;
-
-        public getSourceFileName(): string;
-
-        public setSourceFileName(sourceFileName: string): void;
-
-        public getTargetTriple(): string;
-
-        public setTargetTriple(triple: string): void;
+        public empty(): boolean;
 
         // customized
         public print(filename?: string): void;
 
-        public addModuleFlag(behavior: number, key: string, value: number): void;
+        public getTypeByName(name: string): StructType | null;
     }
 
     class Type {

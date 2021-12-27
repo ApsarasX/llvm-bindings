@@ -22,35 +22,35 @@ public:
 private:
     llvm::Module *module = nullptr;
 
-    Napi::Value empty(const Napi::CallbackInfo &info);
+    Napi::Value getModuleIdentifier(const Napi::CallbackInfo &info);
 
-    Napi::Value getFunction(const Napi::CallbackInfo &info);
-
-    Napi::Value getOrInsertFunction(const Napi::CallbackInfo &info);
+    Napi::Value getSourceFileName(const Napi::CallbackInfo &info);
 
     Napi::Value getName(const Napi::CallbackInfo &info);
 
     Napi::Value getDataLayout(const Napi::CallbackInfo &info);
 
-    void setDataLayout(const Napi::CallbackInfo &info);
-
-    Napi::Value getModuleIdentifier(const Napi::CallbackInfo &info);
+    Napi::Value getTargetTriple(const Napi::CallbackInfo &info);
 
     void setModuleIdentifier(const Napi::CallbackInfo &info);
 
-    Napi::Value getGlobalVariable(const Napi::CallbackInfo &info);
-
-    Napi::Value getTypeByName(const Napi::CallbackInfo &info);
-
     void setSourceFileName(const Napi::CallbackInfo &info);
 
-    Napi::Value getSourceFileName(const Napi::CallbackInfo &info);
-
-    Napi::Value getTargetTriple(const Napi::CallbackInfo &info);
+    void setDataLayout(const Napi::CallbackInfo &info);
 
     void setTargetTriple(const Napi::CallbackInfo &info);
 
-    void print(const Napi::CallbackInfo &info);
+    Napi::Value getFunction(const Napi::CallbackInfo &info);
+
+    Napi::Value getOrInsertFunction(const Napi::CallbackInfo &info);
+
+    Napi::Value getGlobalVariable(const Napi::CallbackInfo &info);
 
     void addModuleFlag(const Napi::CallbackInfo &info);
+
+    Napi::Value empty(const Napi::CallbackInfo &info);
+
+    void print(const Napi::CallbackInfo &info);
+
+    Napi::Value getTypeByName(const Napi::CallbackInfo &info);
 };
