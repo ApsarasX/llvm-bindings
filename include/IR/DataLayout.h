@@ -22,5 +22,7 @@ public:
 private:
     llvm::DataLayout *dataLayout = nullptr;
 
+    Napi::Value getStringRepresentation(const Napi::CallbackInfo &info);
+
     Napi::Value getTypeAllocSize(const Napi::CallbackInfo &info);
 };

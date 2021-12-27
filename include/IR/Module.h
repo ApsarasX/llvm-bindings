@@ -28,6 +28,8 @@ private:
 
     Napi::Value getName(const Napi::CallbackInfo &info);
 
+    Napi::Value getDataLayoutStr(const Napi::CallbackInfo &info);
+
     Napi::Value getDataLayout(const Napi::CallbackInfo &info);
 
     Napi::Value getTargetTriple(const Napi::CallbackInfo &info);
@@ -51,6 +53,4 @@ private:
     Napi::Value empty(const Napi::CallbackInfo &info);
 
     void print(const Napi::CallbackInfo &info);
-
-    Napi::Value getTypeByName(const Napi::CallbackInfo &info);
 };

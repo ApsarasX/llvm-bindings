@@ -4,6 +4,7 @@
 void DataLayout::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "DataLayout", {
+            InstanceMethod("getStringRepresentation", &DataLayout::getStringRepresentation),
             InstanceMethod("getTypeAllocSize", &DataLayout::getTypeAllocSize)
     });
     constructor = Napi::Persistent(func);
@@ -39,6 +40,12 @@ DataLayout::DataLayout(const Napi::CallbackInfo &info) : ObjectWrap(info) {
 
 llvm::DataLayout &DataLayout::getLLVMPrimitive() {
     return *dataLayout;
+}
+
+Napi::Value DataLayout::getStringRepresentation(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    const std::string &dlStr = dataLayout->getStringRepresentation();
+    return Napi::String::New(env, dlStr);
 }
 
 Napi::Value DataLayout::getTypeAllocSize(const Napi::CallbackInfo &info) {

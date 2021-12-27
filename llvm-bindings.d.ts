@@ -117,6 +117,8 @@ declare namespace llvm {
 
         public getName(): string;
 
+        public getDataLayoutStr(): string;
+
         public getDataLayout(): DataLayout;
 
         public getTargetTriple(): string;
@@ -142,8 +144,6 @@ declare namespace llvm {
 
         // customized
         public print(filename?: string): void;
-
-        public getTypeByName(name: string): StructType | null;
     }
 
     class Type {
@@ -338,6 +338,8 @@ declare namespace llvm {
 
         public static get(context: LLVMContext): StructType;
         public static get(context: LLVMContext, elementTypes: Type[]): StructType;
+
+        public getTypeByName(name: string): StructType | null;
 
         public setBody(elementTypes: Type[]): void;
 
@@ -1715,6 +1717,8 @@ declare namespace llvm {
 
     class DataLayout {
         public constructor(desc: string);
+
+        public getStringRepresentation(): string;
 
         public getTypeAllocSize(type: Type): number;
     }

@@ -220,6 +220,7 @@ void StructType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::Function func = DefineClass(env, "StructType", {
             StaticMethod("create", &StructType::create),
             StaticMethod("get", &StructType::get),
+            StaticMethod("getTypeByName", &StructType::getTypeByName),
             InstanceMethod("setBody", &StructType::setBody),
             InstanceMethod("getPointerTo", &StructType::getPointerTo),
             InstanceMethod("isStructTy", &StructType::isStructTy),
@@ -306,6 +307,20 @@ Napi::Value StructType::get(const Napi::CallbackInfo &info) {
         structType = llvm::StructType::get(context);
     }
     return StructType::New(env, structType);
+}
+
+Napi::Value StructType::getTypeByName(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 2 && LLVMContext::IsClassOf(info[0]) && info[1].IsString()) {
+        llvm::LLVMContext &context = LLVMContext::Extract(info[0]);
+        const std::string name = info[0].As<Napi::String>();
+        llvm::StructType *type = llvm::StructType::getTypeByName(context, name);
+        if (type) {
+            return StructType::New(env, type);
+        }
+        return env.Null();
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::StructType::getTypeByName);
 }
 
 void StructType::setBody(const Napi::CallbackInfo &info) {

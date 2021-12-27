@@ -21,6 +21,7 @@ void Module::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("getModuleIdentifier", &Module::getModuleIdentifier),
             InstanceMethod("getSourceFileName", &Module::getSourceFileName),
             InstanceMethod("getName", &Module::getName),
+            InstanceMethod("getDataLayoutStr", &Module::getDataLayoutStr),
             InstanceMethod("getDataLayout", &Module::getDataLayout),
             InstanceMethod("getTargetTriple", &Module::getTargetTriple),
             InstanceMethod("setModuleIdentifier", &Module::setModuleIdentifier),
@@ -32,8 +33,7 @@ void Module::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("getGlobalVariable", &Module::getGlobalVariable),
             InstanceMethod("addModuleFlag", &Module::addModuleFlag),
             InstanceMethod("empty", &Module::empty),
-            InstanceMethod("print", &Module::print),
-            InstanceMethod("getTypeByName", &Module::getTypeByName)
+            InstanceMethod("print", &Module::print)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -90,6 +90,12 @@ Napi::Value Module::getSourceFileName(const Napi::CallbackInfo &info) {
 Napi::Value Module::getName(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     return Napi::String::New(env, module->getName().str());
+}
+
+Napi::Value Module::getDataLayoutStr(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    const std::string &dlStr = module->getDataLayoutStr();
+    return Napi::String::New(env, dlStr);
 }
 
 Napi::Value Module::getDataLayout(const Napi::CallbackInfo &info) {
@@ -229,17 +235,4 @@ void Module::print(const Napi::CallbackInfo &info) {
         return;
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::Module::print);
-}
-
-Napi::Value Module::getTypeByName(const Napi::CallbackInfo &info) {
-    Napi::Env env = info.Env();
-    if (info.Length() == 0 || !info[0].IsString()) {
-        throw Napi::TypeError::New(env, ErrMsg::Class::Module::getTypeByName);
-    }
-    const std::string name = info[0].As<Napi::String>();
-    llvm::StructType *type = llvm::StructType::getTypeByName(module->getContext(), name);
-    if (type) {
-        return StructType::New(env, type);
-    }
-    return env.Null();
 }
