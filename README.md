@@ -11,10 +11,11 @@ LLVM bindings for Node.js/JavaScript/TypeScript
 |  | x86_64 | ARM64 |
 | :---: | :---: | :---: |
 | macOS 10.15 Catalina | ✅ | / |
-| macOS 11 Big Sur | ✅ | Untested |
-| macOS 12 Monterey | Untested | Untested |
+| macOS 11 Big Sur | ✅ | ✅ |
+| macOS 12 Monterey | ✅ | ✅ |
 | Ubuntu 18.04 | ✅ | ✅ |
 | Ubuntu 20.04 | ✅ | ✅ |
+| Ubuntu 21.10 | ✅ | ✅ |
 | Windows 10 | ❌ | ❌ |
 | Windows 11 | ❌ | ❌ |
 
@@ -42,8 +43,8 @@ wget https://apt.llvm.org/llvm.sh
 sudo chmod +x llvm.sh
 sudo ./llvm.sh 13
 
-# install cmake by apt-get
-sudo apt-get install cmake
+# install cmake and zlib by apt-get
+sudo apt-get install cmake libz-dev
 
 # install llvm-bindings by npm
 npm install llvm-bindings
