@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Module Test llvm.Module.print Test Normally 1`] = `
+"; ModuleID = 'test'
+source_filename = \\"test\\"
+
+define void @func() {
+entry:
+}
+"
+`;

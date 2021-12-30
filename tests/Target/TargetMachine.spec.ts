@@ -9,7 +9,7 @@ describe('Test TargetMachine', () => {
 
     test('Test llvm.TargetMachine.createDataLayout', () => {
         const target = llvm.TargetRegistry.lookupTarget('x86_64');
-        expect(target).not.toBeNull();
+        expect(target).toBeInstanceOf(llvm.Target);
         if (target) {
             const machine = target.createTargetMachine('x86_64-unknown-unknown', 'generic');
             const dataLayout = machine.createDataLayout();

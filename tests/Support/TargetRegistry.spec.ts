@@ -11,25 +11,25 @@ describe('Test TargetRegistry', () => {
     });
 
     test('Test llvm.TargetRegistry.lookupTarget', () => {
-        expect(target).not.toBeNull();
+        expect(target).toBeInstanceOf(llvm.Target);
     });
 
     test('Test llvm.Target.getName', () => {
-        expect(target).not.toBeNull();
+        expect(target).toBeInstanceOf(llvm.Target);
         if (target) {
             expect(target.getName()).toEqual('x86-64');
         }
     });
 
     test('Test llvm.Target.getShortDescription', () => {
-        expect(target).not.toBeNull();
+        expect(target).toBeInstanceOf(llvm.Target);
         if (target) {
             expect(target.getShortDescription()).toEqual('64-bit X86: EM64T and AMD64');
         }
     });
 
     test('Test llvm.Target.createTargetMachine', () => {
-        expect(target).not.toBeNull();
+        expect(target).toBeInstanceOf(llvm.Target);
         if (target) {
             const machine = target.createTargetMachine('x86_64-generic-generic', 'generic');
             expect(machine).toBeInstanceOf(llvm.TargetMachine);
