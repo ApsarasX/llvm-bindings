@@ -143,7 +143,7 @@ declare namespace llvm {
         public empty(): boolean;
 
         // customized
-        public print(filename?: string): void;
+        public print(): string;
     }
 
     class Type {

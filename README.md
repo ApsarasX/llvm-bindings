@@ -91,7 +91,7 @@ function main(): void {
         console.error('Verifying module failed');
         return;
     }
-    module.print();
+    console.log(module.print());
 }
 
 main();

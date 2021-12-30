@@ -52,5 +52,5 @@ private:
 
     Napi::Value empty(const Napi::CallbackInfo &info);
 
-    void print(const Napi::CallbackInfo &info);
+    Napi::Value print(const Napi::CallbackInfo &info);
 };

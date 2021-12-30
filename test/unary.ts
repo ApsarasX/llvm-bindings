@@ -48,5 +48,5 @@ export default function testUnary(): void {
         console.error(`${filename}: verifying the module failed`);
         return;
     }
-    module.print();
+    console.log(module.print());
 }

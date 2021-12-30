@@ -24,7 +24,6 @@ namespace ErrMsg {
             static const char *getFunction = "Module.getFunction needs to be called with: (name: string)";
             static const char *getOrInsertFunction = "Module.getOrInsertFunction needs to be called with: (name: string, fnType: FunctionType)";
             static const char *getGlobalVariable = "Module.getGlobalVariable needs to be called with: (name: string, allowInternal?: boolean)";
-            static const char *print = "Module.print needs to be called with (filename?: string)";
             static const char *addModuleFlag = "Module.addModuleFlag needs to be called with (behavior: number, key: string, value: number)"
                                                "\n\t - limit: behavior ∈ [1, 7]";
         }

@@ -43,5 +43,5 @@ export default function testLinker(): void {
         console.error(`${filename}: verifying the module failed`);
         return;
     }
-    module.print();
+    console.log(module.print());
 }

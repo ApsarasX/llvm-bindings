@@ -218,21 +218,11 @@ Napi::Value Module::empty(const Napi::CallbackInfo &info) {
     return Napi::Boolean::New(env, module->empty());
 }
 
-void Module::print(const Napi::CallbackInfo &info) {
+Napi::Value Module::print(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    unsigned argsLen = info.Length();
-    if (argsLen == 0) {
-        module->print(llvm::outs(), nullptr);
-        return;
-    } else if (argsLen == 1 && info[0].IsString()) {
-        std::string filename = info[0].As<Napi::String>();
-        std::error_code errorCode;
-        llvm::raw_fd_ostream outfile(filename, errorCode, llvm::sys::fs::OF_Text);
-        if (errorCode) {
-            throw Napi::TypeError::New(env, errorCode.message());
-        }
-        module->print(outfile, nullptr);
-        return;
-    }
-    throw Napi::TypeError::New(env, ErrMsg::Class::Module::print);
+    std::string text;
+    llvm::raw_string_ostream ostream(text);
+    module->print(ostream, nullptr);
+    ostream.flush();
+    return Napi::String::New(env, text);
 }

@@ -53,5 +53,5 @@ export default function testSwitch(): void {
         console.error(`${filename}: verifying the module failed`);
         return;
     }
-    module.print();
+    console.log(module.print());
 }
