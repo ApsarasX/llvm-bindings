@@ -1,3 +1,22 @@
+## [0.3.4](https://github.com/ApsarasX/llvm-bindings/compare/v0.3.3...v0.3.4) (2022-02-17)
+
+
+### Bug Fixes
+
+* **IR:** return missing in Module.print ([377b1d4](https://github.com/ApsarasX/llvm-bindings/commit/377b1d40e6c1661ae7821a69cff64493854d0349))
+
+
+### Features
+
+* **Config:** add LLVM Config Macro ([825dc3c](https://github.com/ApsarasX/llvm-bindings/commit/825dc3ca66a03c770dde774e10b8c0a64988d2d5))
+* **IR:** add class GetElementPtrInst ([cecd9fc](https://github.com/ApsarasX/llvm-bindings/commit/cecd9fc35be96c6ca47e2a228a4554648982b1f8))
+* **IR:** add class SelectInst ([8fa33b6](https://github.com/ApsarasX/llvm-bindings/commit/8fa33b60138194bc7e22f21b2246147ef054f588))
+* **IR:** add class VectorType and more instruction classes ([30bcc1c](https://github.com/ApsarasX/llvm-bindings/commit/30bcc1cae80e8cd2e9946d5c19fef6bb54139a4e))
+* **IR:** add duplicated getType for all subclasses of Value ([2e2bfe8](https://github.com/ApsarasX/llvm-bindings/commit/2e2bfe83b74afa159073fbb9b69f94e8e89954aa))
+* **IR:** add Module.getDataLayoutStr and DataLayout.getStringRepresentation ([3cc8563](https://github.com/ApsarasX/llvm-bindings/commit/3cc8563d2ad7db7f7297a7893b58fb63698ed719))
+
+
+
 ## [0.3.3](https://github.com/ApsarasX/llvm-bindings/compare/v0.3.2...v0.3.3) (2021-12-20)
 
 
