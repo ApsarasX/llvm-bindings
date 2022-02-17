@@ -1,5 +1,8 @@
 ## [0.3.4](https://github.com/ApsarasX/llvm-bindings/compare/v0.3.3...v0.3.4) (2022-02-17)
 
+### Breaking Changes
+* **IR:**  change the signature of `Module.print` ([9a68779](https://github.com/ApsarasX/llvm-bindings/commit/9a68779ee4b30777d2acc8d3d6727423e2bde872))
+
 
 ### Bug Fixes
 
