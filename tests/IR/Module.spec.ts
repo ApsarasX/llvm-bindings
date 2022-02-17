@@ -1,4 +1,7 @@
+import path from 'path';
 import llvm from '../..';
+
+const FileName = path.basename(__filename);
 
 describe('Test Module', () => {
     describe('Test llvm.Module.constructor', () => {
@@ -9,20 +12,20 @@ describe('Test Module', () => {
 
         test('Test Normally', () => {
             const context = new llvm.LLVMContext();
-            const module = new llvm.Module('test', context);
+            const module = new llvm.Module(FileName, context);
             expect(module).toBeInstanceOf(llvm.Module);
         });
 
         test('Test Without Enough Arguments', () => {
             const ModuleCtor = llvm.Module as any;
             expect(() => new ModuleCtor()).toThrowError(constructorErrMsg);
-            expect(() => new ModuleCtor('test')).toThrowError(constructorErrMsg);
+            expect(() => new ModuleCtor(FileName)).toThrowError(constructorErrMsg);
         });
 
         test('Test With Arguments Not Matching The Expected Type', () => {
             const ModuleCtor = llvm.Module as any;
             expect(() => new ModuleCtor(1, new llvm.LLVMContext())).toThrowError(constructorErrMsg);
-            expect(() => new ModuleCtor('test', {})).toThrowError(constructorErrMsg);
+            expect(() => new ModuleCtor(FileName, {})).toThrowError(constructorErrMsg);
         });
     });
 
@@ -31,8 +34,8 @@ describe('Test Module', () => {
 
         test('Test Normally', () => {
             const context = new llvm.LLVMContext();
-            const module = new llvm.Module('test', context);
-            expect(module.getModuleIdentifier()).toEqual('test');
+            const module = new llvm.Module(FileName, context);
+            expect(module.getModuleIdentifier()).toEqual(FileName);
             module.setModuleIdentifier('module');
             expect(module.getModuleIdentifier()).toEqual('module');
         });
@@ -40,7 +43,7 @@ describe('Test Module', () => {
         test('Test Without Enough Arguments', () => {
             expect(() => {
                 const context = new llvm.LLVMContext();
-                const module = new llvm.Module('test', context);
+                const module = new llvm.Module(FileName, context);
                 const setModuleIdentifier = module.setModuleIdentifier.bind(module) as any;
                 setModuleIdentifier();
             }).toThrowError(setMoudleIDErrMsg);
@@ -49,7 +52,7 @@ describe('Test Module', () => {
         test('Test With Arguments Not Matching The Expected Type', () => {
             expect(() => {
                 const context = new llvm.LLVMContext();
-                const module = new llvm.Module('test', context);
+                const module = new llvm.Module(FileName, context);
                 const setModuleIdentifier = module.setModuleIdentifier.bind(module) as any;
                 setModuleIdentifier(1);
             }).toThrowError(setMoudleIDErrMsg);
@@ -61,8 +64,8 @@ describe('Test Module', () => {
 
         test('Test Normally', () => {
             const context = new llvm.LLVMContext();
-            const module = new llvm.Module('test', context);
-            expect(module.getSourceFileName()).toEqual('test');
+            const module = new llvm.Module(FileName, context);
+            expect(module.getSourceFileName()).toEqual(FileName);
             module.setSourceFileName('test.cpp');
             expect(module.getSourceFileName()).toEqual('test.cpp');
         });
@@ -70,7 +73,7 @@ describe('Test Module', () => {
         test('Test Without Enough Arguments', () => {
             expect(() => {
                 const context = new llvm.LLVMContext();
-                const module = new llvm.Module('test', context);
+                const module = new llvm.Module(FileName, context);
                 const setSourceFileName = module.setSourceFileName.bind(module) as any;
                 setSourceFileName();
             }).toThrowError(setSourceFileNameErrMsg);
@@ -79,7 +82,7 @@ describe('Test Module', () => {
         test('Test With Arguments Not Matching The Expected Type', () => {
             expect(() => {
                 const context = new llvm.LLVMContext();
-                const module = new llvm.Module('test', context);
+                const module = new llvm.Module(FileName, context);
                 const setSourceFileName = module.setSourceFileName.bind(module) as any;
                 setSourceFileName(1);
             }).toThrowError(setSourceFileNameErrMsg);
@@ -88,8 +91,8 @@ describe('Test Module', () => {
 
     test('Test llvm.Module.getName', () => {
         const context = new llvm.LLVMContext();
-        const module = new llvm.Module('test', context);
-        expect(module.getName()).toEqual('test');
+        const module = new llvm.Module(FileName, context);
+        expect(module.getName()).toEqual(FileName);
     });
 
     describe('Test llvm.Module.get/setDataLayout', () => {
@@ -101,7 +104,7 @@ describe('Test Module', () => {
 
         test('Test Normally', () => {
             const context = new llvm.LLVMContext();
-            const module = new llvm.Module('test', context);
+            const module = new llvm.Module(FileName, context);
             expect(module.getDataLayoutStr()).toEqual('');
             module.setDataLayout(datalayout);
             expect(module.getDataLayoutStr()).toEqual(datalayout);
@@ -110,7 +113,7 @@ describe('Test Module', () => {
         test('Test Without Enough Arguments', () => {
             expect(() => {
                 const context = new llvm.LLVMContext();
-                const module = new llvm.Module('test', context);
+                const module = new llvm.Module(FileName, context);
                 const setDataLayout = module.setDataLayout.bind(module) as any;
                 setDataLayout();
             }).toThrowError(setDataLayoutErrMsg);
@@ -119,7 +122,7 @@ describe('Test Module', () => {
         test('Test With Arguments Not Matching The Expected Type', () => {
             expect(() => {
                 const context = new llvm.LLVMContext();
-                const module = new llvm.Module('test', context);
+                const module = new llvm.Module(FileName, context);
                 const setDataLayout = module.setDataLayout.bind(module) as any;
                 setDataLayout(1);
             }).toThrowError(setDataLayoutErrMsg);
@@ -131,7 +134,7 @@ describe('Test Module', () => {
 
         test('Test Normally', () => {
             const context = new llvm.LLVMContext();
-            const module = new llvm.Module('test', context);
+            const module = new llvm.Module(FileName, context);
             expect(module.getTargetTriple()).toEqual('');
             const targetTriple = 'x86_64-pc-linux-gnu';
             module.setTargetTriple(targetTriple);
@@ -141,7 +144,7 @@ describe('Test Module', () => {
         test('Test Without Enough Arguments', () => {
             expect(() => {
                 const context = new llvm.LLVMContext();
-                const module = new llvm.Module('test', context);
+                const module = new llvm.Module(FileName, context);
                 const setTargetTriple = module.setTargetTriple.bind(module) as any;
                 setTargetTriple();
             }).toThrowError(setTargetTripleErrMsg);
@@ -150,7 +153,7 @@ describe('Test Module', () => {
         test('Test With Arguments Not Matching The Expected Type', () => {
             expect(() => {
                 const context = new llvm.LLVMContext();
-                const module = new llvm.Module('test', context);
+                const module = new llvm.Module(FileName, context);
                 const setTargetTriple = module.setTargetTriple.bind(module) as any;
                 setTargetTriple(1);
             }).toThrowError(setTargetTripleErrMsg);
@@ -162,7 +165,7 @@ describe('Test Module', () => {
 
         test('Test If No Such Function Exists', () => {
             const context = new llvm.LLVMContext();
-            const module = new llvm.Module('test', context);
+            const module = new llvm.Module(FileName, context);
             const funcType = llvm.FunctionType.get(llvm.Type.getVoidTy(context), false);
             const funcCallee = module.getOrInsertFunction('func', funcType);
             const resultFunc = module.getFunction('func');
@@ -174,7 +177,7 @@ describe('Test Module', () => {
 
         test('Test If Such Function Exists', () => {
             const context = new llvm.LLVMContext();
-            const module = new llvm.Module('test', context);
+            const module = new llvm.Module(FileName, context);
             const funcType = llvm.FunctionType.get(llvm.Type.getVoidTy(context), false);
             const func = llvm.Function.Create(funcType, llvm.Function.LinkageTypes.ExternalLinkage, 'func', module);
             const funcCallee = module.getOrInsertFunction('func', llvm.FunctionType.get(llvm.Type.getVoidTy(context), false));
@@ -187,7 +190,7 @@ describe('Test Module', () => {
 
         test('Test Without Enough Arguments', () => {
             const context = new llvm.LLVMContext();
-            const module = new llvm.Module('test', context);
+            const module = new llvm.Module(FileName, context);
             const getOrInsertFunction = module.getOrInsertFunction.bind(module) as any;
             expect(() => getOrInsertFunction()).toThrowError(getOrInsertFunctionErrMsg);
             expect(() => getOrInsertFunction('func')).toThrowError(getOrInsertFunctionErrMsg);
@@ -195,7 +198,7 @@ describe('Test Module', () => {
 
         test('Test With Arguments Not Matching The Expected Type', () => {
             const context = new llvm.LLVMContext();
-            const module = new llvm.Module('test', context);
+            const module = new llvm.Module(FileName, context);
             const funcType = llvm.FunctionType.get(llvm.Type.getVoidTy(context), false);
             const getOrInsertFunction = module.getOrInsertFunction.bind(module) as any;
             expect(() => getOrInsertFunction(1, funcType)).toThrowError(getOrInsertFunctionErrMsg);
@@ -209,7 +212,7 @@ describe('Test Module', () => {
 
         test('Test Normally', () => {
             const context = new llvm.LLVMContext();
-            const module = new llvm.Module('test', context);
+            const module = new llvm.Module(FileName, context);
             const funcType = llvm.FunctionType.get(llvm.Type.getVoidTy(context), false);
             const func = llvm.Function.Create(funcType, llvm.Function.LinkageTypes.ExternalLinkage, 'func', module);
             expect(module.getFunction('func')).toEqual(func);
@@ -217,14 +220,14 @@ describe('Test Module', () => {
 
         test('Test If No Such Function Exists', () => {
             const context = new llvm.LLVMContext();
-            const module = new llvm.Module('test', context);
+            const module = new llvm.Module(FileName, context);
             expect(module.getFunction('func')).toBeNull();
         });
 
         test('Test Without Enough Arguments', () => {
             expect(() => {
                 const context = new llvm.LLVMContext();
-                const module = new llvm.Module('test', context);
+                const module = new llvm.Module(FileName, context);
                 const getFunction = module.getFunction.bind(module) as any;
                 getFunction();
             }).toThrowError(getFunctionErrMsg);
@@ -233,7 +236,7 @@ describe('Test Module', () => {
         test('Test With Arguments Not Matching The Expected Type', () => {
             expect(() => {
                 const context = new llvm.LLVMContext();
-                const module = new llvm.Module('test', context);
+                const module = new llvm.Module(FileName, context);
                 const getFunction = module.getFunction.bind(module) as any;
                 getFunction(1);
             }).toThrowError(getFunctionErrMsg);
@@ -245,7 +248,7 @@ describe('Test Module', () => {
 
         test('Test Normally', () => {
             const context = new llvm.LLVMContext();
-            const module = new llvm.Module('test', context);
+            const module = new llvm.Module(FileName, context);
             const constantType = llvm.Type.getInt32Ty(context);
             const constant = llvm.ConstantInt.get(constantType, 23);
             new llvm.GlobalVariable(module, constantType, true, llvm.Function.LinkageTypes.ExternalLinkage, constant, 'globalVar');
@@ -254,14 +257,14 @@ describe('Test Module', () => {
 
         test('Test If No Such Global Variable Exists', () => {
             const context = new llvm.LLVMContext();
-            const module = new llvm.Module('test', context);
+            const module = new llvm.Module(FileName, context);
             expect(module.getGlobalVariable('globalVar')).toBeNull();
         });
 
         test('Test Without Enough Arguments', () => {
             expect(() => {
                 const context = new llvm.LLVMContext();
-                const module = new llvm.Module('test', context);
+                const module = new llvm.Module(FileName, context);
                 const getGlobalVariable = module.getGlobalVariable.bind(module) as any;
                 getGlobalVariable();
             }).toThrowError(getGlobalVariableErrMsg);
@@ -270,7 +273,7 @@ describe('Test Module', () => {
         test('Test With Arguments Not Matching The Expected Type', () => {
             expect(() => {
                 const context = new llvm.LLVMContext();
-                const module = new llvm.Module('test', context);
+                const module = new llvm.Module(FileName, context);
                 const getGlobalVariable = module.getGlobalVariable.bind(module) as any;
                 getGlobalVariable(1);
             }).toThrowError(getGlobalVariableErrMsg);
@@ -283,26 +286,26 @@ describe('Test Module', () => {
 
         test('Test Normally', () => {
             const context = new llvm.LLVMContext();
-            const module = new llvm.Module('test', context);
+            const module = new llvm.Module(FileName, context);
             module.addModuleFlag(llvm.Module.ModFlagBehavior.Require, 'name', 1);
         });
 
         test('Test Without Enough Arguments', () => {
             expect(() => {
                 const context = new llvm.LLVMContext();
-                const module = new llvm.Module('test', context);
+                const module = new llvm.Module(FileName, context);
                 const addModuleFlag = module.addModuleFlag.bind(module) as any;
                 addModuleFlag();
             }).toThrowError(addModuleFlagErrMsg);
             expect(() => {
                 const context = new llvm.LLVMContext();
-                const module = new llvm.Module('test', context);
+                const module = new llvm.Module(FileName, context);
                 const addModuleFlag = module.addModuleFlag.bind(module) as any;
                 addModuleFlag(llvm.Module.ModFlagBehavior.Require);
             }).toThrowError(addModuleFlagErrMsg);
             expect(() => {
                 const context = new llvm.LLVMContext();
-                const module = new llvm.Module('test', context);
+                const module = new llvm.Module(FileName, context);
                 const addModuleFlag = module.addModuleFlag.bind(module) as any;
                 addModuleFlag(llvm.Module.ModFlagBehavior.Require, 'name');
             }).toThrowError(addModuleFlagErrMsg);
@@ -311,19 +314,19 @@ describe('Test Module', () => {
         test('Test With Arguments Not Matching The Expected Type', () => {
             expect(() => {
                 const context = new llvm.LLVMContext();
-                const module = new llvm.Module('test', context);
+                const module = new llvm.Module(FileName, context);
                 const addModuleFlag = module.addModuleFlag.bind(module) as any;
                 addModuleFlag('param1', 'name', 1);
             }).toThrowError(addModuleFlagErrMsg);
             expect(() => {
                 const context = new llvm.LLVMContext();
-                const module = new llvm.Module('test', context);
+                const module = new llvm.Module(FileName, context);
                 const addModuleFlag = module.addModuleFlag.bind(module) as any;
                 addModuleFlag(llvm.Module.ModFlagBehavior.Require, 2, 1);
             }).toThrowError(addModuleFlagErrMsg);
             expect(() => {
                 const context = new llvm.LLVMContext();
-                const module = new llvm.Module('test', context);
+                const module = new llvm.Module(FileName, context);
                 const addModuleFlag = module.addModuleFlag.bind(module) as any;
                 addModuleFlag(llvm.Module.ModFlagBehavior.Require, 'name', 'param3');
             }).toThrowError(addModuleFlagErrMsg);
@@ -333,13 +336,13 @@ describe('Test Module', () => {
     describe('Test llvm.Module.empty', () => {
         test('Test Empty Module', () => {
             const context = new llvm.LLVMContext();
-            const module = new llvm.Module('test', context);
+            const module = new llvm.Module(FileName, context);
             expect(module.empty()).toEqual(true);
         });
 
         test('Test Non-Empty Module', () => {
             const context = new llvm.LLVMContext();
-            const module = new llvm.Module('test', context);
+            const module = new llvm.Module(FileName, context);
             const funcType = llvm.FunctionType.get(llvm.Type.getVoidTy(context), false);
             llvm.Function.Create(funcType, llvm.Function.LinkageTypes.ExternalLinkage, 'main', module);
             expect(module.empty()).toEqual(false);
@@ -349,7 +352,7 @@ describe('Test Module', () => {
     describe('Test llvm.Module.print', () => {
         test('Test Normally', () => {
             const context = new llvm.LLVMContext();
-            const module = new llvm.Module('test', context);
+            const module = new llvm.Module(FileName, context);
             const funcType = llvm.FunctionType.get(llvm.Type.getVoidTy(context), false);
             const func = llvm.Function.Create(funcType, llvm.Function.LinkageTypes.ExternalLinkage, 'func', module);
             llvm.BasicBlock.Create(context, 'entry', func);

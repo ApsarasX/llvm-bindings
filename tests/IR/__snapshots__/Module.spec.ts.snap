@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Test Module Test llvm.Module.print Test Normally 1`] = `
-"; ModuleID = 'test'
-source_filename = \\"test\\"
+"; ModuleID = 'Module.spec.ts'
+source_filename = \\"Module.spec.ts\\"
 
 define void @func() {
 entry:

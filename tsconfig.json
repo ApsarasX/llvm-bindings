@@ -1,4 +1,9 @@
 {
+    "include": [
+        "llvm-bindings.ts",
+        "test/**/*.ts",
+        "tests/**/*.ts",
+    ],
     "compilerOptions": {
         "target": "ES5",
         "module": "commonjs",
