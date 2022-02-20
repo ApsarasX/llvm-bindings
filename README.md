@@ -19,6 +19,8 @@ LLVM bindings for Node.js/JavaScript/TypeScript
 | Windows 10 | ❌ | ❌ |
 | Windows 11 | ❌ | ❌ |
 
+> It's recommended to install `llvm-bindings` in WSL2 if your OS is Windows. 
+
 ## Supported LLVM methods
 
 listed in the [TypeScript definition file](./llvm-bindings.d.ts).
