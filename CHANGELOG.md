@@ -1,3 +1,17 @@
+## [0.3.5](https://github.com/ApsarasX/llvm-bindings/compare/v0.3.4...v0.3.5) (2022-03-01)
+
+
+### Bug Fixes
+
+* **test:** assertion error caused by test case ([7961d42](https://github.com/ApsarasX/llvm-bindings/commit/7961d42e19ee174ca47b12e16ea3d9c720839f55))
+
+
+### Features
+
+* add support for Windows ([a85aa9a](https://github.com/ApsarasX/llvm-bindings/commit/a85aa9ae40c8660ab587b8ebe040fa171b2c7cce))
+
+
+
 ## [0.3.4](https://github.com/ApsarasX/llvm-bindings/compare/v0.3.3...v0.3.4) (2022-02-17)
 
 ### Breaking Changes
