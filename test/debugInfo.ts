@@ -29,7 +29,7 @@ function createAddFunc(
 
     const allocaA = builder.CreateAlloca(builder.getInt32Ty(), null, 'a');
     builder.CreateStore(addFunc.getArg(0), allocaA);
-    const diLocalVarA = debugInfoBuilder.createParameterVariable(debugInfoAddFuncSubprogram, 'a', 0, debugInfoFile, 1, debugInfoBasicType);
+    const diLocalVarA = debugInfoBuilder.createParameterVariable(debugInfoAddFuncSubprogram, 'a', 1, debugInfoFile, 1, debugInfoBasicType);
     debugInfoBuilder.insertDeclare(
         allocaA,
         diLocalVarA,
@@ -40,7 +40,7 @@ function createAddFunc(
 
     const allocaB = builder.CreateAlloca(builder.getInt32Ty(), null, 'b');
     builder.CreateStore(addFunc.getArg(1), allocaB);
-    const diLocalVarB = debugInfoBuilder.createParameterVariable(debugInfoAddFuncSubprogram, 'b', 1, debugInfoFile, 1, debugInfoBasicType);
+    const diLocalVarB = debugInfoBuilder.createParameterVariable(debugInfoAddFuncSubprogram, 'b', 2, debugInfoFile, 1, debugInfoBasicType);
     debugInfoBuilder.insertDeclare(
         allocaB,
         diLocalVarB,
