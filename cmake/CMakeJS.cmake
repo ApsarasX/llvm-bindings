@@ -1,5 +1,10 @@
-find_program(CMakeJS "cmake-js")
-find_program(NPM "npm")
+if (CMAKE_HOST_WIN32)
+    find_program(CMakeJS "cmake-js.cmd")
+    find_program(NPM "npm.cmd")
+else ()
+    find_program(CMakeJS "cmake-js")
+    find_program(NPM "npm")
+endif()
 
 if (NPM)
     message(STATUS "Found NPM")
@@ -48,5 +53,5 @@ else ()
 endif ()
 
 get_variable(${CMAKE_JS_OUTPUT} "CMAKE_JS_INC" CMAKE_JS_INC)
-
 get_variable(${CMAKE_JS_OUTPUT} "CMAKE_JS_LIB" CMAKE_JS_LIB)
+get_variable(${CMAKE_JS_OUTPUT} "CMAKE_JS_SRC" CMAKE_JS_SRC)

@@ -16,10 +16,10 @@ LLVM bindings for Node.js/JavaScript/TypeScript
 | Ubuntu 18.04 | ✅ | ✅ |
 | Ubuntu 20.04 | ✅ | ✅ |
 | Ubuntu 21.10 | ✅ | ✅ |
-| Windows 10 | ❌ | ❌ |
-| Windows 11 | ❌ | ❌ |
+| Windows 10 | ✅ | ⚠️ |
+| Windows 11 | ⚠️ | ⚠️ |
 
-> It's recommended to install `llvm-bindings` in WSL2 if your OS is Windows. 
+> ⚠️ means not tested.
 
 ## Supported LLVM methods
 
@@ -51,6 +51,24 @@ sudo apt-get install cmake zlib1g-dev
 # install llvm-bindings by npm
 npm install llvm-bindings
 ```
+
+### Install on Windows
+
+First, please refer to [Build LLVM from sources on Windows 10](https://github.com/ApsarasX/llvm-bindings/wiki/Build-LLVM-from-source-code-on-Windows-10) to build LLVM.
+
+Then, find the `llvm-config` command in your LLVM build directory and execute `llvm-config --cmakedir` to get LLVM cmake directory, assuming `C:\Users\dev\llvm-13.0.1.src\build\lib\cmake\llvm`.
+
+Finally, execute the following commands.
+
+```shell
+# specify the LLVM cmake directory for cmake-js
+npm config set cmake_LLVM_DIR C:\Users\dev\llvm-13.0.1.src\build\lib\cmake\llvm
+
+# install llvm-bindings by npm
+npm install llvm-bindings
+```
+
+> You can also install `llvm-bindings` in WSL2 if your OS is Windows.
 
 ### Custom LLVM Installation
 You can use the npm configuration options to set the path to the LLVM cmake directory. This is needed if you don't want to use the system default LLVM installation.

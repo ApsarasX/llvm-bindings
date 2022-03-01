@@ -16,7 +16,7 @@ Napi::Value getIntFactory(const Napi::CallbackInfo &info) { \
     throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::getIntFactory); \
 }
 
-#define binOpFactoryMacro(binOpFuncType, extraArgs...) \
+#define binOpFactoryMacro(binOpFuncType, ...) \
 template<binOpFuncType method> \
 Napi::Value binOpFactory(const Napi::CallbackInfo &info) { \
     Napi::Env env = info.Env(); \
@@ -26,13 +26,13 @@ Napi::Value binOpFactory(const Napi::CallbackInfo &info) { \
         llvm::Value *lhs = Value::Extract(info[0]); \
         llvm::Value *rhs = Value::Extract(info[1]); \
         const std::string &name = argsLen == 3 ? std::string(info[2].As<Napi::String>()) : ""; \
-        llvm::Value *result = (builder->*method)(lhs, rhs, name, ##extraArgs); \
+        llvm::Value *result = (builder->*method)(lhs, rhs, name, ##__VA_ARGS__); \
         return Value::New(env, result); \
     } \
     throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateBinOpFactory); \
 }
 
-#define unOpFactoryMacro(unOpFuncType, extraArgs...) \
+#define unOpFactoryMacro(unOpFuncType, ...) \
 template<unOpFuncType method> \
 Napi::Value unOpFactory(const Napi::CallbackInfo &info) { \
     Napi::Env env = info.Env(); \
@@ -41,7 +41,7 @@ Napi::Value unOpFactory(const Napi::CallbackInfo &info) { \
         argsLen == 2 && Value::IsClassOf(info[0]) && info[1].IsString()) { \
         llvm::Value *value = Value::Extract(info[0]); \
         const std::string &name = argsLen == 2 ? std::string(info[1].As<Napi::String>()) : ""; \
-        llvm::Value *result = (builder->*method)(value, name, ##extraArgs); \
+        llvm::Value *result = (builder->*method)(value, name, ##__VA_ARGS__); \
         return Value::New(env, result); \
     } \
     throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateUnOpFactory); \

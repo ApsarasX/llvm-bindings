@@ -14,7 +14,7 @@ include_directories(${CMAKE_JS_INC} include)
 
 file(GLOB_RECURSE SOURCE_FILES "src/*.cpp")
 
-add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES} ${CMAKE_JS_SRC})
+add_library(${PROJECT_NAME} SHARED ${CMAKE_JS_SRC} ${SOURCE_FILES})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "" SUFFIX ".node" LINKER_LANGUAGE CXX)
 

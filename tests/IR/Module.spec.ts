@@ -282,7 +282,7 @@ describe('Test Module', () => {
 
     describe('Test llvm.Module.addModuleFlag', () => {
         const addModuleFlagErrMsg = 'Module.addModuleFlag needs to be called with (behavior: number, key: string, value: number)' + 
-        '\n\t - limit: behavior ∈ [1, 7]';
+        '\n\t - limit: behavior should belong to [1, 7]';
 
         test('Test Normally', () => {
             const context = new llvm.LLVMContext();

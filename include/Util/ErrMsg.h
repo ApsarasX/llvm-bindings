@@ -25,7 +25,7 @@ namespace ErrMsg {
             static const char *getOrInsertFunction = "Module.getOrInsertFunction needs to be called with: (name: string, fnType: FunctionType)";
             static const char *getGlobalVariable = "Module.getGlobalVariable needs to be called with: (name: string, allowInternal?: boolean)";
             static const char *addModuleFlag = "Module.addModuleFlag needs to be called with (behavior: number, key: string, value: number)"
-                                               "\n\t - limit: behavior ∈ [1, 7]";
+                                               "\n\t - limit: behavior should belong to [1, 7]";
         }
         namespace Type {
             static const char *constructor = "Type.constructor needs to be called with new (external: Napi::External<llvm::Type>)";

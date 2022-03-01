@@ -1,4 +1,4 @@
-if (CMAKE_HOST_SYSTEM_NAME STREQUAL Darwin)
+if (CMAKE_HOST_APPLE)
     list(APPEND CMAKE_PREFIX_PATH /usr/local/opt/llvm/lib/cmake/llvm)
 endif ()
 

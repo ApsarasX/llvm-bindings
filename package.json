@@ -20,9 +20,9 @@
         "url": "https://github.com/ApsarasX/llvm-bindings.git"
     },
     "scripts": {
-        "postinstall": "cross-env CMAKE_BUILD_PARALLEL_LEVEL=$(node -p 'require(`os`).cpus().length') cmake-js compile",
-        "build:debug": "cross-env CMAKE_BUILD_PARALLEL_LEVEL=$(node -p 'require(`os`).cpus().length') cmake-js build -D",
-        "build:release": "cross-env CMAKE_BUILD_PARALLEL_LEVEL=$(node -p 'require(`os`).cpus().length') cmake-js build",
+        "postinstall": "cmake-js compile",
+        "build:debug": "cmake-js build -D",
+        "build:release": "cmake-js build",
         "pretest": "npm run build:debug",
         "test:legacy": "ts-node test/index.ts",
         "test": "npm run test:legacy && jest --verbose",
@@ -35,17 +35,16 @@
     "dependencies": {
         "bindings": "^1.5.0",
         "cmake-js": "^6.3.0",
-        "cross-env": "^7.0.3",
         "node-addon-api": "^4.3.0"
     },
     "devDependencies": {
-        "@types/jest": "^27.4.0",
-        "@types/node": "^16.11.25",
+        "@types/jest": "^27.4.1",
+        "@types/node": "^16.11.26",
         "conventional-changelog-cli": "^2.2.2",
         "jest": "^27.5.1",
         "ts-jest": "^27.1.3",
         "ts-node": "^10.5.0",
-        "typescript": "^4.5.5"
+        "typescript": "^4.6.2"
     },
     "jest": {
         "preset": "ts-jest"
