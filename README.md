@@ -17,7 +17,7 @@ LLVM bindings for Node.js/JavaScript/TypeScript
 | Ubuntu 20.04 | ✅ | ✅ |
 | Ubuntu 21.10 | ✅ | ✅ |
 | Windows 10 | ✅ | ⚠️ |
-| Windows 11 | ⚠️ | ⚠️ |
+| Windows 11 | ✅ | ⚠️ |
 
 > ⚠️ means not tested.
 
