@@ -1,3 +1,12 @@
+## [0.3.6](https://github.com/ApsarasX/llvm-bindings/compare/v0.3.5...v0.3.6) (2022-03-16)
+
+
+### Features
+
+* **IR:** add duplicated getValueType for some subclasses of GlobalValue ([ce7c666](https://github.com/ApsarasX/llvm-bindings/commit/ce7c66678bf6200a76510e1030465a2c9935e05c))
+
+
+
 ## [0.3.5](https://github.com/ApsarasX/llvm-bindings/compare/v0.3.4...v0.3.5) (2022-03-01)
 
 
