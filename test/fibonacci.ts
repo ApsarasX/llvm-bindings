@@ -31,13 +31,14 @@ export default function testFibonacci(): void {
     const result = builder.CreateAdd(ret1, ret2);
     builder.CreateRet(result);
 
+    console.log(module.print());
+
     if (llvm.verifyFunction(func)) {
         console.error(`${filename}: verifying the 'fibonacci' function failed`);
-        return;
+        process.exit(1);
     }
     if (llvm.verifyModule(module)) {
         console.error(`${filename}: verifying the module failed`);
-        return;
+        process.exit(1);
     }
-    console.log(module.print());
 }

@@ -20,13 +20,15 @@ export default function testBitcodeWriter(): void {
     const result = builder.CreateAdd(paramA, paramB);
     builder.CreateRet(result);
 
+    console.log(module.print());
+
     if (llvm.verifyFunction(func)) {
         console.error(`${filename}: verifying the 'writer' function failed`);
-        return;
+        process.exit(1);
     }
     if (llvm.verifyModule(module)) {
         console.error(`${filename}: verifying the module failed`);
-        return;
+        process.exit(1);
     }
 
     const outputDir = path.join(__dirname, 'temp');

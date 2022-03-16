@@ -24,6 +24,8 @@ private:
 
     Napi::Value getType(const Napi::CallbackInfo &info);
 
+    Napi::Value getValueType(const Napi::CallbackInfo &info);
+
     void removeFromParent(const Napi::CallbackInfo &info);
 
     void eraseFromParent(const Napi::CallbackInfo &info);

@@ -171,9 +171,11 @@ export default function testDebugInfo(): void {
     createMainFunc(context, module, builder, debugInfoBuilder, debugInfoFile, debugInfoUnit, debugInfoBasicType, addFunc);
 
     debugInfoBuilder.finalize();
+
+    console.log(module.print());
+
     if (llvm.verifyModule(module)) {
         console.error(`${filename}: verifying the module failed`);
-        return;
+        process.exit(1);
     }
-    console.log(module.print());
 }

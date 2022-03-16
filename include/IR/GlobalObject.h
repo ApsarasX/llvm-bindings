@@ -23,4 +23,6 @@ private:
     llvm::GlobalObject *globalObject = nullptr;
 
     Napi::Value getType(const Napi::CallbackInfo &info);
+
+    Napi::Value getValueType(const Napi::CallbackInfo &info);
 };

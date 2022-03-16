@@ -12,11 +12,11 @@ export default function testLinker(): void {
     const srcModule = llvm.parseIRFile(bitcodePath, err, context);
     if (llvm.verifyModule(srcModule)) {
         console.error(`${filename}: verifying the source module failed`);
-        return;
+        process.exit(1);
     }
     if (llvm.Linker.linkModules(module, srcModule)) {
         console.error(`${filename}: linking the source modules to the destination module failed`);
-        return;
+        process.exit(1);
     }
 
     const returnType = builder.getInt32Ty();
@@ -28,20 +28,21 @@ export default function testLinker(): void {
     const addFunc = module.getFunction('add');
     if (!addFunc) {
         console.error(`${filename}: unable to get the 'add' function`);
-        return;
+        process.exit(1);
     }
     const argA = builder.getInt32(1);
     const argB = builder.getInt32(2);
     const retVal = builder.CreateCall(addFunc, [argA, argB]);
     builder.CreateRet(retVal);
 
+    console.log(module.print());
+
     if (llvm.verifyFunction(func)) {
         console.error(`${filename}: verifying the 'linker' function failed`);
-        return;
+        process.exit(1);
     }
     if (llvm.verifyModule(module)) {
         console.error(`${filename}: verifying the module failed`);
-        return;
+        process.exit(1);
     }
-    console.log(module.print());
 }

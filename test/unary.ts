@@ -40,13 +40,14 @@ export default function testUnary(): void {
 
     builder.CreateRetVoid()
 
+    console.log(module.print());
+
     if (llvm.verifyFunction(func)) {
         console.error(`${filename}: verifying the 'unary' function failed`);
-        return;
+        process.exit(1);
     }
     if (llvm.verifyModule(module)) {
         console.error(`${filename}: verifying the module failed`);
-        return;
+        process.exit(1);
     }
-    console.log(module.print());
 }

@@ -10,9 +10,10 @@ export default function testStr(): void {
     builder.CreateGlobalString('HelloWorld', 'str', 0, module);
     builder.CreateGlobalStringPtr('Bye Bye', 'str', 0, module);
 
+    console.log(module.print());
+
     if (llvm.verifyModule(module)) {
         console.error(`${filename}: verifying the module failed`);
-        return;
+        process.exit(1);
     }
-    console.log(module.print());
 }

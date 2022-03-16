@@ -12,20 +12,21 @@ export default function testAdd(): void {
     const functionType = llvm.FunctionType.get(returnType, paramTypes, false);
     const func = llvm.Function.Create(functionType, llvm.Function.LinkageTypes.ExternalLinkage, 'add', module);
 
-    const entryBB = llvm.BasicBlock.Create(context, 'entry');
+    const entryBB = llvm.BasicBlock.Create(context, 'entry', func);
     builder.SetInsertPoint(entryBB);
     const paramA = func.getArg(0);
     const paramB = func.getArg(1);
     const result = builder.CreateAdd(paramA, paramB);
     builder.CreateRet(result);
 
+    console.log(module.print());
+
     if (llvm.verifyFunction(func)) {
         console.error(`${filename}: verifying the 'add' function failed`);
-        return;
+        process.exit(1);
     }
     if (llvm.verifyModule(module)) {
         console.error(`${filename}: verifying the module failed`);
-        return;
+        process.exit(1);
     }
-    console.log(module.print());
 }

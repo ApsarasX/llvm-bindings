@@ -44,13 +44,14 @@ export default function testException() {
     builder.CreateCall(throwFunc, [tmp1, tmp3, llvm.ConstantPointerNull.get(builder.getInt8PtrTy())]);
     builder.CreateUnreachable();
 
+    console.log(module.print());
+
     if (llvm.verifyFunction(mainFunc)) {
         console.error(`${filename}: verifying the 'exception' function failed`);
-        return;
+        process.exit(1);
     }
     if (llvm.verifyModule(module)) {
         console.error(`${filename}: verifying the module failed`);
-        return;
+        process.exit(1);
     }
-    console.log(module.print());
 }

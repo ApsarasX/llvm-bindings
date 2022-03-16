@@ -613,12 +613,17 @@ declare namespace llvm {
         // duplicated
         public getType(): PointerType;
 
+        public getValueType(): Type;
+
         protected constructor();
     }
 
     class GlobalObject extends GlobalValue {
         // duplicated
         public getType(): PointerType;
+
+        // duplicated
+        public getValueType(): Type;
 
         protected constructor();
     }
@@ -631,6 +636,9 @@ declare namespace llvm {
 
         // duplicated
         public getType(): PointerType;
+
+        // duplicated
+        public getValueType(): Type;
 
         public removeFromParent(): void;
 

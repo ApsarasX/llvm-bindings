@@ -11,7 +11,8 @@ import testIntrinsic from './intrinsic';
 import testException from './exception';
 import testType from './type';
 import testDebugInfo from './debugInfo';
-import testTarget from "./target";
+import testTarget from './target';
+import testGEP from './gep';
 
 testAdd();
 testFibonacci();
@@ -27,3 +28,4 @@ testException();
 testType();
 testDebugInfo();
 testTarget();
+testGEP();

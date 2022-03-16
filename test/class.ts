@@ -26,13 +26,14 @@ export default function testClass(): void {
     builder.CreateStore(builder.getInt32(111), propertyPtr);
     builder.CreateRetVoid();
 
+    console.log(module.print());
+
     if (llvm.verifyFunction(func)) {
         console.error(`${filename}: verifying the 'class_Person_constructor' function failed`);
-        return;
+        process.exit(1);
     }
     if (llvm.verifyModule(module)) {
         console.error(`${filename}: verifying the module failed`);
-        return;
+        process.exit(1);
     }
-    console.log(module.print());
 };
