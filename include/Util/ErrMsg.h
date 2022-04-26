@@ -61,6 +61,7 @@ namespace ErrMsg {
                                      "\n\t - (context: LLVMContext, elementTypes: Type[])";
             static const char *getTypeByName = "StructType.getTypeByName needs to be called with: (context: LLVMContext, name: string)";
             static const char *setBody = "StructType.setBody needs to be called with (elementTypes: Type[])";
+            static const char *setName = "StructType.setName needs to be called with (name: string)";
             static const char *getPointerTo = "StructType.getPointer needs to called with: (addrSpace?: number)";
         }
         namespace ArrayType {

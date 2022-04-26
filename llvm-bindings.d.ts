@@ -343,6 +343,14 @@ declare namespace llvm {
 
         public setBody(elementTypes: Type[]): void;
 
+        public setName(name: string): void;
+        public hasName(): boolean;
+        public getName(): string;
+
+        public isOpaque(): boolean;
+        public isPacked(): boolean;
+        public isLiteral(): boolean;
+
         // duplicated
         public getPointerTo(addrSpace?: number): PointerType;
 

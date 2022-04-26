@@ -112,6 +112,18 @@ private:
 
     void setBody(const Napi::CallbackInfo &info);
 
+    void setName(const Napi::CallbackInfo &info);
+    
+    Napi::Value hasName(const Napi::CallbackInfo &info);
+    
+    Napi::Value getName(const Napi::CallbackInfo &info);
+
+    Napi::Value isOpaque(const Napi::CallbackInfo &info);
+
+    Napi::Value isPacked(const Napi::CallbackInfo &info);
+
+    Napi::Value isLiteral(const Napi::CallbackInfo &info);
+
     Napi::Value getPointerTo(const Napi::CallbackInfo &info);
 
     Napi::Value isStructTy(const Napi::CallbackInfo &info);
