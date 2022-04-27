@@ -222,6 +222,12 @@ void StructType::Init(Napi::Env env, Napi::Object &exports) {
             StaticMethod("get", &StructType::get),
             StaticMethod("getTypeByName", &StructType::getTypeByName),
             InstanceMethod("setBody", &StructType::setBody),
+            InstanceMethod("setName", &StructType::setName),
+            InstanceMethod("hasName", &StructType::hasName),
+            InstanceMethod("getName", &StructType::getName),
+            InstanceMethod("isOpaque", &StructType::isOpaque),
+            InstanceMethod("isPacked", &StructType::isPacked),
+            InstanceMethod("isLiteral", &StructType::isLiteral),
             InstanceMethod("getPointerTo", &StructType::getPointerTo),
             InstanceMethod("isStructTy", &StructType::isStructTy),
             InstanceMethod("isIntegerTy", &StructType::isIntegerTy),
@@ -335,6 +341,35 @@ void StructType::setBody(const Napi::CallbackInfo &info) {
         elementTypes[i] = Type::Extract(eleTypesArray.Get(i));
     }
     structType->setBody(elementTypes);
+}
+
+void StructType::setName(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 0 || !info[0].IsString()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::StructType::setName);
+    }
+    const std::string &name = info[0].As<Napi::String>();
+    structType->setName(name);
+}
+
+Napi::Value StructType::hasName(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), structType->hasName());
+}
+
+Napi::Value StructType::getName(const Napi::CallbackInfo &info) {
+    return Napi::String::New(info.Env(), structType->getName().data());
+}
+
+Napi::Value StructType::isOpaque(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), structType->isOpaque());
+}
+
+Napi::Value StructType::isPacked(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), structType->isPacked());
+}
+
+Napi::Value StructType::isLiteral(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), structType->isLiteral());
 }
 
 Napi::Value StructType::getPointerTo(const Napi::CallbackInfo &info) {
