@@ -345,12 +345,10 @@ void StructType::setBody(const Napi::CallbackInfo &info) {
 
 void StructType::setName(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-
     if (info.Length() == 0 || !info[0].IsString()) {
         throw Napi::TypeError::New(env, ErrMsg::Class::StructType::setName);
     }
-    const std::string name = info[0].As<Napi::String>();
-
+    const std::string &name = info[0].As<Napi::String>();
     structType->setName(name);
 }
 
