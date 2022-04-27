@@ -1,3 +1,12 @@
+## [0.3.7](https://github.com/ApsarasX/llvm-bindings/compare/v0.3.6...v0.3.7) (2022-04-27)
+
+
+### Features
+
+* **StructType:** add missing methods for StructType ([#15](https://github.com/ApsarasX/llvm-bindings/issues/15)) ([b76c918](https://github.com/ApsarasX/llvm-bindings/commit/b76c918bd6b960e04762a7e092f053fed97c0599))
+
+
+
 ## [0.3.6](https://github.com/ApsarasX/llvm-bindings/compare/v0.3.5...v0.3.6) (2022-03-16)
 
 
