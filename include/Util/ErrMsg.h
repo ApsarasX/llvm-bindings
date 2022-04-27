@@ -3,557 +3,557 @@
 namespace ErrMsg {
     namespace Class {
         namespace APInt {
-            static const char *constructor = "APInt.constructor needs to be called with new (numBits: number, value: number, isSigned?: boolean)";
+            constexpr const char *constructor = "APInt.constructor needs to be called with new (numBits: number, value: number, isSigned?: boolean)";
         }
         namespace APFloat {
-            static const char *constructor = "APFloat.constructor needs to be called with new (value: number)";
+            constexpr const char *constructor = "APFloat.constructor needs to be called with new (value: number)";
         }
         namespace LLVMContext {
-            static const char *constructor = "LLVMContext.constructor needs to be called with new ()";
+            constexpr const char *constructor = "LLVMContext.constructor needs to be called with new ()";
         }
         namespace Module {
-            static const char *constructor = "Module.constructor needs to be called with"
-                                             "\n\t - new (external: Napi::External<llvm::Module>)"
-                                             "\n\t - new (moduleID: string, context: LLVMContext)";
-            static const char *setModuleIdentifier = "Module.setModuleIdentifier needs to be called with: (moduleID: string)";
-            static const char *setSourceFileName = "Module.setSourceFileName needs to be called with: (sourceFileName: string)";
-            static const char *setDataLayout = "Module.setDataLayout needs to be called with:"
-                                               "\n\t - (desc: string)"
-                                               "\n\t - (dataLayout: DataLayout)";
-            static const char *setTargetTriple = "Module.setTargetTriple needs to be called with: (targetTriple: string)";
-            static const char *getFunction = "Module.getFunction needs to be called with: (name: string)";
-            static const char *getOrInsertFunction = "Module.getOrInsertFunction needs to be called with: (name: string, fnType: FunctionType)";
-            static const char *getGlobalVariable = "Module.getGlobalVariable needs to be called with: (name: string, allowInternal?: boolean)";
-            static const char *addModuleFlag = "Module.addModuleFlag needs to be called with (behavior: number, key: string, value: number)"
-                                               "\n\t - limit: behavior should belong to [1, 7]";
+            constexpr const char *constructor = "Module.constructor needs to be called with"
+                                                "\n\t - new (external: Napi::External<llvm::Module>)"
+                                                "\n\t - new (moduleID: string, context: LLVMContext)";
+            constexpr const char *setModuleIdentifier = "Module.setModuleIdentifier needs to be called with: (moduleID: string)";
+            constexpr const char *setSourceFileName = "Module.setSourceFileName needs to be called with: (sourceFileName: string)";
+            constexpr const char *setDataLayout = "Module.setDataLayout needs to be called with:"
+                                                  "\n\t - (desc: string)"
+                                                  "\n\t - (dataLayout: DataLayout)";
+            constexpr const char *setTargetTriple = "Module.setTargetTriple needs to be called with: (targetTriple: string)";
+            constexpr const char *getFunction = "Module.getFunction needs to be called with: (name: string)";
+            constexpr const char *getOrInsertFunction = "Module.getOrInsertFunction needs to be called with: (name: string, fnType: FunctionType)";
+            constexpr const char *getGlobalVariable = "Module.getGlobalVariable needs to be called with: (name: string, allowInternal?: boolean)";
+            constexpr const char *addModuleFlag = "Module.addModuleFlag needs to be called with (behavior: number, key: string, value: number)"
+                                                  "\n\t - limit: behavior should belong to [1, 7]";
         }
         namespace Type {
-            static const char *constructor = "Type.constructor needs to be called with new (external: Napi::External<llvm::Type>)";
-            static const char *getPointerTo = "Type.getPointer needs to called with: (addrSpace?: number)";
-            static const char *getIntNTy = "Type.getIntNTy needs to be called with: (context: LLVMContext, numBits: number)";
-            static const char *isIntegerTy = "Type.isIntegerTy needs to be called with: (bitWidth?: number)";
-            static const char *getTypeFactory = "Type.[getType] needs to be called with (context: LLVMContext)";
-            static const char *getIntTypeFactory = "Type.[getIntType] needs to be called with (context: LLVMContext)";
-            static const char *getPointerTypeFactory = "Type.[getPointerType] needs to be called with (context: LLVMContext, addrSpace?: number)";
-            static const char *isSameType = "Type.isSameType needs to be called with (type1: Type, type2: Type)";
+            constexpr const char *constructor = "Type.constructor needs to be called with new (external: Napi::External<llvm::Type>)";
+            constexpr const char *getPointerTo = "Type.getPointer needs to called with: (addrSpace?: number)";
+            constexpr const char *getIntNTy = "Type.getIntNTy needs to be called with: (context: LLVMContext, numBits: number)";
+            constexpr const char *isIntegerTy = "Type.isIntegerTy needs to be called with: (bitWidth?: number)";
+            constexpr const char *getTypeFactory = "Type.[getType] needs to be called with (context: LLVMContext)";
+            constexpr const char *getIntTypeFactory = "Type.[getIntType] needs to be called with (context: LLVMContext)";
+            constexpr const char *getPointerTypeFactory = "Type.[getPointerType] needs to be called with (context: LLVMContext, addrSpace?: number)";
+            constexpr const char *isSameType = "Type.isSameType needs to be called with (type1: Type, type2: Type)";
         }
         namespace IntegerType {
-            static const char *constructor = "IntegerType.constructor needs to be called with new (external: Napi::External<llvm::IntegerType>)";
-            static const char *get = "IntegerType.get needs to be called with: (context: LLVMContext, numBits: number)";
-            static const char *isIntegerTy = "IntegerType.isIntegerTy needs to be called with: (bitWidth?: number)";
+            constexpr const char *constructor = "IntegerType.constructor needs to be called with new (external: Napi::External<llvm::IntegerType>)";
+            constexpr const char *get = "IntegerType.get needs to be called with: (context: LLVMContext, numBits: number)";
+            constexpr const char *isIntegerTy = "IntegerType.isIntegerTy needs to be called with: (bitWidth?: number)";
         }
         namespace FunctionType {
-            static const char *constructor = "FunctionType.constructor needs to be called with new (external: Napi::External<llvm::Function>)";
-            static const char *get = "FunctionType.get needs to be called with:"
-                                     "\n\t - (returnType: Type, isVarArg: boolean)"
-                                     "\n\t - (returnType: Type, paramTypes: Type[], isVarArg: boolean)";
+            constexpr const char *constructor = "FunctionType.constructor needs to be called with new (external: Napi::External<llvm::Function>)";
+            constexpr const char *get = "FunctionType.get needs to be called with:"
+                                        "\n\t - (returnType: Type, isVarArg: boolean)"
+                                        "\n\t - (returnType: Type, paramTypes: Type[], isVarArg: boolean)";
         }
         namespace FunctionCallee {
-            static const char *constructor = "FunctionCallee.constructor needs to be called with new ()";
+            constexpr const char *constructor = "FunctionCallee.constructor needs to be called with new ()";
         }
         namespace StructType {
-            static const char *constructor = "StructType.constructor needs to be called with new (external: Napi::External<llvm::StructType>)";
-            static const char *create = "StructType.create needs to be called with:"
-                                        "\n\t - (context: LLVMContext, name: string)"
-                                        "\n\t - (context: LLVMContext, elementTypes: Type[], name: string)";
-            static const char *get = "StructType.get needs to be called with:"
-                                     "\n\t - (context: LLVMContext)"
-                                     "\n\t - (context: LLVMContext, elementTypes: Type[])";
-            static const char *getTypeByName = "StructType.getTypeByName needs to be called with: (context: LLVMContext, name: string)";
-            static const char *setBody = "StructType.setBody needs to be called with (elementTypes: Type[])";
-            static const char *setName = "StructType.setName needs to be called with (name: string)";
-            static const char *getPointerTo = "StructType.getPointer needs to called with: (addrSpace?: number)";
+            constexpr const char *constructor = "StructType.constructor needs to be called with new (external: Napi::External<llvm::StructType>)";
+            constexpr const char *create = "StructType.create needs to be called with:"
+                                           "\n\t - (context: LLVMContext, name: string)"
+                                           "\n\t - (context: LLVMContext, elementTypes: Type[], name: string)";
+            constexpr const char *get = "StructType.get needs to be called with:"
+                                        "\n\t - (context: LLVMContext)"
+                                        "\n\t - (context: LLVMContext, elementTypes: Type[])";
+            constexpr const char *getTypeByName = "StructType.getTypeByName needs to be called with: (context: LLVMContext, name: string)";
+            constexpr const char *setBody = "StructType.setBody needs to be called with (elementTypes: Type[])";
+            constexpr const char *setName = "StructType.setName needs to be called with (name: string)";
+            constexpr const char *getPointerTo = "StructType.getPointer needs to called with: (addrSpace?: number)";
         }
         namespace ArrayType {
-            static const char *constructor = "ArrayType.constructor needs to be called with new (external: Napi::External<llvm::ArrayType>)";
-            static const char *get = "ArrayType.get needs to be called with (elemType: Type, numElements: number)";
-            static const char *isValidElementType = "ArrayType.isValidElementType needs to be called with (elemType: Type)";
+            constexpr const char *constructor = "ArrayType.constructor needs to be called with new (external: Napi::External<llvm::ArrayType>)";
+            constexpr const char *get = "ArrayType.get needs to be called with (elemType: Type, numElements: number)";
+            constexpr const char *isValidElementType = "ArrayType.isValidElementType needs to be called with (elemType: Type)";
         }
         namespace VectorType {
-            static const char *constructor = "VectorType.constructor needs to be called with new (external: Napi::External<llvm::VectorType>)";
+            constexpr const char *constructor = "VectorType.constructor needs to be called with new (external: Napi::External<llvm::VectorType>)";
         }
         namespace PointerType {
-            static const char *constructor = "PointerType.constructor needs to be called with new (external: Napi::External<llvm::PointerType>)";
-            static const char *get = "PointerType.get needs to be called with: (elementType: Type, addrSpace: number)";
-            static const char *getUnqual = "PointerType.getUnqual needs to be called with: (elementType: Type)";
+            constexpr const char *constructor = "PointerType.constructor needs to be called with new (external: Napi::External<llvm::PointerType>)";
+            constexpr const char *get = "PointerType.get needs to be called with: (elementType: Type, addrSpace: number)";
+            constexpr const char *getUnqual = "PointerType.getUnqual needs to be called with: (elementType: Type)";
         }
         namespace Value {
-            static const char *constructor = "Value.constructor needs to be called with new (external: Napi::External<llvm::Value>)";
-            static const char *setName = "Value.setName needs to be called with (name: string)";
-            static const char *replaceAllUsesWith = "Value.replaceAllUsesWith needs to be called with: (newValue: Value)";
+            constexpr const char *constructor = "Value.constructor needs to be called with new (external: Napi::External<llvm::Value>)";
+            constexpr const char *setName = "Value.setName needs to be called with (name: string)";
+            constexpr const char *replaceAllUsesWith = "Value.replaceAllUsesWith needs to be called with: (newValue: Value)";
         }
         namespace Argument {
-            static const char *constructor = "Argument.constructor needs to be called with"
-                                             "\n\t - new (external: Napi::External<llvm::Argument>)"
-                                             "\n\t - new (type: Type, name?: string, func?: Function, argNo?: number)";
-            static const char *setName = "Argument.setName needs to be called with (name: string)";
+            constexpr const char *constructor = "Argument.constructor needs to be called with"
+                                                "\n\t - new (external: Napi::External<llvm::Argument>)"
+                                                "\n\t - new (type: Type, name?: string, func?: Function, argNo?: number)";
+            constexpr const char *setName = "Argument.setName needs to be called with (name: string)";
         }
         namespace BasicBlock {
-            static const char *constructor = "BasicBlock.constructor needs to be called with new (external: Napi::External<llvm::BasicBlock>)";
-            static const char *Create = "BasicBlock.Create needs to be called with: (context: LLVMContext, name?: string, parent?: Function, insertBefore?: BasicBlock)";
-            static const char *insertInto = "BasicBlock.insertInto needs to be called with: (parent: Function, insertBefore?: BasicBlock)";
+            constexpr const char *constructor = "BasicBlock.constructor needs to be called with new (external: Napi::External<llvm::BasicBlock>)";
+            constexpr const char *Create = "BasicBlock.Create needs to be called with: (context: LLVMContext, name?: string, parent?: Function, insertBefore?: BasicBlock)";
+            constexpr const char *insertInto = "BasicBlock.insertInto needs to be called with: (parent: Function, insertBefore?: BasicBlock)";
         }
         namespace User {
-            static const char *constructor = "User.constructor needs to be called with new (external: Napi::External<llvm::User>)";
-            static const char *getOperand = "User.getOperand needs to be called with: (i: number)";
-            static const char *setOperand = "User.setOperand needs to be called with: (i: number, value: Value)";
+            constexpr const char *constructor = "User.constructor needs to be called with new (external: Napi::External<llvm::User>)";
+            constexpr const char *getOperand = "User.getOperand needs to be called with: (i: number)";
+            constexpr const char *setOperand = "User.setOperand needs to be called with: (i: number, value: Value)";
         }
         namespace Constant {
-            static const char *constructor = "Constant.constructor needs to be called with new (external: Napi::External<llvm::Constant>)";
-            static const char *getNullValue = "Constant.getNullValue needs to be called with: (type: Type)";
-            static const char *getAllOnesValue = "Constant.getAllOnesValue needs to be called with: (type: Type)";
+            constexpr const char *constructor = "Constant.constructor needs to be called with new (external: Napi::External<llvm::Constant>)";
+            constexpr const char *getNullValue = "Constant.getNullValue needs to be called with: (type: Type)";
+            constexpr const char *getAllOnesValue = "Constant.getAllOnesValue needs to be called with: (type: Type)";
         }
         namespace ConstantInt {
-            static const char *constructor = "ConstantInt.constructor needs to be called with new (external: Napi::External<llvm::ConstantInt>)";
-            static const char *get = "ConstantInt.get needs to be called with"
-                                     "\n\t - (context: LLVMContext, value: APInt)"
-                                     "\n\t - (type: Type, value: APInt)"
-                                     "\n\t - (type: Type, value: number, isSigned?: boolean)"
-                                     "\n\t - (type: IntegerType, value: number, isSigned?: boolean)";
+            constexpr const char *constructor = "ConstantInt.constructor needs to be called with new (external: Napi::External<llvm::ConstantInt>)";
+            constexpr const char *get = "ConstantInt.get needs to be called with"
+                                        "\n\t - (context: LLVMContext, value: APInt)"
+                                        "\n\t - (type: Type, value: APInt)"
+                                        "\n\t - (type: Type, value: number, isSigned?: boolean)"
+                                        "\n\t - (type: IntegerType, value: number, isSigned?: boolean)";
         }
         namespace ConstantFP {
-            static const char *constructor = "ConstantFP.constructor needs to be called with new (external: Napi::External<llvm::ConstantFP>)";
-            static const char *get = "ConstantFP.get needs to be called with:"
-                                     "\n\t - (type: Type, value: number)"
-                                     "\n\t - (type: Type, value: APFloat)"
-                                     "\n\t - (type: Type, value: string)"
-                                     "\n\t - (context: LLVMContext, value: APFloat)";
-            static const char *getNaN = "ConstantFP.getNaN need to be called with (type: Type)";
+            constexpr const char *constructor = "ConstantFP.constructor needs to be called with new (external: Napi::External<llvm::ConstantFP>)";
+            constexpr const char *get = "ConstantFP.get needs to be called with:"
+                                        "\n\t - (type: Type, value: number)"
+                                        "\n\t - (type: Type, value: APFloat)"
+                                        "\n\t - (type: Type, value: string)"
+                                        "\n\t - (context: LLVMContext, value: APFloat)";
+            constexpr const char *getNaN = "ConstantFP.getNaN need to be called with (type: Type)";
         }
         namespace ConstantStruct {
-            static const char *constructor = "ConstantStruct.constructor needs to be called with new (external: Napi::External<llvm::ConstantPointerNull>)";
-            static const char *get = "ConstantStruct.get needs to be called with (type: StructType, values: Constant[])";
+            constexpr const char *constructor = "ConstantStruct.constructor needs to be called with new (external: Napi::External<llvm::ConstantPointerNull>)";
+            constexpr const char *get = "ConstantStruct.get needs to be called with (type: StructType, values: Constant[])";
         }
         namespace ConstantPointerNull {
-            static const char *constructor = "ConstantPointerNull.constructor needs to be called with new (external: Napi::External<llvm::ConstantPointerNull>)";
-            static const char *get = "ConstantPointerNull.get needs to be called with (type: PointerType)";
+            constexpr const char *constructor = "ConstantPointerNull.constructor needs to be called with new (external: Napi::External<llvm::ConstantPointerNull>)";
+            constexpr const char *get = "ConstantPointerNull.get needs to be called with (type: PointerType)";
         }
         namespace ConstantExpr {
-            static const char *constructor = "ConstantExpr.constructor needs to be called with new (external: Napi::External<llvm::ConstantExpr>)";
-            static const char *getBitCast = "ConstantExpr.getBitCast needs to be called with (constant: Constant, type: Type)";
+            constexpr const char *constructor = "ConstantExpr.constructor needs to be called with new (external: Napi::External<llvm::ConstantExpr>)";
+            constexpr const char *getBitCast = "ConstantExpr.getBitCast needs to be called with (constant: Constant, type: Type)";
         }
         namespace UndefValue {
-            static const char *constructor = "UndefValue.constructor needs to be called with new (external: Napi::External<llvm::UndefValue>)";
-            static const char *get = "UndefValue.get needs to be called with (type: Type)";
+            constexpr const char *constructor = "UndefValue.constructor needs to be called with new (external: Napi::External<llvm::UndefValue>)";
+            constexpr const char *get = "UndefValue.get needs to be called with (type: Type)";
         }
         namespace GlobalValue {
-            static const char *constructor = "GlobalValue.constructor needs to be called with new (external: Napi::External<llvm::GlobalValue>)";
+            constexpr const char *constructor = "GlobalValue.constructor needs to be called with new (external: Napi::External<llvm::GlobalValue>)";
         }
         namespace GlobalObject {
-            static const char *constructor = "GlobalObject.constructor needs to be called with new (external: Napi::External<llvm::GlobalObject>)";
+            constexpr const char *constructor = "GlobalObject.constructor needs to be called with new (external: Napi::External<llvm::GlobalObject>)";
         }
         namespace GlobalVariable {
-            static const char *constructor = "GlobalVariable.constructor needs to be called with"
-                                             "\n\t - new (external: Napi::External<llvm::GlobalVariable>)"
-                                             "\n\t - new (type: Type, isConstant: boolean, linkage: LinkageTypes, initializer?: Constant, name?: string)"
-                                             "\n\t - new (module: Module, type: Type, isConstant: boolean, linkage: LinkageTypes, initializer: Constant, name?: string)";
+            constexpr const char *constructor = "GlobalVariable.constructor needs to be called with"
+                                                "\n\t - new (external: Napi::External<llvm::GlobalVariable>)"
+                                                "\n\t - new (type: Type, isConstant: boolean, linkage: LinkageTypes, initializer?: Constant, name?: string)"
+                                                "\n\t - new (module: Module, type: Type, isConstant: boolean, linkage: LinkageTypes, initializer: Constant, name?: string)";
 
-            static const char *addDebugInfo = "GlobalVariable.addDebugInfo needs to be called with (gv: DIGlobalVariableExpression)";
+            constexpr const char *addDebugInfo = "GlobalVariable.addDebugInfo needs to be called with (gv: DIGlobalVariableExpression)";
         }
         namespace Function {
-            static const char *constructor = "Function.constructor needs to be called with new (external: Napi::External<llvm::Function>)";
-            static const char *Create = "Function.Create needs to be called with: (funcType: FunctionType, linkage: number, name?: string, module?: Module)";
-            static const char *getArg = "Function.getArg needs to be called with (i: number)";
-            static const char *addBasicBlock = "Function.addBasicBlock needs to be called with (basicBlock: BasicBlock)";
-            static const char *insertAfter = "Function.insertAfter needs to be called with (where: BasicBlock, basicBlock: BasicBlock)";
-            static const char *setPersonalityFn = "Function.setPersonalityFn needs to be called with (fn: Constant)";
-            static const char *setSubprogram = "Function.setSubprogram needs to be called with (subprogram: DISubprogram)";
+            constexpr const char *constructor = "Function.constructor needs to be called with new (external: Napi::External<llvm::Function>)";
+            constexpr const char *Create = "Function.Create needs to be called with: (funcType: FunctionType, linkage: number, name?: string, module?: Module)";
+            constexpr const char *getArg = "Function.getArg needs to be called with (i: number)";
+            constexpr const char *addBasicBlock = "Function.addBasicBlock needs to be called with (basicBlock: BasicBlock)";
+            constexpr const char *insertAfter = "Function.insertAfter needs to be called with (where: BasicBlock, basicBlock: BasicBlock)";
+            constexpr const char *setPersonalityFn = "Function.setPersonalityFn needs to be called with (fn: Constant)";
+            constexpr const char *setSubprogram = "Function.setSubprogram needs to be called with (subprogram: DISubprogram)";
         }
         namespace Instruction {
-            static const char *constructor = "Instruction.constructor needs to be called with new (external: Napi::External<llvm::Instruction>)";
-            static const char *setDebugLoc = "Instruction.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "Instruction.constructor needs to be called with new (external: Napi::External<llvm::Instruction>)";
+            constexpr const char *setDebugLoc = "Instruction.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace AllocaInst {
-            static const char *constructor = "AllocaInst.constructor needs to be called with new (external: Napi::External<llvm::AllocaInst>)";
-            static const char *setDebugLoc = "AllocaInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "AllocaInst.constructor needs to be called with new (external: Napi::External<llvm::AllocaInst>)";
+            constexpr const char *setDebugLoc = "AllocaInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace LoadInst {
-            static const char *constructor = "LoadInst.constructor needs to be called with new (external: Napi::External<llvm::LoadInst>)";
-            static const char *setDebugLoc = "LoadInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "LoadInst.constructor needs to be called with new (external: Napi::External<llvm::LoadInst>)";
+            constexpr const char *setDebugLoc = "LoadInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace StoreInst {
-            static const char *constructor = "StoreInst.constructor needs to be called with new (external: Napi::External<llvm::StoreInst>)";
-            static const char *setDebugLoc = "StoreInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "StoreInst.constructor needs to be called with new (external: Napi::External<llvm::StoreInst>)";
+            constexpr const char *setDebugLoc = "StoreInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace FenceInst {
-            static const char *constructor = "FenceInst.constructor needs to be called with new (external: Napi::External<llvm::FenceInst>)";
-            static const char *setDebugLoc = "FenceInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "FenceInst.constructor needs to be called with new (external: Napi::External<llvm::FenceInst>)";
+            constexpr const char *setDebugLoc = "FenceInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace AtomicCmpXchgInst {
-            static const char *constructor = "AtomicCmpXchgInst.constructor needs to be called with new (external: Napi::External<llvm::AtomicCmpXchgInst>)";
-            static const char *setDebugLoc = "AtomicCmpXchgInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "AtomicCmpXchgInst.constructor needs to be called with new (external: Napi::External<llvm::AtomicCmpXchgInst>)";
+            constexpr const char *setDebugLoc = "AtomicCmpXchgInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace AtomicRMWInst {
-            static const char *constructor = "AtomicRMWInst.constructor needs to be called with new (external: Napi::External<llvm::AtomicRMWInst>)";
-            static const char *setDebugLoc = "AtomicRMWInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "AtomicRMWInst.constructor needs to be called with new (external: Napi::External<llvm::AtomicRMWInst>)";
+            constexpr const char *setDebugLoc = "AtomicRMWInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace GetElementPtrInst {
-            static const char *constructor = "GetElementPtrInst.constructor needs to be called with new (external: Napi::External<llvm::GetElementPtrInst>)";
-            static const char *setDebugLoc = "GetElementPtrInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "GetElementPtrInst.constructor needs to be called with new (external: Napi::External<llvm::GetElementPtrInst>)";
+            constexpr const char *setDebugLoc = "GetElementPtrInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace ICmpInst {
-            static const char *constructor = "ICmpInst.constructor needs to be called with new (external: Napi::External<llvm::ICmpInst>)";
-            static const char *setDebugLoc = "ICmpInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "ICmpInst.constructor needs to be called with new (external: Napi::External<llvm::ICmpInst>)";
+            constexpr const char *setDebugLoc = "ICmpInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace FCmpInst {
-            static const char *constructor = "FCmpInst.constructor needs to be called with new (external: Napi::External<llvm::FCmpInst>)";
-            static const char *setDebugLoc = "FCmpInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "FCmpInst.constructor needs to be called with new (external: Napi::External<llvm::FCmpInst>)";
+            constexpr const char *setDebugLoc = "FCmpInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace CallInst {
-            static const char *constructor = "CallInst.constructor needs to be called with new (external: Napi::External<llvm::CallInst>)";
-            static const char *setDebugLoc = "CallInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "CallInst.constructor needs to be called with new (external: Napi::External<llvm::CallInst>)";
+            constexpr const char *setDebugLoc = "CallInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace SelectInst {
-            static const char *constructor = "SelectInst.constructor needs to be called with new (external: Napi::External<llvm::SelectInst>)";
-            static const char *setCondition = "SelectInst.setCondition needs to be called with (value: Value)";
-            static const char *setTrueValue = "SelectInst.setTrueValue needs to be called with (value: Value)";
-            static const char *setFalseValue = "SelectInst.setFalseValue needs to be called with (value: Value)";
-            static const char *setDebugLoc = "SelectInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "SelectInst.constructor needs to be called with new (external: Napi::External<llvm::SelectInst>)";
+            constexpr const char *setCondition = "SelectInst.setCondition needs to be called with (value: Value)";
+            constexpr const char *setTrueValue = "SelectInst.setTrueValue needs to be called with (value: Value)";
+            constexpr const char *setFalseValue = "SelectInst.setFalseValue needs to be called with (value: Value)";
+            constexpr const char *setDebugLoc = "SelectInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace VAArgInst {
-            static const char *constructor = "VAArgInst.constructor needs to be called with new (external: Napi::External<llvm::VAArgInst>)";
-            static const char *setDebugLoc = "VAArgInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "VAArgInst.constructor needs to be called with new (external: Napi::External<llvm::VAArgInst>)";
+            constexpr const char *setDebugLoc = "VAArgInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace ExtractElementInst {
-            static const char *constructor = "ExtractElementInst.constructor needs to be called with new (external: Napi::External<llvm::ExtractElementInst>)";
-            static const char *setDebugLoc = "ExtractElementInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "ExtractElementInst.constructor needs to be called with new (external: Napi::External<llvm::ExtractElementInst>)";
+            constexpr const char *setDebugLoc = "ExtractElementInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace InsertElementInst {
-            static const char *constructor = "InsertElementInst.constructor needs to be called with new (external: Napi::External<llvm::InsertElementInst>)";
-            static const char *setDebugLoc = "InsertElementInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "InsertElementInst.constructor needs to be called with new (external: Napi::External<llvm::InsertElementInst>)";
+            constexpr const char *setDebugLoc = "InsertElementInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace ShuffleVectorInst {
-            static const char *constructor = "ShuffleVectorInst.constructor needs to be called with new (external: Napi::External<llvm::ShuffleVectorInst>)";
-            static const char *setDebugLoc = "ShuffleVectorInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "ShuffleVectorInst.constructor needs to be called with new (external: Napi::External<llvm::ShuffleVectorInst>)";
+            constexpr const char *setDebugLoc = "ShuffleVectorInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace ExtractValueInst {
-            static const char *constructor = "ExtractValueInst.constructor needs to be called with new (external: Napi::External<llvm::ExtractValueInst>)";
-            static const char *setDebugLoc = "ExtractValueInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "ExtractValueInst.constructor needs to be called with new (external: Napi::External<llvm::ExtractValueInst>)";
+            constexpr const char *setDebugLoc = "ExtractValueInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace InsertValueInst {
-            static const char *constructor = "InsertValueInst.constructor needs to be called with new (external: Napi::External<llvm::InsertValueInst>)";
-            static const char *setDebugLoc = "InsertValueInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "InsertValueInst.constructor needs to be called with new (external: Napi::External<llvm::InsertValueInst>)";
+            constexpr const char *setDebugLoc = "InsertValueInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace PHINode {
-            static const char *constructor = "PHINode.constructor needs to be called with new (external: Napi::External<llvm::PHINode>)";
-            static const char *addIncoming = "PHINode.addIncoming needs to be called with (value: Value, basicBlock: BasicBlock)";
-            static const char *setDebugLoc = "PHINode.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "PHINode.constructor needs to be called with new (external: Napi::External<llvm::PHINode>)";
+            constexpr const char *addIncoming = "PHINode.addIncoming needs to be called with (value: Value, basicBlock: BasicBlock)";
+            constexpr const char *setDebugLoc = "PHINode.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace LandingPadInst {
-            static const char *constructor = "LandingPadInst.constructor needs to be called with new (external: Napi::External<llvm::LandingPadInst>)";
-            static const char *setCleanup = "LandingPadInst.setCleanup needs to be called with (value: boolean)";
-            static const char *addClause = "LandingPadInst.addClause needs to be called with (clauseVal: Constant)";
-            static const char *setDebugLoc = "LandingPadInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "LandingPadInst.constructor needs to be called with new (external: Napi::External<llvm::LandingPadInst>)";
+            constexpr const char *setCleanup = "LandingPadInst.setCleanup needs to be called with (value: boolean)";
+            constexpr const char *addClause = "LandingPadInst.addClause needs to be called with (clauseVal: Constant)";
+            constexpr const char *setDebugLoc = "LandingPadInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace ReturnInst {
-            static const char *constructor = "ReturnInst.constructor needs to be called with new (external: Napi::External<llvm::ReturnInst>)";
-            static const char *setDebugLoc = "ReturnInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "ReturnInst.constructor needs to be called with new (external: Napi::External<llvm::ReturnInst>)";
+            constexpr const char *setDebugLoc = "ReturnInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace BranchInst {
-            static const char *constructor = "BranchInst.constructor needs to be called with new (external: Napi::External<llvm::BranchInst>)";
-            static const char *getSuccessor = "BranchInst.getSuccessor needs to be called with (i: number)";
-            static const char *setDebugLoc = "BranchInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "BranchInst.constructor needs to be called with new (external: Napi::External<llvm::BranchInst>)";
+            constexpr const char *getSuccessor = "BranchInst.getSuccessor needs to be called with (i: number)";
+            constexpr const char *setDebugLoc = "BranchInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace SwitchInst {
-            static const char *constructor = "SwitchInst.constructor needs to be called with new (external: Napi::External<llvm::SwitchInst>)";
-            static const char *addCase = "SwitchInst.addCase needs to be called with (onVal: ConstantInt, dest: BasicBlock)";
-            static const char *setDebugLoc = "SwitchInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "SwitchInst.constructor needs to be called with new (external: Napi::External<llvm::SwitchInst>)";
+            constexpr const char *addCase = "SwitchInst.addCase needs to be called with (onVal: ConstantInt, dest: BasicBlock)";
+            constexpr const char *setDebugLoc = "SwitchInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace IndirectBrInst {
-            static const char *constructor = "IndirectBrInst.constructor needs to be called with new (external: Napi::External<llvm::IndirectBrInst>)";
-            static const char *setDebugLoc = "IndirectBrInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "IndirectBrInst.constructor needs to be called with new (external: Napi::External<llvm::IndirectBrInst>)";
+            constexpr const char *setDebugLoc = "IndirectBrInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace InvokeInst {
-            static const char *constructor = "InvokeInst.constructor needs to be called with new (external: Napi::External<llvm::InvokeInst>)";
-            static const char *setDebugLoc = "InvokeInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "InvokeInst.constructor needs to be called with new (external: Napi::External<llvm::InvokeInst>)";
+            constexpr const char *setDebugLoc = "InvokeInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace CallBrInst {
-            static const char *constructor = "CallBrInst.constructor needs to be called with new (external: Napi::External<llvm::CallBrInst>)";
-            static const char *setDebugLoc = "CallBrInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "CallBrInst.constructor needs to be called with new (external: Napi::External<llvm::CallBrInst>)";
+            constexpr const char *setDebugLoc = "CallBrInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace ResumeInst {
-            static const char *constructor = "ResumeInst.constructor needs to be called with new (external: Napi::External<llvm::ResumeInst>)";
-            static const char *setDebugLoc = "ResumeInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "ResumeInst.constructor needs to be called with new (external: Napi::External<llvm::ResumeInst>)";
+            constexpr const char *setDebugLoc = "ResumeInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace CatchSwitchInst {
-            static const char *constructor = "CatchSwitchInst.constructor needs to be called with new (external: Napi::External<llvm::CatchSwitchInst>)";
-            static const char *setDebugLoc = "CatchSwitchInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "CatchSwitchInst.constructor needs to be called with new (external: Napi::External<llvm::CatchSwitchInst>)";
+            constexpr const char *setDebugLoc = "CatchSwitchInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace CleanupPadInst {
-            static const char *constructor = "CleanupPadInst.constructor needs to be called with new (external: Napi::External<llvm::CleanupPadInst>)";
-            static const char *setDebugLoc = "CleanupPadInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "CleanupPadInst.constructor needs to be called with new (external: Napi::External<llvm::CleanupPadInst>)";
+            constexpr const char *setDebugLoc = "CleanupPadInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace CatchPadInst {
-            static const char *constructor = "CatchPadInst.constructor needs to be called with new (external: Napi::External<llvm::CatchPadInst>)";
-            static const char *setDebugLoc = "CatchPadInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "CatchPadInst.constructor needs to be called with new (external: Napi::External<llvm::CatchPadInst>)";
+            constexpr const char *setDebugLoc = "CatchPadInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace CatchReturnInst {
-            static const char *constructor = "CatchReturnInst.constructor needs to be called with new (external: Napi::External<llvm::CatchReturnInst>)";
-            static const char *setDebugLoc = "CatchReturnInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "CatchReturnInst.constructor needs to be called with new (external: Napi::External<llvm::CatchReturnInst>)";
+            constexpr const char *setDebugLoc = "CatchReturnInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace CleanupReturnInst {
-            static const char *constructor = "CleanupReturnInst.constructor needs to be called with new (external: Napi::External<llvm::CleanupReturnInst>)";
-            static const char *setDebugLoc = "CleanupReturnInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "CleanupReturnInst.constructor needs to be called with new (external: Napi::External<llvm::CleanupReturnInst>)";
+            constexpr const char *setDebugLoc = "CleanupReturnInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace UnreachableInst {
-            static const char *constructor = "UnreachableInst.constructor needs to be called with new (external: Napi::External<llvm::UnreachableInst>)";
-            static const char *setDebugLoc = "UnreachableInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "UnreachableInst.constructor needs to be called with new (external: Napi::External<llvm::UnreachableInst>)";
+            constexpr const char *setDebugLoc = "UnreachableInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace TruncInst {
-            static const char *constructor = "TruncInst.constructor needs to be called with new (external: Napi::External<llvm::TruncInst>)";
-            static const char *setDebugLoc = "TruncInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "TruncInst.constructor needs to be called with new (external: Napi::External<llvm::TruncInst>)";
+            constexpr const char *setDebugLoc = "TruncInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace ZExtInst {
-            static const char *constructor = "ZExtInst.constructor needs to be called with new (external: Napi::External<llvm::ZExtInst>)";
-            static const char *setDebugLoc = "ZExtInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "ZExtInst.constructor needs to be called with new (external: Napi::External<llvm::ZExtInst>)";
+            constexpr const char *setDebugLoc = "ZExtInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace SExtInst {
-            static const char *constructor = "SExtInst.constructor needs to be called with new (external: Napi::External<llvm::SExtInst>)";
-            static const char *setDebugLoc = "SExtInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "SExtInst.constructor needs to be called with new (external: Napi::External<llvm::SExtInst>)";
+            constexpr const char *setDebugLoc = "SExtInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace FPTruncInst {
-            static const char *constructor = "FPTruncInst.constructor needs to be called with new (external: Napi::External<llvm::FPTruncInst>)";
-            static const char *setDebugLoc = "FPTruncInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "FPTruncInst.constructor needs to be called with new (external: Napi::External<llvm::FPTruncInst>)";
+            constexpr const char *setDebugLoc = "FPTruncInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace FPExtInst {
-            static const char *constructor = "FPExtInst.constructor needs to be called with new (external: Napi::External<llvm::FPExtInst>)";
-            static const char *setDebugLoc = "FPExtInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "FPExtInst.constructor needs to be called with new (external: Napi::External<llvm::FPExtInst>)";
+            constexpr const char *setDebugLoc = "FPExtInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace UIToFPInst {
-            static const char *constructor = "UIToFPInst.constructor needs to be called with new (external: Napi::External<llvm::UIToFPInst>)";
-            static const char *setDebugLoc = "UIToFPInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "UIToFPInst.constructor needs to be called with new (external: Napi::External<llvm::UIToFPInst>)";
+            constexpr const char *setDebugLoc = "UIToFPInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace SIToFPInst {
-            static const char *constructor = "SIToFPInst.constructor needs to be called with new (external: Napi::External<llvm::SIToFPInst>)";
-            static const char *setDebugLoc = "SIToFPInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "SIToFPInst.constructor needs to be called with new (external: Napi::External<llvm::SIToFPInst>)";
+            constexpr const char *setDebugLoc = "SIToFPInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace FPToUIInst {
-            static const char *constructor = "FPToUIInst.constructor needs to be called with new (external: Napi::External<llvm::FPToUIInst>)";
-            static const char *setDebugLoc = "FPToUIInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "FPToUIInst.constructor needs to be called with new (external: Napi::External<llvm::FPToUIInst>)";
+            constexpr const char *setDebugLoc = "FPToUIInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace FPToSIInst {
-            static const char *constructor = "FPToSIInst.constructor needs to be called with new (external: Napi::External<llvm::FPToSIInst>)";
-            static const char *setDebugLoc = "FPToSIInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "FPToSIInst.constructor needs to be called with new (external: Napi::External<llvm::FPToSIInst>)";
+            constexpr const char *setDebugLoc = "FPToSIInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace IntToPtrInst {
-            static const char *constructor = "IntToPtrInst.constructor needs to be called with new (external: Napi::External<llvm::IntToPtrInst>)";
-            static const char *setDebugLoc = "IntToPtrInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "IntToPtrInst.constructor needs to be called with new (external: Napi::External<llvm::IntToPtrInst>)";
+            constexpr const char *setDebugLoc = "IntToPtrInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace PtrToIntInst {
-            static const char *constructor = "PtrToIntInst.constructor needs to be called with new (external: Napi::External<llvm::PtrToIntInst>)";
-            static const char *setDebugLoc = "PtrToIntInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "PtrToIntInst.constructor needs to be called with new (external: Napi::External<llvm::PtrToIntInst>)";
+            constexpr const char *setDebugLoc = "PtrToIntInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace BitCastInst {
-            static const char *constructor = "BitCastInst.constructor needs to be called with new (external: Napi::External<llvm::BitCastInst>)";
-            static const char *setDebugLoc = "BitCastInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "BitCastInst.constructor needs to be called with new (external: Napi::External<llvm::BitCastInst>)";
+            constexpr const char *setDebugLoc = "BitCastInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace AddrSpaceCastInst {
-            static const char *constructor = "AddrSpaceCastInst.constructor needs to be called with new (external: Napi::External<llvm::AddrSpaceCastInst>)";
-            static const char *setDebugLoc = "AddrSpaceCastInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "AddrSpaceCastInst.constructor needs to be called with new (external: Napi::External<llvm::AddrSpaceCastInst>)";
+            constexpr const char *setDebugLoc = "AddrSpaceCastInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace FreezeInst {
-            static const char *constructor = "FreezeInst.constructor needs to be called with new (external: Napi::External<llvm::FreezeInst>)";
-            static const char *setDebugLoc = "FreezeInst.setDebugLoc needs to be called with: (location: DebugLoc)";
+            constexpr const char *constructor = "FreezeInst.constructor needs to be called with new (external: Napi::External<llvm::FreezeInst>)";
+            constexpr const char *setDebugLoc = "FreezeInst.setDebugLoc needs to be called with: (location: DebugLoc)";
         }
         namespace IRBuilder {
-            static const char *constructor = "IRBuilder.constructor needs to be called with:"
-                                             "\n\t - new (theBB: BasicBlock)"
-                                             "\n\t - new (context: LLVMContext)"
-                                             "\n\t - new (ip: Instruction)";
+            constexpr const char *constructor = "IRBuilder.constructor needs to be called with:"
+                                                "\n\t - new (theBB: BasicBlock)"
+                                                "\n\t - new (context: LLVMContext)"
+                                                "\n\t - new (ip: Instruction)";
             namespace InsertPoint {
-                static const char *constructor = "IRBuilder.InsertPoint.constructor needs to be called with new ()";
+                constexpr const char *constructor = "IRBuilder.InsertPoint.constructor needs to be called with new ()";
             }
-            static const char *SetInsertPoint = "IRBuilder.SetInsertPoint needs to be called with:"
-                                                "\n\t - (basicBlock: BasicBlock)"
-                                                "\n\t - (inst: Instruction)";
-            static const char *SetCurrentDebugLocation = "IRBuilder.SetCurrentDebugLocation needs to be called with:"
-                                                         "\n\t - (location: DebugLoc)"
-                                                         "\n\t - (location: DILocation)";
-            static const char *restoreIP = "IRBuilder.restoreIP needs to be called with (ip: IRBuilder.InsertPoint)";
-            static const char *CreateGlobalString = "IRBuilder.CreateGlobalString needs to be called with (str: string, name?: string, addrSpace?: number, module?: Module)";
+            constexpr const char *SetInsertPoint = "IRBuilder.SetInsertPoint needs to be called with:"
+                                                   "\n\t - (basicBlock: BasicBlock)"
+                                                   "\n\t - (inst: Instruction)";
+            constexpr const char *SetCurrentDebugLocation = "IRBuilder.SetCurrentDebugLocation needs to be called with:"
+                                                            "\n\t - (location: DebugLoc)"
+                                                            "\n\t - (location: DILocation)";
+            constexpr const char *restoreIP = "IRBuilder.restoreIP needs to be called with (ip: IRBuilder.InsertPoint)";
+            constexpr const char *CreateGlobalString = "IRBuilder.CreateGlobalString needs to be called with (str: string, name?: string, addrSpace?: number, module?: Module)";
 
-            static const char *getInt1 = "IRBuilder.getInt1 needs to be called with (value: boolean)";
-            static const char *getIntFactory = "IRBuilder.[getIntX] needs to be called with (value: number)";
-            static const char *getIntN = "IRBuilder.getIntN needs to be called with (numBits: number, value: number)";
-            static const char *getInt = "IRBuilder.getInt needs to be called with (value: APInt)";
+            constexpr const char *getInt1 = "IRBuilder.getInt1 needs to be called with (value: boolean)";
+            constexpr const char *getIntFactory = "IRBuilder.[getIntX] needs to be called with (value: number)";
+            constexpr const char *getIntN = "IRBuilder.getIntN needs to be called with (numBits: number, value: number)";
+            constexpr const char *getInt = "IRBuilder.getInt needs to be called with (value: APInt)";
 
-            static const char *getIntNTy = "IRBuilder.getIntNTy needs to be called with (numBits: number)";
-            static const char *getInt8PtrTy = "IRBuilder.getInt8PtrTy needs to be called with (addrSpace?: number)";
-            static const char *getIntPtrTy = "IRBuilder.getIntPtrTy needs to be called with (dataLayout: DataLayout, addrSpace?: number)";
+            constexpr const char *getIntNTy = "IRBuilder.getIntNTy needs to be called with (numBits: number)";
+            constexpr const char *getInt8PtrTy = "IRBuilder.getInt8PtrTy needs to be called with (addrSpace?: number)";
+            constexpr const char *getIntPtrTy = "IRBuilder.getIntPtrTy needs to be called with (dataLayout: DataLayout, addrSpace?: number)";
 
-            static const char *CreateRet = "IRBuilder.CreateRet needs to be called with: (value: Value)";
-            static const char *CreateBr = "IRBuilder.CreateBr needs to be called with: (destBB: BasicBlock)";
-            static const char *CreateCondBr = "IRBuilder.CreateCondBr needs to be called with: (cond: Value, thenBB: BasicBlock, elseBB: BasicBlock)";
-            static const char *CreateSwitch = "IRBuilder.CreateSwitch needs to be called with: (value: Value, dest: BasicBlock, numCases?: number)";
-            static const char *CreateIndirectBr = "IRBuilder.CreateIndirectBr needs to be called with: (addr: Value, numDests?: number)";
-            static const char *CreateInvoke = "IRBuilder.CreateInvoke needs to be called with:"
-                                              "\n\t - (callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string)"
-                                              "\n\t - (callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string)"
-                                              "\n\t - (callee: FunctionCallee, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string)"
-                                              "\n\t - (callee: FunctionCallee, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string)"
-                                              "\n\t - (funcType: FunctionType, callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string)"
-                                              "\n\t - (funcType: FunctionType, callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string)";
-            static const char *CreateResume = "IRBuilder.CreateRet needs to be called with: (exn: Value)";
+            constexpr const char *CreateRet = "IRBuilder.CreateRet needs to be called with: (value: Value)";
+            constexpr const char *CreateBr = "IRBuilder.CreateBr needs to be called with: (destBB: BasicBlock)";
+            constexpr const char *CreateCondBr = "IRBuilder.CreateCondBr needs to be called with: (cond: Value, thenBB: BasicBlock, elseBB: BasicBlock)";
+            constexpr const char *CreateSwitch = "IRBuilder.CreateSwitch needs to be called with: (value: Value, dest: BasicBlock, numCases?: number)";
+            constexpr const char *CreateIndirectBr = "IRBuilder.CreateIndirectBr needs to be called with: (addr: Value, numDests?: number)";
+            constexpr const char *CreateInvoke = "IRBuilder.CreateInvoke needs to be called with:"
+                                                 "\n\t - (callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string)"
+                                                 "\n\t - (callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string)"
+                                                 "\n\t - (callee: FunctionCallee, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string)"
+                                                 "\n\t - (callee: FunctionCallee, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string)"
+                                                 "\n\t - (funcType: FunctionType, callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string)"
+                                                 "\n\t - (funcType: FunctionType, callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string)";
+            constexpr const char *CreateResume = "IRBuilder.CreateRet needs to be called with: (exn: Value)";
 
-            static const char *CreateBinOpFactory = "IRBuilder.[CreateBinaryOperation] needs to be called with: (lhs: Value, rhs: Value, name?: string)";
-            static const char *CreateUnOpFactory = "IRBuilder.[CreateUnaryOperation] needs to be called with: (value: Value, name?: string)";
+            constexpr const char *CreateBinOpFactory = "IRBuilder.[CreateBinaryOperation] needs to be called with: (lhs: Value, rhs: Value, name?: string)";
+            constexpr const char *CreateUnOpFactory = "IRBuilder.[CreateUnaryOperation] needs to be called with: (value: Value, name?: string)";
 
-            static const char *CreateAlloca = "IRBuilder.CreateAlloca needs to be called with: (type: Type, arraySize?: Value, name?: string)";
-            static const char *CreateLoad = "IRBuilder.CreateLoad needs to be called with: (type: Type, ptr: Value, name?: string)";
-            static const char *CreateStore = "IRBuilder.CreateStore needs to be called with: (value: Value, ptr: Value)";
-            static const char *CreateGEP = "IRBuilder.CreateGEP needs to be called with:"
-                                           "\n\t - (type: Type, ptr: Value, idxList: Value[], name?: string)"
-                                           "\n\t - (type: Type, ptr: Value, idx: Value, name?: string)";
-            static const char *CreateInBoundsGEP = "IRBuilder.CreateInBoundsGEP needs to be called with:"
-                                                   "\n\t - (type: Type, ptr: Value, idxList: Value[], name?: string)"
-                                                   "\n\t - (type: Type, ptr: Value, idx: Value, name?: string)";
-            static const char *CreateGlobalStringPtr = "IRBuilder.CreateGlobalStringPtr needs to be called with (str: string, name?: string, addrSpace?: number, module?: Module)";
+            constexpr const char *CreateAlloca = "IRBuilder.CreateAlloca needs to be called with: (type: Type, arraySize?: Value, name?: string)";
+            constexpr const char *CreateLoad = "IRBuilder.CreateLoad needs to be called with: (type: Type, ptr: Value, name?: string)";
+            constexpr const char *CreateStore = "IRBuilder.CreateStore needs to be called with: (value: Value, ptr: Value)";
+            constexpr const char *CreateGEP = "IRBuilder.CreateGEP needs to be called with:"
+                                              "\n\t - (type: Type, ptr: Value, idxList: Value[], name?: string)"
+                                              "\n\t - (type: Type, ptr: Value, idx: Value, name?: string)";
+            constexpr const char *CreateInBoundsGEP = "IRBuilder.CreateInBoundsGEP needs to be called with:"
+                                                      "\n\t - (type: Type, ptr: Value, idxList: Value[], name?: string)"
+                                                      "\n\t - (type: Type, ptr: Value, idx: Value, name?: string)";
+            constexpr const char *CreateGlobalStringPtr = "IRBuilder.CreateGlobalStringPtr needs to be called with (str: string, name?: string, addrSpace?: number, module?: Module)";
 
-            static const char *CreateCastFactory = "IRBuilder.[CreateCast] needs to be called with (value: Value, destType: Type, name?: string)";
-            static const char *CreateIntCast = "IRBuilder.CreateIntCast needs to be called with (value: Value, destType: Type, isSigned: boolean, name?: string)";
+            constexpr const char *CreateCastFactory = "IRBuilder.[CreateCast] needs to be called with (value: Value, destType: Type, name?: string)";
+            constexpr const char *CreateIntCast = "IRBuilder.CreateIntCast needs to be called with (value: Value, destType: Type, isSigned: boolean, name?: string)";
 
-            static const char *CreatePHI = "IRBuilder.CreatePHI needs to be called with: (type: Type, numReservedValues: number, name?: string)";
-            static const char *CreateCall = "IRBuilder.CreateCall needs to be called with:"
-                                            "\n\t - (callee: Function, name?: string)"
-                                            "\n\t - (callee: Function, args: Value[], name?: string)"
-                                            "\n\t - (callee: FunctionCallee, name?: string)"
-                                            "\n\t - (callee: FunctionCallee, args: Value[], name?: string)"
-                                            "\n\t - (funcType: FunctionType, callee: Value, name?: string)"
-                                            "\n\t - (funcType: FunctionType, callee: Value, args: Value[], name?: string)";
-            static const char *CreateSelect = "IRBuilder.CreateSelect needs to be called with (cond: Value, trueValue: Value, falseValue: Value, name?: string)";
-            static const char *CreateExtractValue = "IRBuilder.CreateExtractValue needs to be called with (agg: Value, idxs: number[], name?: string)";
-            static const char *CreateInsertValue = "IRBuilder.CreateInsertValue needs to be called with (agg: Value, value: Value, idxs: number[], name?: string)";
-            static const char *CreateLandingPad = "IRBuilder.CreateLandingPad needs to be called with (type: Type, numClauses: number, name?: string)";
+            constexpr const char *CreatePHI = "IRBuilder.CreatePHI needs to be called with: (type: Type, numReservedValues: number, name?: string)";
+            constexpr const char *CreateCall = "IRBuilder.CreateCall needs to be called with:"
+                                               "\n\t - (callee: Function, name?: string)"
+                                               "\n\t - (callee: Function, args: Value[], name?: string)"
+                                               "\n\t - (callee: FunctionCallee, name?: string)"
+                                               "\n\t - (callee: FunctionCallee, args: Value[], name?: string)"
+                                               "\n\t - (funcType: FunctionType, callee: Value, name?: string)"
+                                               "\n\t - (funcType: FunctionType, callee: Value, args: Value[], name?: string)";
+            constexpr const char *CreateSelect = "IRBuilder.CreateSelect needs to be called with (cond: Value, trueValue: Value, falseValue: Value, name?: string)";
+            constexpr const char *CreateExtractValue = "IRBuilder.CreateExtractValue needs to be called with (agg: Value, idxs: number[], name?: string)";
+            constexpr const char *CreateInsertValue = "IRBuilder.CreateInsertValue needs to be called with (agg: Value, value: Value, idxs: number[], name?: string)";
+            constexpr const char *CreateLandingPad = "IRBuilder.CreateLandingPad needs to be called with (type: Type, numClauses: number, name?: string)";
 
         }
         namespace Metadata {
-            static const char *constructor = "Metadata.constructor needs to be called with new (external: Napi::External<llvm::Metadata>)";
+            constexpr const char *constructor = "Metadata.constructor needs to be called with new (external: Napi::External<llvm::Metadata>)";
         }
         namespace MDNode {
-            static const char *constructor = "MDNode.constructor needs to be called with new (external: Napi::External<llvm::MDNode>)";
+            constexpr const char *constructor = "MDNode.constructor needs to be called with new (external: Napi::External<llvm::MDNode>)";
         }
         namespace DebugLoc {
-            static const char *constructor = "DebugLoc.constructor needs to be called with:"
-                                             "\n\t - new (external: Napi::External<llvm::DebugLoc>)"
-                                             "\n\t - new ()";
+            constexpr const char *constructor = "DebugLoc.constructor needs to be called with:"
+                                                "\n\t - new (external: Napi::External<llvm::DebugLoc>)"
+                                                "\n\t - new ()";
         }
         namespace DITypeRefArray {
-            static const char *constructor = "DITypeRefArray.constructor needs to be called with new (external: Napi::External<llvm::DITypeRefArray>)";
+            constexpr const char *constructor = "DITypeRefArray.constructor needs to be called with new (external: Napi::External<llvm::DITypeRefArray>)";
         }
         namespace DINode {
-            static const char *constructor = "DINode.constructor needs to be called with new (external: Napi::External<llvm::DINode>)";
+            constexpr const char *constructor = "DINode.constructor needs to be called with new (external: Napi::External<llvm::DINode>)";
         }
         namespace DIScope {
-            static const char *constructor = "DIScope.constructor needs to be called with new (external: Napi::External<llvm::DIScope>)";
+            constexpr const char *constructor = "DIScope.constructor needs to be called with new (external: Napi::External<llvm::DIScope>)";
         }
         namespace DIFile {
-            static const char *constructor = "DIFile.constructor needs to be called with new (external: Napi::External<llvm::DIFile>)";
+            constexpr const char *constructor = "DIFile.constructor needs to be called with new (external: Napi::External<llvm::DIFile>)";
         }
         namespace DIType {
-            static const char *constructor = "DIType.constructor needs to be called with new (external: Napi::External<llvm::DIType>)";
+            constexpr const char *constructor = "DIType.constructor needs to be called with new (external: Napi::External<llvm::DIType>)";
         }
         namespace DIBasicType {
-            static const char *constructor = "DIBasicType.constructor needs to be called with new (external: Napi::External<llvm::DIBasicType>)";
+            constexpr const char *constructor = "DIBasicType.constructor needs to be called with new (external: Napi::External<llvm::DIBasicType>)";
         }
         namespace DIDerivedType {
-            static const char *constructor = "DIDerivedType.constructor needs to be called with new (external: Napi::External<llvm::DIDerivedType>)";
+            constexpr const char *constructor = "DIDerivedType.constructor needs to be called with new (external: Napi::External<llvm::DIDerivedType>)";
         }
         namespace DICompositeType {
-            static const char *constructor = "DICompositeType.constructor needs to be called with new (external: Napi::External<llvm::DICompositeType>)";
+            constexpr const char *constructor = "DICompositeType.constructor needs to be called with new (external: Napi::External<llvm::DICompositeType>)";
         }
         namespace DISubroutineType {
-            static const char *constructor = "DISubroutineType.constructor needs to be called with new (external: Napi::External<llvm::DISubroutineType>)";
+            constexpr const char *constructor = "DISubroutineType.constructor needs to be called with new (external: Napi::External<llvm::DISubroutineType>)";
         }
         namespace DICompileUnit {
-            static const char *constructor = "DICompileUnit.constructor needs to be called with new (external: Napi::External<llvm::DICompileUnit>)";
+            constexpr const char *constructor = "DICompileUnit.constructor needs to be called with new (external: Napi::External<llvm::DICompileUnit>)";
         }
         namespace DILocalScope {
-            static const char *constructor = "DILocalScope.constructor needs to be called with new (external: Napi::External<llvm::DILocalScope>)";
+            constexpr const char *constructor = "DILocalScope.constructor needs to be called with new (external: Napi::External<llvm::DILocalScope>)";
         }
         namespace DILocation {
-            static const char *constructor = "DILocation.constructor needs to be called with new (external: Napi::External<llvm::DILocation>)";
-            static const char *get = "DILocation.get needs to be called with:"
-                                     "\n\t - (context: LLVMContext, line: number, column: number, metadata: Metadata)"
-                                     "\n\t - (context: LLVMContext, line: number, column: number, scope: DILocalScope)";
+            constexpr const char *constructor = "DILocation.constructor needs to be called with new (external: Napi::External<llvm::DILocation>)";
+            constexpr const char *get = "DILocation.get needs to be called with:"
+                                        "\n\t - (context: LLVMContext, line: number, column: number, metadata: Metadata)"
+                                        "\n\t - (context: LLVMContext, line: number, column: number, scope: DILocalScope)";
         }
         namespace DISubprogram {
-            static const char *constructor = "DISubprogram.constructor needs to be called with new (external: Napi::External<llvm::DISubprogram>)";
+            constexpr const char *constructor = "DISubprogram.constructor needs to be called with new (external: Napi::External<llvm::DISubprogram>)";
         }
         namespace DILexicalBlock {
-            static const char *constructor = "DILexicalBlock.constructor needs to be called with new (external: Napi::External<llvm::DILexicalBlock>)";
+            constexpr const char *constructor = "DILexicalBlock.constructor needs to be called with new (external: Napi::External<llvm::DILexicalBlock>)";
         }
         namespace DINamespace {
-            static const char *constructor = "DINamespace.constructor needs to be called with new (external: Napi::External<llvm::DINamespace>)";
+            constexpr const char *constructor = "DINamespace.constructor needs to be called with new (external: Napi::External<llvm::DINamespace>)";
         }
         namespace DIVariable {
-            static const char *constructor = "DIVariable.constructor needs to be called with new (external: Napi::External<llvm::DIVariable>)";
+            constexpr const char *constructor = "DIVariable.constructor needs to be called with new (external: Napi::External<llvm::DIVariable>)";
         }
         namespace DIExpression {
-            static const char *constructor = "DIExpression.constructor needs to be called with new (external: Napi::External<llvm::DIExpression>)";
+            constexpr const char *constructor = "DIExpression.constructor needs to be called with new (external: Napi::External<llvm::DIExpression>)";
         }
         namespace DIGlobalVariableExpression {
-            static const char *constructor = "DIGlobalVariableExpression.constructor needs to be called with new (external: Napi::External<llvm::DIGlobalVariableExpression>)";
+            constexpr const char *constructor = "DIGlobalVariableExpression.constructor needs to be called with new (external: Napi::External<llvm::DIGlobalVariableExpression>)";
         }
         namespace DILocalVariable {
-            static const char *constructor = "DILocalVariable.constructor needs to be called with new (external: Napi::External<llvm::DILocalVariable>)";
+            constexpr const char *constructor = "DILocalVariable.constructor needs to be called with new (external: Napi::External<llvm::DILocalVariable>)";
         }
         namespace DIGlobalVariable {
-            static const char *constructor = "DIGlobalVariable.constructor needs to be called with new (external: Napi::External<llvm::DIGlobalVariable>)";
+            constexpr const char *constructor = "DIGlobalVariable.constructor needs to be called with new (external: Napi::External<llvm::DIGlobalVariable>)";
         }
         namespace DIBuilder {
-            static const char *constructor = "DIBuilder.constructor needs to be called with:"
-                                             "\n\t - new (external: Napi::External<llvm::DIBuilder>)"
-                                             "\n\t - new (module: Module)";
-            static const char *createFile = "DIBuilder.createFile needs to be called with (filename: string, directory: string)";
-            static const char *createCompileUnit = "DIBuilder.createCompileUnit needs to be called with (lang: number, file: DIFile, producer: string, isOptimized: boolean, flags: string, rv: number)";
-            static const char *createFunction = "DIBuilder.createFunction needs to be called with: (scope: DIScope, name: string, linkage: string, file: DIFile, line: number, type: DISubroutineType, scopeLine: number, flags: number, spFlags: number)";
-            static const char *createLexicalBlock = "DIBuilder.createLexicalBlock needs to be called with: (scope: DIScope, file: DIFile, line: number, column: number)";
-            static const char *createBasicType = "DIBuilder.createBasicType needs to be called with (name: string, sizeInBits: number, encoding: number)";
-            static const char *getOrCreateTypeArray = "DIBuilder.getOrCreateTypeArray needs to be called with (elements: Metadata[])";
-            static const char *createSubroutineType = "DIBuilder.createSubroutineType needs to be called with (paramTypes: DITypeRefArray)";
-            static const char *createParameterVariable = "DIBuilder.createParameterVariable needs to be called with (scope: DIScope, name: string, argNo: number, file: DIFile, line: number, type: DIType, alwaysPreserve?: boolean)";
-            static const char *createAutoVariable = "DIBuilder.createAutoVariable needs to be called with (scope: DIScope, name: string, file: DIFile, line: number, type: DIType, alwaysPreserve?: boolean)";
-            static const char *createGlobalVariableExpression = "DIBuilder.createGlobalVariableExpression needs to be called with (context: DIScope, name: string, linkage: string, file: DIFile, line: number, type: DIType, IsLocalToUnit: boolean)";
-            static const char *insertDeclare = "DIBuilder.insertDeclare needs to be called with:"
-                                               "\n\t - (storage: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBB: BasicBlock)"
-                                               "\n\t - (storage: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBefore: Instruction)";
-            static const char *insertDbgValueIntrinsic = "DIBuilder.insertDbgValueIntrinsic needs to be called with:"
-                                                         "\n\t - (value: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBB: BasicBlock)"
-                                                         "\n\t - (value: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBefore: Instruction)";;
-            static const char *finalizeSubprogram = "DIBuilder.finalizeSubprogram needs to be called with (subprogram: DISubprogram)";
+            constexpr const char *constructor = "DIBuilder.constructor needs to be called with:"
+                                                "\n\t - new (external: Napi::External<llvm::DIBuilder>)"
+                                                "\n\t - new (module: Module)";
+            constexpr const char *createFile = "DIBuilder.createFile needs to be called with (filename: string, directory: string)";
+            constexpr const char *createCompileUnit = "DIBuilder.createCompileUnit needs to be called with (lang: number, file: DIFile, producer: string, isOptimized: boolean, flags: string, rv: number)";
+            constexpr const char *createFunction = "DIBuilder.createFunction needs to be called with: (scope: DIScope, name: string, linkage: string, file: DIFile, line: number, type: DISubroutineType, scopeLine: number, flags: number, spFlags: number)";
+            constexpr const char *createLexicalBlock = "DIBuilder.createLexicalBlock needs to be called with: (scope: DIScope, file: DIFile, line: number, column: number)";
+            constexpr const char *createBasicType = "DIBuilder.createBasicType needs to be called with (name: string, sizeInBits: number, encoding: number)";
+            constexpr const char *getOrCreateTypeArray = "DIBuilder.getOrCreateTypeArray needs to be called with (elements: Metadata[])";
+            constexpr const char *createSubroutineType = "DIBuilder.createSubroutineType needs to be called with (paramTypes: DITypeRefArray)";
+            constexpr const char *createParameterVariable = "DIBuilder.createParameterVariable needs to be called with (scope: DIScope, name: string, argNo: number, file: DIFile, line: number, type: DIType, alwaysPreserve?: boolean)";
+            constexpr const char *createAutoVariable = "DIBuilder.createAutoVariable needs to be called with (scope: DIScope, name: string, file: DIFile, line: number, type: DIType, alwaysPreserve?: boolean)";
+            constexpr const char *createGlobalVariableExpression = "DIBuilder.createGlobalVariableExpression needs to be called with (context: DIScope, name: string, linkage: string, file: DIFile, line: number, type: DIType, IsLocalToUnit: boolean)";
+            constexpr const char *insertDeclare = "DIBuilder.insertDeclare needs to be called with:"
+                                                  "\n\t - (storage: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBB: BasicBlock)"
+                                                  "\n\t - (storage: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBefore: Instruction)";
+            constexpr const char *insertDbgValueIntrinsic = "DIBuilder.insertDbgValueIntrinsic needs to be called with:"
+                                                            "\n\t - (value: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBB: BasicBlock)"
+                                                            "\n\t - (value: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBefore: Instruction)";;
+            constexpr const char *finalizeSubprogram = "DIBuilder.finalizeSubprogram needs to be called with (subprogram: DISubprogram)";
         }
         namespace DataLayout {
-            static const char *constructor = "DataLayout.constructor needs to be called with"
-                                             "\n\t - new (external: Napi::External<llvm::DataLayout>)"
-                                             "\n\t - new (desc: string)";
-            static const char *getTypeAllocSize = "DataLayout.getTypeAllocSize needs to be called with (type: Type)";
+            constexpr const char *constructor = "DataLayout.constructor needs to be called with"
+                                                "\n\t - new (external: Napi::External<llvm::DataLayout>)"
+                                                "\n\t - new (desc: string)";
+            constexpr const char *getTypeAllocSize = "DataLayout.getTypeAllocSize needs to be called with (type: Type)";
         }
         namespace Linker {
-            static const char *constructor = "Linker.constructor needs to be called with: new (module: Module)";
-            static const char *linkInModule = "Linker.linkInModule needs to be called with (src: Module)";
-            static const char *linkModules = "Linker.linkModules needs to be called with (dest: Module, src: Module)";
+            constexpr const char *constructor = "Linker.constructor needs to be called with: new (module: Module)";
+            constexpr const char *linkInModule = "Linker.linkInModule needs to be called with (src: Module)";
+            constexpr const char *linkModules = "Linker.linkModules needs to be called with (dest: Module, src: Module)";
         }
         namespace SMDiagnostic {
-            static const char *constructor = "SMDiagnostic.constructor needs to be called with new ()";
+            constexpr const char *constructor = "SMDiagnostic.constructor needs to be called with new ()";
         }
         namespace Target {
-            static const char *constructor = "Target.constructor needs to be called with new (external: Napi::External<llvm::Target>)";
-            static const char *createTargetMachine = "Target.createTargetMachine needs to be called with (targetTriple: string, cpu: string, features?: string)";
+            constexpr const char *constructor = "Target.constructor needs to be called with new (external: Napi::External<llvm::Target>)";
+            constexpr const char *createTargetMachine = "Target.createTargetMachine needs to be called with (targetTriple: string, cpu: string, features?: string)";
         }
         namespace TargetRegistry {
-            static const char *lookupTarget = "TargetRegistry.lookupTarget needs to be called with (triple: string)";
+            constexpr const char *lookupTarget = "TargetRegistry.lookupTarget needs to be called with (triple: string)";
         }
         namespace TargetMachine {
-            static const char *constructor = "TargetMachine.constructor needs to be called with new (external: Napi::External<llvm::TargetMachine>)";
+            constexpr const char *constructor = "TargetMachine.constructor needs to be called with new (external: Napi::External<llvm::TargetMachine>)";
         }
     }
     namespace Namespace::Intrinsic {
-        static const char *getDeclaration = "Intrinsic.getDeclaration needs to be called with: (module: Module, id: number, types?: [])";
+        constexpr const char *getDeclaration = "Intrinsic.getDeclaration needs to be called with: (module: Module, id: number, types?: [])";
     }
     namespace Function {
-        static const char *WriteBitcodeToFile = "WriteBitcodeToFile needs to be called with: (module: Module, filename: string)";
-        static const char *verifyFunction = "verifyFunction needs to be called with (func: Function)";
-        static const char *verifyModule = "verifyModule needs to be called with (module: Module)";
-        static const char *parseIRFile = "parseIRFile needs to be called with (filename: string, err: SMDiagnostic, context: LLVMContext)";
+        constexpr const char *WriteBitcodeToFile = "WriteBitcodeToFile needs to be called with: (module: Module, filename: string)";
+        constexpr const char *verifyFunction = "verifyFunction needs to be called with (func: Function)";
+        constexpr const char *verifyModule = "verifyModule needs to be called with (module: Module)";
+        constexpr const char *parseIRFile = "parseIRFile needs to be called with (filename: string, err: SMDiagnostic, context: LLVMContext)";
     }
 }
