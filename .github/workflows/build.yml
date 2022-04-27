@@ -24,7 +24,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-18.04, ubuntu-20.04, macos-10.15, macos-11, macos-12]
+        os: [ubuntu-18.04, ubuntu-20.04, macos-10.15, macos-11, macos-12, windows-2019, windows-2022]
         node: [14, 16, 18]
         exclude:
           - os: ubuntu-18.04
@@ -43,15 +43,24 @@ jobs:
           sudo wget https://apt.llvm.org/llvm.sh
           sudo chmod +x llvm.sh
           sudo ./llvm.sh 13
+      - name: Install LLVM on Windows
+        if: startsWith(matrix.os, 'windows')
+        run: |
+          $LLVM_PREBUILT_FILE = "LLVM-13.0.1-win64.zip"
+          curl -sLO https://github.com/ApsarasX/llvm-windows/releases/download/llvm-13.0.1/LLVM-13.0.1-win64.zip -o $LLVM_PREBUILT_FILE
+          Expand-Archive -Path $LLVM_PREBUILT_FILE
+          $LLVM_CMAKE_DIR = "$pwd\\LLVM-13.0.1-win64\\LLVM-13.0.1-win64\\lib\\cmake\\llvm"
+          npm config set cmake_LLVM_DIR $LLVM_CMAKE_DIR
       - name: Install Dependencies
         run: npm install --ignore-scripts
       - name: CMake Build Debug and Test
+        if: startsWith(matrix.os, 'windows') == false
         run: |
-          rm -rf build
+          npm run clear
           npm run build:debug
           npm test
       - name: CMake Build Release and Test
         run: |
-          rm -rf build
+          npm run clear
           npm run build:release
           npm test
