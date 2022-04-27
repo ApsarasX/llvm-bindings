@@ -24,18 +24,21 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-18.04, ubuntu-20.04, macos-10.15, macos-11]
-        node: [14, 16, 17]
+        os: [ubuntu-18.04, ubuntu-20.04, macos-10.15, macos-11, macos-12]
+        node: [14, 16, 18]
+        exclude:
+          - os: ubuntu-18.04
+            node: 18
     steps:
       - name: Fetch Codebase
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           check-latest: true
-      - name: Install Prerequirements(Linux)
-        if: ${{ runner.os == 'Linux' }}
+      - name: Install LLVM on Ubuntu
+        if: startsWith(matrix.os, 'ubuntu')
         run: |
           sudo wget https://apt.llvm.org/llvm.sh
           sudo chmod +x llvm.sh
