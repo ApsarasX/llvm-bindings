@@ -47,7 +47,7 @@ jobs:
         if: startsWith(matrix.os, 'windows')
         run: |
           $LLVM_PREBUILT_FILE = "LLVM-13.0.1-win64.zip"
-          curl -sLO https://github.com/ApsarasX/llvm-windows/releases/download/llvm-13.0.1/LLVM-13.0.1-win64.zip -o $LLVM_PREBUILT_FILE
+          curl -sLO https://github.com/ApsarasX/llvm-windows/releases/download/llvmorg-13.0.1/LLVM-13.0.1-win64.zip -o $LLVM_PREBUILT_FILE
           Expand-Archive -Path $LLVM_PREBUILT_FILE
           $LLVM_CMAKE_DIR = "$pwd\\LLVM-13.0.1-win64\\LLVM-13.0.1-win64\\lib\\cmake\\llvm"
           npm config set cmake_LLVM_DIR $LLVM_CMAKE_DIR
