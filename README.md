@@ -15,7 +15,7 @@ LLVM bindings for Node.js/JavaScript/TypeScript
 | macOS 12 Monterey | ✅ | ✅ |
 | Ubuntu 18.04 | ✅ | ✅ |
 | Ubuntu 20.04 | ✅ | ✅ |
-| Ubuntu 21.10 | ✅ | ✅ |
+| Ubuntu 22.04 | ✅ | ✅ |
 | Windows 10 | ✅ | ⚠️ |
 | Windows 11 | ✅ | ⚠️ |
 
@@ -54,7 +54,7 @@ npm install llvm-bindings
 
 ### Install on Windows
 
-First, please refer to [Build LLVM from sources on Windows 10](https://github.com/ApsarasX/llvm-bindings/wiki/Build-LLVM-from-source-code-on-Windows-10) to build LLVM.
+First, please refer to [Build LLVM from sources on Windows 10](https://github.com/ApsarasX/llvm-bindings/wiki/Build-LLVM-from-source-code-on-Windows-10) to build LLVM. An alternative is to download [prebuilt LLVM binary](https://github.com/ApsarasX/llvm-windows/releases).
 
 Then, find the `llvm-config` command in your LLVM build directory and execute `llvm-config --cmakedir` to get LLVM cmake directory, assuming `C:\Users\dev\llvm-13.0.1.src\build\lib\cmake\llvm`.
 
@@ -68,7 +68,7 @@ npm config set cmake_LLVM_DIR C:\Users\dev\llvm-13.0.1.src\build\lib\cmake\llvm
 npm install llvm-bindings
 ```
 
-> You can also install `llvm-bindings` in WSL2 if your OS is Windows.
+> Note: The build type of `llvm-bindings` must be consistent with LLVM, otherwise there will be many compilation errors when building `llvm-bindings`.
 
 ### Custom LLVM Installation
 You can use the npm configuration options to set the path to the LLVM cmake directory. This is needed if you don't want to use the system default LLVM installation.
