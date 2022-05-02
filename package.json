@@ -35,7 +35,7 @@
     "dependencies": {
         "bindings": "^1.5.0",
         "cmake-js": "^6.3.0",
-        "node-addon-api": "^4.3.0"
+        "node-addon-api": "^5.0.0"
     },
     "devDependencies": {
         "@types/jest": "^27.4.1",
