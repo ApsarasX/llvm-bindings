@@ -18,6 +18,7 @@ void InitIR(Napi::Env env, Napi::Object &exports) {
     Constant::Init(env, exports);
     ConstantInt::Init(env, exports);
     ConstantFP::Init(env, exports);
+    ConstantArray::Init(env, exports);
     ConstantStruct::Init(env, exports);
     ConstantPointerNull::Init(env, exports);
     ConstantExpr::Init(env, exports);

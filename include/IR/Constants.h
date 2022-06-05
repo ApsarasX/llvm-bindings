@@ -53,6 +53,30 @@ private:
     Napi::Value getType(const Napi::CallbackInfo &info);
 };
 
+class ConstantArray : public Napi::ObjectWrap<ConstantArray> {
+public:
+    static inline Napi::FunctionReference constructor; // NOLINT
+
+    static void Init(Napi::Env env, Napi::Object &exports);
+
+    static Napi::Object New(Napi::Env env, llvm::ConstantArray *constantArray);
+
+    static bool IsClassOf(const Napi::Value &value);
+
+    static llvm::ConstantArray *Extract(const Napi::Value &value);
+
+    explicit ConstantArray(const Napi::CallbackInfo &info);
+
+    llvm::ConstantArray *getLLVMPrimitive();
+
+private:
+    llvm::ConstantArray *constantArray = nullptr;
+
+    static Napi::Value get(const Napi::CallbackInfo &info);
+
+    Napi::Value getType(const Napi::CallbackInfo &info);
+};
+
 class ConstantStruct : public Napi::ObjectWrap<ConstantStruct> {
 public:
     static inline Napi::FunctionReference constructor; // NOLINT

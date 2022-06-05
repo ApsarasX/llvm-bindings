@@ -120,8 +120,12 @@ namespace ErrMsg {
                                         "\n\t - (context: LLVMContext, value: APFloat)";
             constexpr const char *getNaN = "ConstantFP.getNaN need to be called with (type: Type)";
         }
+        namespace ConstantArray {
+            constexpr const char *constructor = "ConstantArray.constructor needs to be called with new (external: Napi::External<llvm::ConstantArray>)";
+            constexpr const char *get = "ConstantArray.get needs to be called with (type: ArrayType, values: Constant[])";
+        }
         namespace ConstantStruct {
-            constexpr const char *constructor = "ConstantStruct.constructor needs to be called with new (external: Napi::External<llvm::ConstantPointerNull>)";
+            constexpr const char *constructor = "ConstantStruct.constructor needs to be called with new (external: Napi::External<llvm::ConstantStruct>)";
             constexpr const char *get = "ConstantStruct.get needs to be called with (type: StructType, values: Constant[])";
         }
         namespace ConstantPointerNull {

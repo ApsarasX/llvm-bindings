@@ -344,11 +344,15 @@ declare namespace llvm {
         public setBody(elementTypes: Type[]): void;
 
         public setName(name: string): void;
+
         public hasName(): boolean;
+
         public getName(): string;
 
         public isOpaque(): boolean;
+
         public isPacked(): boolean;
+
         public isLiteral(): boolean;
 
         // duplicated
@@ -559,6 +563,15 @@ declare namespace llvm {
 
         // duplicated
         public getType(): Type;
+
+        protected constructor();
+    }
+
+    class ConstantArray extends Constant {
+        public static get(type: ArrayType, values: Constant[]): Constant;
+
+        // duplicated
+        public getType(): ArrayType;
 
         protected constructor();
     }
