@@ -1,5 +1,8 @@
 if (CMAKE_HOST_APPLE)
-    list(APPEND CMAKE_PREFIX_PATH /usr/local/opt/llvm/lib/cmake/llvm)
+    file(GLOB LLVM_DIRS /usr/local/opt/llvm*)
+    foreach (LLVM_DIR ${LLVM_DIRS})
+        list(APPEND CMAKE_PREFIX_PATH ${LLVM_DIRS}/lib/cmake/llvm)
+    endforeach ()
 endif ()
 
 find_package(LLVM 13 REQUIRED CONFIG)
