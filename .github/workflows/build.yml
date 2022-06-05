@@ -18,14 +18,18 @@ on:
     tags-ignore:
       - '**'
 
+env:
+  LLVM_VERSION: 13.0.1
+  LLVM_VERSION_MAJOR: 13
+
 jobs:
   build:
     name: Node.js ${{ matrix.node }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-18.04, ubuntu-20.04, ubuntu-22.04, macos-10.15, macos-11, macos-12, windows-2019, windows-2022]
-        node: [14, 16, 18]
+        os: [ macos-10.15, macos-11, macos-12, ubuntu-18.04, ubuntu-20.04, ubuntu-22.04, windows-2019, windows-2022 ]
+        node: [ 14, 16, 18 ]
         exclude:
           - os: ubuntu-18.04
             node: 18
@@ -37,19 +41,23 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           check-latest: true
+      - name: Install LLVM on macOS
+        if: startsWith(matrix.os, 'macos')
+        run: brew install llvm@${{ env.LLVM_VERSION_MAJOR }}
       - name: Install LLVM on Ubuntu
         if: startsWith(matrix.os, 'ubuntu')
         run: |
           sudo wget https://apt.llvm.org/llvm.sh
           sudo chmod +x llvm.sh
-          sudo ./llvm.sh 13
+          sudo ./llvm.sh ${{ env.LLVM_VERSION_MAJOR }}
       - name: Install LLVM on Windows
         if: startsWith(matrix.os, 'windows')
         run: |
-          $LLVM_PREBUILT_FILE = "LLVM-13.0.1-win64.zip"
-          curl -sLO https://github.com/ApsarasX/llvm-windows/releases/download/llvmorg-13.0.1/LLVM-13.0.1-win64.zip -o $LLVM_PREBUILT_FILE
-          Expand-Archive -Path $LLVM_PREBUILT_FILE
-          $LLVM_CMAKE_DIR = "$pwd\\LLVM-13.0.1-win64\\LLVM-13.0.1-win64\\lib\\cmake\\llvm"
+          $LLVM_VERSION = "${{ env.LLVM_VERSION }}"
+          $LLVM_PREBUILT_FILE = "llvm-$LLVM_VERSION-${{ matrix.os }}.zip"
+          curl -sLO https://github.com/ApsarasX/llvm-windows/releases/download/llvmorg-$LLVM_VERSION/$LLVM_PREBUILT_FILE
+          Expand-Archive -Path $LLVM_PREBUILT_FILE -DestinationPath .
+          $LLVM_CMAKE_DIR = "$pwd\\LLVM-$LLVM_VERSION-win64\\lib\\cmake\\llvm"
           npm config set cmake_LLVM_DIR $LLVM_CMAKE_DIR
       - name: Install Dependencies
         run: npm install --ignore-scripts
