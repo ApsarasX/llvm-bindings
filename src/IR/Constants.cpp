@@ -478,6 +478,89 @@ Napi::Value ConstantPointerNull::getType(const Napi::CallbackInfo &info) {
 }
 
 //===----------------------------------------------------------------------===//
+//                        ConstantDataArray Class
+//===----------------------------------------------------------------------===//
+
+void ConstantDataArray::Init(Napi::Env env, Napi::Object &exports) {
+    Napi::HandleScope scope(env);
+    Napi::Function func = DefineClass(env, "ConstantDataArray", {
+            StaticMethod("get", &ConstantDataArray::get),
+            StaticMethod("getString", &ConstantDataArray::getString),
+            InstanceMethod("getType", &ConstantDataArray::getType)
+    });
+    constructor = Napi::Persistent(func);
+    constructor.SuppressDestruct();
+    Inherit(env, constructor.Value(), Constant::constructor.Value());
+    exports.Set("ConstantDataArray", func);
+}
+
+Napi::Object ConstantDataArray::New(Napi::Env env, llvm::ConstantDataArray *constantDataArray) {
+    return constructor.New({Napi::External<llvm::ConstantDataArray>::New(env, constantDataArray)});
+}
+
+bool ConstantDataArray::IsClassOf(const Napi::Value &value) {
+    return value.IsNull() || value.As<Napi::Object>().InstanceOf(constructor.Value());
+}
+
+llvm::ConstantDataArray *ConstantDataArray::Extract(const Napi::Value &value) {
+    if (value.IsNull()) {
+        return nullptr;
+    }
+    return Unwrap(value.As<Napi::Object>())->getLLVMPrimitive();
+}
+
+ConstantDataArray::ConstantDataArray(const Napi::CallbackInfo &info) : ObjectWrap(info) {
+    Napi::Env env = info.Env();
+    if (!info.IsConstructCall() || info.Length() == 0 || !info[0].IsExternal()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::ConstantDataArray::constructor);
+    }
+    auto external = info[0].As<Napi::External<llvm::ConstantDataArray>>();
+    constantDataArray = external.Data();
+}
+
+llvm::ConstantDataArray *ConstantDataArray::getLLVMPrimitive() {
+    return constantDataArray;
+}
+
+Napi::Value ConstantDataArray::get(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    unsigned argsLen = info.Length();
+    if (argsLen == 2 && LLVMContext::IsClassOf(info[0]) && info[1].IsArray()) {
+        std::vector<int64_t> array;
+        if (assembleArray(info[1].As<Napi::Array>(), array)) {
+            llvm::LLVMContext &context = LLVMContext::Extract(info[0]);
+            llvm::Constant *constant = llvm::ConstantDataArray::get(context, array);
+            return Constant::New(env, constant);
+        }
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::ConstantDataArray::get);
+}
+
+Napi::Value ConstantDataArray::getString(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    unsigned argsLen = info.Length();
+    if (argsLen == 2 && LLVMContext::IsClassOf(info[0]) && info[1].IsString() ||
+        argsLen == 3 && LLVMContext::IsClassOf(info[0]) && info[1].IsString() && info[2].IsBoolean()) {
+        llvm::LLVMContext &context = LLVMContext::Extract(info[0]);
+        const std::string &initializer = info[1].As<Napi::String>();
+        bool addNull = false;
+        if (argsLen == 3) {
+            addNull = info[2].As<Napi::Boolean>();
+        }
+        llvm::Constant *constant = llvm::ConstantDataArray::getString(context, initializer, addNull);
+        return Constant::New(env, constant);
+    } else {
+        throw Napi::TypeError::New(env, ErrMsg::Class::ConstantDataArray::getString);
+    }
+}
+
+Napi::Value ConstantDataArray::getType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    llvm::ArrayType *type = constantDataArray->getType();
+    return ArrayType::New(env, type);
+}
+
+//===----------------------------------------------------------------------===//
 //                        ConstantExpr Class
 //===----------------------------------------------------------------------===//
 

@@ -132,6 +132,11 @@ namespace ErrMsg {
             constexpr const char *constructor = "ConstantPointerNull.constructor needs to be called with new (external: Napi::External<llvm::ConstantPointerNull>)";
             constexpr const char *get = "ConstantPointerNull.get needs to be called with (type: PointerType)";
         }
+        namespace ConstantDataArray {
+            constexpr const char *constructor = "ConstantDataArray.constructor needs to be called with new (external: Napi::External<llvm::ConstantDataArray>)";
+            constexpr const char *get = "ConstantArray.get needs to be called with (context: LLVMContext, elements: number[])";
+            constexpr const char *getString = "ConstantArray.getString needs to be called with (context: LLVMContext, initializer: string, addNull?: boolean)";
+        }
         namespace ConstantExpr {
             constexpr const char *constructor = "ConstantExpr.constructor needs to be called with new (external: Napi::External<llvm::ConstantExpr>)";
             constexpr const char *getBitCast = "ConstantExpr.getBitCast needs to be called with (constant: Constant, type: Type)";

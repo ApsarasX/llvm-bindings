@@ -547,7 +547,6 @@ declare namespace llvm {
 
         public static getFalse(context: LLVMContext): ConstantInt;
 
-        // duplicated
         public getType(): IntegerType;
 
         protected constructor();
@@ -570,7 +569,6 @@ declare namespace llvm {
     class ConstantArray extends Constant {
         public static get(type: ArrayType, values: Constant[]): Constant;
 
-        // duplicated
         public getType(): ArrayType;
 
         protected constructor();
@@ -579,7 +577,6 @@ declare namespace llvm {
     class ConstantStruct extends Constant {
         public static get(type: StructType, values: Constant[]): Constant;
 
-        // duplicated
         public getType(): StructType;
 
         protected constructor();
@@ -589,6 +586,16 @@ declare namespace llvm {
         public static get(type: PointerType): ConstantPointerNull;
 
         public getType(): PointerType;
+
+        protected constructor();
+    }
+
+    class ConstantDataArray extends Constant {
+        public static get(context: LLVMContext, elements: number[]): Constant;
+
+        public static getString(context: LLVMContext, initializer: string, addNull?: boolean): Constant;
+
+        public getType(): ArrayType;
 
         protected constructor();
     }
