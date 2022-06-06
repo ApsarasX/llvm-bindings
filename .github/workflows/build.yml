@@ -41,15 +41,16 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           check-latest: true
-      - name: Install LLVM on macOS
+      - name: Install LLVM and Ninja on macOS
         if: startsWith(matrix.os, 'macos')
-        run: brew install llvm@${{ env.LLVM_VERSION_MAJOR }}
-      - name: Install LLVM on Ubuntu
+        run: brew install llvm@${{ env.LLVM_VERSION_MAJOR }} ninja
+      - name: Install LLVM and Ninja on Ubuntu
         if: startsWith(matrix.os, 'ubuntu')
         run: |
           sudo wget https://apt.llvm.org/llvm.sh
           sudo chmod +x llvm.sh
           sudo ./llvm.sh ${{ env.LLVM_VERSION_MAJOR }}
+          sudo apt-get install ninja-build
       - name: Install LLVM on Windows
         if: startsWith(matrix.os, 'windows')
         run: |
