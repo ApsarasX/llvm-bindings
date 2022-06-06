@@ -1,3 +1,13 @@
+## [0.3.8](https://github.com/ApsarasX/llvm-bindings/compare/v0.3.7...v0.3.8) (2022-06-06)
+
+
+### Features
+
+* **ConstantArray:** add class ConstantArray and some of its methods ([3b609cb](https://github.com/ApsarasX/llvm-bindings/commit/3b609cb2f1d98b5fd92ab3392d193363f6a1a2d7))
+* **ConstantDataArray:** add class ConstantDataArray and some of its methods ([2f360f2](https://github.com/ApsarasX/llvm-bindings/commit/2f360f2aed8f1f75bfb60a9d29ac13f10e659bbe))
+
+
+
 ## [0.3.7](https://github.com/ApsarasX/llvm-bindings/compare/v0.3.6...v0.3.7) (2022-04-27)
 
 
