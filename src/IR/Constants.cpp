@@ -29,12 +29,18 @@ Napi::Object Constant::New(Napi::Env env, llvm::Constant *constant) {
         return ConstantInt::New(env, llvm::cast<llvm::ConstantInt>(constant));
     } else if (llvm::isa<llvm::ConstantFP>(constant)) {
         return ConstantFP::New(env, llvm::cast<llvm::ConstantFP>(constant));
-    } else if (llvm::isa<llvm::ConstantExpr>(constant)) {
-        return ConstantExpr::New(env, llvm::cast<llvm::ConstantExpr>(constant));
-    } else if (llvm::isa<llvm::ConstantPointerNull>(constant)) {
-        return ConstantPointerNull::New(env, llvm::cast<llvm::ConstantPointerNull>(constant));
+    } else if (llvm::isa<llvm::ConstantArray>(constant)) {
+        return ConstantArray::New(env, llvm::cast<llvm::ConstantArray>(constant));
     } else if (llvm::isa<llvm::ConstantStruct>(constant)) {
         return ConstantStruct::New(env, llvm::cast<llvm::ConstantStruct>(constant));
+    } else if (llvm::isa<llvm::ConstantPointerNull>(constant)) {
+        return ConstantPointerNull::New(env, llvm::cast<llvm::ConstantPointerNull>(constant));
+    } else if (llvm::isa<llvm::ConstantDataArray>(constant)) {
+        return ConstantDataArray::New(env, llvm::cast<llvm::ConstantDataArray>(constant));
+    } else if (llvm::isa<llvm::ConstantExpr>(constant)) {
+        return ConstantExpr::New(env, llvm::cast<llvm::ConstantExpr>(constant));
+    } else if (llvm::isa<llvm::UndefValue>(constant)) {
+        return UndefValue::New(env, llvm::cast<llvm::UndefValue>(constant));
     }
     // TODO: more structured clearly
     return constructor.New({Napi::External<llvm::Constant>::New(env, constant)});
