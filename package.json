@@ -39,7 +39,7 @@
     },
     "devDependencies": {
         "@types/jest": "^28.1.1",
-        "@types/node": "^16.11.38",
+        "@types/node": "^18.0.0",
         "conventional-changelog-cli": "^2.2.2",
         "jest": "^28.1.0",
         "rimraf": "^3.0.2",
