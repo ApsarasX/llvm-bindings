@@ -177,8 +177,7 @@ void IRBuilder::Init(Napi::Env env, Napi::Object &exports) {
             //===--------------------------------------------------------------------===//
 
             InstanceMethod("CreateIsNull", &IRBuilder::unOpFactory<&LLVMIRBuilder::CreateIsNull>),
-            InstanceMethod("CreateIsNotNull", &IRBuilder::unOpFactory<&LLVMIRBuilder::CreateIsNotNull>),
-            InstanceMethod("CreatePtrDiff", &IRBuilder::binOpFactory<&LLVMIRBuilder::CreatePtrDiff>)
+            InstanceMethod("CreateIsNotNull", &IRBuilder::unOpFactory<&LLVMIRBuilder::CreateIsNotNull>)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -822,4 +821,23 @@ Napi::Value IRBuilder::CreateLandingPad(const Napi::CallbackInfo &info) {
         return LandingPadInst::New(env, lpInst);
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreateLandingPad);
+}
+
+//===--------------------------------------------------------------------===//
+// Utility creation methods
+//===--------------------------------------------------------------------===//
+
+Napi::Value IRBuilder::CreatePtrDiff(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    unsigned argsLen = info.Length();
+    if (argsLen == 3 && Type::IsClassOf(info[0]) && Value::IsClassOf(info[1]) && Value::IsClassOf(info[2]) ||
+        argsLen == 4 && Type::IsClassOf(info[0]) && Value::IsClassOf(info[1]) && Value::IsClassOf(info[2]) && info[3].IsString()) {
+        llvm::Type *elementType = Type::Extract(info[0]);
+        llvm::Value *lhs = Value::Extract(info[1]);
+        llvm::Value *rhs = Value::Extract(info[2]);
+        const std::string &name = argsLen == 4 ? std::string(info[3].As<Napi::String>()) : "";
+        llvm::Value *diff = builder->CreatePtrDiff(elementType, lhs, rhs, name);
+        return Value::New(env, diff);
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::IRBuilder::CreatePtrDiff);
 }

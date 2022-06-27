@@ -433,7 +433,7 @@ namespace ErrMsg {
             constexpr const char *CreateExtractValue = "IRBuilder.CreateExtractValue needs to be called with (agg: Value, idxs: number[], name?: string)";
             constexpr const char *CreateInsertValue = "IRBuilder.CreateInsertValue needs to be called with (agg: Value, value: Value, idxs: number[], name?: string)";
             constexpr const char *CreateLandingPad = "IRBuilder.CreateLandingPad needs to be called with (type: Type, numClauses: number, name?: string)";
-
+            constexpr const char *CreatePtrDiff = "IRBuilder.CreatePtrDiff needs to be called with (elemType: Type, lhs: Value, rhs: Value, name?: string)";
         }
         namespace Metadata {
             constexpr const char *constructor = "Metadata.constructor needs to be called with new (external: Napi::External<llvm::Metadata>)";

@@ -218,8 +218,6 @@ private:
 
     static Napi::Value getUnqual(const Napi::CallbackInfo &info);
 
-    Napi::Value getElementType(const Napi::CallbackInfo &info);
-
     Napi::Value isPointerTy(const Napi::CallbackInfo &info);
 
     Napi::Value isStructTy(const Napi::CallbackInfo &info);

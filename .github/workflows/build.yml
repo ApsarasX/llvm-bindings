@@ -19,8 +19,8 @@ on:
       - '**'
 
 env:
-  LLVM_VERSION: 13.0.1
-  LLVM_VERSION_MAJOR: 13
+  LLVM_VERSION: 14.0.6
+  LLVM_VERSION_MAJOR: 14
 
 jobs:
   build:
@@ -43,7 +43,9 @@ jobs:
           check-latest: true
       - name: Install LLVM and Ninja on macOS
         if: startsWith(matrix.os, 'macos')
-        run: brew install llvm@${{ env.LLVM_VERSION_MAJOR }} ninja
+        run: |
+          brew update
+          brew install llvm@${{ env.LLVM_VERSION_MAJOR }} ninja
       - name: Install LLVM and Ninja on Ubuntu
         if: startsWith(matrix.os, 'ubuntu')
         run: |

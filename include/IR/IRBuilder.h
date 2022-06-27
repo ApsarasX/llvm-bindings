@@ -271,4 +271,10 @@ private:
     Napi::Value CreateInsertValue(const Napi::CallbackInfo &info);
 
     Napi::Value CreateLandingPad(const Napi::CallbackInfo &info);
+
+    //===--------------------------------------------------------------------===//
+    // Utility creation methods
+    //===--------------------------------------------------------------------===//
+
+    Napi::Value CreatePtrDiff(const Napi::CallbackInfo &info);
 };

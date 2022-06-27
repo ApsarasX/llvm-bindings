@@ -560,7 +560,6 @@ void PointerType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::Function func = DefineClass(env, "PointerType", {
             StaticMethod("get", &PointerType::get),
             StaticMethod("getUnqual", &PointerType::getUnqual),
-            InstanceMethod("getElementType", &PointerType::getElementType),
             InstanceMethod("isPointerTy", &PointerType::isPointerTy),
             InstanceMethod("isStructTy", &PointerType::isStructTy),
             InstanceMethod("isIntegerTy", &PointerType::isIntegerTy),
@@ -617,12 +616,6 @@ Napi::Value PointerType::getUnqual(const Napi::CallbackInfo &info) {
     llvm::Type *type = Type::Extract(info[0]);
     llvm::PointerType *pointerType = llvm::PointerType::getUnqual(type);
     return PointerType::New(env, pointerType);
-}
-
-Napi::Value PointerType::getElementType(const Napi::CallbackInfo &info) {
-    Napi::Env env = info.Env();
-    llvm::Type *elementType = pointerType->getElementType();
-    return Type::New(env, elementType);
 }
 
 Napi::Value PointerType::isPointerTy(const Napi::CallbackInfo &info) {

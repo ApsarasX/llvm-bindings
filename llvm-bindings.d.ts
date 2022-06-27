@@ -412,8 +412,6 @@ declare namespace llvm {
 
         public static getUnqual(elementType: Type): PointerType;
 
-        public getElementType(): Type;
-
         // duplicated
         public isPointerTy(): boolean;
 
@@ -1554,7 +1552,7 @@ declare namespace llvm {
 
         public CreateIsNotNull(value: Value, name?: string): Value;
 
-        public CreatePtrDiff(lhs: Value, rhs: Value, name?: string): Value;
+        public CreatePtrDiff(elemType: Type, lhs: Value, rhs: Value, name?: string): Value;
     }
 
     namespace IRBuilder {
@@ -1768,6 +1766,8 @@ declare namespace llvm {
         const addressofreturnaddress: number;
         const adjust_trampoline: number;
         const annotation: number;
+        const arithmetic_fence: number;
+        const asan_check_memaccess: number;
         const assume: number;
         const bitreverse: number;
         const bswap: number;
@@ -1781,6 +1781,7 @@ declare namespace llvm {
         const convert_from_fp16: number;
         const convert_to_fp16: number;
         const copysign: number;
+        const coro_align: number;
         const coro_alloc: number;
         const coro_alloca_alloc: number;
         const coro_alloca_free: number;
@@ -1788,6 +1789,7 @@ declare namespace llvm {
         const coro_async_context_alloc: number;
         const coro_async_context_dealloc: number;
         const coro_async_resume: number;
+        const coro_async_size_replace: number;
         const coro_begin: number;
         const coro_destroy: number;
         const coro_done: number;
@@ -1800,7 +1802,6 @@ declare namespace llvm {
         const coro_id_retcon: number;
         const coro_id_retcon_once: number;
         const coro_noop: number;
-        const coro_param: number;
         const coro_prepare_async: number;
         const coro_prepare_retcon: number;
         const coro_promise: number;
@@ -1858,6 +1859,7 @@ declare namespace llvm {
         const hwasan_check_memaccess_shortgranules: number;
         const icall_branch_funnel: number;
         const init_trampoline: number;
+        const instrprof_cover: number;
         const instrprof_increment: number;
         const instrprof_increment_step: number;
         const instrprof_value_profile: number;
@@ -1910,6 +1912,7 @@ declare namespace llvm {
         const objc_autoreleasePoolPop: number;
         const objc_autoreleasePoolPush: number;
         const objc_autoreleaseReturnValue: number;
+        const objc_clang_arc_noop_use: number;
         const objc_clang_arc_use: number;
         const objc_copyWeak: number;
         const objc_destroyWeak: number;
@@ -1942,6 +1945,12 @@ declare namespace llvm {
         const preserve_union_access_index: number;
         const pseudoprobe: number;
         const ptr_annotation: number;
+        const ptrauth_auth: number;
+        const ptrauth_blend: number;
+        const ptrauth_resign: number;
+        const ptrauth_sign: number;
+        const ptrauth_sign_generic: number;
+        const ptrauth_strip: number;
         const ptrmask: number;
         const read_register: number;
         const read_volatile_register: number;
@@ -1954,7 +1963,12 @@ declare namespace llvm {
         const sadd_with_overflow: number;
         const sdiv_fix: number;
         const sdiv_fix_sat: number;
+        const seh_scope_begin: number;
+        const seh_scope_end: number;
+        const seh_try_begin: number;
+        const seh_try_end: number;
         const set_loop_iterations: number;
+        const set_rounding: number;
         const sideeffect: number;
         const sin: number;
         const smax: number;
@@ -1974,7 +1988,9 @@ declare namespace llvm {
         const stacksave: number;
         const start_loop_iterations: number;
         const strip_invariant_group: number;
+        const swift_async_context_addr: number;
         const test_set_loop_iterations: number;
+        const test_start_loop_iterations: number;
         const thread_pointer: number;
         const trap: number;
         const trunc: number;
@@ -2013,12 +2029,36 @@ declare namespace llvm {
         const vp_add: number;
         const vp_and: number;
         const vp_ashr: number;
+        const vp_fadd: number;
+        const vp_fdiv: number;
+        const vp_fmul: number;
+        const vp_frem: number;
+        const vp_fsub: number;
+        const vp_gather: number;
+        const vp_load: number;
         const vp_lshr: number;
+        const vp_merge: number;
         const vp_mul: number;
         const vp_or: number;
+        const vp_reduce_add: number;
+        const vp_reduce_and: number;
+        const vp_reduce_fadd: number;
+        const vp_reduce_fmax: number;
+        const vp_reduce_fmin: number;
+        const vp_reduce_fmul: number;
+        const vp_reduce_mul: number;
+        const vp_reduce_or: number;
+        const vp_reduce_smax: number;
+        const vp_reduce_smin: number;
+        const vp_reduce_umax: number;
+        const vp_reduce_umin: number;
+        const vp_reduce_xor: number;
+        const vp_scatter: number;
         const vp_sdiv: number;
+        const vp_select: number;
         const vp_shl: number;
         const vp_srem: number;
+        const vp_store: number;
         const vp_sub: number;
         const vp_udiv: number;
         const vp_urem: number;
@@ -2041,10 +2081,6 @@ declare namespace llvm {
         public static linkModules(destModule: Module, srcModule: Module): boolean;
     }
 
-    class SMDiagnostic {
-        public constructor();
-    }
-
     class Target {
         public createTargetMachine(targetTriple: string, cpu: string, features?: string): TargetMachine;
 
@@ -2059,6 +2095,10 @@ declare namespace llvm {
         static lookupTarget(target: string): Target | null;
 
         protected constructor();
+    }
+
+    class SMDiagnostic {
+        public constructor();
     }
 
     class TargetMachine {

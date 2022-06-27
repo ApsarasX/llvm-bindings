@@ -8,16 +8,16 @@ LLVM bindings for Node.js/JavaScript/TypeScript
 
 ## Supported OS
 
-|  | x86_64 | ARM64 |
-| :---: | :---: | :---: |
-| macOS 10.15 Catalina | ✅ | / |
-| macOS 11 Big Sur | ✅ | ✅ |
-| macOS 12 Monterey | ✅ | ✅ |
-| Ubuntu 18.04 | ✅ | ✅ |
-| Ubuntu 20.04 | ✅ | ✅ |
-| Ubuntu 22.04 | ✅ | ✅ |
-| Windows 10 | ✅ | ⚠️ |
-| Windows 11 | ✅ | ⚠️ |
+|                      | x86_64 | ARM64 |
+|:--------------------:|:------:|:-----:|
+| macOS 10.15 Catalina |   ✅    |   /   |
+|   macOS 11 Big Sur   |   ✅    |   ✅   |
+|  macOS 12 Monterey   |   ✅    |   ✅   |
+|     Ubuntu 18.04     |   ✅    |   ✅   |
+|     Ubuntu 20.04     |   ✅    |   ✅   |
+|     Ubuntu 22.04     |   ✅    |   ✅   |
+|      Windows 10      |   ✅    |  ⚠️   |
+|      Windows 11      |   ✅    |  ⚠️   |
 
 > ⚠️ means not tested.
 
@@ -124,11 +124,12 @@ Due to the limitation of `node-addon-api`, this project has not implemented inhe
 
 ## Compatibility
 
-| llvm-bindings versions  |  compatible LLVM versions |
-| ------------ | ------------ |
-|  0.0.x, 0.1.x |  11.0.x, 11.1.x |
-|  0.2.x        |  12.0.x         |
-|  0.3.x        |  13.0.x         |
+| llvm-bindings versions | compatible LLVM versions |
+|------------------------|--------------------------|
+| 0.0.x, 0.1.x           | 11.0.x, 11.1.x           |
+| 0.2.x                  | 12.0.x                   |
+| 0.3.x                  | 13.0.x                   |
+| 0.4.x                  | 14.0.x                   |
 
 ## Acknowledgments
 - [MichaReiser](https://github.com/MichaReiser): the creator of [llvm-node](https://github.com/MichaReiser/llvm-node)

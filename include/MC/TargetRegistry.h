@@ -1,7 +1,7 @@
 #pragma once
 
 #include <napi.h>
-#include <llvm/Support/TargetRegistry.h>
+#include <llvm/MC/TargetRegistry.h>
 
 class Target : public Napi::ObjectWrap<Target> {
 public:

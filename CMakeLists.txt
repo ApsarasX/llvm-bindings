@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.17)
 
-project(llvm-bindings CXX)
+project(llvm-bindings)
 
 set(CMAKE_CXX_STANDARD 17)
 
