@@ -28,46 +28,33 @@ Napi::Value getDeclaration(const Napi::CallbackInfo &info) {
 void Intrinsic::Init(Napi::Env env, Napi::Object &exports) {
     Napi::Object intrinsicNS = Napi::Object::New(env);
     intrinsicNS.Set("abs", Napi::Number::New(env, llvm::Intrinsic::abs));
-    intrinsicNS.Set("addressofreturnaddress",
-                    Napi::Number::New(env, llvm::Intrinsic::addressofreturnaddress));
-    intrinsicNS.Set("adjust_trampoline",
-                    Napi::Number::New(env, llvm::Intrinsic::adjust_trampoline));
+    intrinsicNS.Set("addressofreturnaddress", Napi::Number::New(env, llvm::Intrinsic::addressofreturnaddress));
+    intrinsicNS.Set("adjust_trampoline", Napi::Number::New(env, llvm::Intrinsic::adjust_trampoline));
     intrinsicNS.Set("annotation", Napi::Number::New(env, llvm::Intrinsic::annotation));
     intrinsicNS.Set("arithmetic_fence", Napi::Number::New(env, llvm::Intrinsic::arithmetic_fence));
-    intrinsicNS.Set("asan_check_memaccess",
-                    Napi::Number::New(env, llvm::Intrinsic::asan_check_memaccess));
+    intrinsicNS.Set("asan_check_memaccess", Napi::Number::New(env, llvm::Intrinsic::asan_check_memaccess));
     intrinsicNS.Set("assume", Napi::Number::New(env, llvm::Intrinsic::assume));
     intrinsicNS.Set("bitreverse", Napi::Number::New(env, llvm::Intrinsic::bitreverse));
     intrinsicNS.Set("bswap", Napi::Number::New(env, llvm::Intrinsic::bswap));
-    intrinsicNS.Set("call_preallocated_arg",
-                    Napi::Number::New(env, llvm::Intrinsic::call_preallocated_arg));
-    intrinsicNS.Set("call_preallocated_setup",
-                    Napi::Number::New(env, llvm::Intrinsic::call_preallocated_setup));
-    intrinsicNS.Set("call_preallocated_teardown",
-                    Napi::Number::New(env, llvm::Intrinsic::call_preallocated_teardown));
+    intrinsicNS.Set("call_preallocated_arg", Napi::Number::New(env, llvm::Intrinsic::call_preallocated_arg));
+    intrinsicNS.Set("call_preallocated_setup", Napi::Number::New(env, llvm::Intrinsic::call_preallocated_setup));
+    intrinsicNS.Set("call_preallocated_teardown", Napi::Number::New(env, llvm::Intrinsic::call_preallocated_teardown));
     intrinsicNS.Set("canonicalize", Napi::Number::New(env, llvm::Intrinsic::canonicalize));
     intrinsicNS.Set("ceil", Napi::Number::New(env, llvm::Intrinsic::ceil));
     intrinsicNS.Set("clear_cache", Napi::Number::New(env, llvm::Intrinsic::clear_cache));
-    intrinsicNS.Set("codeview_annotation",
-                    Napi::Number::New(env, llvm::Intrinsic::codeview_annotation));
-    intrinsicNS.Set("convert_from_fp16",
-                    Napi::Number::New(env, llvm::Intrinsic::convert_from_fp16));
+    intrinsicNS.Set("codeview_annotation", Napi::Number::New(env, llvm::Intrinsic::codeview_annotation));
+    intrinsicNS.Set("convert_from_fp16", Napi::Number::New(env, llvm::Intrinsic::convert_from_fp16));
     intrinsicNS.Set("convert_to_fp16", Napi::Number::New(env, llvm::Intrinsic::convert_to_fp16));
     intrinsicNS.Set("copysign", Napi::Number::New(env, llvm::Intrinsic::copysign));
     intrinsicNS.Set("coro_align", Napi::Number::New(env, llvm::Intrinsic::coro_align));
     intrinsicNS.Set("coro_alloc", Napi::Number::New(env, llvm::Intrinsic::coro_alloc));
-    intrinsicNS.Set("coro_alloca_alloc",
-                    Napi::Number::New(env, llvm::Intrinsic::coro_alloca_alloc));
+    intrinsicNS.Set("coro_alloca_alloc", Napi::Number::New(env, llvm::Intrinsic::coro_alloca_alloc));
     intrinsicNS.Set("coro_alloca_free", Napi::Number::New(env, llvm::Intrinsic::coro_alloca_free));
     intrinsicNS.Set("coro_alloca_get", Napi::Number::New(env, llvm::Intrinsic::coro_alloca_get));
-    intrinsicNS.Set("coro_async_context_alloc",
-                    Napi::Number::New(env, llvm::Intrinsic::coro_async_context_alloc));
-    intrinsicNS.Set("coro_async_context_dealloc",
-                    Napi::Number::New(env, llvm::Intrinsic::coro_async_context_dealloc));
-    intrinsicNS.Set("coro_async_resume",
-                    Napi::Number::New(env, llvm::Intrinsic::coro_async_resume));
-    intrinsicNS.Set("coro_async_size_replace",
-                    Napi::Number::New(env, llvm::Intrinsic::coro_async_size_replace));
+    intrinsicNS.Set("coro_async_context_alloc", Napi::Number::New(env, llvm::Intrinsic::coro_async_context_alloc));
+    intrinsicNS.Set("coro_async_context_dealloc", Napi::Number::New(env, llvm::Intrinsic::coro_async_context_dealloc));
+    intrinsicNS.Set("coro_async_resume", Napi::Number::New(env, llvm::Intrinsic::coro_async_resume));
+    intrinsicNS.Set("coro_async_size_replace", Napi::Number::New(env, llvm::Intrinsic::coro_async_size_replace));
     intrinsicNS.Set("coro_begin", Napi::Number::New(env, llvm::Intrinsic::coro_begin));
     intrinsicNS.Set("coro_destroy", Napi::Number::New(env, llvm::Intrinsic::coro_destroy));
     intrinsicNS.Set("coro_done", Napi::Number::New(env, llvm::Intrinsic::coro_done));
@@ -78,23 +65,18 @@ void Intrinsic::Init(Napi::Env env, Napi::Object &exports) {
     intrinsicNS.Set("coro_id", Napi::Number::New(env, llvm::Intrinsic::coro_id));
     intrinsicNS.Set("coro_id_async", Napi::Number::New(env, llvm::Intrinsic::coro_id_async));
     intrinsicNS.Set("coro_id_retcon", Napi::Number::New(env, llvm::Intrinsic::coro_id_retcon));
-    intrinsicNS.Set("coro_id_retcon_once",
-                    Napi::Number::New(env, llvm::Intrinsic::coro_id_retcon_once));
+    intrinsicNS.Set("coro_id_retcon_once", Napi::Number::New(env, llvm::Intrinsic::coro_id_retcon_once));
     intrinsicNS.Set("coro_noop", Napi::Number::New(env, llvm::Intrinsic::coro_noop));
-    intrinsicNS.Set("coro_prepare_async",
-                    Napi::Number::New(env, llvm::Intrinsic::coro_prepare_async));
-    intrinsicNS.Set("coro_prepare_retcon",
-                    Napi::Number::New(env, llvm::Intrinsic::coro_prepare_retcon));
+    intrinsicNS.Set("coro_prepare_async", Napi::Number::New(env, llvm::Intrinsic::coro_prepare_async));
+    intrinsicNS.Set("coro_prepare_retcon", Napi::Number::New(env, llvm::Intrinsic::coro_prepare_retcon));
     intrinsicNS.Set("coro_promise", Napi::Number::New(env, llvm::Intrinsic::coro_promise));
     intrinsicNS.Set("coro_resume", Napi::Number::New(env, llvm::Intrinsic::coro_resume));
     intrinsicNS.Set("coro_save", Napi::Number::New(env, llvm::Intrinsic::coro_save));
     intrinsicNS.Set("coro_size", Napi::Number::New(env, llvm::Intrinsic::coro_size));
     intrinsicNS.Set("coro_subfn_addr", Napi::Number::New(env, llvm::Intrinsic::coro_subfn_addr));
     intrinsicNS.Set("coro_suspend", Napi::Number::New(env, llvm::Intrinsic::coro_suspend));
-    intrinsicNS.Set("coro_suspend_async",
-                    Napi::Number::New(env, llvm::Intrinsic::coro_suspend_async));
-    intrinsicNS.Set("coro_suspend_retcon",
-                    Napi::Number::New(env, llvm::Intrinsic::coro_suspend_retcon));
+    intrinsicNS.Set("coro_suspend_async", Napi::Number::New(env, llvm::Intrinsic::coro_suspend_async));
+    intrinsicNS.Set("coro_suspend_retcon", Napi::Number::New(env, llvm::Intrinsic::coro_suspend_retcon));
     intrinsicNS.Set("cos", Napi::Number::New(env, llvm::Intrinsic::cos));
     intrinsicNS.Set("ctlz", Napi::Number::New(env, llvm::Intrinsic::ctlz));
     intrinsicNS.Set("ctpop", Napi::Number::New(env, llvm::Intrinsic::ctpop));
@@ -107,26 +89,22 @@ void Intrinsic::Init(Napi::Env env, Napi::Object &exports) {
     intrinsicNS.Set("donothing", Napi::Number::New(env, llvm::Intrinsic::donothing));
     intrinsicNS.Set("eh_dwarf_cfa", Napi::Number::New(env, llvm::Intrinsic::eh_dwarf_cfa));
     intrinsicNS.Set("eh_exceptioncode", Napi::Number::New(env, llvm::Intrinsic::eh_exceptioncode));
-    intrinsicNS.Set("eh_exceptionpointer",
-                    Napi::Number::New(env, llvm::Intrinsic::eh_exceptionpointer));
+    intrinsicNS.Set("eh_exceptionpointer", Napi::Number::New(env, llvm::Intrinsic::eh_exceptionpointer));
     intrinsicNS.Set("eh_recoverfp", Napi::Number::New(env, llvm::Intrinsic::eh_recoverfp));
     intrinsicNS.Set("eh_return_i32", Napi::Number::New(env, llvm::Intrinsic::eh_return_i32));
     intrinsicNS.Set("eh_return_i64", Napi::Number::New(env, llvm::Intrinsic::eh_return_i64));
     intrinsicNS.Set("eh_sjlj_callsite", Napi::Number::New(env, llvm::Intrinsic::eh_sjlj_callsite));
-    intrinsicNS.Set("eh_sjlj_functioncontext",
-                    Napi::Number::New(env, llvm::Intrinsic::eh_sjlj_functioncontext));
+    intrinsicNS.Set("eh_sjlj_functioncontext", Napi::Number::New(env, llvm::Intrinsic::eh_sjlj_functioncontext));
     intrinsicNS.Set("eh_sjlj_longjmp", Napi::Number::New(env, llvm::Intrinsic::eh_sjlj_longjmp));
     intrinsicNS.Set("eh_sjlj_lsda", Napi::Number::New(env, llvm::Intrinsic::eh_sjlj_lsda));
     intrinsicNS.Set("eh_sjlj_setjmp", Napi::Number::New(env, llvm::Intrinsic::eh_sjlj_setjmp));
-    intrinsicNS.Set("eh_sjlj_setup_dispatch",
-                    Napi::Number::New(env, llvm::Intrinsic::eh_sjlj_setup_dispatch));
+    intrinsicNS.Set("eh_sjlj_setup_dispatch", Napi::Number::New(env, llvm::Intrinsic::eh_sjlj_setup_dispatch));
     intrinsicNS.Set("eh_typeid_for", Napi::Number::New(env, llvm::Intrinsic::eh_typeid_for));
     intrinsicNS.Set("eh_unwind_init", Napi::Number::New(env, llvm::Intrinsic::eh_unwind_init));
     intrinsicNS.Set("exp", Napi::Number::New(env, llvm::Intrinsic::exp));
     intrinsicNS.Set("exp2", Napi::Number::New(env, llvm::Intrinsic::exp2));
     intrinsicNS.Set("expect", Napi::Number::New(env, llvm::Intrinsic::expect));
-    intrinsicNS.Set("expect_with_probability",
-                    Napi::Number::New(env, llvm::Intrinsic::expect_with_probability));
+    intrinsicNS.Set("expect_with_probability", Napi::Number::New(env, llvm::Intrinsic::expect_with_probability));
     intrinsicNS.Set("fabs", Napi::Number::New(env, llvm::Intrinsic::fabs));
     intrinsicNS.Set("floor", Napi::Number::New(env, llvm::Intrinsic::floor));
     intrinsicNS.Set("flt_rounds", Napi::Number::New(env, llvm::Intrinsic::flt_rounds));
@@ -140,29 +118,21 @@ void Intrinsic::Init(Napi::Env env, Napi::Object &exports) {
     intrinsicNS.Set("gcread", Napi::Number::New(env, llvm::Intrinsic::gcread));
     intrinsicNS.Set("gcroot", Napi::Number::New(env, llvm::Intrinsic::gcroot));
     intrinsicNS.Set("gcwrite", Napi::Number::New(env, llvm::Intrinsic::gcwrite));
-    intrinsicNS.Set("get_active_lane_mask",
-                    Napi::Number::New(env, llvm::Intrinsic::get_active_lane_mask));
-    intrinsicNS.Set("get_dynamic_area_offset",
-                    Napi::Number::New(env, llvm::Intrinsic::get_dynamic_area_offset));
-    intrinsicNS.Set("hwasan_check_memaccess",
-                    Napi::Number::New(env, llvm::Intrinsic::hwasan_check_memaccess));
+    intrinsicNS.Set("get_active_lane_mask", Napi::Number::New(env, llvm::Intrinsic::get_active_lane_mask));
+    intrinsicNS.Set("get_dynamic_area_offset", Napi::Number::New(env, llvm::Intrinsic::get_dynamic_area_offset));
+    intrinsicNS.Set("hwasan_check_memaccess", Napi::Number::New(env, llvm::Intrinsic::hwasan_check_memaccess));
     intrinsicNS.Set("hwasan_check_memaccess_shortgranules",
                     Napi::Number::New(env, llvm::Intrinsic::hwasan_check_memaccess_shortgranules));
-    intrinsicNS.Set("icall_branch_funnel",
-                    Napi::Number::New(env, llvm::Intrinsic::icall_branch_funnel));
+    intrinsicNS.Set("icall_branch_funnel", Napi::Number::New(env, llvm::Intrinsic::icall_branch_funnel));
     intrinsicNS.Set("init_trampoline", Napi::Number::New(env, llvm::Intrinsic::init_trampoline));
     intrinsicNS.Set("instrprof_cover", Napi::Number::New(env, llvm::Intrinsic::instrprof_cover));
-    intrinsicNS.Set("instrprof_increment",
-                    Napi::Number::New(env, llvm::Intrinsic::instrprof_increment));
-    intrinsicNS.Set("instrprof_increment_step",
-                    Napi::Number::New(env, llvm::Intrinsic::instrprof_increment_step));
-    intrinsicNS.Set("instrprof_value_profile",
-                    Napi::Number::New(env, llvm::Intrinsic::instrprof_value_profile));
+    intrinsicNS.Set("instrprof_increment", Napi::Number::New(env, llvm::Intrinsic::instrprof_increment));
+    intrinsicNS.Set("instrprof_increment_step", Napi::Number::New(env, llvm::Intrinsic::instrprof_increment_step));
+    intrinsicNS.Set("instrprof_value_profile", Napi::Number::New(env, llvm::Intrinsic::instrprof_value_profile));
     intrinsicNS.Set("invariant_end", Napi::Number::New(env, llvm::Intrinsic::invariant_end));
     intrinsicNS.Set("invariant_start", Napi::Number::New(env, llvm::Intrinsic::invariant_start));
     intrinsicNS.Set("is_constant", Napi::Number::New(env, llvm::Intrinsic::is_constant));
-    intrinsicNS.Set("launder_invariant_group",
-                    Napi::Number::New(env, llvm::Intrinsic::launder_invariant_group));
+    intrinsicNS.Set("launder_invariant_group", Napi::Number::New(env, llvm::Intrinsic::launder_invariant_group));
     intrinsicNS.Set("lifetime_end", Napi::Number::New(env, llvm::Intrinsic::lifetime_end));
     intrinsicNS.Set("lifetime_start", Napi::Number::New(env, llvm::Intrinsic::lifetime_start));
     intrinsicNS.Set("llrint", Napi::Number::New(env, llvm::Intrinsic::llrint));
@@ -175,22 +145,17 @@ void Intrinsic::Init(Napi::Env env, Napi::Object &exports) {
     intrinsicNS.Set("log10", Napi::Number::New(env, llvm::Intrinsic::log10));
     intrinsicNS.Set("log2", Napi::Number::New(env, llvm::Intrinsic::log2));
     intrinsicNS.Set("loop_decrement", Napi::Number::New(env, llvm::Intrinsic::loop_decrement));
-    intrinsicNS.Set("loop_decrement_reg",
-                    Napi::Number::New(env, llvm::Intrinsic::loop_decrement_reg));
+    intrinsicNS.Set("loop_decrement_reg", Napi::Number::New(env, llvm::Intrinsic::loop_decrement_reg));
     intrinsicNS.Set("lrint", Napi::Number::New(env, llvm::Intrinsic::lrint));
     intrinsicNS.Set("lround", Napi::Number::New(env, llvm::Intrinsic::lround));
-    intrinsicNS.Set("masked_compressstore",
-                    Napi::Number::New(env, llvm::Intrinsic::masked_compressstore));
-    intrinsicNS.Set("masked_expandload",
-                    Napi::Number::New(env, llvm::Intrinsic::masked_expandload));
+    intrinsicNS.Set("masked_compressstore", Napi::Number::New(env, llvm::Intrinsic::masked_compressstore));
+    intrinsicNS.Set("masked_expandload", Napi::Number::New(env, llvm::Intrinsic::masked_expandload));
     intrinsicNS.Set("masked_gather", Napi::Number::New(env, llvm::Intrinsic::masked_gather));
     intrinsicNS.Set("masked_load", Napi::Number::New(env, llvm::Intrinsic::masked_load));
     intrinsicNS.Set("masked_scatter", Napi::Number::New(env, llvm::Intrinsic::masked_scatter));
     intrinsicNS.Set("masked_store", Napi::Number::New(env, llvm::Intrinsic::masked_store));
-    intrinsicNS.Set("matrix_column_major_load",
-                    Napi::Number::New(env, llvm::Intrinsic::matrix_column_major_load));
-    intrinsicNS.Set("matrix_column_major_store",
-                    Napi::Number::New(env, llvm::Intrinsic::matrix_column_major_store));
+    intrinsicNS.Set("matrix_column_major_load", Napi::Number::New(env, llvm::Intrinsic::matrix_column_major_load));
+    intrinsicNS.Set("matrix_column_major_store", Napi::Number::New(env, llvm::Intrinsic::matrix_column_major_store));
     intrinsicNS.Set("matrix_multiply", Napi::Number::New(env, llvm::Intrinsic::matrix_multiply));
     intrinsicNS.Set("matrix_transpose", Napi::Number::New(env, llvm::Intrinsic::matrix_transpose));
     intrinsicNS.Set("maximum", Napi::Number::New(env, llvm::Intrinsic::maximum));
@@ -217,46 +182,36 @@ void Intrinsic::Init(Napi::Env env, Napi::Object &exports) {
     intrinsicNS.Set("objc_arc_annotation_topdown_bbstart",
                     Napi::Number::New(env, llvm::Intrinsic::objc_arc_annotation_topdown_bbstart));
     intrinsicNS.Set("objc_autorelease", Napi::Number::New(env, llvm::Intrinsic::objc_autorelease));
-    intrinsicNS.Set("objc_autoreleasePoolPop",
-                    Napi::Number::New(env, llvm::Intrinsic::objc_autoreleasePoolPop));
-    intrinsicNS.Set("objc_autoreleasePoolPush",
-                    Napi::Number::New(env, llvm::Intrinsic::objc_autoreleasePoolPush));
+    intrinsicNS.Set("objc_autoreleasePoolPop", Napi::Number::New(env, llvm::Intrinsic::objc_autoreleasePoolPop));
+    intrinsicNS.Set("objc_autoreleasePoolPush", Napi::Number::New(env, llvm::Intrinsic::objc_autoreleasePoolPush));
     intrinsicNS.Set("objc_autoreleaseReturnValue",
                     Napi::Number::New(env, llvm::Intrinsic::objc_autoreleaseReturnValue));
-    intrinsicNS.Set("objc_clang_arc_noop_use",
-                    Napi::Number::New(env, llvm::Intrinsic::objc_clang_arc_noop_use));
-    intrinsicNS.Set("objc_clang_arc_use",
-                    Napi::Number::New(env, llvm::Intrinsic::objc_clang_arc_use));
+    intrinsicNS.Set("objc_clang_arc_noop_use", Napi::Number::New(env, llvm::Intrinsic::objc_clang_arc_noop_use));
+    intrinsicNS.Set("objc_clang_arc_use", Napi::Number::New(env, llvm::Intrinsic::objc_clang_arc_use));
     intrinsicNS.Set("objc_copyWeak", Napi::Number::New(env, llvm::Intrinsic::objc_copyWeak));
     intrinsicNS.Set("objc_destroyWeak", Napi::Number::New(env, llvm::Intrinsic::objc_destroyWeak));
     intrinsicNS.Set("objc_initWeak", Napi::Number::New(env, llvm::Intrinsic::objc_initWeak));
     intrinsicNS.Set("objc_loadWeak", Napi::Number::New(env, llvm::Intrinsic::objc_loadWeak));
-    intrinsicNS.Set("objc_loadWeakRetained",
-                    Napi::Number::New(env, llvm::Intrinsic::objc_loadWeakRetained));
+    intrinsicNS.Set("objc_loadWeakRetained", Napi::Number::New(env, llvm::Intrinsic::objc_loadWeakRetained));
     intrinsicNS.Set("objc_moveWeak", Napi::Number::New(env, llvm::Intrinsic::objc_moveWeak));
     intrinsicNS.Set("objc_release", Napi::Number::New(env, llvm::Intrinsic::objc_release));
     intrinsicNS.Set("objc_retain", Napi::Number::New(env, llvm::Intrinsic::objc_retain));
-    intrinsicNS.Set("objc_retain_autorelease",
-                    Napi::Number::New(env, llvm::Intrinsic::objc_retain_autorelease));
-    intrinsicNS.Set("objc_retainAutorelease",
-                    Napi::Number::New(env, llvm::Intrinsic::objc_retainAutorelease));
+    intrinsicNS.Set("objc_retain_autorelease", Napi::Number::New(env, llvm::Intrinsic::objc_retain_autorelease));
+    intrinsicNS.Set("objc_retainAutorelease", Napi::Number::New(env, llvm::Intrinsic::objc_retainAutorelease));
     intrinsicNS.Set("objc_retainAutoreleaseReturnValue",
                     Napi::Number::New(env, llvm::Intrinsic::objc_retainAutoreleaseReturnValue));
     intrinsicNS.Set("objc_retainAutoreleasedReturnValue",
                     Napi::Number::New(env, llvm::Intrinsic::objc_retainAutoreleasedReturnValue));
     intrinsicNS.Set("objc_retainBlock", Napi::Number::New(env, llvm::Intrinsic::objc_retainBlock));
-    intrinsicNS.Set("objc_retainedObject",
-                    Napi::Number::New(env, llvm::Intrinsic::objc_retainedObject));
+    intrinsicNS.Set("objc_retainedObject", Napi::Number::New(env, llvm::Intrinsic::objc_retainedObject));
     intrinsicNS.Set("objc_storeStrong", Napi::Number::New(env, llvm::Intrinsic::objc_storeStrong));
     intrinsicNS.Set("objc_storeWeak", Napi::Number::New(env, llvm::Intrinsic::objc_storeWeak));
     intrinsicNS.Set("objc_sync_enter", Napi::Number::New(env, llvm::Intrinsic::objc_sync_enter));
     intrinsicNS.Set("objc_sync_exit", Napi::Number::New(env, llvm::Intrinsic::objc_sync_exit));
-    intrinsicNS.Set("objc_unretainedObject",
-                    Napi::Number::New(env, llvm::Intrinsic::objc_unretainedObject));
-    intrinsicNS.Set("objc_unretainedPointer",
-                    Napi::Number::New(env, llvm::Intrinsic::objc_unretainedPointer));
-    intrinsicNS.Set("objc_unsafeClaimAutoreleasedReturnValue", Napi::Number::New(env,
-                                                                                 llvm::Intrinsic::objc_unsafeClaimAutoreleasedReturnValue));
+    intrinsicNS.Set("objc_unretainedObject", Napi::Number::New(env, llvm::Intrinsic::objc_unretainedObject));
+    intrinsicNS.Set("objc_unretainedPointer", Napi::Number::New(env, llvm::Intrinsic::objc_unretainedPointer));
+    intrinsicNS.Set("objc_unsafeClaimAutoreleasedReturnValue",
+                    Napi::Number::New(env, llvm::Intrinsic::objc_unsafeClaimAutoreleasedReturnValue));
     intrinsicNS.Set("objectsize", Napi::Number::New(env, llvm::Intrinsic::objectsize));
     intrinsicNS.Set("pcmarker", Napi::Number::New(env, llvm::Intrinsic::pcmarker));
     intrinsicNS.Set("pow", Napi::Number::New(env, llvm::Intrinsic::pow));
@@ -274,29 +229,25 @@ void Intrinsic::Init(Napi::Env env, Napi::Object &exports) {
     intrinsicNS.Set("ptrauth_blend", Napi::Number::New(env, llvm::Intrinsic::ptrauth_blend));
     intrinsicNS.Set("ptrauth_resign", Napi::Number::New(env, llvm::Intrinsic::ptrauth_resign));
     intrinsicNS.Set("ptrauth_sign", Napi::Number::New(env, llvm::Intrinsic::ptrauth_sign));
-    intrinsicNS.Set("ptrauth_sign_generic",
-                    Napi::Number::New(env, llvm::Intrinsic::ptrauth_sign_generic));
+    intrinsicNS.Set("ptrauth_sign_generic", Napi::Number::New(env, llvm::Intrinsic::ptrauth_sign_generic));
     intrinsicNS.Set("ptrauth_strip", Napi::Number::New(env, llvm::Intrinsic::ptrauth_strip));
     intrinsicNS.Set("ptrmask", Napi::Number::New(env, llvm::Intrinsic::ptrmask));
     intrinsicNS.Set("read_register", Napi::Number::New(env, llvm::Intrinsic::read_register));
-    intrinsicNS.Set("read_volatile_register",
-                    Napi::Number::New(env, llvm::Intrinsic::read_volatile_register));
+    intrinsicNS.Set("read_volatile_register", Napi::Number::New(env, llvm::Intrinsic::read_volatile_register));
     intrinsicNS.Set("readcyclecounter", Napi::Number::New(env, llvm::Intrinsic::readcyclecounter));
     intrinsicNS.Set("returnaddress", Napi::Number::New(env, llvm::Intrinsic::returnaddress));
     intrinsicNS.Set("rint", Napi::Number::New(env, llvm::Intrinsic::rint));
     intrinsicNS.Set("round", Napi::Number::New(env, llvm::Intrinsic::round));
     intrinsicNS.Set("roundeven", Napi::Number::New(env, llvm::Intrinsic::roundeven));
     intrinsicNS.Set("sadd_sat", Napi::Number::New(env, llvm::Intrinsic::sadd_sat));
-    intrinsicNS.Set("sadd_with_overflow",
-                    Napi::Number::New(env, llvm::Intrinsic::sadd_with_overflow));
+    intrinsicNS.Set("sadd_with_overflow", Napi::Number::New(env, llvm::Intrinsic::sadd_with_overflow));
     intrinsicNS.Set("sdiv_fix", Napi::Number::New(env, llvm::Intrinsic::sdiv_fix));
     intrinsicNS.Set("sdiv_fix_sat", Napi::Number::New(env, llvm::Intrinsic::sdiv_fix_sat));
     intrinsicNS.Set("seh_scope_begin", Napi::Number::New(env, llvm::Intrinsic::seh_scope_begin));
     intrinsicNS.Set("seh_scope_end", Napi::Number::New(env, llvm::Intrinsic::seh_scope_end));
     intrinsicNS.Set("seh_try_begin", Napi::Number::New(env, llvm::Intrinsic::seh_try_begin));
     intrinsicNS.Set("seh_try_end", Napi::Number::New(env, llvm::Intrinsic::seh_try_end));
-    intrinsicNS.Set("set_loop_iterations",
-                    Napi::Number::New(env, llvm::Intrinsic::set_loop_iterations));
+    intrinsicNS.Set("set_loop_iterations", Napi::Number::New(env, llvm::Intrinsic::set_loop_iterations));
     intrinsicNS.Set("set_rounding", Napi::Number::New(env, llvm::Intrinsic::set_rounding));
     intrinsicNS.Set("sideeffect", Napi::Number::New(env, llvm::Intrinsic::sideeffect));
     intrinsicNS.Set("sin", Napi::Number::New(env, llvm::Intrinsic::sin));
@@ -304,38 +255,29 @@ void Intrinsic::Init(Napi::Env env, Napi::Object &exports) {
     intrinsicNS.Set("smin", Napi::Number::New(env, llvm::Intrinsic::smin));
     intrinsicNS.Set("smul_fix", Napi::Number::New(env, llvm::Intrinsic::smul_fix));
     intrinsicNS.Set("smul_fix_sat", Napi::Number::New(env, llvm::Intrinsic::smul_fix_sat));
-    intrinsicNS.Set("smul_with_overflow",
-                    Napi::Number::New(env, llvm::Intrinsic::smul_with_overflow));
+    intrinsicNS.Set("smul_with_overflow", Napi::Number::New(env, llvm::Intrinsic::smul_with_overflow));
     intrinsicNS.Set("sponentry", Napi::Number::New(env, llvm::Intrinsic::sponentry));
     intrinsicNS.Set("sqrt", Napi::Number::New(env, llvm::Intrinsic::sqrt));
     intrinsicNS.Set("ssa_copy", Napi::Number::New(env, llvm::Intrinsic::ssa_copy));
     intrinsicNS.Set("sshl_sat", Napi::Number::New(env, llvm::Intrinsic::sshl_sat));
     intrinsicNS.Set("ssub_sat", Napi::Number::New(env, llvm::Intrinsic::ssub_sat));
-    intrinsicNS.Set("ssub_with_overflow",
-                    Napi::Number::New(env, llvm::Intrinsic::ssub_with_overflow));
+    intrinsicNS.Set("ssub_with_overflow", Napi::Number::New(env, llvm::Intrinsic::ssub_with_overflow));
     intrinsicNS.Set("stackguard", Napi::Number::New(env, llvm::Intrinsic::stackguard));
     intrinsicNS.Set("stackprotector", Napi::Number::New(env, llvm::Intrinsic::stackprotector));
     intrinsicNS.Set("stackrestore", Napi::Number::New(env, llvm::Intrinsic::stackrestore));
     intrinsicNS.Set("stacksave", Napi::Number::New(env, llvm::Intrinsic::stacksave));
-    intrinsicNS.Set("start_loop_iterations",
-                    Napi::Number::New(env, llvm::Intrinsic::start_loop_iterations));
-    intrinsicNS.Set("strip_invariant_group",
-                    Napi::Number::New(env, llvm::Intrinsic::strip_invariant_group));
-    intrinsicNS.Set("swift_async_context_addr",
-                    Napi::Number::New(env, llvm::Intrinsic::swift_async_context_addr));
-    intrinsicNS.Set("test_set_loop_iterations",
-                    Napi::Number::New(env, llvm::Intrinsic::test_set_loop_iterations));
-    intrinsicNS.Set("test_start_loop_iterations",
-                    Napi::Number::New(env, llvm::Intrinsic::test_start_loop_iterations));
+    intrinsicNS.Set("start_loop_iterations", Napi::Number::New(env, llvm::Intrinsic::start_loop_iterations));
+    intrinsicNS.Set("strip_invariant_group", Napi::Number::New(env, llvm::Intrinsic::strip_invariant_group));
+    intrinsicNS.Set("swift_async_context_addr", Napi::Number::New(env, llvm::Intrinsic::swift_async_context_addr));
+    intrinsicNS.Set("test_set_loop_iterations", Napi::Number::New(env, llvm::Intrinsic::test_set_loop_iterations));
+    intrinsicNS.Set("test_start_loop_iterations", Napi::Number::New(env, llvm::Intrinsic::test_start_loop_iterations));
     intrinsicNS.Set("thread_pointer", Napi::Number::New(env, llvm::Intrinsic::thread_pointer));
     intrinsicNS.Set("trap", Napi::Number::New(env, llvm::Intrinsic::trap));
     intrinsicNS.Set("trunc", Napi::Number::New(env, llvm::Intrinsic::trunc));
-    intrinsicNS.Set("type_checked_load",
-                    Napi::Number::New(env, llvm::Intrinsic::type_checked_load));
+    intrinsicNS.Set("type_checked_load", Napi::Number::New(env, llvm::Intrinsic::type_checked_load));
     intrinsicNS.Set("type_test", Napi::Number::New(env, llvm::Intrinsic::type_test));
     intrinsicNS.Set("uadd_sat", Napi::Number::New(env, llvm::Intrinsic::uadd_sat));
-    intrinsicNS.Set("uadd_with_overflow",
-                    Napi::Number::New(env, llvm::Intrinsic::uadd_with_overflow));
+    intrinsicNS.Set("uadd_with_overflow", Napi::Number::New(env, llvm::Intrinsic::uadd_with_overflow));
     intrinsicNS.Set("ubsantrap", Napi::Number::New(env, llvm::Intrinsic::ubsantrap));
     intrinsicNS.Set("udiv_fix", Napi::Number::New(env, llvm::Intrinsic::udiv_fix));
     intrinsicNS.Set("udiv_fix_sat", Napi::Number::New(env, llvm::Intrinsic::udiv_fix_sat));
@@ -343,41 +285,27 @@ void Intrinsic::Init(Napi::Env env, Napi::Object &exports) {
     intrinsicNS.Set("umin", Napi::Number::New(env, llvm::Intrinsic::umin));
     intrinsicNS.Set("umul_fix", Napi::Number::New(env, llvm::Intrinsic::umul_fix));
     intrinsicNS.Set("umul_fix_sat", Napi::Number::New(env, llvm::Intrinsic::umul_fix_sat));
-    intrinsicNS.Set("umul_with_overflow",
-                    Napi::Number::New(env, llvm::Intrinsic::umul_with_overflow));
+    intrinsicNS.Set("umul_with_overflow", Napi::Number::New(env, llvm::Intrinsic::umul_with_overflow));
     intrinsicNS.Set("ushl_sat", Napi::Number::New(env, llvm::Intrinsic::ushl_sat));
     intrinsicNS.Set("usub_sat", Napi::Number::New(env, llvm::Intrinsic::usub_sat));
-    intrinsicNS.Set("usub_with_overflow",
-                    Napi::Number::New(env, llvm::Intrinsic::usub_with_overflow));
+    intrinsicNS.Set("usub_with_overflow", Napi::Number::New(env, llvm::Intrinsic::usub_with_overflow));
     intrinsicNS.Set("vacopy", Napi::Number::New(env, llvm::Intrinsic::vacopy));
     intrinsicNS.Set("vaend", Napi::Number::New(env, llvm::Intrinsic::vaend));
     intrinsicNS.Set("vastart", Napi::Number::New(env, llvm::Intrinsic::vastart));
     intrinsicNS.Set("var_annotation", Napi::Number::New(env, llvm::Intrinsic::var_annotation));
-    intrinsicNS.Set("vector_reduce_add",
-                    Napi::Number::New(env, llvm::Intrinsic::vector_reduce_add));
-    intrinsicNS.Set("vector_reduce_and",
-                    Napi::Number::New(env, llvm::Intrinsic::vector_reduce_and));
-    intrinsicNS.Set("vector_reduce_fadd",
-                    Napi::Number::New(env, llvm::Intrinsic::vector_reduce_fadd));
-    intrinsicNS.Set("vector_reduce_fmax",
-                    Napi::Number::New(env, llvm::Intrinsic::vector_reduce_fmax));
-    intrinsicNS.Set("vector_reduce_fmin",
-                    Napi::Number::New(env, llvm::Intrinsic::vector_reduce_fmin));
-    intrinsicNS.Set("vector_reduce_fmul",
-                    Napi::Number::New(env, llvm::Intrinsic::vector_reduce_fmul));
-    intrinsicNS.Set("vector_reduce_mul",
-                    Napi::Number::New(env, llvm::Intrinsic::vector_reduce_mul));
+    intrinsicNS.Set("vector_reduce_add", Napi::Number::New(env, llvm::Intrinsic::vector_reduce_add));
+    intrinsicNS.Set("vector_reduce_and", Napi::Number::New(env, llvm::Intrinsic::vector_reduce_and));
+    intrinsicNS.Set("vector_reduce_fadd", Napi::Number::New(env, llvm::Intrinsic::vector_reduce_fadd));
+    intrinsicNS.Set("vector_reduce_fmax", Napi::Number::New(env, llvm::Intrinsic::vector_reduce_fmax));
+    intrinsicNS.Set("vector_reduce_fmin", Napi::Number::New(env, llvm::Intrinsic::vector_reduce_fmin));
+    intrinsicNS.Set("vector_reduce_fmul", Napi::Number::New(env, llvm::Intrinsic::vector_reduce_fmul));
+    intrinsicNS.Set("vector_reduce_mul", Napi::Number::New(env, llvm::Intrinsic::vector_reduce_mul));
     intrinsicNS.Set("vector_reduce_or", Napi::Number::New(env, llvm::Intrinsic::vector_reduce_or));
-    intrinsicNS.Set("vector_reduce_smax",
-                    Napi::Number::New(env, llvm::Intrinsic::vector_reduce_smax));
-    intrinsicNS.Set("vector_reduce_smin",
-                    Napi::Number::New(env, llvm::Intrinsic::vector_reduce_smin));
-    intrinsicNS.Set("vector_reduce_umax",
-                    Napi::Number::New(env, llvm::Intrinsic::vector_reduce_umax));
-    intrinsicNS.Set("vector_reduce_umin",
-                    Napi::Number::New(env, llvm::Intrinsic::vector_reduce_umin));
-    intrinsicNS.Set("vector_reduce_xor",
-                    Napi::Number::New(env, llvm::Intrinsic::vector_reduce_xor));
+    intrinsicNS.Set("vector_reduce_smax", Napi::Number::New(env, llvm::Intrinsic::vector_reduce_smax));
+    intrinsicNS.Set("vector_reduce_smin", Napi::Number::New(env, llvm::Intrinsic::vector_reduce_smin));
+    intrinsicNS.Set("vector_reduce_umax", Napi::Number::New(env, llvm::Intrinsic::vector_reduce_umax));
+    intrinsicNS.Set("vector_reduce_umin", Napi::Number::New(env, llvm::Intrinsic::vector_reduce_umin));
+    intrinsicNS.Set("vector_reduce_xor", Napi::Number::New(env, llvm::Intrinsic::vector_reduce_xor));
     intrinsicNS.Set("vp_add", Napi::Number::New(env, llvm::Intrinsic::vp_add));
     intrinsicNS.Set("vp_and", Napi::Number::New(env, llvm::Intrinsic::vp_and));
     intrinsicNS.Set("vp_ashr", Napi::Number::New(env, llvm::Intrinsic::vp_ashr));
