@@ -1,3 +1,12 @@
+# [0.4.0](https://github.com/ApsarasX/llvm-bindings/compare/v0.3.8...v0.4.0) (2022-06-27)
+
+
+### Features
+
+* switch the version of llvm to 14 ([c08080a](https://github.com/ApsarasX/llvm-bindings/commit/c08080a388b163b8e2acb1a97195bb566b362dfc))
+
+
+
 ## [0.3.8](https://github.com/ApsarasX/llvm-bindings/compare/v0.3.7...v0.3.8) (2022-06-06)
 
 
