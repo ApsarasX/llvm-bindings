@@ -1,8 +1,13 @@
 ## [0.4.1](https://github.com/ApsarasX/llvm-bindings/compare/v0.4.0...v0.4.1) (2022-07-22)
 
 
+### Bug Fixes
 
-# [0.4.0](https://github.com/ApsarasX/llvm-bindings/compare/v0.3.8...v0.4.0) (2022-06-27)
+* **ConstantArray:** fix ConstantArray::get() to check for the right type ([#19](https://github.com/ApsarasX/llvm-bindings/pull/19))([99a52fe](https://github.com/ApsarasX/llvm-bindings/commit/99a52fe64050154b658001f8c0e3e3a3b4a99454))
+
+
+
+## [0.4.0](https://github.com/ApsarasX/llvm-bindings/compare/v0.3.8...v0.4.0) (2022-06-27)
 
 
 ### Features
