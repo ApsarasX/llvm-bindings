@@ -1,3 +1,7 @@
+## [0.4.1](https://github.com/ApsarasX/llvm-bindings/compare/v0.4.0...v0.4.1) (2022-07-22)
+
+
+
 # [0.4.0](https://github.com/ApsarasX/llvm-bindings/compare/v0.3.8...v0.4.0) (2022-06-27)
 
 
