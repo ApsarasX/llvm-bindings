@@ -338,7 +338,7 @@ llvm::ConstantArray *ConstantArray::getLLVMPrimitive() {
 
 Napi::Value ConstantArray::get(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() < 2 || !StructType::IsClassOf(info[0]) || !info[1].IsArray()) {
+    if (info.Length() < 2 || !ArrayType::IsClassOf(info[0]) || !info[1].IsArray()) {
         throw Napi::TypeError::New(env, ErrMsg::Class::ConstantArray::get);
     }
     llvm::ArrayType *arrayType = ArrayType::Extract(info[0]);
