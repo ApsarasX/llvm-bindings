@@ -261,7 +261,7 @@ declare namespace llvm {
 
         public isTokenTy(): boolean;
 
-        public isIntegerTy(bitWidth?: number): boolean;
+        public isIntegerTy(bitWidth: number): boolean;
 
         public isFunctionTy(): boolean;
 
