@@ -666,6 +666,8 @@ declare namespace llvm {
         // duplicated
         public getValueType(): Type;
 
+        public setInitializer(initVal: Constant | null): void;
+
         public removeFromParent(): void;
 
         public eraseFromParent(): void;

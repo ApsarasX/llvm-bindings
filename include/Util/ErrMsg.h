@@ -156,7 +156,7 @@ namespace ErrMsg {
                                                 "\n\t - new (external: Napi::External<llvm::GlobalVariable>)"
                                                 "\n\t - new (type: Type, isConstant: boolean, linkage: LinkageTypes, initializer?: Constant, name?: string)"
                                                 "\n\t - new (module: Module, type: Type, isConstant: boolean, linkage: LinkageTypes, initializer: Constant, name?: string)";
-
+            constexpr const char *setInitializer = "GlobalVariable.setInitializer needs to be called with (initVal: Constant | null)";
             constexpr const char *addDebugInfo = "GlobalVariable.addDebugInfo needs to be called with (gv: DIGlobalVariableExpression)";
         }
         namespace Function {

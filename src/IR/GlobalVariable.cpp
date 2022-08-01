@@ -6,6 +6,7 @@ void GlobalVariable::Init(Napi::Env env, Napi::Object &exports) {
     Napi::Function func = DefineClass(env, "GlobalVariable", {
             InstanceMethod("getType", &GlobalVariable::getType),
             InstanceMethod("getValueType", &GlobalVariable::getValueType),
+            InstanceMethod("setInitializer", &GlobalVariable::setInitializer),
             InstanceMethod("removeFromParent", &GlobalVariable::removeFromParent),
             InstanceMethod("eraseFromParent", &GlobalVariable::eraseFromParent),
             InstanceMethod("addDebugInfo", &GlobalVariable::addDebugInfo)
@@ -90,6 +91,16 @@ Napi::Value GlobalVariable::getValueType(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     llvm::Type *type = globalVariable->getValueType();
     return Type::New(env, type);
+}
+
+void GlobalVariable::setInitializer(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 1 && Constant::IsClassOf(info[0])) {
+        llvm::Constant *initVal = Constant::Extract(info[0]);
+        globalVariable->setInitializer(initVal);
+        return;
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::GlobalVariable::setInitializer);
 }
 
 void GlobalVariable::removeFromParent(const Napi::CallbackInfo &info) {

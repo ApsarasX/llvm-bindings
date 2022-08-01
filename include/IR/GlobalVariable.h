@@ -26,6 +26,8 @@ private:
 
     Napi::Value getValueType(const Napi::CallbackInfo &info);
 
+    void setInitializer(const Napi::CallbackInfo &info);
+
     void removeFromParent(const Napi::CallbackInfo &info);
 
     void eraseFromParent(const Napi::CallbackInfo &info);
