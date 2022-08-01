@@ -1,3 +1,17 @@
+## [0.4.2](https://github.com/ApsarasX/llvm-bindings/compare/v0.4.1...v0.4.2) (2022-08-01)
+
+
+### Bug Fixes
+
+* **Type:** wrong parameter verification ([8180e9c](https://github.com/ApsarasX/llvm-bindings/commit/8180e9cd35d29ffa02572870e890b118cb941699))
+
+
+### Features
+
+* **IR/GlobalVariable:** add setInitializer method ([a11ad4c](https://github.com/ApsarasX/llvm-bindings/commit/a11ad4c5b86fe3efbbbfde9328e1f3baaa85d927))
+
+
+
 ## [0.4.1](https://github.com/ApsarasX/llvm-bindings/compare/v0.4.0...v0.4.1) (2022-07-22)
 
 
