@@ -212,7 +212,7 @@ Napi::Value Type::getPrimitiveSizeInBits(const Napi::CallbackInfo &info) {
 
 Napi::Value Type::isIntegerTy(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() == 0 || !info[0].IsNumber()) {
+    if (info.Length() > 0 && !info[0].IsNumber()) {
         throw Napi::TypeError::New(env, ErrMsg::Class::Type::isIntegerTy);
     }
     bool result = info.Length() == 0 ? type->isIntegerTy() : type->isIntegerTy(info[0].As<Napi::Number>());
