@@ -167,6 +167,9 @@ namespace ErrMsg {
             constexpr const char *insertAfter = "Function.insertAfter needs to be called with (where: BasicBlock, basicBlock: BasicBlock)";
             constexpr const char *setPersonalityFn = "Function.setPersonalityFn needs to be called with (fn: Constant)";
             constexpr const char *setSubprogram = "Function.setSubprogram needs to be called with (subprogram: DISubprogram)";
+            constexpr const char *addFnAttr = "Function.addFnAttr needs to be called with (kind: Attribute.AttrKind)";
+            constexpr const char *addParamAttr = "Function.addParamAttr needs to be called with (argNo: number, kind: Attribute.AttrKind)";
+            constexpr const char *addRetAttr = "Function.addRetAttr needs to be called with (kind: Attribute.AttrKind)";
         }
         namespace Instruction {
             constexpr const char *constructor = "Instruction.constructor needs to be called with new (external: Napi::External<llvm::Instruction>)";

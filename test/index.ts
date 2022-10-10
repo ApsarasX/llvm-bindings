@@ -13,6 +13,7 @@ import testType from './type';
 import testDebugInfo from './debugInfo';
 import testTarget from './target';
 import testGEP from './gep';
+import testAttribute from './attribute';
 
 testAdd();
 testFibonacci();
@@ -29,3 +30,4 @@ testType();
 testDebugInfo();
 testTarget();
 testGEP();
+testAttribute();
