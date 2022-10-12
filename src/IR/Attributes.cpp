@@ -111,17 +111,20 @@ Attribute::Attribute(const Napi::CallbackInfo &info) : ObjectWrap(info) {
 
     if (info.IsConstructCall() && argsLen >= 2 && argsLen <= 3 && LLVMContext::IsClassOf(info[0]) && info[1].IsNumber()) {
         llvm::LLVMContext &context = LLVMContext::Extract(info[0]);
-        auto attributeKind = static_cast<llvm::Attribute::AttrKind>((unsigned)info[1].As<Napi::Number>());
-        
-        if (argsLen == 2) {
-            attribute = llvm::Attribute::get(context, attributeKind);
-            return;
-        }
-        
-        if (Type::IsClassOf(info[2])) {
-            auto type = Type::Extract(info[2]);
-            attribute = llvm::Attribute::get(context, attributeKind, type);
-            return;
+        unsigned rawAttrKind = info[1].As<Napi::Number>();
+
+        if (rawAttrKind >= llvm::Attribute::AttrKind::FirstEnumAttr && rawAttrKind <= llvm::Attribute::AttrKind::LastEnumAttr) {
+            auto attributeKind = static_cast<llvm::Attribute::AttrKind>(rawAttrKind);
+            if (argsLen == 2) {
+                attribute = llvm::Attribute::get(context, attributeKind);
+                return;
+            }
+            
+            if (Type::IsClassOf(info[2])) {
+                auto type = Type::Extract(info[2]);
+                attribute = llvm::Attribute::get(context, attributeKind, type);
+                return;
+            }
         }
     }
 
