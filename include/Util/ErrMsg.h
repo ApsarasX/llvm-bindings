@@ -88,6 +88,9 @@ namespace ErrMsg {
                                                 "\n\t - new (type: Type, name?: string, func?: Function, argNo?: number)";
             constexpr const char *setName = "Argument.setName needs to be called with (name: string)";
         }
+        namespace Attribute {
+            constexpr const char *constructor = "Attribute.constructor needs to be called with new (context: LLVMContext, kind: Attribute.AttrKind, type?: Type)";
+        }
         namespace BasicBlock {
             constexpr const char *constructor = "BasicBlock.constructor needs to be called with new (external: Napi::External<llvm::BasicBlock>)";
             constexpr const char *Create = "BasicBlock.Create needs to be called with: (context: LLVMContext, name?: string, parent?: Function, insertBefore?: BasicBlock)";
@@ -167,9 +170,9 @@ namespace ErrMsg {
             constexpr const char *insertAfter = "Function.insertAfter needs to be called with (where: BasicBlock, basicBlock: BasicBlock)";
             constexpr const char *setPersonalityFn = "Function.setPersonalityFn needs to be called with (fn: Constant)";
             constexpr const char *setSubprogram = "Function.setSubprogram needs to be called with (subprogram: DISubprogram)";
-            constexpr const char *addFnAttr = "Function.addFnAttr needs to be called with (kind: Attribute.AttrKind)";
-            constexpr const char *addParamAttr = "Function.addParamAttr needs to be called with (argNo: number, kind: Attribute.AttrKind)";
-            constexpr const char *addRetAttr = "Function.addRetAttr needs to be called with (kind: Attribute.AttrKind)";
+            constexpr const char *addFnAttr = "Function.addFnAttr needs to be called with (attribute: Attribute)";
+            constexpr const char *addParamAttr = "Function.addParamAttr needs to be called with (argNo: number, attribute: Attribute)";
+            constexpr const char *addRetAttr = "Function.addRetAttr needs to be called with (attribute: Attribute)";
         }
         namespace Instruction {
             constexpr const char *constructor = "Instruction.constructor needs to be called with new (external: Napi::External<llvm::Instruction>)";

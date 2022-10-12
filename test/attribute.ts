@@ -12,8 +12,10 @@ export default function testAttribute(): void {
     const functionType = llvm.FunctionType.get(returnType, paramTypes, false);
     const func = llvm.Function.Create(functionType, llvm.Function.LinkageTypes.ExternalLinkage, 'addWithAttributes', module);
 
-    func.addFnAttr(llvm.Attributes.AttrKind.NoInline);
-    func.addParamAttr(0, llvm.Attributes.AttrKind.InReg);
+    const noInlineAttr = new llvm.Attribute(context, llvm.Attribute.AttrKind.NoInline);
+    const inRegAttr = new llvm.Attribute(context, llvm.Attribute.AttrKind.InReg, builder.getInt32Ty());
+    func.addFnAttr(noInlineAttr);
+    func.addParamAttr(0, inRegAttr);
 
     const entryBB = llvm.BasicBlock.Create(context, 'entry', func);
     builder.SetInsertPoint(entryBB);
@@ -33,3 +35,5 @@ export default function testAttribute(): void {
         process.exit(1);
     }
 }
+
+testAttribute();

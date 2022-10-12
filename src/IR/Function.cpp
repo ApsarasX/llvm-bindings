@@ -201,8 +201,8 @@ Napi::Value Function::getType(const Napi::CallbackInfo &info) {
 void Function::addFnAttr(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
 
-    if (info.Length() == 1 && info[0].IsNumber()) {
-        auto attrKind = attribute::Extract(info[0]);
+    if (info.Length() == 1 && Attribute::IsClassOf(info[0])) {
+        auto attrKind = *Attribute::Extract(info[0]);
         function->addFnAttr(attrKind);
     } else {
         throw Napi::TypeError::New(env, ErrMsg::Class::Function::addFnAttr);
@@ -212,9 +212,9 @@ void Function::addFnAttr(const Napi::CallbackInfo &info) {
 void Function::addParamAttr(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
 
-    if (info.Length() == 2 && info[0].IsNumber() && info[1].IsNumber()) {
+    if (info.Length() == 2 && info[0].IsNumber() && Attribute::IsClassOf(info[1])) {
         unsigned argNo = info[0].As<Napi::Number>();
-        auto attrKind = attribute::Extract(info[1]);
+        auto attrKind = *Attribute::Extract(info[1]);
         function->addParamAttr(argNo, attrKind);
     } else {
         throw Napi::TypeError::New(env, ErrMsg::Class::Function::addParamAttr);
@@ -224,8 +224,8 @@ void Function::addParamAttr(const Napi::CallbackInfo &info) {
 void Function::addRetAttr(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
 
-    if (info.Length() == 1 && info[0].IsNumber()) {
-        auto attrKind = attribute::Extract(info[0]);
+    if (info.Length() == 1 && Attribute::IsClassOf(info[0])) {
+        auto attrKind = *Attribute::Extract(info[0]);
         function->addRetAttr(attrKind);
     } else {
         throw Napi::TypeError::New(env, ErrMsg::Class::Function::addRetAttr);

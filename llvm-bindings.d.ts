@@ -11,18 +11,21 @@ declare namespace llvm {
         const DEBUG_METADATA_VERSION: number;
     }
 
-    namespace Attributes {
-        class AttrKind {
-            public static ByVal: number;
-            public static InReg: number;
-            public static NoAlias: number;
-            public static NoInline: number;
-            public static NoUnwind: number;
-            public static ReadOnly: number;
-            public static SExt: number;
-            public static NoRecurse: number;
-            public static NonNull: number;
-        }
+    class Attribute {
+        public static readonly AttrKind: {
+            ByVal: number;
+            InReg: number;
+            NoAlias: number;
+            NoInline: number;
+            NoUnwind: number;
+            ReadOnly: number;
+            SExt: number;
+            NoRecurse: number;
+            NonNull: number;
+        };
+
+        public constructor(context: LLVMContext, kind: number);
+        public constructor(context: LLVMContext, kind: number, type: Type);
     }
 
     namespace dwarf {
@@ -740,11 +743,11 @@ declare namespace llvm {
         // duplicated
         public getType(): PointerType;
 
-        public addFnAttr(kind: Attributes.AttrKind): void;
+        public addFnAttr(attribute: Attribute): void;
 
-        public addParamAttr(argNo: number, kind: Attributes.AttrKind): void;
+        public addParamAttr(argNo: number, attribute: Attribute): void;
 
-        public addRetAttr(kind: Attributes.AttrKind): void;
+        public addRetAttr(attribute: Attribute): void;
 
         protected constructor();
     }
