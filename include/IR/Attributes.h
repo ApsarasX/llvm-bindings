@@ -9,8 +9,6 @@ public:
 
     static void Init(Napi::Env env, Napi::Object &exports);
 
-    static Napi::Value New(Napi::Env env, llvm::Attribute *attribute);
-
     static bool IsClassOf(const Napi::Value &value);
 
     static llvm::Attribute *Extract(const Napi::Value &value);

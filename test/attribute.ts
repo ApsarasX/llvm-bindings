@@ -35,5 +35,3 @@ export default function testAttribute(): void {
         process.exit(1);
     }
 }
-
-testAttribute();

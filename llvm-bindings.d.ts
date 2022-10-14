@@ -11,95 +11,6 @@ declare namespace llvm {
         const DEBUG_METADATA_VERSION: number;
     }
 
-    class Attribute {
-        public static readonly AttrKind: {
-            AlwaysInline: number;
-            ArgMemOnly: number;
-            Builtin: number;
-            Cold: number;
-            Convergent: number;
-            DisableSanitizerInstrumentation: number;
-            Hot: number;
-            ImmArg: number;
-            InReg: number;
-            InaccessibleMemOnly: number;
-            InaccessibleMemOrArgMemOnly: number;
-            InlineHint: number;
-            JumpTable: number;
-            MinSize: number;
-            MustProgress: number;
-            Naked: number;
-            Nest: number;
-            NoAlias: number;
-            NoBuiltin: number;
-            NoCallback: number;
-            NoCapture: number;
-            NoCfCheck: number;
-            NoDuplicate: number;
-            NoFree: number;
-            NoImplicitFloat: number;
-            NoInline: number;
-            NoMerge: number;
-            NoProfile: number;
-            NoRecurse: number;
-            NoRedZone: number;
-            NoReturn: number;
-            NoSanitizeCoverage: number;
-            NoSync: number;
-            NoUndef: number;
-            NoUnwind: number;
-            NonLazyBind: number;
-            NonNull: number;
-            NullPointerIsValid: number;
-            OptForFuzzing: number;
-            OptimizeForSize: number;
-            OptimizeNone: number;
-            ReadNone: number;
-            ReadOnly: number;
-            Returned: number;
-            ReturnsTwice: number;
-            SExt: number;
-            SafeStack: number;
-            SanitizeAddress: number;
-            SanitizeHWAddress: number;
-            SanitizeMemTag: number;
-            SanitizeMemory: number;
-            SanitizeThread: number;
-            ShadowCallStack: number;
-            Speculatable: number;
-            SpeculativeLoadHardening: number;
-            StackProtect: number;
-            StackProtectReq: number;
-            StackProtectStrong: number;
-            StrictFP: number;
-            SwiftAsync: number;
-            SwiftError: number;
-            SwiftSelf: number;
-            UWTable: number;
-            WillReturn: number;
-            WriteOnly: number;
-            LastEnumAttr: number;
-            ByRef: number;
-            ByVal: number;
-            ElementType: number;
-            InAlloca: number;
-            Preallocated: number;
-            LastTypeAttr: number;
-            Alignment: number;
-            AllocSize: number;
-            Dereferenceable: number;
-            DereferenceableOrNull: number;
-            StackAlignment: number;
-            VScaleRange: number;
-        };
-
-        // customized
-        public constructor(context: LLVMContext, kind: number);
-
-        // customized
-        public constructor(context: LLVMContext, kind: number, type: Type);
-    }
-
     namespace dwarf {
         namespace LLVMConstants {
             const DWARF_VERSION: number;
@@ -2202,6 +2113,92 @@ declare namespace llvm {
         public createDataLayout(): DataLayout;
 
         protected constructor();
+    }
+
+    class Attribute {
+        public static readonly AttrKind: {
+            AlwaysInline: number;
+            ArgMemOnly: number;
+            Builtin: number;
+            Cold: number;
+            Convergent: number;
+            DisableSanitizerInstrumentation: number;
+            Hot: number;
+            ImmArg: number;
+            InReg: number;
+            InaccessibleMemOnly: number;
+            InaccessibleMemOrArgMemOnly: number;
+            InlineHint: number;
+            JumpTable: number;
+            MinSize: number;
+            MustProgress: number;
+            Naked: number;
+            Nest: number;
+            NoAlias: number;
+            NoBuiltin: number;
+            NoCallback: number;
+            NoCapture: number;
+            NoCfCheck: number;
+            NoDuplicate: number;
+            NoFree: number;
+            NoImplicitFloat: number;
+            NoInline: number;
+            NoMerge: number;
+            NoProfile: number;
+            NoRecurse: number;
+            NoRedZone: number;
+            NoReturn: number;
+            NoSanitizeCoverage: number;
+            NoSync: number;
+            NoUndef: number;
+            NoUnwind: number;
+            NonLazyBind: number;
+            NonNull: number;
+            NullPointerIsValid: number;
+            OptForFuzzing: number;
+            OptimizeForSize: number;
+            OptimizeNone: number;
+            ReadNone: number;
+            ReadOnly: number;
+            Returned: number;
+            ReturnsTwice: number;
+            SExt: number;
+            SafeStack: number;
+            SanitizeAddress: number;
+            SanitizeHWAddress: number;
+            SanitizeMemTag: number;
+            SanitizeMemory: number;
+            SanitizeThread: number;
+            ShadowCallStack: number;
+            Speculatable: number;
+            SpeculativeLoadHardening: number;
+            StackProtect: number;
+            StackProtectReq: number;
+            StackProtectStrong: number;
+            StrictFP: number;
+            SwiftAsync: number;
+            SwiftError: number;
+            SwiftSelf: number;
+            UWTable: number;
+            WillReturn: number;
+            WriteOnly: number;
+            LastEnumAttr: number;
+            ByRef: number;
+            ByVal: number;
+            ElementType: number;
+            InAlloca: number;
+            Preallocated: number;
+            LastTypeAttr: number;
+            Alignment: number;
+            AllocSize: number;
+            Dereferenceable: number;
+            DereferenceableOrNull: number;
+            StackAlignment: number;
+            VScaleRange: number;
+        };
+
+        // customized
+        public constructor(context: LLVMContext, kind: number, type?: Type);
     }
 
     function InitializeAllTargetInfos(): void;
