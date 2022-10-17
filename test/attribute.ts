@@ -12,8 +12,8 @@ export default function testAttribute(): void {
     const functionType = llvm.FunctionType.get(returnType, paramTypes, false);
     const func = llvm.Function.Create(functionType, llvm.Function.LinkageTypes.ExternalLinkage, 'addWithAttributes', module);
 
-    const noInlineAttr = new llvm.Attribute(context, llvm.Attribute.AttrKind.NoInline);
-    const inRegAttr = new llvm.Attribute(context, llvm.Attribute.AttrKind.InReg, builder.getInt32Ty());
+    const noInlineAttr = llvm.Attribute.get(context, llvm.Attribute.AttrKind.NoInline);
+    const inRegAttr = llvm.Attribute.get(context, llvm.Attribute.AttrKind.InReg, builder.getInt32Ty());
     func.addFnAttr(noInlineAttr);
     func.addParamAttr(0, inRegAttr);
 

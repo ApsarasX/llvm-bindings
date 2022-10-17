@@ -9,14 +9,18 @@ public:
 
     static void Init(Napi::Env env, Napi::Object &exports);
 
+    static Napi::Object New(Napi::Env env, llvm::AttributeImpl *_attrImpl);
+
     static bool IsClassOf(const Napi::Value &value);
 
-    static llvm::Attribute *Extract(const Napi::Value &value);
+    static llvm::Attribute Extract(const Napi::Value &value);
 
     explicit Attribute(const Napi::CallbackInfo &info);
 
-    llvm::Attribute *getLLVMPrimitive();
+    llvm::Attribute getLLVMPrimitive();
 
 private:
-    llvm::Attribute attribute;
+    llvm::AttributeImpl *attrImpl = nullptr;
+
+    static Napi::Value get(const Napi::CallbackInfo &info);
 };

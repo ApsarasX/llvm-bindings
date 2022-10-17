@@ -89,7 +89,12 @@ namespace ErrMsg {
             constexpr const char *setName = "Argument.setName needs to be called with (name: string)";
         }
         namespace Attribute {
-            constexpr const char *constructor = "Attribute.constructor needs to be called with new (context: LLVMContext, kind: Attribute.AttrKind, type?: Type)";
+            constexpr const char *constructor = "Attribute.constructor needs to be called with new (external: Napi::External<llvm::AttributeImpl>)";
+            constexpr const char *get = "Attribute.get needs to be called with"
+                                        "\n\t - (context: LLVMContext, kind: Attribute.AttrKind, value: number = 0)"
+                                        "\n\t - (context: LLVMContext, kind: string, value: string = "")"
+                                        "\n\t - (context: LLVMContext, kind: Attribute.AttrKind, type: Type)";
+            constexpr const char *invalidAttrKind = "The attribute kind parameter is invalid";
         }
         namespace BasicBlock {
             constexpr const char *constructor = "BasicBlock.constructor needs to be called with new (external: Napi::External<llvm::BasicBlock>)";
@@ -170,9 +175,16 @@ namespace ErrMsg {
             constexpr const char *insertAfter = "Function.insertAfter needs to be called with (where: BasicBlock, basicBlock: BasicBlock)";
             constexpr const char *setPersonalityFn = "Function.setPersonalityFn needs to be called with (fn: Constant)";
             constexpr const char *setSubprogram = "Function.setSubprogram needs to be called with (subprogram: DISubprogram)";
-            constexpr const char *addFnAttr = "Function.addFnAttr needs to be called with (attribute: Attribute)";
-            constexpr const char *addParamAttr = "Function.addParamAttr needs to be called with (argNo: number, attribute: Attribute)";
-            constexpr const char *addRetAttr = "Function.addRetAttr needs to be called with (attribute: Attribute)";
+            constexpr const char *addFnAttr = "Function.addFnAttr needs to be called with"
+                                              "\n\t - (kind: Attribute.AttrKind)"
+                                              "\n\t - (kind: string, value: string = "")"
+                                              "\n\t - (attr: Attribute)";
+            constexpr const char *addParamAttr = "Function.addParamAttr needs to be called with"
+                                                 "\n\t - (kind: Attribute.AttrKind)"
+                                                 "\n\t - (attr: Attribute)";
+            constexpr const char *addRetAttr = "Function.addRetAttr needs to be called with"
+                                               "\n\t - (kind: Attribute.AttrKind)"
+                                               "\n\t - (attr: Attribute)";
         }
         namespace Instruction {
             constexpr const char *constructor = "Instruction.constructor needs to be called with new (external: Napi::External<llvm::Instruction>)";

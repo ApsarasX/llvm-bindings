@@ -201,33 +201,79 @@ Napi::Value Function::getType(const Napi::CallbackInfo &info) {
 void Function::addFnAttr(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
 
-    if (info.Length() == 1 && Attribute::IsClassOf(info[0])) {
-        auto attrKind = *Attribute::Extract(info[0]);
-        function->addFnAttr(attrKind);
-    } else {
-        throw Napi::TypeError::New(env, ErrMsg::Class::Function::addFnAttr);
+    unsigned argsLen = info.Length();
+
+    if (argsLen >= 1 && argsLen <= 2) {
+        if (argsLen == 1 && info[0].IsNumber()) {
+            unsigned rawAttrKind = info[0].As<Napi::Number>();
+            if (rawAttrKind < llvm::Attribute::AttrKind::FirstEnumAttr ||
+                rawAttrKind > llvm::Attribute::AttrKind::LastEnumAttr) {
+                throw Napi::TypeError::New(env, ErrMsg::Class::Attribute::invalidAttrKind);
+            }
+            function->addFnAttr(static_cast<llvm::Attribute::AttrKind>(rawAttrKind));
+            return;
+        } else if (argsLen == 1 && Attribute::IsClassOf(info[0])) {
+            llvm::Attribute attr = Attribute::Extract(info[0]);
+            function->addFnAttr(attr);
+            return;
+        } else if (info[0].IsString()) {
+            std::string attrKind = info[0].As<Napi::String>();
+            if (argsLen == 1) {
+                function->addFnAttr(attrKind);
+                return;
+            } else if (argsLen == 2 && info[1].IsString()) {
+                std::string value = info[1].As<Napi::String>();
+                function->addFnAttr(attrKind, value);
+                return;
+            }
+        }
     }
+
+    throw Napi::TypeError::New(env, ErrMsg::Class::Function::addFnAttr);
 }
 
 void Function::addParamAttr(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
 
-    if (info.Length() == 2 && info[0].IsNumber() && Attribute::IsClassOf(info[1])) {
+    if (info.Length() == 2 && info[0].IsNumber()) {
         unsigned argNo = info[0].As<Napi::Number>();
-        auto attrKind = *Attribute::Extract(info[1]);
-        function->addParamAttr(argNo, attrKind);
-    } else {
-        throw Napi::TypeError::New(env, ErrMsg::Class::Function::addParamAttr);
+
+        if (info[1].IsNumber()) {
+            unsigned rawAttrKind = info[1].As<Napi::Number>();
+            if (rawAttrKind < llvm::Attribute::AttrKind::FirstEnumAttr ||
+                rawAttrKind > llvm::Attribute::AttrKind::LastEnumAttr) {
+                throw Napi::TypeError::New(env, ErrMsg::Class::Attribute::invalidAttrKind);
+            }
+            function->addParamAttr(argNo, static_cast<llvm::Attribute::AttrKind>(rawAttrKind));
+            return;
+        } else if (Attribute::IsClassOf(info[1])) {
+            llvm::Attribute attr = Attribute::Extract(info[1]);
+            function->addParamAttr(argNo, attr);
+            return;
+        }
     }
+
+    throw Napi::TypeError::New(env, ErrMsg::Class::Function::addParamAttr);
 }
 
 void Function::addRetAttr(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
 
-    if (info.Length() == 1 && Attribute::IsClassOf(info[0])) {
-        auto attrKind = *Attribute::Extract(info[0]);
-        function->addRetAttr(attrKind);
-    } else {
-        throw Napi::TypeError::New(env, ErrMsg::Class::Function::addRetAttr);
+    if (info.Length() == 1) {
+        if (info[0].IsNumber()) {
+            unsigned rawAttrKind = info[0].As<Napi::Number>();
+            if (rawAttrKind < llvm::Attribute::AttrKind::FirstEnumAttr ||
+                rawAttrKind > llvm::Attribute::AttrKind::LastEnumAttr) {
+                throw Napi::TypeError::New(env, ErrMsg::Class::Attribute::invalidAttrKind);
+            }
+            function->addRetAttr(static_cast<llvm::Attribute::AttrKind>(rawAttrKind));
+            return;
+        } else if (Attribute::IsClassOf(info[0])) {
+            llvm::Attribute attr = Attribute::Extract(info[0]);
+            function->addRetAttr(attr);
+            return;
+        }
     }
+
+    throw Napi::TypeError::New(env, ErrMsg::Class::Function::addRetAttr);
 }
