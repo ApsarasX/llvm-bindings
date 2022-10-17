@@ -24,7 +24,10 @@ void Function::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("setDoesNotThrow", &Function::setDoesNotThrow),
             InstanceMethod("setSubprogram", &Function::setSubprogram),
             InstanceMethod("getSubprogram", &Function::getSubprogram),
-            InstanceMethod("getType", &Function::getType)
+            InstanceMethod("getType", &Function::getType),
+            InstanceMethod("addFnAttr", &Function::addFnAttr),
+            InstanceMethod("addParamAttr", &Function::addParamAttr),
+            InstanceMethod("addRetAttr", &Function::addRetAttr)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -193,4 +196,38 @@ Napi::Value Function::getType(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     llvm::PointerType *type = function->getType();
     return PointerType::New(env, type);
+}
+
+void Function::addFnAttr(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+
+    if (info.Length() == 1 && Attribute::IsClassOf(info[0])) {
+        auto attrKind = *Attribute::Extract(info[0]);
+        function->addFnAttr(attrKind);
+    } else {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Function::addFnAttr);
+    }
+}
+
+void Function::addParamAttr(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+
+    if (info.Length() == 2 && info[0].IsNumber() && Attribute::IsClassOf(info[1])) {
+        unsigned argNo = info[0].As<Napi::Number>();
+        auto attrKind = *Attribute::Extract(info[1]);
+        function->addParamAttr(argNo, attrKind);
+    } else {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Function::addParamAttr);
+    }
+}
+
+void Function::addRetAttr(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+
+    if (info.Length() == 1 && Attribute::IsClassOf(info[0])) {
+        auto attrKind = *Attribute::Extract(info[0]);
+        function->addRetAttr(attrKind);
+    } else {
+        throw Napi::TypeError::New(env, ErrMsg::Class::Function::addRetAttr);
+    }
 }

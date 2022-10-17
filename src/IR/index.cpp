@@ -27,6 +27,7 @@ void InitIR(Napi::Env env, Napi::Object &exports) {
     GlobalValue::Init(env, exports);
     GlobalObject::Init(env, exports);
     GlobalVariable::Init(env, exports);
+    Attribute::Init(env, exports);
     Function::Init(env, exports);
     Instruction::Init(env, exports);
     AllocaInst::Init(env, exports);

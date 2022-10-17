@@ -7,6 +7,7 @@
 #include "IR/DerivedTypes.h"
 #include "IR/Value.h"
 #include "IR/Argument.h"
+#include "IR/Attributes.h"
 #include "IR/BasicBlock.h"
 #include "IR/User.h"
 #include "IR/Constant.h"
