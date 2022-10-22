@@ -46,6 +46,11 @@ Napi::Value TargetMachine::createDataLayout(const Napi::CallbackInfo &info) {
 
 void TargetMachine::emitToFile(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
+    unsigned argsLen = info.Length();
+
+    if (argsLen != 3 || !Module::IsClassOf(info[0]) || !info[1].IsString() || !info[2].IsNumber()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::TargetMachine::emitToFile);
+    }
 
     auto fileName = info[1].As<Napi::String>().Utf8Value();
     std::error_code ec;
@@ -57,7 +62,7 @@ void TargetMachine::emitToFile(const Napi::CallbackInfo& info) {
     llvm::legacy::PassManager pm{};
 
     if (const_cast<llvm::TargetMachine*>(targetMachine)->addPassesToEmitFile(pm, dest, nullptr, type)) {
-        throw Napi::TypeError::New(env, "cannot add emit pass");
+        throw Napi::Error::New(env, ErrMsg::Class::TargetMachine::addPassesToEmitFile);
     }
 
     pm.run(*module);
@@ -66,6 +71,11 @@ void TargetMachine::emitToFile(const Napi::CallbackInfo& info) {
 
 Napi::Value TargetMachine::emitToBuffer(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
+    unsigned argsLen = info.Length();
+
+    if (argsLen != 2 || !Module::IsClassOf(info[0]) || !info[1].IsNumber()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::TargetMachine::emitToBuffer);
+    }
 
     llvm::SmallVector<char> buffer;
     llvm::raw_svector_ostream dest(buffer);
@@ -76,7 +86,7 @@ Napi::Value TargetMachine::emitToBuffer(const Napi::CallbackInfo& info) {
     llvm::legacy::PassManager pm{};
 
     if (const_cast<llvm::TargetMachine*>(targetMachine)->addPassesToEmitFile(pm, dest, nullptr, type)) {
-        throw Napi::TypeError::New(env, "cannot add emit pass");
+        throw Napi::Error::New(env, ErrMsg::Class::TargetMachine::addPassesToEmitFile);
     }
 
     pm.run(*module);

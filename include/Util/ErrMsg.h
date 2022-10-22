@@ -3,7 +3,7 @@
 namespace ErrMsg {
     namespace Class {
         namespace APInt {
-            constexpr const char *constructor = "APInt.constructor needs to be called with new (numBits: number, value: number, isSigned?: boolean)";
+            constexpr const char *constructor = "APInt.constructor needs to be called with new (numBits: number, value: number | bigint, isSigned?: boolean)";
         }
         namespace APFloat {
             constexpr const char *constructor = "APFloat.constructor needs to be called with new (value: number)";
@@ -579,6 +579,19 @@ namespace ErrMsg {
         }
         namespace TargetMachine {
             constexpr const char *constructor = "TargetMachine.constructor needs to be called with new (external: Napi::External<llvm::TargetMachine>)";
+            constexpr const char *emitToFile = "TargetMachine.emitToFile needs to be called with (module: Module, path: string, format: CodeGenFileType)";
+            constexpr const char *emitToBuffer = "TargetMachine.emitToBuffer needs to be called with (module: Module, format: CodeGenFileType)";
+            constexpr const char *addPassesToEmitFile = "Cannot register passes to emit file. Check registered ASM printers, targets and relevant stuff";
+        }
+        namespace ModulePassManager {
+            constexpr const char *constructor = "ModulePassManager.constructor needs to be called with new (optLevel: OptimizationLevel)";
+            constexpr const char *createFunctionPassManager = "ModulePassManager.createFunctionPassManager needs to be called with new (ltoPhase: ThinOrFullLTOPhase)";
+            constexpr const char *addFunctionPasses = "ModulePassManager.addFunctionPasses needs to be called with new (fpm: FunctionPassManager)";
+            constexpr const char *run = "ModulePassManager.run needs to be called with new (module: Module)";
+        }
+        namespace FunctionPassManager {
+            constexpr const char *constructor = "ModulePassManager.constructor needs to be called with new (external: Napi::External<llvm::TargetMachine>)";
+
         }
     }
     namespace Namespace::Intrinsic {

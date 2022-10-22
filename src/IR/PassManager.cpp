@@ -5,6 +5,7 @@
 
 #include "llvm/Pass.h"
 #include "llvm/Passes/PassBuilder.h"
+#include "llvm/CodeGen/CodeGenPassBuilder.h"
 #include "llvm/Transforms/Scalar/SROA.h"
 #include "llvm/Transforms/Scalar/EarlyCSE.h"
 #include "llvm/Transforms/InstCombine/InstCombine.h"
@@ -52,30 +53,40 @@ llvm::OptimizationLevel mapToLLVM(OptimizationLevel::Level opt) {
 
 ModulePassManager::ModulePassManager(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
+    if (info.IsConstructCall() && info.Length() == 1 && info[0].IsNumber()) {
+        level = mapToLLVM((OptimizationLevel::Level) info[0].As<Napi::Number>().Uint32Value());
 
-    level = mapToLLVM((OptimizationLevel::Level) info[0].As<Napi::Number>().Uint32Value());
+        passBuilder = new llvm::PassBuilder();
 
-    passBuilder = new llvm::PassBuilder();
+        moduleAnalysisManager = new llvm::ModuleAnalysisManager();
+        cgsccAnalysisManager = new llvm::CGSCCAnalysisManager();
+        functionAnalysisManager = new llvm::FunctionAnalysisManager();
+        loopAnalysisManager = new llvm::LoopAnalysisManager ();
 
-    moduleAnalysisManager = new llvm::ModuleAnalysisManager();
-    cgsccAnalysisManager = new llvm::CGSCCAnalysisManager();
-    functionAnalysisManager = new llvm::FunctionAnalysisManager();
-    loopAnalysisManager = new llvm::LoopAnalysisManager ();
+        passBuilder->registerModuleAnalyses(*moduleAnalysisManager);
+        passBuilder->registerCGSCCAnalyses(*cgsccAnalysisManager);
+        passBuilder->registerFunctionAnalyses(*functionAnalysisManager);
+        passBuilder->registerLoopAnalyses(*loopAnalysisManager);
+        passBuilder->crossRegisterProxies(
+            *loopAnalysisManager,
+            *functionAnalysisManager,
+            *cgsccAnalysisManager,
+            *moduleAnalysisManager
+        );
 
-    passBuilder->registerModuleAnalyses(*moduleAnalysisManager);
-    passBuilder->registerCGSCCAnalyses(*cgsccAnalysisManager);
-    passBuilder->registerFunctionAnalyses(*functionAnalysisManager);
-    passBuilder->registerLoopAnalyses(*loopAnalysisManager);
-    passBuilder->crossRegisterProxies(
-        *loopAnalysisManager,
-        *functionAnalysisManager,
-        *cgsccAnalysisManager,
-        *moduleAnalysisManager
-    );
+        if (level == llvm::OptimizationLevel::O0) {
+            passManager = new llvm::ModulePassManager(
+                passBuilder->buildO0DefaultPipeline(level)
+            );
+            return;
+        }
 
-    passManager = new llvm::ModulePassManager(
-        passBuilder->buildPerModuleDefaultPipeline(level)
-    );
+        passManager = new llvm::ModulePassManager(
+            passBuilder->buildPerModuleDefaultPipeline(level)
+        );
+        return;
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::ModulePassManager::constructor);
 }
 
 llvm::ModulePassManager *ModulePassManager::getLLVMPrimitive() {
@@ -84,6 +95,11 @@ llvm::ModulePassManager *ModulePassManager::getLLVMPrimitive() {
 
 Napi::Value ModulePassManager::createFunctionPassManager(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
+    unsigned argsLen = info.Length();
+
+    if (argsLen != 1 || !info[0].IsNumber()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::ModulePassManager::createFunctionPassManager);
+    }
 
     auto lto = (llvm::ThinOrFullLTOPhase) info[0].As<Napi::Number>().Uint32Value();
 
@@ -103,14 +119,14 @@ void ModulePassManager::addFunctionPasses(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     auto argsLen = info.Length();
 
-    if (argsLen != 1) {
-        throw Napi::TypeError::New(env, "(fpm: FunctionPassManager)");
+    if (argsLen != 1 || !FunctionPassManager::IsClassOf(info[0])) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::ModulePassManager::addFunctionPasses);
     }
 
     auto fpm = FunctionPassManager::Extract(info[0]);
 
     if (!fpm) {
-        throw Napi::TypeError::New(env, "(fpm: FunctionPassManager)");
+        throw Napi::TypeError::New(env, ErrMsg::Class::ModulePassManager::addFunctionPasses);
     }
 
     passManager->addPass(llvm::createModuleToFunctionPassAdaptor(std::move(*fpm)));
@@ -125,10 +141,14 @@ void ModulePassManager::run(const Napi::CallbackInfo &info) {
     auto argsLen = info.Length();
 
     if (argsLen != 1 || !Module::IsClassOf(info[0])) {
-        throw Napi::TypeError::New(env, "(module: Module)");
+        throw Napi::TypeError::New(env, ErrMsg::Class::ModulePassManager::run);
     }
 
     auto module = Module::Extract(info[0]);
+
+    if (!module) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::ModulePassManager::run);
+    }
 
     passManager->run(*module, *moduleAnalysisManager);
 }
@@ -167,8 +187,13 @@ llvm::FunctionPassManager *FunctionPassManager::Extract(const Napi::Value &value
 }
 
 FunctionPassManager::FunctionPassManager(const Napi::CallbackInfo &info) : ObjectWrap(info) {
-    auto external = info[0].As<Napi::External<llvm::FunctionPassManager>>();
-    passManager = external.Data();
+    Napi::Env env = info.Env();
+    if (info.IsConstructCall() && info.Length() == 1 && info[0].IsExternal()) {
+        auto external = info[0].As<Napi::External<llvm::FunctionPassManager>>();
+        passManager = external.Data();
+        return;
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::FunctionPassManager::constructor);
 }
 
 llvm::FunctionPassManager *FunctionPassManager::getLLVMPrimitive() {

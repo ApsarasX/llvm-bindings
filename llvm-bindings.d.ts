@@ -1,6 +1,6 @@
 declare namespace llvm {
     class APInt {
-        public constructor(numBits: number, value: number, isSigned?: boolean);
+        public constructor(numBits: number, value: number | bigint, isSigned?: boolean);
     }
 
     class APFloat {
