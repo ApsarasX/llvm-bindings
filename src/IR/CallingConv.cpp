@@ -1,0 +1,57 @@
+#include "IR/index.h"
+
+void CallingConv::Init(Napi::Env env, Napi::Object &exports) {
+    Napi::Object callingConvNS = Napi::Object::New(env);
+    callingConvNS.Set("C", Napi::Number::New(env, llvm::CallingConv::C));
+    callingConvNS.Set("Fast", Napi::Number::New(env, llvm::CallingConv::Fast));
+    callingConvNS.Set("Cold", Napi::Number::New(env, llvm::CallingConv::Cold));
+    callingConvNS.Set("GHC", Napi::Number::New(env, llvm::CallingConv::GHC));
+    callingConvNS.Set("HiPE", Napi::Number::New(env, llvm::CallingConv::HiPE));
+    callingConvNS.Set("WebKit_JS", Napi::Number::New(env, llvm::CallingConv::WebKit_JS));
+    callingConvNS.Set("AnyReg", Napi::Number::New(env, llvm::CallingConv::AnyReg));
+    callingConvNS.Set("PreserveMost", Napi::Number::New(env, llvm::CallingConv::PreserveMost));
+    callingConvNS.Set("PreserveAll", Napi::Number::New(env, llvm::CallingConv::PreserveAll ));
+    callingConvNS.Set("Swift", Napi::Number::New(env, llvm::CallingConv::Swift));
+    callingConvNS.Set("CXX_FAST_TLS", Napi::Number::New(env, llvm::CallingConv::CXX_FAST_TLS));
+    callingConvNS.Set("Tail", Napi::Number::New(env, llvm::CallingConv::Tail));
+    callingConvNS.Set("CFGuard_Check", Napi::Number::New(env, llvm::CallingConv::CFGuard_Check));
+    callingConvNS.Set("SwiftTail", Napi::Number::New(env, llvm::CallingConv::SwiftTail));
+    callingConvNS.Set("FirstTargetCC", Napi::Number::New(env, llvm::CallingConv::FirstTargetCC));
+    callingConvNS.Set("X86_StdCall", Napi::Number::New(env, llvm::CallingConv::X86_StdCall));
+    callingConvNS.Set("X86_FastCall", Napi::Number::New(env, llvm::CallingConv::X86_FastCall));
+    callingConvNS.Set("ARM_APCS", Napi::Number::New(env, llvm::CallingConv::ARM_APCS));
+    callingConvNS.Set("ARM_AAPCS", Napi::Number::New(env, llvm::CallingConv::ARM_AAPCS));
+    callingConvNS.Set("ARM_AAPCS_VFP", Napi::Number::New(env, llvm::CallingConv::ARM_AAPCS_VFP));
+    callingConvNS.Set("MSP430_INTR", Napi::Number::New(env, llvm::CallingConv::MSP430_INTR));
+    callingConvNS.Set("X86_ThisCall", Napi::Number::New(env, llvm::CallingConv::X86_ThisCall));
+    callingConvNS.Set("PTX_Kernel", Napi::Number::New(env, llvm::CallingConv::PTX_Kernel));
+    callingConvNS.Set("PTX_Device", Napi::Number::New(env, llvm::CallingConv::PTX_Device));
+    callingConvNS.Set("SPIR_FUNC", Napi::Number::New(env, llvm::CallingConv::SPIR_FUNC));
+    callingConvNS.Set("SPIR_KERNEL", Napi::Number::New(env, llvm::CallingConv::SPIR_KERNEL));
+    callingConvNS.Set("Intel_OCL_BI", Napi::Number::New(env, llvm::CallingConv::Intel_OCL_BI));
+    callingConvNS.Set("X86_64_SysV", Napi::Number::New(env, llvm::CallingConv::X86_64_SysV));
+    callingConvNS.Set("Win64", Napi::Number::New(env, llvm::CallingConv::Win64));
+    callingConvNS.Set("X86_VectorCall", Napi::Number::New(env, llvm::CallingConv::X86_VectorCall));
+    callingConvNS.Set("HHVM", Napi::Number::New(env, llvm::CallingConv::HHVM));
+    callingConvNS.Set("HHVM_C", Napi::Number::New(env, llvm::CallingConv::HHVM_C));
+    callingConvNS.Set("X86_INTR", Napi::Number::New(env, llvm::CallingConv::X86_INTR));
+    callingConvNS.Set("AVR_INTR", Napi::Number::New(env, llvm::CallingConv::AVR_INTR));
+    callingConvNS.Set("AVR_SIGNAL", Napi::Number::New(env, llvm::CallingConv::AVR_SIGNAL));
+    callingConvNS.Set("AVR_BUILTIN", Napi::Number::New(env, llvm::CallingConv::AVR_BUILTIN));
+    callingConvNS.Set("AMDGPU_VS", Napi::Number::New(env, llvm::CallingConv::AMDGPU_VS));
+    callingConvNS.Set("AMDGPU_GS", Napi::Number::New(env, llvm::CallingConv::AMDGPU_GS));
+    callingConvNS.Set("AMDGPU_PS", Napi::Number::New(env, llvm::CallingConv::AMDGPU_PS));
+    callingConvNS.Set("AMDGPU_CS", Napi::Number::New(env, llvm::CallingConv::AMDGPU_CS));
+    callingConvNS.Set("AMDGPU_KERNEL", Napi::Number::New(env, llvm::CallingConv::AMDGPU_KERNEL));
+    callingConvNS.Set("X86_RegCall", Napi::Number::New(env, llvm::CallingConv::X86_RegCall));
+    callingConvNS.Set("AMDGPU_HS", Napi::Number::New(env, llvm::CallingConv::AMDGPU_HS));
+    callingConvNS.Set("MSP430_BUILTIN", Napi::Number::New(env, llvm::CallingConv::MSP430_BUILTIN));
+    callingConvNS.Set("AMDGPU_LS", Napi::Number::New(env, llvm::CallingConv::AMDGPU_LS));
+    callingConvNS.Set("AMDGPU_ES", Napi::Number::New(env, llvm::CallingConv::AMDGPU_ES));
+    callingConvNS.Set("AArch64_VectorCall", Napi::Number::New(env, llvm::CallingConv::AArch64_VectorCall));
+    callingConvNS.Set("AArch64_SVE_VectorCall", Napi::Number::New(env, llvm::CallingConv::AArch64_SVE_VectorCall));
+    callingConvNS.Set("WASM_EmscriptenInvoke", Napi::Number::New(env, llvm::CallingConv::WASM_EmscriptenInvoke));
+    callingConvNS.Set("AMDGPU_Gfx", Napi::Number::New(env, llvm::CallingConv::AMDGPU_Gfx));
+    callingConvNS.Set("M68k_INTR", Napi::Number::New(env, llvm::CallingConv::M68k_INTR));
+    exports.Set("CallingConv", callingConvNS);
+}

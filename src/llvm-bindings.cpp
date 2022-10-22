@@ -8,6 +8,7 @@
 #include "MC/index.h"
 #include "Support/index.h"
 #include "Target/index.h"
+#include "Passes/index.h"
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
     InitADT(env, exports);
@@ -20,6 +21,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
     InitMC(env, exports);
     InitSupport(env, exports);
     InitTarget(env, exports);
+    InitPasses(env, exports);
     return exports;
 }
 

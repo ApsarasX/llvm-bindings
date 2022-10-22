@@ -424,6 +424,7 @@ declare namespace llvm {
     class StructType extends Type {
         public static create(context: LLVMContext, name: string): StructType;
         public static create(context: LLVMContext, elementTypes: Type[], name: string): StructType;
+        public static create(context: LLVMContext, elementTypes: Type[], name: string, isPacked?: boolean): StructType;
 
         public static get(context: LLVMContext): StructType;
         public static get(context: LLVMContext, elementTypes: Type[]): StructType;
@@ -812,6 +813,10 @@ declare namespace llvm {
 
         public getSubprogram(): DISubprogram;
 
+        public getCallingConv(): number;
+
+        public setCallingConv(cc: number): void;
+
         // duplicated
         public getType(): PointerType;
 
@@ -825,6 +830,126 @@ declare namespace llvm {
         public addRetAttr(attr: Attribute): void;
 
         protected constructor();
+    }
+
+    enum CallingConv {
+        C = 0,
+        Fast = 8,
+        Cold = 9,
+        GHC = 10,
+        HiPE = 11,
+        WebKit_JS = 12,
+        AnyReg = 13,
+        PreserveMost = 14,
+        PreserveAll = 15,
+        Swift = 16,
+        CXX_FAST_TLS = 17,
+        Tail = 18,
+        CFGuard_Check = 19,
+        SwiftTail = 20,
+        FirstTargetCC = 64,
+        X86_StdCall = 64,
+        X86_FastCall = 65,
+        ARM_APCS = 66,
+        ARM_AAPCS = 67,
+        ARM_AAPCS_VFP = 68,
+        MSP430_INTR = 69,
+        X86_ThisCall = 70,
+        PTX_Kernel = 71,
+        PTX_Device = 72,
+        SPIR_FUNC = 75,
+        SPIR_KERNEL = 76,
+        Intel_OCL_BI = 77,
+        X86_64_SysV = 78,
+        Win64 = 79,
+        X86_VectorCall = 80,
+        HHVM = 81,
+        HHVM_C = 82,
+        X86_INTR = 83,
+        AVR_INTR = 84,
+        AVR_SIGNAL = 85,
+        AVR_BUILTIN = 86,
+        AMDGPU_VS = 87,
+        AMDGPU_GS = 88,
+        AMDGPU_PS = 89,
+        AMDGPU_CS = 90,
+        AMDGPU_KERNEL = 91,
+        X86_RegCall = 92,
+        AMDGPU_HS = 93,
+        MSP430_BUILTIN = 94,
+        AMDGPU_LS = 95,
+        AMDGPU_ES = 96,
+        AArch64_VectorCall = 97,
+        AArch64_SVE_VectorCall = 98,
+        WASM_EmscriptenInvoke = 99,
+        AMDGPU_Gfx = 100,
+        M68k_INTR = 101,
+    }
+
+    enum Reloc {
+        Static = 0,
+        PIC_ = 1,
+        DynamicNoPIC = 2,
+        ROPI = 3,
+        RWPI = 4,
+        ROPI_RWPI = 5,
+    }
+
+    enum CodeModel {
+        Tiny = 0,
+        Small = 1,
+        Kernel = 2,
+        Medium = 3,
+        Large = 4,
+    }
+
+    enum PICLevel {
+        NotPIC = 0,
+        SmallPIC = 1,
+        BigPIC = 2,
+    }
+
+    enum PIELevel {
+        Default = 0,
+        Small = 1,
+        Large = 2,
+    }
+
+    enum TLSModel {
+       GeneralDynamic = 0,
+       LocalDynamic = 1,
+       InitialExec = 2,
+       LocalExec = 3,
+    }
+
+    enum CodeGenOpt {
+        None = 0,
+        Less = 1,
+        Default = 2,
+        Aggressive = 3,
+    }
+
+    enum CodeGenFileType {
+        Assembly = 0,
+        Object = 1,
+        Null = 2,
+    }
+
+    enum OptimizationLevel {
+        O0,
+        O1,
+        O2,
+        O3,
+        Os,
+        Oz,
+    }
+
+    enum ThinOrFullLTOPhase {
+        None,
+        ThinLTOPreLink,
+        ThinLTOPostLink,
+        FullLTOPreLink,
+        FullLTOPostLink
     }
 
     class Instruction extends User {
@@ -2183,6 +2308,9 @@ declare namespace llvm {
 
     class Target {
         public createTargetMachine(targetTriple: string, cpu: string, features?: string): TargetMachine;
+        public createTargetMachine(targetTriple: string, cpu: string, features: string, reloc: Reloc): TargetMachine;
+        public createTargetMachine(targetTriple: string, cpu: string, features: string, reloc: Reloc, codeModel: CodeModel): TargetMachine;
+        public createTargetMachine(targetTriple: string, cpu: string, features: string, reloc: Reloc, codeModel: CodeModel, codeGenOpt: CodeGenOpt): TargetMachine;
 
         public getName(): string;
 
@@ -2203,8 +2331,27 @@ declare namespace llvm {
 
     class TargetMachine {
         public createDataLayout(): DataLayout;
+        public emitToFile(module: Module, path: string, format: CodeGenFileType): void;
+        public emitToBuffer(module: Module, format: CodeGenFileType): Buffer;
 
         protected constructor();
+    }
+
+    class FunctionPassManager {
+        constructor();
+
+        addSROAPass(): void;
+        addEarlyCSEPass(useSSA?: boolean): void;
+        addInstCombinePass(): void;
+    }
+
+    class ModulePassManager {
+        constructor(level: OptimizationLevel);
+
+        createFunctionPassManager(lto: ThinOrFullLTOPhase): FunctionPassManager;
+        addFunctionPasses(fpm: FunctionPassManager): void;
+        addVerifierPass(): void;
+        run(module: Module): void;
     }
 
     function InitializeAllTargetInfos(): void;

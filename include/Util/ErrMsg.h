@@ -55,7 +55,8 @@ namespace ErrMsg {
             constexpr const char *constructor = "StructType.constructor needs to be called with new (external: Napi::External<llvm::StructType>)";
             constexpr const char *create = "StructType.create needs to be called with:"
                                            "\n\t - (context: LLVMContext, name: string)"
-                                           "\n\t - (context: LLVMContext, elementTypes: Type[], name: string)";
+                                           "\n\t - (context: LLVMContext, elementTypes: Type[], name: string)"
+                                           "\n\t - (context: LLVMContext, elementTypes: Type[], name: string, isPacked: boolean = false)";
             constexpr const char *get = "StructType.get needs to be called with:"
                                         "\n\t - (context: LLVMContext)"
                                         "\n\t - (context: LLVMContext, elementTypes: Type[])";
@@ -175,6 +176,7 @@ namespace ErrMsg {
             constexpr const char *insertAfter = "Function.insertAfter needs to be called with (where: BasicBlock, basicBlock: BasicBlock)";
             constexpr const char *setPersonalityFn = "Function.setPersonalityFn needs to be called with (fn: Constant)";
             constexpr const char *setSubprogram = "Function.setSubprogram needs to be called with (subprogram: DISubprogram)";
+            constexpr const char *setCallingConv = "Function.setCallingConv needs to bu called with (cc: CallingConv)";
             constexpr const char *addFnAttr = "Function.addFnAttr needs to be called with"
                                               "\n\t - (kind: Attribute.AttrKind)"
                                               "\n\t - (kind: string, value: string = "")"
@@ -565,7 +567,12 @@ namespace ErrMsg {
         }
         namespace Target {
             constexpr const char *constructor = "Target.constructor needs to be called with new (external: Napi::External<llvm::Target>)";
-            constexpr const char *createTargetMachine = "Target.createTargetMachine needs to be called with (targetTriple: string, cpu: string, features?: string)";
+            constexpr const char *createTargetMachine = "Target.createTargetMachine needs to be called with:"
+                                                        "\n\t -(targetTriple: string, cpu: string, features?: string)"
+                                                        "\n\t -(targetTriple: string, cpu: string, features: string, reloc: Reloc)"
+                                                        "\n\t -(targetTriple: string, cpu: string, features: string, reloc: Reloc, codeModel: CodeModel)"
+                                                        "\n\t -(targetTriple: string, cpu: string, features: string, reloc: Reloc, codeModel: CodeModel, codeGenOpt: CodeGenOpt)"
+                                                        "\n\t -(targetTriple: string, cpu: string, features: string, reloc: Reloc, codeModel: CodeModel, codeGenOpt: CodeGenOpt, jit: boolean)";
         }
         namespace TargetRegistry {
             constexpr const char *lookupTarget = "TargetRegistry.lookupTarget needs to be called with (triple: string)";
