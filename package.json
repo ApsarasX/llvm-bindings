@@ -42,7 +42,7 @@
         "@types/node": "^18.0.0",
         "conventional-changelog-cli": "^2.2.2",
         "jest": "^28.1.1",
-        "rimraf": "^3.0.2",
+        "rimraf": "^4.1.1",
         "ts-jest": "^28.0.5",
         "ts-node": "^10.8.1",
         "typescript": "^4.7.4"
