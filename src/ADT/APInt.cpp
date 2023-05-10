@@ -20,11 +20,14 @@ llvm::APInt &APInt::Extract(const Napi::Value &value) {
 APInt::APInt(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
     unsigned argsLen = info.Length();
-    if (!info.IsConstructCall() || argsLen < 2 || !info[0].IsNumber() || !info[1].IsNumber() || argsLen >= 3 && !info[2].IsBoolean()) {
+    if (!info.IsConstructCall() || argsLen < 2 || !info[0].IsNumber() || !(info[1].IsNumber() || info[1].IsBigInt()) || argsLen >= 3 && !info[2].IsBoolean()) {
         throw Napi::TypeError::New(env, ErrMsg::Class::APInt::constructor);
     }
     unsigned numBits = info[0].As<Napi::Number>();
-    uint64_t val = info[1].As<Napi::Number>().Int64Value();
+    bool lossless = true;
+    uint64_t val = info[1].IsNumber()
+        ? info[1].As<Napi::Number>().Int64Value()
+        : info[1].As<Napi::BigInt>().Int64Value(&lossless);
     bool isSigned = false;
     if (argsLen >= 3) {
         isSigned = info[2].As<Napi::Boolean>();

@@ -32,20 +32,100 @@ Target::Target(const Napi::CallbackInfo &info) : Napi::ObjectWrap<Target>{info} 
     throw Napi::TypeError::New(env, ErrMsg::Class::Target::constructor);
 }
 
+bool isCreateTargetDefaultArgs(const Napi::CallbackInfo &info, unsigned argsLen) {
+    return argsLen == 2 && info[0].IsString() && info[1].IsString()
+        || argsLen == 2 && info[0].IsString() && info[1].IsString() && info[2].IsString();
+}
+
+bool isCreateTargetRelocArgs(const Napi::CallbackInfo &info, unsigned argsLen) {
+    return argsLen == 4 && info[0].IsString() && info[1].IsString() && info[2].IsString() && info[3].IsNumber();
+}
+
+bool isCreateTargetCodeModelArgs(const Napi::CallbackInfo &info, unsigned argsLen) {
+    return argsLen == 5
+        && info[0].IsString()
+        && info[1].IsString()
+        && info[2].IsString()
+        && info[3].IsNumber()
+        && info[4].IsNumber();
+}
+
+bool isCreateTargetCodeGenOptArgs(const Napi::CallbackInfo &info, unsigned argsLen) {
+    return argsLen == 6
+        && info[0].IsString()
+        && info[1].IsString()
+        && info[2].IsString()
+        && info[3].IsNumber()
+        && info[4].IsNumber()
+        && info[5].IsNumber();
+}
+
+bool isCreateTargetJitArgs(const Napi::CallbackInfo &info, unsigned argsLen) {
+    return argsLen == 7
+        && info[0].IsString()
+        && info[1].IsString()
+        && info[2].IsString()
+        && info[3].IsNumber()
+        && info[4].IsNumber()
+        && info[5].IsNumber()
+        && info[6].IsBoolean();
+}
+
 Napi::Value Target::createTargetMachine(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     unsigned argsLen = info.Length();
-    if (argsLen < 2 || !info[0].IsString() || !info[1].IsString() || argsLen >= 3 && !info[2].IsString()) {
+
+    auto isCreateTargetDefault = isCreateTargetDefaultArgs(info, argsLen);
+    auto isCreateTargetReloc = isCreateTargetRelocArgs(info, argsLen);
+    auto isCreateTargetCodeModel = isCreateTargetCodeModelArgs(info, argsLen);
+    auto isCreateTargetCodeGenOpt = isCreateTargetCodeGenOptArgs(info, argsLen);
+    auto isCreateTargetJit = isCreateTargetJitArgs(info, argsLen);
+
+    auto isValidCall = isCreateTargetDefault
+        || isCreateTargetReloc
+        || isCreateTargetCodeModel
+        || isCreateTargetCodeGenOpt
+        || isCreateTargetJit;
+
+    if (!isValidCall) {
         throw Napi::TypeError::New(env, ErrMsg::Class::Target::createTargetMachine);
     }
+
     std::string targetTriple = info[0].As<Napi::String>();
     std::string cpu = info[1].As<Napi::String>();
     std::string features;
+
     if (argsLen >= 3) {
         features = info[2].As<Napi::String>();
     }
+
+    if (isCreateTargetReloc) {
+        llvm::Optional<llvm::Reloc::Model> relocModel = (llvm::Reloc::Model) info[3].As<Napi::Number>().Uint32Value();
+        llvm::TargetOptions options{};
+        llvm::TargetMachine *targetMachinePtr = target->createTargetMachine(targetTriple, cpu, features, options, relocModel);
+        return TargetMachine::New(env, targetMachinePtr);
+    }
+
+    if (isCreateTargetCodeModel) {
+        llvm::Optional<llvm::Reloc::Model> relocModel = (llvm::Reloc::Model) info[3].As<Napi::Number>().Uint32Value();
+        llvm::Optional<llvm::CodeModel::Model> codeModel = (llvm::CodeModel::Model) info[4].As<Napi::Number>().Uint32Value();
+        llvm::TargetOptions options{};
+        llvm::TargetMachine *targetMachinePtr = target->createTargetMachine(targetTriple, cpu, features, options, relocModel, codeModel);
+        return TargetMachine::New(env, targetMachinePtr);
+    }
+
+    if (isCreateTargetCodeGenOpt) {
+        llvm::Optional<llvm::Reloc::Model> relocModel = (llvm::Reloc::Model) info[3].As<Napi::Number>().Uint32Value();
+        llvm::Optional<llvm::CodeModel::Model> codeModel = (llvm::CodeModel::Model) info[4].As<Napi::Number>().Uint32Value();
+        auto codeGenOpt = (llvm::CodeGenOpt::Level) info[4].As<Napi::Number>().Uint32Value();
+        llvm::TargetOptions options{};
+        llvm::TargetMachine *targetMachinePtr = target->createTargetMachine(targetTriple, cpu, features, options, relocModel, codeModel, codeGenOpt);
+        return TargetMachine::New(env, targetMachinePtr);
+    }
+
+    llvm::Optional<llvm::Reloc::Model> relocModel{};
     llvm::TargetOptions options{};
-    llvm::TargetMachine *targetMachinePtr = target->createTargetMachine(targetTriple, cpu, features, options, llvm::Optional<llvm::Reloc::Model>{});
+    llvm::TargetMachine *targetMachinePtr = target->createTargetMachine(targetTriple, cpu, features, options, relocModel);
     return TargetMachine::New(env, targetMachinePtr);
 }
 

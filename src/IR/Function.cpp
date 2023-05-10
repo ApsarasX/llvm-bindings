@@ -25,6 +25,9 @@ void Function::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("setSubprogram", &Function::setSubprogram),
             InstanceMethod("getSubprogram", &Function::getSubprogram),
             InstanceMethod("getType", &Function::getType),
+            InstanceMethod("getCallingConv", &Function::getCallingConv),
+            InstanceMethod("setCallingConv", &Function::setCallingConv),
+            InstanceMethod("getType", &Function::getType),
             InstanceMethod("addFnAttr", &Function::addFnAttr),
             InstanceMethod("addParamAttr", &Function::addParamAttr),
             InstanceMethod("addRetAttr", &Function::addRetAttr)
@@ -196,6 +199,22 @@ Napi::Value Function::getType(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     llvm::PointerType *type = function->getType();
     return PointerType::New(env, type);
+}
+
+Napi::Value Function::getCallingConv(const Napi::CallbackInfo &info)
+{
+    return Napi::Number::New(info.Env(), static_cast<unsigned>(function->getCallingConv()));
+}
+
+void Function::setCallingConv(const Napi::CallbackInfo &info)
+{
+    Napi::Env env = info.Env();
+    if (info.Length() == 1 && info[0].IsNumber()) {
+        llvm::CallingConv::ID cc = static_cast<llvm::CallingConv::ID>(info[0].As<Napi::Number>().Uint32Value());
+        function->setCallingConv(cc);
+        return;
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::Function::setCallingConv);
 }
 
 void Function::addFnAttr(const Napi::CallbackInfo &info) {

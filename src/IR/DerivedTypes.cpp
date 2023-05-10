@@ -268,27 +268,49 @@ llvm::StructType *StructType::getLLVMPrimitive() {
     return structType;
 }
 
+inline bool isOpaqueNamedStructArgs(const Napi::CallbackInfo &info, unsigned argsLen) {
+    return argsLen == 2 && LLVMContext::IsClassOf(info[0]) && info[1].IsString();
+}
+
+inline bool isNamedStructArgs(const Napi::CallbackInfo &info, unsigned argsLen) {
+    return argsLen == 3 && LLVMContext::IsClassOf(info[0]) && info[1].IsArray() && info[2].IsString();
+}
+
+inline bool isPackedNamedStructArgs(const Napi::CallbackInfo &info, unsigned argsLen) {
+    return argsLen == 4 && LLVMContext::IsClassOf(info[0]) && info[1].IsArray() && info[2].IsString() && info[3].IsBoolean();
+}
+
 Napi::Value StructType::create(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     unsigned argsLen = info.Length();
-    if (!(argsLen == 2 && LLVMContext::IsClassOf(info[0]) && info[1].IsString()) &&
-        !(argsLen >= 3 && LLVMContext::IsClassOf(info[0]) && info[1].IsArray() && info[2].IsString())) {
+
+    auto isOpaqueNamedStruct = isOpaqueNamedStructArgs(info, argsLen);
+    auto isNamedStruct = isNamedStructArgs(info, argsLen);
+    auto isPackedNamedStruct = isPackedNamedStructArgs(info, argsLen);
+
+    if (!(isOpaqueNamedStruct || isNamedStruct || isPackedNamedStruct)) {
         throw Napi::TypeError::New(env, ErrMsg::Class::StructType::create);
     }
+
     llvm::LLVMContext &context = LLVMContext::Extract(info[0]);
     const std::string &name = info[argsLen == 2 ? 1 : 2].As<Napi::String>();
     llvm::StructType *structType;
-    if (argsLen >= 3) {
+    if (isNamedStruct || isPackedNamedStruct) {
         auto eleTypesArray = info[1].As<Napi::Array>();
         unsigned numElements = eleTypesArray.Length();
         std::vector<llvm::Type *> elementTypes(numElements);
         for (unsigned i = 0; i < numElements; ++i) {
             elementTypes[i] = Type::Extract(eleTypesArray.Get(i));
         }
-        structType = llvm::StructType::create(context, elementTypes, name);
+        bool isPacked = false;
+        if (isPackedNamedStruct) {
+            isPacked = info[3].As<Napi::Boolean>();
+        }
+        structType = llvm::StructType::create(context, elementTypes, name, isPacked);
     } else {
         structType = llvm::StructType::create(context, name);
     }
+
     return StructType::New(env, structType);
 }
 

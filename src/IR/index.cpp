@@ -23,12 +23,14 @@ void InitIR(Napi::Env env, Napi::Object &exports) {
     ConstantPointerNull::Init(env, exports);
     ConstantDataArray::Init(env, exports);
     ConstantExpr::Init(env, exports);
+    ConstantArray::Init(env, exports);
     UndefValue::Init(env, exports);
     GlobalValue::Init(env, exports);
     GlobalObject::Init(env, exports);
     GlobalVariable::Init(env, exports);
     Attribute::Init(env, exports);
     Function::Init(env, exports);
+    CallingConv::Init(env, exports);
     Instruction::Init(env, exports);
     AllocaInst::Init(env, exports);
     LoadInst::Init(env, exports);
@@ -105,4 +107,6 @@ void InitIR(Napi::Env env, Napi::Object &exports) {
     DataLayout::Init(env, exports);
     Verifier::Init(env, exports);
     Intrinsic::Init(env, exports);
+    ModulePassManager::Init(env, exports);
+    FunctionPassManager::Init(env, exports);
 }
