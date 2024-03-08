@@ -28,7 +28,12 @@ execute_process(
 string(REGEX REPLACE "[\r\n\"]" "" NODE_ADDON_API_DIR ${NODE_ADDON_API_DIR})
 
 # Add a library to generate the TypeScript declarations
-add_library(ts_decl_lib OBJECT llvm-bindings.d.ts.cpp)
+add_custom_command(
+        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/llvm-bindings.d.ts.cpp
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/llvm-bindings.in.d.ts ${CMAKE_CURRENT_BINARY_DIR}/llvm-bindings.d.ts.cpp
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/llvm-bindings.in.d.ts
+)
+add_library(ts_decl_lib OBJECT ${CMAKE_CURRENT_BINARY_DIR}/llvm-bindings.d.ts.cpp)
 target_link_libraries(ts_decl_lib ${LLVM_LIBS})
 target_compile_options(ts_decl_lib PRIVATE -E -P)
 target_include_directories(ts_decl_lib PRIVATE ${LLVM_INCLUDE_DIRS})

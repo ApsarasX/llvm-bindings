@@ -84,7 +84,7 @@ npm install llvm-bindings
 ## Usage
 
 ```javascript
-import llvm from 'llvm-bindings.d.ts.cpp';
+import llvm from 'llvm-bindings';
 
 function main(): void {
     const context = new llvm.LLVMContext();
