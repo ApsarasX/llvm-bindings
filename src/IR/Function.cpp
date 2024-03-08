@@ -111,7 +111,7 @@ void Function::addBasicBlock(const Napi::CallbackInfo &info) {
         throw Napi::TypeError::New(env, ErrMsg::Class::Function::addBasicBlock);
     }
     llvm::BasicBlock *basicBlock = BasicBlock::Extract(info[0]);
-    function->getBasicBlockList().push_back(basicBlock);
+    function->insert(function->end(), basicBlock);
 }
 
 Napi::Value Function::getEntryBlock(const Napi::CallbackInfo &info) {
@@ -129,7 +129,7 @@ void Function::insertAfter(const Napi::CallbackInfo &info) {
     }
     llvm::BasicBlock *where = BasicBlock::Extract(info[0]);
     llvm::BasicBlock *bb = BasicBlock::Extract(info[1]);
-    function->getBasicBlockList().insertAfter(where->getIterator(), bb);
+    function->insert(where->getIterator(), bb);
 }
 
 void Function::deleteBody(const Napi::CallbackInfo &info) {
