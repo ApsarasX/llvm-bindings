@@ -2,12 +2,15 @@ declare namespace llvm {
     class APInt {
         public constructor(numBits: number, value: number, isSigned?: boolean);
     }
+
     class APFloat {
         public constructor(value: number);
     }
+
     namespace LLVMConstants {
         const DEBUG_METADATA_VERSION: number;
     }
+
     namespace dwarf {
         namespace LLVMConstants {
             const DWARF_VERSION: number;
@@ -76,7 +79,9 @@ declare namespace llvm {
             const DW_LANG_hi_user: number;
         }
     }
+
     function WriteBitcodeToFile(module: Module, filename: string): void;
+
     namespace config {
         const LLVM_DEFAULT_TARGET_TRIPLE: string;
         const LLVM_HOST_TRIPLE: string;
@@ -86,9 +91,11 @@ declare namespace llvm {
         const LLVM_VERSION_PATCH: number;
         const LLVM_VERSION_STRING: string;
     }
+
     class LLVMContext {
         public constructor();
     }
+
     class Attribute {
         public static readonly AttrKind: {
 
@@ -101,8 +108,10 @@ declare namespace llvm {
         public static get(context: LLVMContext, kind: number, value?: number): Attribute;
         public static get(context: LLVMContext, kind: string, value?: string): Attribute;
         public static get(context: LLVMContext, kind: number, type: Type): Attribute;
+
         protected constructor();
     }
+
     class Module {
         public static readonly ModFlagBehavior: {
             Error: number;
@@ -115,25 +124,44 @@ declare namespace llvm {
             ModFlagBehaviorFirstVal: number;
             ModFlagBehaviorLastVal: number;
         }
+
         public constructor(moduleID: string, context: LLVMContext);
+
         public getModuleIdentifier(): string;
+
         public getSourceFileName(): string;
+
         public getName(): string;
+
         public getDataLayoutStr(): string;
+
         public getDataLayout(): DataLayout;
+
         public getTargetTriple(): string;
+
         public setModuleIdentifier(moduleID: string): void;
+
         public setSourceFileName(sourceFileName: string): void;
+
         public setDataLayout(desc: string): void;
         public setDataLayout(dataLayout: DataLayout): void;
+
         public setTargetTriple(triple: string): void;
+
         public getFunction(name: string): Function | null;
+
         public getOrInsertFunction(name: string, funcType: FunctionType): FunctionCallee;
+
         public getGlobalVariable(name: string, allowInternal?: boolean): GlobalVariable | null;
+
         public addModuleFlag(behavior: number, key: string, value: number): void;
+
         public empty(): boolean;
+
+        // customized
         public print(): string;
     }
+
     class Type {
         public static readonly TypeID: {
             HalfTyID: number;
@@ -156,155 +184,308 @@ declare namespace llvm {
             FixedVectorTyID: number;
             ScalableVectorTyID: number;
         };
+
         public static getVoidTy(context: LLVMContext): Type;
+
         public static getLabelTy(context: LLVMContext): Type;
+
         public static getHalfTy(context: LLVMContext): Type;
+
         public static getBFloatTy(context: LLVMContext): Type;
+
         public static getFloatTy(context: LLVMContext): Type;
+
         public static getDoubleTy(context: LLVMContext): Type;
+
         public static getMetadataTy(context: LLVMContext): Type;
+
         public static getX86_FP80Ty(context: LLVMContext): Type;
+
         public static getFP128Ty(context: LLVMContext): Type;
+
         public static getPPC_FP128Ty(context: LLVMContext): Type;
+
         public static getX86_MMXTy(context: LLVMContext): Type;
+
         public static getTokenTy(context: LLVMContext): Type;
+
         public static getIntNTy(context: LLVMContext, numBits: number): IntegerType;
+
         public static getInt1Ty(context: LLVMContext): IntegerType;
+
         public static getInt8Ty(context: LLVMContext): IntegerType;
+
         public static getInt16Ty(context: LLVMContext): IntegerType;
+
         public static getInt32Ty(context: LLVMContext): IntegerType;
+
         public static getInt64Ty(context: LLVMContext): IntegerType;
+
         public static getInt128Ty(context: LLVMContext): IntegerType;
+
         public static getHalfPtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+
         public static getBFloatPtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+
         public static getFloatPtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+
         public static getDoublePtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+
         public static getX86_FP80PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+
         public static getFP128PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+
         public static getPPC_FP128PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+
         public static getX86_MMXPtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+
         public static getInt1PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+
         public static getInt8PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+
         public static getInt16PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+
         public static getInt32PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+
         public static getInt64PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+
         public getTypeID(): number;
+
         public isVoidTy(): boolean;
+
         public isHalfTy(): boolean;
+
         public isBFloatTy(): boolean;
+
         public isFloatTy(): boolean;
+
         public isDoubleTy(): boolean;
+
         public isX86_FP80Ty(): boolean;
+
         public isFP128Ty(): boolean;
+
         public isPPC_FP128Ty(): boolean;
+
         public isFloatingPointTy(): boolean;
+
         public isX86_MMXTy(): boolean;
+
         public isLabelTy(): boolean;
+
         public isMetadataTy(): boolean;
+
         public isTokenTy(): boolean;
+
         public isIntegerTy(bitWidth?: number): boolean;
+
         public isFunctionTy(): boolean;
+
         public isStructTy(): boolean;
+
         public isArrayTy(): boolean;
+
         public isPointerTy(): boolean;
+
         public isVectorTy(): boolean;
+
         public isEmptyTy(): boolean;
+
         public isFirstClassType(): boolean;
+
         public isSingleValueType(): boolean;
+
         public isAggregateType(): boolean;
+
         public getPointerTo(addrSpace?: number): PointerType;
+
         public getPrimitiveSizeInBits(): number;
+
         public getPointerElementType(): Type;
+
+        // extra
         public static isSameType(type1: Type, type2: Type): boolean;
+
         protected constructor();
     }
+
     class IntegerType extends Type {
         public static get(context: LLVMContext, numBits: number): IntegerType;
+
+        // duplicated
         public isStructTy(): boolean;
+
+        // duplicated
         public isIntegerTy(bitWidth?: number): boolean;
+
+        // duplicated
         public isVoidTy(): boolean;
+
+        // duplicated
         public getTypeID(): number;
+
         protected constructor();
     }
+
     class FunctionType extends Type {
         public static get(returnType: Type, isVarArg: boolean): FunctionType;
         public static get(returnType: Type, paramTypes: Type[], isVarArg: boolean): FunctionType;
+
+        // duplicated
         public isVoidTy(): boolean;
+
+        // duplicated
         public getTypeID(): number;
+
         protected constructor();
     }
+
     class FunctionCallee {
         public getFunctionType(): FunctionType;
+
         public getCallee(): Value;
+
         protected constructor();
     }
+
     class StructType extends Type {
         public static create(context: LLVMContext, name: string): StructType;
         public static create(context: LLVMContext, elementTypes: Type[], name: string): StructType;
+
         public static get(context: LLVMContext): StructType;
         public static get(context: LLVMContext, elementTypes: Type[]): StructType;
+
         public getTypeByName(name: string): StructType | null;
+
         public setBody(elementTypes: Type[]): void;
+
         public setName(name: string): void;
+
         public hasName(): boolean;
+
         public getName(): string;
+
         public isOpaque(): boolean;
+
         public isPacked(): boolean;
+
         public isLiteral(): boolean;
+
+        // duplicated
         public getPointerTo(addrSpace?: number): PointerType;
+
+        // duplicated
         public isStructTy(): boolean;
+
+        // duplicated
         public isIntegerTy(bitWidth?: number): boolean;
+
+        // duplicated
         public isVoidTy(): boolean;
+
+        // duplicated
         public getTypeID(): number;
+
         protected constructor();
     }
+
     class ArrayType extends Type {
         public static get(elemType: Type, numElements: number): ArrayType;
+
         public static isValidElementType(elemType: Type): boolean;
+
         public getNumElements(): number;
+
         public getElementType(): Type;
+
+        // duplicated
         public isStructTy(): boolean;
+
+        // duplicated
         public isVoidTy(): boolean;
+
+        // duplicated
         public getTypeID(): number;
+
         protected constructor();
     }
+
     class VectorType extends Type {
+        // duplicated
         public isStructTy(): boolean;
+
+        // duplicated
         public isVoidTy(): boolean;
+
+        // duplicated
         public getTypeID(): number;
+
         protected constructor();
     }
+
     class PointerType extends Type {
         public static get(elementType: Type, addrSpace: number): PointerType;
+
         public static getUnqual(elementType: Type): PointerType;
+
+        // duplicated
         public isPointerTy(): boolean;
+
+        // duplicated
         public isStructTy(): boolean;
+
+        // duplicated
         public isIntegerTy(bitWidth?: number): boolean;
+
+        // duplicated
         public isVoidTy(): boolean;
+
+        // duplicated
         public getTypeID(): number;
+
+        // duplicated
         public getPointerElementType(): Type;
+
         protected constructor();
     }
+
     class Value {
         public static MaxAlignmentExponent: number;
         public static MaximumAlignment: number;
+
         public getType(): Type;
+
         public hasName(): boolean;
+
         public getName(): string;
+
         public setName(name: string): void;
+
         public deleteValue(): void;
+
         public replaceAllUsesWith(newValue: Value): void;
+
         public use_empty(): boolean;
+
         public user_empty(): boolean;
+
         protected constructor();
     }
+
     class Argument extends Value {
         public constructor(type: Type, name?: string, func?: Function, argNo?: number);
+
         public getParent(): Function;
+
         public getArgNo(): number;
+
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setName(name: string): void;
     }
+
     class BasicBlock extends Value {
         public static Create(
             context: LLVMContext,
@@ -312,84 +493,145 @@ declare namespace llvm {
             parent?: Function,
             insertBefore?: BasicBlock
         ): BasicBlock;
+
         public getParent(): Function | null;
+
         public getModule(): Module | null;
+
         public getTerminator(): Instruction | null;
+
         public getFirstNonPHI(): Instruction | null;
+
         public insertInto(parent: Function, insertBefore?: BasicBlock): void;
+
         public removeFromParent(): void;
+
+        // customized
         public eraseFromParent(): void;
+
+        // duplicated
         public use_empty(): boolean;
+
+        // duplicated
         public getType(): Type;
+
+        // extra
         public deleteSelf(): void;
+
         protected constructor();
     }
+
     class User extends Value {
         public getOperand(i: number): Value;
+
         public setOperand(i: number, value: Value): void;
+
         public getNumOperands(): number;
+
+        // duplicated
         public getType(): Type;
+
         protected constructor();
     }
+
     class Constant extends User {
         public static getNullValue(type: Type): Constant;
+
         public static getAllOnesValue(type: Type): Constant;
+
         public isNullValue(): boolean;
+
         public isOneValue(): boolean;
+
         public isAllOnesValue(): boolean;
+
+        // duplicated
         public getType(): Type;
+
         protected constructor();
     }
+
     class ConstantInt extends Constant {
         public static get(context: LLVMContext, value: APInt): ConstantInt;
         public static get(type: IntegerType, value: number, isSigned?: boolean): ConstantInt;
         public static get(type: Type, value: APInt): Constant;
         public static get(type: Type, value: number, isSigned?: boolean): Constant;
+
         public static getTrue(context: LLVMContext): ConstantInt;
+
         public static getFalse(context: LLVMContext): ConstantInt;
+
         public getType(): IntegerType;
+
         protected constructor();
     }
+
     class ConstantFP extends Constant {
         public static get(type: Type, value: number): Constant;
         public static get(type: Type, value: APFloat): Constant;
         public static get(type: Type, value: string): Constant;
         public static get(context: LLVMContext, value: APFloat): ConstantFP;
+
         public static getNaN(type: Type): Constant
+
+        // duplicated
         public getType(): Type;
+
         protected constructor();
     }
+
     class ConstantArray extends Constant {
         public static get(type: ArrayType, values: Constant[]): Constant;
+
         public getType(): ArrayType;
+
         protected constructor();
     }
+
     class ConstantStruct extends Constant {
         public static get(type: StructType, values: Constant[]): Constant;
+
         public getType(): StructType;
+
         protected constructor();
     }
+
     class ConstantPointerNull extends Constant {
         public static get(type: PointerType): ConstantPointerNull;
+
         public getType(): PointerType;
+
         protected constructor();
     }
+
     class ConstantDataArray extends Constant {
         public static get(context: LLVMContext, elements: number[]): Constant;
+
         public static getString(context: LLVMContext, initializer: string, addNull?: boolean): Constant;
+
         public getType(): ArrayType;
+
         protected constructor();
     }
+
     class ConstantExpr extends Constant {
         public static getBitCast(constant: Constant, type: Type): Constant;
+
+        // duplicated
         public getType(): Type;
+
         protected constructor();
     }
+
     class UndefValue extends Constant {
         public static get(type: Type): UndefValue;
+
+        // duplicated
         public getType(): Type;
+
         protected constructor();
     }
+
     class GlobalValue extends Constant {
         public static readonly LinkageTypes: {
             ExternalLinkage: number;
@@ -409,472 +651,959 @@ declare namespace llvm {
             HiddenVisibility: number;
             ProtectedVisibility: number;
         }
+
+        // duplicated
         public getType(): PointerType;
+
         public getValueType(): Type;
+
         protected constructor();
     }
+
     class GlobalObject extends GlobalValue {
+        // duplicated
         public getType(): PointerType;
+
+        // duplicated
         public getValueType(): Type;
+
         protected constructor();
     }
+
     class GlobalVariable extends GlobalObject {
+        // customized
         public constructor(type: Type, isConstant: boolean, linkage: number, initializer?: Constant | null, name?: string);
+        // customized
         public constructor(module: Module, type: Type, isConstant: boolean, linkage: number, initializer: Constant | null, name?: string);
+
+        // duplicated
         public getType(): PointerType;
+
+        // duplicated
         public getValueType(): Type;
+
         public setInitializer(initVal: Constant | null): void;
+
         public removeFromParent(): void;
+
         public eraseFromParent(): void;
+
         public addDebugInfo(gv: DIGlobalVariableExpression): void;
     }
+
     class Function extends GlobalObject {
         public static Create(funcType: FunctionType, linkage: number, name?: string, module?: Module): Function;
+
         public arg_size(): number;
+
         public getArg(i: number): Argument;
+
         public getReturnType(): Type;
+
+        // customized
         public addBasicBlock(basicBlock: BasicBlock): void;
+
         public getEntryBlock(): BasicBlock;
+
+        // extra
         public getExitBlock(): BasicBlock;
+
+        // customized
         public insertAfter(where: BasicBlock, basicBlock: BasicBlock): void;
+
         public deleteBody(): void;
+
         public removeFromParent(): void;
+
         public eraseFromParent(): void;
+
+        // duplicated
         public use_empty(): boolean;
+
+        // duplicated
         public user_empty(): boolean;
+
+        // duplicated
         public getNumUses(): number;
+
+        // duplicated
         public removeDeadConstantUsers(): void;
+
         public hasPersonalityFn(): boolean;
+
         public setPersonalityFn(fn: Constant): void;
+
         public setDoesNotThrow(): void;
+
         public setSubprogram(subprogram: DISubprogram): void;
+
         public getSubprogram(): DISubprogram;
+
+        // duplicated
         public getType(): PointerType;
+
         public addFnAttr(kind: number): void;
         public addFnAttr(attr: Attribute): void;
+
         public addParamAttr(argNo: number, kind: number): void;
         public addParamAttr(argNo: number, attr: Attribute): void;
+
         public addRetAttr(kind: number): void;
         public addRetAttr(attr: Attribute): void;
+
         protected constructor();
     }
+
     class Instruction extends User {
         public user_back(): Instruction | null;
+
         public getParent(): BasicBlock | null;
+
         public getModule(): Module | null;
+
         public getFunction(): Function | null;
+
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class AllocaInst extends Instruction {
         public getAllocatedType(): Type;
+
         public getArraySize(): Value;
+
+        // duplicated
         public getType(): PointerType;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class LoadInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class StoreInst extends Instruction {
         public getValueOperand(): Value;
+
         public getPointerOperand(): Value;
+
         public getPointerOperandType(): Type;
+
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class FenceInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class AtomicCmpXchgInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class AtomicRMWInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class GetElementPtrInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class ICmpInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class FCmpInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class CallInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class SelectInst extends Instruction {
         public getCondition(): Value;
+
         public getTrueValue(): Value;
+
         public getFalseValue(): Value;
+
         public setCondition(value: Value): void;
+
         public setTrueValue(value: Value): void;
+
         public setFalseValue(value: Value): void;
+
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class VAArgInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class ExtractElementInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class InsertElementInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class ShuffleVectorInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class ExtractValueInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class InsertValueInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class PHINode extends Instruction {
         public addIncoming(value: Value, basicBlock: BasicBlock): void;
+
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class LandingPadInst extends Instruction {
         public setCleanup(value: boolean): void;
+
         public addClause(clauseVal: Constant): void;
+
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class ReturnInst extends Instruction {
         public getReturnValue(): Value;
+
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class BranchInst extends Instruction {
         public isUnconditional(): boolean;
+
         public isConditional(): boolean;
+
         public getCondition(): Value;
+
         public getNumSuccessors(): number;
+
         public getSuccessor(i: number): BasicBlock;
+
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class SwitchInst extends Instruction {
         public addCase(onVal: ConstantInt, dest: BasicBlock): void;
+
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class IndirectBrInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class InvokeInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class CallBrInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class ResumeInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class CatchSwitchInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class CleanupPadInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class CatchPadInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class CatchReturnInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class CleanupReturnInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class UnreachableInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class TruncInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class ZExtInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class SExtInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class FPTruncInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class FPExtInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class UIToFPInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class SIToFPInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class FPToUIInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class FPToSIInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class IntToPtrInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class PtrToIntInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class BitCastInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class AddrSpaceCastInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class FreezeInst extends Instruction {
+        // duplicated
         public getType(): Type;
+
+        // duplicated
         public setDebugLoc(location: DebugLoc): void;
+
         protected constructor();
     }
+
     class IRBuilder {
         public constructor(context: LLVMContext);
         public constructor(theBB: BasicBlock);
         public constructor(ip: Instruction);
+
+        //===--------------------------------------------------------------------===//
+        // Builder configuration methods
+        //===--------------------------------------------------------------------===//
+
         public ClearInsertionPoint(): void;
+
         public GetInsertBlock(): BasicBlock | null;
+
         public SetInsertPoint(basicBlock: BasicBlock): void;
         public SetInsertPoint(inst: Instruction): void;
+
         public saveIP(): IRBuilder.InsertPoint;
+
         public saveAndClearIP(): IRBuilder.InsertPoint;
+
         public restoreIP(ip: IRBuilder.InsertPoint): void;
+
         public SetCurrentDebugLocation(location: DebugLoc): void;
+        // extra
         public SetCurrentDebugLocation(location: DILocation): void;
+
+        //===--------------------------------------------------------------------===//
+        // Miscellaneous creation methods.
+        //===--------------------------------------------------------------------===//
+
         public CreateGlobalString(str: string, name?: string, addrSpace?: number, module?: Module): GlobalVariable;
+
         public getInt1(value: boolean): ConstantInt;
+
         public getTrue(): ConstantInt;
+
         public getFalse(): ConstantInt;
+
         public getInt8(value: number): ConstantInt;
+
         public getInt16(value: number): ConstantInt;
+
         public getInt32(value: number): ConstantInt;
+
         public getInt64(value: number): ConstantInt;
+
         public getIntN(numBits: number, value: number): ConstantInt;
+
         public getInt(value: APInt): ConstantInt;
+
+        //===--------------------------------------------------------------------===//
+        // Type creation methods
+        //===--------------------------------------------------------------------===//
+
         public getInt1Ty(): IntegerType;
+
         public getInt8Ty(): IntegerType;
+
         public getInt16Ty(): IntegerType;
+
         public getInt32Ty(): IntegerType;
+
         public getInt64Ty(): IntegerType;
+
         public getInt128Ty(): IntegerType;
+
         public getIntNTy(numBits: number): IntegerType;
+
         public getHalfTy(): Type;
+
         public getBFloatTy(): Type;
+
         public getFloatTy(): Type;
+
         public getDoubleTy(): Type;
+
         public getVoidTy(): Type;
+
         public getInt8PtrTy(addrSpace?: number): PointerType;
+
         public getIntPtrTy(dataLayout: DataLayout, addrSpace?: number): IntegerType;
+
+        //===--------------------------------------------------------------------===//
+        // Instruction creation methods: Terminators
+        //===--------------------------------------------------------------------===//
+
         public CreateRetVoid(): ReturnInst;
+
         public CreateRet(value: Value): ReturnInst;
+
         public CreateBr(destBB: BasicBlock): BranchInst;
+
         public CreateCondBr(cond: Value, thenBB: BasicBlock, elseBB: BasicBlock): BranchInst;
+
         public CreateSwitch(value: Value, dest: BasicBlock, numCases?: number): SwitchInst;
+
         public CreateIndirectBr(addr: Value, numDests?: number): IndirectBrInst;
+
+        // customized
         public CreateInvoke(callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string): InvokeInst;
         public CreateInvoke(callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string): InvokeInst;
         public CreateInvoke(callee: FunctionCallee, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string): InvokeInst;
         public CreateInvoke(callee: FunctionCallee, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string): InvokeInst;
         public CreateInvoke(funcType: FunctionType, callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, name?: string): InvokeInst;
         public CreateInvoke(funcType: FunctionType, callee: Function, normalDest: BasicBlock, unwindDest: BasicBlock, args: Value[], name?: string): InvokeInst;
+
         public CreateResume(exn: Value): ResumeInst;
+
         public CreateUnreachable(): UnreachableInst;
+
+        //===--------------------------------------------------------------------===//
+        // Instruction creation methods: Binary Operators
+        //===--------------------------------------------------------------------===//
+
         public CreateAdd(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateFAdd(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateSub(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateFSub(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateMul(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateFMul(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateSDiv(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateUDiv(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateFDiv(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateSRem(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateURem(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateFRem(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateAnd(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateOr(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateXor(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateShl(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateAShr(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateLShr(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateNeg(value: Value, name?: string): Value;
+
         public CreateFNeg(value: Value, name?: string): Value;
+
         public CreateNot(value: Value, name?: string): Value;
+
+
+        //===--------------------------------------------------------------------===//
+        // Instruction creation methods: Memory Instructions
+        //===--------------------------------------------------------------------===//
+
+        // customized
         public CreateAlloca(type: Type, arraySize?: Value | null, name?: string): AllocaInst;
+
         public CreateLoad(type: Type, ptr: Value, name?: string): LoadInst;
+
         public CreateStore(value: Value, ptr: Value): StoreInst;
+
         public CreateGEP(type: Type, ptr: Value, idxList: Value[], name?: string): Value;
         public CreateGEP(type: Type, ptr: Value, idx: Value, name?: string): Value;
+
         public CreateInBoundsGEP(type: Type, ptr: Value, idxList: Value[], name?: string): Value;
         public CreateInBoundsGEP(type: Type, ptr: Value, idx: Value, name?: string): Value;
+
         public CreateGlobalStringPtr(str: string, name?: string, addrSpace?: number, module?: Module): Constant;
+
+        //===--------------------------------------------------------------------===//
+        // Instruction creation methods: Cast/Conversion Operators
+        //===--------------------------------------------------------------------===//
+
         public CreateTrunc(value: Value, destType: Type, name?: string): Value;
+
         public CreateZExt(value: Value, destType: Type, name?: string): Value;
+
         public CreateSExt(value: Value, destType: Type, name?: string): Value;
+
         public CreateZExtOrTrunc(value: Value, destType: Type, name?: string): Value;
+
         public CreateSExtOrTrunc(value: Value, destType: Type, name?: string): Value;
+
         public CreateFPToUI(value: Value, destType: Type, name?: string): Value;
+
         public CreateFPToSI(value: Value, destType: Type, name?: string): Value;
+
         public CreateUIToFP(value: Value, destType: Type, name?: string): Value;
+
         public CreateSIToFP(value: Value, destType: Type, name?: string): Value;
+
         public CreateFPTrunc(value: Value, destType: Type, name?: string): Value;
+
         public CreateFPExt(value: Value, destType: Type, name?: string): Value;
+
         public CreatePtrToInt(value: Value, destType: Type, name?: string): Value;
+
         public CreateIntToPtr(value: Value, destType: Type, name?: string): Value;
+
         public CreateBitCast(value: Value, destType: Type, name?: string): Value;
+
         public CreateAddrSpaceCast(value: Value, destType: Type, name?: string): Value;
+
         public CreateZExtOrBitCast(value: Value, destType: Type, name?: string): Value;
+
         public CreateSExtOrBitCast(value: Value, destType: Type, name?: string): Value;
+
         public CreateTruncOrBitCast(value: Value, destType: Type, name?: string): Value;
+
         public CreatePointerCast(value: Value, destType: Type, name?: string): Value;
+
         public CreatePointerBitCastOrAddrSpaceCast(value: Value, destType: Type, name?: string): Value;
+
         public CreateIntCast(value: Value, destType: Type, isSigned: boolean, name?: string): Value;
+
         public CreateBitOrPointerCast(value: Value, destType: Type, name?: string): Value;
+
         public CreateFPCast(value: Value, destType: Type, name?: string): Value;
+
+        //===--------------------------------------------------------------------===//
+        // Instruction creation methods: Compare Instructions
+        //===--------------------------------------------------------------------===//
+
         public CreateICmpEQ(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateICmpNE(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateICmpSGE(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateICmpSGT(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateICmpSLE(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateICmpSLT(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateICmpUGE(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateICmpUGT(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateICmpULE(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateICmpULT(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateFCmpOEQ(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateFCmpONE(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateFCmpOGE(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateFCmpOGT(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateFCmpOLE(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateFCmpOLT(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateFCmpUEQ(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateFCmpUNE(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateFCmpUGE(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateFCmpUGT(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateFCmpULE(lhs: Value, rhs: Value, name?: string): Value;
+
         public CreateFCmpULT(lhs: Value, rhs: Value, name?: string): Value;
+
+
+        //===--------------------------------------------------------------------===//
+        // Instruction creation methods: Other Instructions
+        //===--------------------------------------------------------------------===//
+
         public CreatePHI(type: Type, numReservedValues: number, name?: string): PHINode;
+
+        // customized
         public CreateCall(callee: Function, name?: string): CallInst;
         public CreateCall(callee: Function, args: Value[], name?: string): CallInst;
         public CreateCall(callee: FunctionCallee, name?: string): CallInst;
         public CreateCall(callee: FunctionCallee, args: Value[], name?: string): CallInst;
         public CreateCall(funcType: FunctionType, callee: Value, name?: string): CallInst;
         public CreateCall(funcType: FunctionType, callee: Value, args: Value[], name?: string): CallInst;
+
         public CreateSelect(cond: Value, trueValue: Value, falseValue: Value, name?: string): Value;
+
         public CreateExtractValue(agg: Value, idxs: number[], name?: string): Value;
+
         public CreateInsertValue(agg: Value, value: Value, idxs: number[], name?: string): Value;
+
         public CreateLandingPad(type: Type, numClauses: number, name?: string): LandingPadInst;
+
+        //===--------------------------------------------------------------------===//
+        // Utility creation methods
+        //===--------------------------------------------------------------------===//
+
         public CreateIsNull(value: Value, name?: string): Value;
+
         public CreateIsNotNull(value: Value, name?: string): Value;
+
         public CreatePtrDiff(elemType: Type, lhs: Value, rhs: Value, name?: string): Value;
     }
+
     namespace IRBuilder {
         export class InsertPoint {
             protected constructor();
         }
     }
+
     class Metadata {
         protected constructor();
     }
+
     class MDNode extends Metadata {
         protected constructor();
     }
+
     class DebugLoc {
         public constructor();
     }
+
     class DITypeRefArray {
         protected constructor();
     }
+
     class DINode extends MDNode {
         public static readonly DIFlags: {
             FlagZero: number;
@@ -913,41 +1642,55 @@ declare namespace llvm {
             FlagAccessibility: number;
             FlagPtrToMemberRep: number;
         }
+
         protected constructor();
     }
+
     class DIScope extends DINode {
         protected constructor();
     }
+
     class DIFile extends DIScope {
         protected constructor();
     }
+
     class DIType extends DIScope {
         protected constructor();
     }
+
     class DIBasicType extends DIType {
         protected constructor();
     }
+
     class DIDerivedType extends DIType {
         protected constructor();
     }
+
     class DICompositeType extends DIType {
         protected constructor();
     }
+
     class DISubroutineType extends DIType {
         protected constructor();
     }
+
     class DICompileUnit extends DIScope {
         public getFile(): DIFile;
+
         protected constructor();
     }
+
     class DILocalScope extends DIScope {
         protected constructor();
     }
+
     class DILocation extends MDNode {
         public static get(context: LLVMContext, line: number, column: number, metadata: Metadata): DILocation;
         public static get(context: LLVMContext, line: number, column: number, scope: DILocalScope): DILocation;
+
         protected constructor();
     }
+
     class DISubprogram extends DILocalScope {
         public static readonly DISPFlags: {
             SPFlagZero: number;
@@ -965,56 +1708,86 @@ declare namespace llvm {
             SPFlagNonvirtual: number;
             SPFlagVirtuality: number;
         }
+
         protected constructor();
     }
+
     class DILexicalBlock extends DILocalScope {
         protected constructor();
     }
+
     class DINamespace extends DIScope {
         protected constructor();
     }
+
     class DIVariable extends DINode {
         protected constructor();
     }
+
     class DIExpression extends MDNode {
         protected constructor();
     }
+
     class DIGlobalVariableExpression extends MDNode {
         protected constructor();
     }
+
     class DILocalVariable extends DIVariable {
         protected constructor();
     }
+
     class DIGlobalVariable extends DIVariable {
         protected constructor();
     }
+
     class DIBuilder {
         public constructor(module: Module);
+
         public createFile(filename: string, directory: string): DIFile;
+
         public createCompileUnit(lang: number, file: DIFile, producer: string, isOptimized: boolean, flags: string, rv: number): DICompileUnit;
+
         public createFunction(scope: DIScope, name: string, linkage: string, file: DIFile, line: number, type: DISubroutineType, scopeLine: number, flags: number, spFlags: number): DISubprogram;
+
         public createLexicalBlock(scope: DIScope, file: DIFile, line: number, column: number): DILexicalBlock;
+
         public createBasicType(name: string, sizeInBits: number, encoding: number): DIBasicType;
+
         public getOrCreateTypeArray(elements: (Metadata | null)[]): DITypeRefArray;
+
         public createSubroutineType(paramTypes: DITypeRefArray): DISubroutineType;
+
         public createExpression(): DIExpression;
+
         public createParameterVariable(scope: DIScope, name: string, argNo: number, file: DIFile, line: number, type: DIType, alwaysPreserve?: boolean): DILocalVariable;
+
         public createAutoVariable(scope: DIScope, name: string, file: DIFile, line: number, type: DIType | null, alwaysPreserve?: boolean): DILocalVariable;
+
         public createGlobalVariableExpression(context: DIScope, name: string, linkage: string, file: DIFile, line: number, type: DIType, IsLocalToUnit: boolean): DIGlobalVariableExpression;
+
         public insertDeclare(storage: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBB: BasicBlock): Instruction;
         public insertDeclare(storage: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBefore: Instruction): Instruction;
+
         public insertDbgValueIntrinsic(value: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBB: BasicBlock): Instruction;
         public insertDbgValueIntrinsic(value: Value, variable: DILocalVariable, expr: DIExpression, location: DILocation, insertBefore: Instruction): Instruction;
+
         public finalizeSubprogram(subprogram: DISubprogram): void;
+
         public finalize(): void;
     }
+
     class DataLayout {
         public constructor(desc: string);
+
         public getStringRepresentation(): string;
+
         public getTypeAllocSize(type: Type): number;
     }
+
     function verifyFunction(func: Function): boolean;
+
     function verifyModule(module: Module): boolean;
+
     namespace Intrinsic {
         const abs: number;
         const addressofreturnaddress: number;
@@ -1096,6 +1869,7 @@ declare namespace llvm {
         const expect_with_probability: number;
         const fabs: number;
         const floor: number;
+        const flt_rounds: number;
         const fma: number;
         const fmuladd: number;
         const fptosi_sat: number;
@@ -1320,41 +2094,67 @@ declare namespace llvm {
         const write_register: number;
         const xray_customevent: number;
         const xray_typedevent: number;
+
         function getDeclaration(module: Module, id: number, types?: Type[]): Function;
     }
+
     function parseIRFile(filename: string, err: SMDiagnostic, context: LLVMContext): Module;
+
     class Linker {
         public constructor(module: Module);
+
         public linkInModule(srcModule: Module): boolean;
+
         public static linkModules(destModule: Module, srcModule: Module): boolean;
     }
+
     class Target {
         public createTargetMachine(targetTriple: string, cpu: string, features?: string): TargetMachine;
+
         public getName(): string;
+
         public getShortDescription(): string;
+
         protected constructor();
     }
+
     class TargetRegistry {
         static lookupTarget(target: string): Target | null;
+
         protected constructor();
     }
+
     class SMDiagnostic {
         public constructor();
     }
+
     class TargetMachine {
         public createDataLayout(): DataLayout;
+
         protected constructor();
     }
+
     function InitializeAllTargetInfos(): void;
+
     function InitializeAllTargets(): void;
+
     function InitializeAllTargetMCs(): void;
+
     function InitializeAllAsmPrinters(): void;
+
     function InitializeAllAsmParsers(): void;
+
     function InitializeAllDisassemblers(): void;
+
     function InitializeNativeTarget(): boolean;
+
     function InitializeNativeTargetAsmPrinter(): boolean;
+
     function InitializeNativeTargetAsmParser(): boolean;
+
     function InitializeNativeTargetDisassembler(): boolean;
 }
+
 export = llvm;
+
 export as namespace llvm;
