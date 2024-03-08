@@ -27,7 +27,7 @@ export default function testException() {
     const tmp2 = builder.CreateBitCast(tmp1, llvm.PointerType.getUnqual(builder.getInt8PtrTy()));
     builder.CreateStore(
         builder.CreateInBoundsGEP(
-            errMsgStr.getType().getPointerElementType(),
+            errMsgStr.getValueType(),
             errMsgStr,
             [builder.getInt64(0), builder.getInt64(0)]
         ),

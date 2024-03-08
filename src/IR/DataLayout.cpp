@@ -53,7 +53,7 @@ Napi::Value DataLayout::getTypeAllocSize(const Napi::CallbackInfo &info) {
     if (info.Length() == 1 && Type::IsClassOf(info[0])) {
         llvm::Type *type = Type::Extract(info[0]);
         auto allocSize = dataLayout->getTypeAllocSize(type);
-        return Napi::Number::New(env, double(allocSize.getFixedSize()));
+        return Napi::Number::New(env, static_cast<double>(allocSize.getFixedValue()));
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::DataLayout::getTypeAllocSize);
 }
