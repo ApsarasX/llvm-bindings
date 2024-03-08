@@ -98,86 +98,13 @@ declare namespace llvm {
 
     class Attribute {
         public static readonly AttrKind: {
-            AlwaysInline: number;
-            ArgMemOnly: number;
-            Builtin: number;
-            Cold: number;
-            Convergent: number;
-            DisableSanitizerInstrumentation: number;
-            Hot: number;
-            ImmArg: number;
-            InReg: number;
-            InaccessibleMemOnly: number;
-            InaccessibleMemOrArgMemOnly: number;
-            InlineHint: number;
-            JumpTable: number;
-            MinSize: number;
-            MustProgress: number;
-            Naked: number;
-            Nest: number;
-            NoAlias: number;
-            NoBuiltin: number;
-            NoCallback: number;
-            NoCapture: number;
-            NoCfCheck: number;
-            NoDuplicate: number;
-            NoFree: number;
-            NoImplicitFloat: number;
-            NoInline: number;
-            NoMerge: number;
-            NoProfile: number;
-            NoRecurse: number;
-            NoRedZone: number;
-            NoReturn: number;
-            NoSanitizeCoverage: number;
-            NoSync: number;
-            NoUndef: number;
-            NoUnwind: number;
-            NonLazyBind: number;
-            NonNull: number;
-            NullPointerIsValid: number;
-            OptForFuzzing: number;
-            OptimizeForSize: number;
-            OptimizeNone: number;
-            ReadNone: number;
-            ReadOnly: number;
-            Returned: number;
-            ReturnsTwice: number;
-            SExt: number;
-            SafeStack: number;
-            SanitizeAddress: number;
-            SanitizeHWAddress: number;
-            SanitizeMemTag: number;
-            SanitizeMemory: number;
-            SanitizeThread: number;
-            ShadowCallStack: number;
-            Speculatable: number;
-            SpeculativeLoadHardening: number;
-            StackProtect: number;
-            StackProtectReq: number;
-            StackProtectStrong: number;
-            StrictFP: number;
-            SwiftAsync: number;
-            SwiftError: number;
-            SwiftSelf: number;
-            UWTable: number;
-            WillReturn: number;
-            WriteOnly: number;
-            LastEnumAttr: number;
-            ByRef: number;
-            ByVal: number;
-            ElementType: number;
-            InAlloca: number;
-            Preallocated: number;
-            LastTypeAttr: number;
-            Alignment: number;
-            AllocSize: number;
-            Dereferenceable: number;
-            DereferenceableOrNull: number;
-            StackAlignment: number;
-            VScaleRange: number;
-        };
 
+#define GET_ATTR_NAMES
+#define ATTRIBUTE_ENUM(EnumName, lower) \
+            EnumName: number;
+#include "llvm/IR/Attributes.inc"
+
+        };
         public static get(context: LLVMContext, kind: number, value?: number): Attribute;
         public static get(context: LLVMContext, kind: string, value?: string): Attribute;
         public static get(context: LLVMContext, kind: number, type: Type): Attribute;
@@ -374,7 +301,7 @@ declare namespace llvm {
 
         public getPrimitiveSizeInBits(): number;
 
-        public getPointerElementType(): Type;
+        public getNonOpaquePointerElementType(): Type;
 
         // extra
         public static isSameType(type1: Type, type2: Type): boolean;
@@ -516,8 +443,10 @@ declare namespace llvm {
         // duplicated
         public getTypeID(): number;
 
-        // duplicated
-        public getPointerElementType(): Type;
+        /**
+         * @deprecated In LLVM 15,16 these are deprecated. LLVM 17 this is removed
+         */
+        public getNonOpaquePointerElementType(): Type;
 
         protected constructor();
     }

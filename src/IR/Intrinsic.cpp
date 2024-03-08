@@ -107,7 +107,6 @@ void Intrinsic::Init(Napi::Env env, Napi::Object &exports) {
     intrinsicNS.Set("expect_with_probability", Napi::Number::New(env, llvm::Intrinsic::expect_with_probability));
     intrinsicNS.Set("fabs", Napi::Number::New(env, llvm::Intrinsic::fabs));
     intrinsicNS.Set("floor", Napi::Number::New(env, llvm::Intrinsic::floor));
-    intrinsicNS.Set("flt_rounds", Napi::Number::New(env, llvm::Intrinsic::flt_rounds));
     intrinsicNS.Set("fma", Napi::Number::New(env, llvm::Intrinsic::fma));
     intrinsicNS.Set("fmuladd", Napi::Number::New(env, llvm::Intrinsic::fmuladd));
     intrinsicNS.Set("fptosi_sat", Napi::Number::New(env, llvm::Intrinsic::fptosi_sat));

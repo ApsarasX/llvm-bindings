@@ -129,7 +129,7 @@ void Type::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("isAggregateType", &Type::isTypeFactory<&llvm::Type::isAggregateType>),
             InstanceMethod("getPointerTo", &Type::getPointerTo),
             InstanceMethod("getPrimitiveSizeInBits", &Type::getPrimitiveSizeInBits),
-            InstanceMethod("getPointerElementType", &Type::getPointerElementType),
+            InstanceMethod("getNonOpaquePointerElementType", &Type::getNonOpaquePointerElementType),
             StaticMethod("isSameType", &Type::isSameType)
     });
     constructor = Napi::Persistent(func);
@@ -219,8 +219,8 @@ Napi::Value Type::isIntegerTy(const Napi::CallbackInfo &info) {
     return Napi::Boolean::New(env, result);
 }
 
-Napi::Value Type::getPointerElementType(const Napi::CallbackInfo &info) {
-    return Type::New(info.Env(), type->getPointerElementType());
+Napi::Value Type::getNonOpaquePointerElementType(const Napi::CallbackInfo &info) {
+    return Type::New(info.Env(), type->getNonOpaquePointerElementType());
 }
 
 static bool isSameType(llvm::Type *type1, llvm::Type *type2) {
@@ -248,7 +248,11 @@ static bool isSameType(llvm::Type *type1, llvm::Type *type2) {
             }
         }
     } else if (type1->isPointerTy()) {
-        return isSameType(type1->getPointerElementType(), type2->getPointerElementType());
+        if (type1->isOpaquePointerTy() || type2->isOpaquePointerTy()) {
+            return type1->isOpaquePointerTy() && type2->isOpaquePointerTy();
+        }
+
+        return isSameType(type1->getNonOpaquePointerElementType(), type2->getNonOpaquePointerElementType());
     } else if (type1->isStructTy()) {
         unsigned numElements = type1->getStructNumElements();
         if (numElements != type2->getStructNumElements()) {

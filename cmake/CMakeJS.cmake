@@ -37,17 +37,15 @@ endfunction(GET_VARIABLE)
 string(TOLOWER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE_LOWER)
 
 if (CMAKE_BUILD_TYPE_LOWER STREQUAL "debug")
-    exec_program(
-            ${CMakeJS}
-            ${CMAKE_CURRENT_SOURCE_DIR}
-            ARGS print-configure --debug
+    execute_process(
+            COMMAND ${CMakeJS} print-configure --debug
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
             OUTPUT_VARIABLE CMAKE_JS_OUTPUT
     )
 else ()
-    exec_program(
-            ${CMakeJS}
-            ${CMAKE_CURRENT_SOURCE_DIR}
-            ARGS print-configure
+    execute_process(
+            COMMAND ${CMakeJS} print-configure
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
             OUTPUT_VARIABLE CMAKE_JS_OUTPUT
     )
 endif ()
