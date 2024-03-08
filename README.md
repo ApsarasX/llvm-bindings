@@ -130,6 +130,7 @@ Due to the limitation of `node-addon-api`, this project has not implemented inhe
 | 0.2.x                  | 12.0.x                   |
 | 0.3.x                  | 13.0.x                   |
 | 0.4.x                  | 14.0.x                   |
+| 0.5.x                  | 16.0.x                   |
 
 ## Acknowledgments
 - [MichaReiser](https://github.com/MichaReiser): the creator of [llvm-node](https://github.com/MichaReiser/llvm-node)
